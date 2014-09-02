@@ -50,9 +50,12 @@ Start command ```S```
 
 number for go ahead ```x``` grids
 Char for turning
-    ```L``` for left 90
-    ```R``` for right 90
-    ```D``` for drift //for demo
+
+```L``` for left 90
+
+```R``` for right 90
+
+```D``` for drift //for demo
 
 ####example
 ```
