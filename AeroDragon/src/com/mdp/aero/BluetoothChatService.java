@@ -19,6 +19,7 @@ package com.mdp.aero;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Method;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -382,7 +383,7 @@ public class BluetoothChatService {
 		public ConnectThread(BluetoothDevice device) {
 			mmDevice = device;
 			BluetoothSocket tmp = null;
-
+			Method m = null;
 			// Get a BluetoothSocket for a connection with the
 			// given BluetoothDevice
 			try {
