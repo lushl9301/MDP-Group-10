@@ -31,8 +31,8 @@
 - [ ] B5. Extension beyond the basics
 
 ####Android Team
-- [ ] C1. The Android application (AA) is able to transmit and receive text strings over the Bluetooth serial communication link.
-- [ ] C2. Functional graphical user interface (GUI) that is able to initiate the scanning, selection and connection with a Bluetooth device.
+- [x] C1. The Android application (AA) is able to transmit and receive text strings over the Bluetooth serial communication link.
+- [x] C2. Functional graphical user interface (GUI) that is able to initiate the scanning, selection and connection with a Bluetooth device.
 - [ ] C3. Functional GUI that provides interactive control of the robot movement via the Bluetooth link
 - [ ] C4. Functional GUI that indicates the current status of the robot
 - [ ] C5. 2D display of the maze environment and the robot’s location
