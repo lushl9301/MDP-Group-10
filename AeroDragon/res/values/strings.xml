@@ -37,4 +37,5 @@
     <!-- Options Menu -->
     <string name="connect"></string>
     <string name="discoverable"></string>
+    <string name="config"></string>
 </resources>

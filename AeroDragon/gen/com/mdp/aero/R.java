@@ -13,10 +13,12 @@ public final class R {
     public static final class drawable {
         public static final int app_icon=0x7f020000;
         public static final int dragon=0x7f020001;
+        public static final int ic_action_settings=0x7f020002;
     }
     public static final class id {
         public static final int button_scan=0x7f060006;
         public static final int button_send=0x7f060009;
+        public static final int configure=0x7f06000c;
         public static final int connect_scan=0x7f06000a;
         public static final int discoverable=0x7f06000b;
         public static final int edit_text_out=0x7f060008;
@@ -42,6 +44,7 @@ public final class R {
         public static final int app_name=0x7f040000;
         public static final int bt_not_enabled_leaving=0x7f040003;
         public static final int button_scan=0x7f04000d;
+        public static final int config=0x7f040010;
         /**  Options Menu 
          */
         public static final int connect=0x7f04000e;

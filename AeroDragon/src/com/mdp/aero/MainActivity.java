@@ -367,6 +367,10 @@ public class MainActivity extends Activity {
 			// Ensure this device is discoverable by others
 			ensureDiscoverable();
 			return true;
+		case R.id.configure:
+			// for config of string
+			
+			return true;
 		}
 		return false;
 	}

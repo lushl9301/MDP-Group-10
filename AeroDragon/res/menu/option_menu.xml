@@ -22,4 +22,8 @@
           android:icon="@android:drawable/ic_menu_mylocation"
           android:title="@string/discoverable"
           android:showAsAction="ifRoom|withText" />
+    <item android:id="@+id/configure"
+          android:icon="@drawable/ic_action_settings"
+          android:title="@string/config"
+          android:showAsAction="ifRoom|withText" />
 </menu>
