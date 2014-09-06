@@ -37,6 +37,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,6 +49,12 @@ public class MainActivity extends Activity {
 	// Debugging
 	private static final String TAG = "Aero Dragon";
 	private static final boolean D = true;
+	
+	//for robot and map sensor position
+	public static final int TOP_LEFT_SIDE=0;
+	public static final int TOP_RIGHT_SIDE=1;
+	public static final int TOP_LEFT_FRONT=2;
+	public static final int TOP_RIGHT_FRONT=3;
 
 	// Message types sent from the BluetoothChatService Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
@@ -65,8 +72,16 @@ public class MainActivity extends Activity {
 	private static final int REQUEST_ENABLE_BT = 3;
 
 	// Layout Views
+	private TextView tvConnectionStatus;
 	private ListView mConversationView;
 	private EditText mOutEditText;
+	
+	
+	//Buttons
+	private Button resetButton;
+	private Button f1Button;
+	private Button f2Button;
+	private Button modeButton;
 	private Button mSendButton;
 
 	// Name of the connected device
@@ -79,7 +94,9 @@ public class MainActivity extends Activity {
 	private BluetoothAdapter ba = null;
 	// Member object for the chat services
 	private BluetoothChatService mChatService = null;
-
+	
+	MapGenerator map;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -88,7 +105,7 @@ public class MainActivity extends Activity {
 
 		// Set up the window layout
 		setContentView(R.layout.main);
-
+		
 		// Get local Bluetooth adapter
 		ba = BluetoothAdapter.getDefaultAdapter();
 
@@ -99,6 +116,16 @@ public class MainActivity extends Activity {
 			finish();
 			return;
 		}
+		GridLayout gv = (GridLayout)findViewById(R.id.grid2);
+		Log.i("tag","here3");
+		map = new MapGenerator(gv, this);
+		Log.i("tag","here4");
+		tvConnectionStatus = (TextView)findViewById(R.id.tvConnectionStatus);
+		f1Button = (Button) findViewById(R.id.f1Button);
+		f2Button = (Button) findViewById(R.id.f2Button);
+		resetButton = (Button) findViewById(R.id.resetButton);
+		modeButton = (Button) findViewById(R.id.modeButton);
+		
 	}
 
 	@Override
@@ -150,7 +177,7 @@ public class MainActivity extends Activity {
 		mConversationView.setAdapter(mConversationArrayAdapter);
 
 		// Initialize the compose field with a listener for the return key
-		mOutEditText = (EditText) findViewById(R.id.edit_text_out);
+		/*mOutEditText = (EditText) findViewById(R.id.edit_text_out);
 		mOutEditText.setOnEditorActionListener(mWriteListener);
 
 		// Initialize the send button with a listener that for click events
@@ -162,7 +189,7 @@ public class MainActivity extends Activity {
 				String message = view.getText().toString();
 				sendMessage(message);
 			}
-		});
+		});*/
 
 		// Initialize the BluetoothChatService to perform bluetooth connections
 		mChatService = new BluetoothChatService(this, mHandler);

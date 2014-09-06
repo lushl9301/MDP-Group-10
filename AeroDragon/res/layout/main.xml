@@ -1,47 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2009 The Android Open Source Project
-
-     Licensed under the Apache License, Version 2.0 (the "License");
-     you may not use this file except in compliance with the License.
-     You may obtain a copy of the License at
-
-          http://www.apache.org/licenses/LICENSE-2.0
-
-     Unless required by applicable law or agreed to in writing, software
-     distributed under the License is distributed on an "AS IS" BASIS,
-     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-     See the License for the specific language governing permissions and
-     limitations under the License.
--->
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-    
-    <ListView 
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ListView
         android:id="@+id/in"
         android:layout_width="match_parent"
         android:layout_height="0dip"
+        android:layout_weight="1"
         android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"
-        android:layout_weight="1" />
+        android:transcriptMode="alwaysScroll" />
+
+    <GridLayout 
+	    android:id="@+id/grid1"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:rowCount="5"
+	    android:columnCount="8" >
+	
+       
+    </GridLayout>
+
     
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-        <EditText 
-            android:id="@+id/edit_text_out"
-            android:layout_width="0dip"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"
-        	android:inputType="text" />
-        <Button 
-            android:id="@+id/button_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send" />
-    </LinearLayout>
-</LinearLayout>
+<GridLayout
+        android:id="@+id/grid2"
+        android:paddingLeft="20dp"
+        android:layout_below="@+id/grid1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:columnCount="20"
+        android:gravity="center"
+        android:horizontalSpacing="30dp"
+        android:rowCount="15"
+        android:stretchMode="columnWidth"
+        
+        android:verticalSpacing="30dp" >
+
+    </GridLayout>
+	
+	<GridLayout
+	    android:layout_below="@+id/grid2"
+        android:id="@+id/grid3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:background="#b7b7b7"
+        android:columnCount="15"
+        android:gravity="center"
+        android:horizontalSpacing="40dp"
+        android:rowCount="20"
+        android:stretchMode="columnWidth"
+        
+        android:verticalSpacing="40dp" >
+
+    </GridLayout>
+    <TextView
+        android:id="@+id/tvConnectionStatus"
+		android:text="Connection Status:" 
+		android:background="#cccccc"
+		android:textColor="#FF0000"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/grid2" 
+        android:layout_marginTop="8dp"
+     />
+<Button
+        android:id="@+id/f1Button"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/grid2"     
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="8dp"
+        android:text="Function 1" />
+<Button
+        android:id="@+id/f2Button"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/grid2"     
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="152dp"
+        android:text="Function 2" />
+    <Button
+        android:id="@+id/resetButton"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/grid2"     
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="296dp"
+        android:text="Reset Map" />
+    <Button
+        android:id="@+id/modeButton"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/grid2"     
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="440dp"
+        android:text="Manual Mode" />
+</RelativeLayout>
