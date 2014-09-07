@@ -18,11 +18,12 @@ package com.mdp.aero;
 
 import com.mdp.aero.R;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -55,6 +56,11 @@ public class MainActivity extends Activity {
 	public static final int TOP_RIGHT_SIDE=1;
 	public static final int TOP_LEFT_FRONT=2;
 	public static final int TOP_RIGHT_FRONT=3;
+	
+	
+	//Shared Preferences
+	public static final String DEFAULT="N/A";
+	String f1, f2;
 
 	// Message types sent from the BluetoothChatService Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
@@ -72,10 +78,9 @@ public class MainActivity extends Activity {
 	private static final int REQUEST_ENABLE_BT = 3;
 
 	// Layout Views
-	private TextView tvConnectionStatus;
 	private ListView mConversationView;
 	private EditText mOutEditText;
-	
+	private TextView tvConnectionStatus;
 	
 	//Buttons
 	private Button resetButton;
@@ -96,7 +101,7 @@ public class MainActivity extends Activity {
 	private BluetoothChatService mChatService = null;
 	
 	MapGenerator map;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -105,7 +110,7 @@ public class MainActivity extends Activity {
 
 		// Set up the window layout
 		setContentView(R.layout.main);
-		
+
 		// Get local Bluetooth adapter
 		ba = BluetoothAdapter.getDefaultAdapter();
 
@@ -120,11 +125,29 @@ public class MainActivity extends Activity {
 		Log.i("tag","here3");
 		map = new MapGenerator(gv, this);
 		Log.i("tag","here4");
+		
 		tvConnectionStatus = (TextView)findViewById(R.id.tvConnectionStatus);
+		
 		f1Button = (Button) findViewById(R.id.f1Button);
 		f2Button = (Button) findViewById(R.id.f2Button);
 		resetButton = (Button) findViewById(R.id.resetButton);
 		modeButton = (Button) findViewById(R.id.modeButton);
+		
+		load();
+		
+		f1Button.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				sendMessage(f1);
+			}		
+		});
+		
+		f2Button.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View v) {
+				sendMessage(f2);
+			}		
+		});
 		
 	}
 
@@ -152,7 +175,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 		if (D)
 			Log.e(TAG, "+ ON RESUME +");
-
+		invalidateOptionsMenu();
 		// Performing this check in onResume() covers the case in which BT was
 		// not enabled during onStart(), so we were paused to enable it...
 		// onResume() will be called when ACTION_REQUEST_ENABLE activity
@@ -165,7 +188,24 @@ public class MainActivity extends Activity {
 				mChatService.start();
 			}
 		}
+		
+		load();
+			
 	}
+	
+	
+	public void load(){
+		SharedPreferences sp = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+		f1 = sp.getString("Function1", DEFAULT);
+		f2 = sp.getString("Function2", DEFAULT);
+		if(f1.equals(DEFAULT) || f2.equals(DEFAULT)){
+			Toast.makeText(this, "No Function Data Found", Toast.LENGTH_SHORT).show();
+		}else{
+			Toast.makeText(this, "Function Loaded", Toast.LENGTH_SHORT).show();
+		}
+	
+	}
+	
 
 	private void setupChat() {
 		Log.d(TAG, "setupChat()");
@@ -176,8 +216,10 @@ public class MainActivity extends Activity {
 		mConversationView = (ListView) findViewById(R.id.in);
 		mConversationView.setAdapter(mConversationArrayAdapter);
 
-		// Initialize the compose field with a listener for the return key
-		/*mOutEditText = (EditText) findViewById(R.id.edit_text_out);
+		/*
+		 // Initialize the compose field with a listener for the return key
+		
+		mOutEditText = (EditText) findViewById(R.id.edit_text_out);
 		mOutEditText.setOnEditorActionListener(mWriteListener);
 
 		// Initialize the send button with a listener that for click events
@@ -189,8 +231,8 @@ public class MainActivity extends Activity {
 				String message = view.getText().toString();
 				sendMessage(message);
 			}
-		});*/
-
+		});
+		*/
 		// Initialize the BluetoothChatService to perform bluetooth connections
 		mChatService = new BluetoothChatService(this, mHandler);
 
@@ -203,6 +245,7 @@ public class MainActivity extends Activity {
 		super.onPause();
 		if (D)
 			Log.e(TAG, "- ON PAUSE -");
+		invalidateOptionsMenu();
 	}
 
 	@Override
@@ -278,13 +321,13 @@ public class MainActivity extends Activity {
 	};
 
 	private final void setStatus(int resId) {
-		final ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle(resId);
+		invalidateOptionsMenu();
+		tvConnectionStatus.setText(resId);
 	}
 
 	private final void setStatus(CharSequence subTitle) {
-		final ActionBar actionBar = getActionBar();
-		actionBar.setSubtitle(subTitle);
+		invalidateOptionsMenu();
+		tvConnectionStatus.setText(subTitle);
 	}
 
 	// The Handler that gets information back from the BluetoothChatService
@@ -357,7 +400,7 @@ public class MainActivity extends Activity {
 			} else {
 				// User did not enable Bluetooth or an error occurred
 				Log.d(TAG, "BT not enabled");
-				Toast.makeText(this, R.string.bt_not_enabled_leaving,
+				Toast.makeText(this, R.string.bt_need_enable,
 						Toast.LENGTH_SHORT).show();
 				finish();
 			}
@@ -383,23 +426,81 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		invalidateOptionsMenu();
 		Intent serverIntent = null;
 		switch (item.getItemId()) {
-		case R.id.connect_scan:
-			// Launch the DeviceListActivity to see devices and do scan
-			serverIntent = new Intent(this, DeviceListActivity.class);
-			startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+		case R.id.on_toggle:
+			//BT is on, so switch off
+			if(ba.isEnabled()){
+				ba.disable();
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.bt_already_off, Toast.LENGTH_SHORT).show();
+			}
 			return true;
-		case R.id.discoverable:
-			// Ensure this device is discoverable by others
-			ensureDiscoverable();
+		case R.id.off_toggle:
+			//BT is off, so switch on
+			if(!ba.isEnabled()){
+				ensureDiscoverable();
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.bt_already_on, Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		case R.id.search_toggle:
+			if(ba.isEnabled() && mChatService.getState()==3){
+				//if connected to device, disconnect
+				mChatService.stop();
+			}
+			else{
+				Toast.makeText(getApplicationContext(), R.string.not_connected, Toast.LENGTH_SHORT).show();
+			}
+			return true;
+		case R.id.dc_toggle:
+			if(ba.isEnabled() && mChatService.getState()!=3){
+				// Launch the DeviceListActivity to see devices and do scan
+				serverIntent = new Intent(this, DeviceListActivity.class);
+				startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
+			}
+			else{
+				Toast.makeText(getApplicationContext(), R.string.bt_not_enabled, Toast.LENGTH_SHORT).show();
+			}
 			return true;
 		case R.id.configure:
 			// for config of string
-			
+			serverIntent = new Intent(MainActivity.this, Configuration.class);
+	        startActivity(serverIntent);
 			return true;
 		}
 		return false;
 	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu (Menu menu){
+		MenuItem switchOn = menu.findItem(R.id.on_toggle);
+		MenuItem switchOff = menu.findItem(R.id.off_toggle);
+		MenuItem con_dev = menu.findItem(R.id.search_toggle);
+		MenuItem dis_dev = menu.findItem(R.id.dc_toggle);
+		if(ba.isEnabled()){
+            switchOn.setVisible(true);
+            switchOff.setVisible(false);
+        }
+        else{
+        	switchOn.setVisible(false);
+            switchOff.setVisible(true);
+        }
+		
+		if(ba.isEnabled() && mChatService.getState()== mChatService.STATE_CONNECTED){
+			con_dev.setVisible(true);
+            dis_dev.setVisible(false);
+        }
+        else{
+        	con_dev.setVisible(false);
+            dis_dev.setVisible(true);
+        }
+		
+		
+        return super.onPrepareOptionsMenu(menu);
+	}
+	
+	
 
 }

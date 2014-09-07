@@ -59,9 +59,11 @@
     </GridLayout>
     <TextView
         android:id="@+id/tvConnectionStatus"
-		android:text="Connection Status:" 
+		android:text="@string/status" 
 		android:background="#cccccc"
 		android:textColor="#FF0000"
+		android:gravity="center"
+		android:textSize="17sp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -76,7 +78,7 @@
         android:layout_below="@+id/grid2"     
         android:layout_marginTop="32dp"
         android:layout_marginLeft="8dp"
-        android:text="Function 1" />
+        android:text="@string/function_1" />
 <Button
         android:id="@+id/f2Button"
         android:layout_width="144dp"
@@ -84,7 +86,7 @@
         android:layout_below="@+id/grid2"     
         android:layout_marginTop="32dp"
         android:layout_marginLeft="152dp"
-        android:text="Function 2" />
+        android:text="@string/function_2" />
     <Button
         android:id="@+id/resetButton"
         android:layout_width="144dp"
@@ -92,7 +94,7 @@
         android:layout_below="@+id/grid2"     
         android:layout_marginTop="32dp"
         android:layout_marginLeft="296dp"
-        android:text="Reset Map" />
+        android:text="@string/resetMap" />
     <Button
         android:id="@+id/modeButton"
         android:layout_width="144dp"
@@ -100,5 +102,5 @@
         android:layout_below="@+id/grid2"     
         android:layout_marginTop="32dp"
         android:layout_marginLeft="440dp"
-        android:text="Manual Mode" />
+        android:text="@string/modeBtn1" />
 </RelativeLayout>

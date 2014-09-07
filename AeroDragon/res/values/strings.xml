@@ -16,14 +16,18 @@
 
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name">Aero Dragon</string>
+    <string name="app_name_2">Aero Dragon - Configuration</string>
 
     <!--  BluetoothChat -->
     <string name="send">Send</string>
     <string name="not_connected">You are not connected to a device</string>
-    <string name="bt_not_enabled_leaving">Bluetooth was not enabled.</string>
-    <string name="title_connecting">onnecting...</string>
-    <string name="title_connected_to">connected to <xliff:g id="device_name">%1$s</xliff:g></string>
-    <string name="title_not_connected">not connected</string>
+    <string name="bt_not_enabled">Bluetooth was not enabled.</string>
+    <string name="bt_need_enable">Bluetooth needs to be enabled to use this application.</string>
+    <string name="bt_already_on">Bluetooth is already switched on.</string>
+    <string name="bt_already_off">Bluetooth is already switched off.</string>
+    <string name="title_connecting">Connecting...</string>
+    <string name="title_connected_to">Connected to <xliff:g id="device_name">%1$s</xliff:g></string>
+    <string name="title_not_connected">Not Connected</string>
 
     <!--  DeviceListActivity -->
     <string name="scanning">Scanning for devices...</string>
@@ -35,7 +39,23 @@
     <string name="button_scan">Scan for devices</string>
 
     <!-- Options Menu -->
-    <string name="connect"></string>
-    <string name="discoverable"></string>
+    <string name="dev_connect"></string>
+    <string name="onOffBT"></string>
     <string name="config"></string>
+    
+    <!-- Buttons -->
+    <string name="function_1">Function 1</string>
+    <string name="function_2">Function 2</string>
+    <string name="status">Not Connected</string>
+    <string name="resetMap">Reset Map</string>
+    <string name="modeBtn1">Manual Mode</string>
+    <string name="modeBtn2">Auto Mode</string>
+    
+    <!-- Config -->
+    <string name="fun_1">Function 1:</string>
+    <string name="fun_2">Function 2:</string>
+    <string name="display">Display Type: </string>
+    <string name="displayBtn">2D</string>
+    <string name="saveBtn">Save Changes</string>
+    <string name="loadBtn">Load Data</string>
 </resources>

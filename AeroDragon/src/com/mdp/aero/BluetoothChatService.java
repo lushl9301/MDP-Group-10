@@ -95,7 +95,6 @@ public class BluetoothChatService {
 		if (D)
 			Log.d(TAG, "setState() " + mState + " -> " + state);
 		mState = state;
-
 		// Give the new state to the Handler so the UI Activity can update
 		mHandler.obtainMessage(MainActivity.MESSAGE_STATE_CHANGE, state, -1)
 				.sendToTarget();
