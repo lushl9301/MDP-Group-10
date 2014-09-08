@@ -87,6 +87,7 @@ public class MainActivity extends Activity {
 	private Button f1Button;
 	private Button f2Button;
 	private Button modeButton;
+	private Button roundButton;
 	private Button mSendButton;
 
 	// Name of the connected device
@@ -132,6 +133,7 @@ public class MainActivity extends Activity {
 		f2Button = (Button) findViewById(R.id.f2Button);
 		resetButton = (Button) findViewById(R.id.resetButton);
 		modeButton = (Button) findViewById(R.id.modeButton);
+		roundButton = (Button) findViewById(R.id.roundButton);
 		
 		load();
 		

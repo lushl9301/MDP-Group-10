@@ -103,4 +103,17 @@
         android:layout_marginTop="32dp"
         android:layout_marginLeft="440dp"
         android:text="@string/modeBtn1" />
+    
+    <Button
+        android:id="@+id/roundButton"
+		android:layout_width="96dp"
+		android:layout_height="96dp"
+		android:layout_marginTop="176dp"
+        android:layout_marginLeft="248dp"
+		android:layout_below="@+id/grid2" 
+		android:background="@drawable/round_button"
+		android:gravity="center_vertical|center_horizontal"
+		android:text="Stop"
+		android:textColor="#fff" />
+    
 </RelativeLayout>

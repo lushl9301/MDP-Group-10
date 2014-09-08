@@ -20,11 +20,12 @@ public final class R {
         public static final int ic_action_settings=0x7f020006;
         public static final int no_dev=0x7f020007;
         public static final int no_device=0x7f020008;
+        public static final int round_button=0x7f020009;
     }
     public static final class id {
         public static final int button_scan=0x7f06000e;
-        public static final int configure=0x7f06001c;
-        public static final int dc_toggle=0x7f06001b;
+        public static final int configure=0x7f06001d;
+        public static final int dc_toggle=0x7f06001c;
         public static final int dispButton=0x7f060004;
         public static final int dispType=0x7f060000;
         public static final int f1Button=0x7f060014;
@@ -40,12 +41,13 @@ public final class R {
         public static final int load_btn=0x7f060007;
         public static final int modeButton=0x7f060017;
         public static final int new_devices=0x7f06000d;
-        public static final int off_toggle=0x7f060019;
-        public static final int on_toggle=0x7f060018;
+        public static final int off_toggle=0x7f06001a;
+        public static final int on_toggle=0x7f060019;
         public static final int paired_devices=0x7f06000b;
         public static final int resetButton=0x7f060016;
+        public static final int roundButton=0x7f060018;
         public static final int save_btn=0x7f060006;
-        public static final int search_toggle=0x7f06001a;
+        public static final int search_toggle=0x7f06001b;
         public static final int title_left_text=0x7f060008;
         public static final int title_new_devices=0x7f06000c;
         public static final int title_paired_devices=0x7f06000a;
