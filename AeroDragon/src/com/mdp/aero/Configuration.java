@@ -23,7 +23,7 @@ public class Configuration extends Activity {
 		
 		func_1_text = (EditText) findViewById(R.id.fun_1_text);
 		func_2_text = (EditText) findViewById(R.id.fun_2_text);
-		
+		load();
 	}
 	
 	public void save(View view){
@@ -39,7 +39,7 @@ public class Configuration extends Activity {
 		Toast.makeText(this, "Saved Changes Successfully", Toast.LENGTH_SHORT).show();
 	}
 	
-	public void load(View view){
+	public void load(){
 		SharedPreferences sp = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 		String f1 = sp.getString("Function1", DEFAULT);
 		String f2 = sp.getString("Function2", DEFAULT);

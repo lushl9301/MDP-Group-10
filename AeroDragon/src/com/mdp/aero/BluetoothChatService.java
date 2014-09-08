@@ -70,6 +70,9 @@ public class BluetoothChatService {
 													// connection
 	public static final int STATE_CONNECTED = 3; // now connected to a remote
 													// device
+	public static final int STATE_CON_F1 = 4; // connected and send Function 1
+	public static final int STATE_CON_F2 = 5; // connected and send Function 2
+	// device
 
 	/**
 	 * Constructor. Prepares a new BluetoothChat session.
@@ -91,7 +94,7 @@ public class BluetoothChatService {
 	 * @param state
 	 *            An integer defining the current connection state
 	 */
-	private synchronized void setState(int state) {
+	public synchronized void setState(int state) {
 		if (D)
 			Log.d(TAG, "setState() " + mState + " -> " + state);
 		mState = state;
