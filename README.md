@@ -16,9 +16,10 @@
     - [ ] Arbitory angle
 - [ ] A5.
     - [x]  Obstacle avoidance
-    - [ ]  position recovery
+    - [x]  position recovery
 - [ ] A6. Extension beyond the basics
     - [ ] Drifting
+    - [ ] Demo.h
     - [ ] ...
 
 ####Algo & Simulator team
