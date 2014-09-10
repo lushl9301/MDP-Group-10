@@ -26,7 +26,7 @@
     <string name="bt_already_on">Bluetooth is already switched on.</string>
     <string name="bt_already_off">Bluetooth is already switched off.</string>
     <string name="title_connecting">Connecting...</string>
-    <string name="title_connected_to">Connected to <xliff:g id="device_name">%1$s</xliff:g></string>
+    <string name="title_connected_to">Connected to <xliff:g id="device_name">%1$s</xliff:g> --> </string>
     <string name="title_not_connected">Not Connected</string>
     <string name="title_send_f1">
         Connected to <xliff:g id="device_name">%1$s</xliff:g> : Run function 1: 
@@ -56,6 +56,12 @@
     <string name="resetMap">Reset Map</string>
     <string name="modeBtn1">Manual Mode</string>
     <string name="modeBtn2">Auto Mode</string>
+    <string name="explore">Exploration</string>
+    <string name="shortPath">Shortest Path</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+    <string name="timerVal">00:00:00</string>
+    <string name="no_action">Please choose to Explore or find Shortest Path</string>
     
     <!-- Config -->
     <string name="fun_1">Function 1:</string>

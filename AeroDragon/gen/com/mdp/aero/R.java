@@ -24,10 +24,11 @@ public final class R {
     }
     public static final class id {
         public static final int button_scan=0x7f06000e;
-        public static final int configure=0x7f06001d;
-        public static final int dc_toggle=0x7f06001c;
+        public static final int configure=0x7f060021;
+        public static final int dc_toggle=0x7f060020;
         public static final int dispButton=0x7f060004;
         public static final int dispType=0x7f060000;
+        public static final int exploreBtn=0x7f060019;
         public static final int f1Button=0x7f060014;
         public static final int f2Button=0x7f060015;
         public static final int fun_1_text=0x7f060003;
@@ -41,13 +42,16 @@ public final class R {
         public static final int load_btn=0x7f060007;
         public static final int modeButton=0x7f060017;
         public static final int new_devices=0x7f06000d;
-        public static final int off_toggle=0x7f06001a;
-        public static final int on_toggle=0x7f060019;
+        public static final int off_toggle=0x7f06001e;
+        public static final int on_toggle=0x7f06001d;
         public static final int paired_devices=0x7f06000b;
         public static final int resetButton=0x7f060016;
         public static final int roundButton=0x7f060018;
         public static final int save_btn=0x7f060006;
-        public static final int search_toggle=0x7f06001b;
+        public static final int search_toggle=0x7f06001f;
+        public static final int shortBtn=0x7f06001a;
+        public static final int startBtn=0x7f06001b;
+        public static final int timer=0x7f06001c;
         public static final int title_left_text=0x7f060008;
         public static final int title_new_devices=0x7f06000c;
         public static final int title_paired_devices=0x7f06000a;
@@ -77,25 +81,28 @@ public final class R {
         /**  Options Menu 
          */
         public static final int dev_connect=0x7f040014;
-        public static final int display=0x7f04001f;
-        public static final int displayBtn=0x7f040020;
+        public static final int display=0x7f040025;
+        public static final int displayBtn=0x7f040026;
+        public static final int end=0x7f040020;
+        public static final int explore=0x7f04001d;
         /**  Config 
          */
-        public static final int fun_1=0x7f04001d;
-        public static final int fun_2=0x7f04001e;
+        public static final int fun_1=0x7f040023;
+        public static final int fun_2=0x7f040024;
         /**  Buttons 
          */
         public static final int function_1=0x7f040017;
         public static final int function_2=0x7f040018;
-        public static final int loadBtn=0x7f040022;
+        public static final int loadBtn=0x7f040028;
         public static final int modeBtn1=0x7f04001b;
         public static final int modeBtn2=0x7f04001c;
+        public static final int no_action=0x7f040022;
         public static final int none_found=0x7f040010;
         public static final int none_paired=0x7f04000f;
         public static final int not_connected=0x7f040003;
         public static final int onOffBT=0x7f040015;
         public static final int resetMap=0x7f04001a;
-        public static final int saveBtn=0x7f040021;
+        public static final int saveBtn=0x7f040027;
         /**   DeviceListActivity 
          */
         public static final int scanning=0x7f04000d;
@@ -103,7 +110,10 @@ public final class R {
         /**   BluetoothChat 
          */
         public static final int send=0x7f040002;
+        public static final int shortPath=0x7f04001e;
+        public static final int start=0x7f04001f;
         public static final int status=0x7f040019;
+        public static final int timerVal=0x7f040021;
         public static final int title_connected_to=0x7f040009;
         public static final int title_connecting=0x7f040008;
         public static final int title_not_connected=0x7f04000a;

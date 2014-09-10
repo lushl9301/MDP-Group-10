@@ -95,15 +95,18 @@
         android:layout_marginTop="32dp"
         android:layout_marginLeft="296dp"
         android:text="@string/resetMap" />
-    <Button
+    
+    <ToggleButton
         android:id="@+id/modeButton"
         android:layout_width="144dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/grid2"     
         android:layout_marginTop="32dp"
         android:layout_marginLeft="440dp"
-        android:text="@string/modeBtn1" />
-    
+        android:onClick="toggleMode"
+        android:textOff="@string/modeBtn1" 
+        android:textOn="@string/modeBtn2" />
+    	
     <Button
         android:id="@+id/roundButton"
 		android:layout_width="96dp"
@@ -115,5 +118,58 @@
 		android:gravity="center_vertical|center_horizontal"
 		android:text="Stop"
 		android:textColor="#fff" />
+    
+    <Button
+        android:id="@+id/exploreBtn"
+		android:layout_width="200dp"
+		android:layout_height="96dp"
+		android:layout_marginTop="150dp"
+        android:layout_marginLeft="80dp"
+		android:layout_below="@+id/grid2" 
+		android:text="@string/explore"
+		android:visibility="invisible"
+		android:textColor="#fff" />
+    
+    <Button
+        android:id="@+id/shortBtn"
+		android:layout_width="200dp"
+		android:layout_height="96dp"
+		android:layout_marginTop="150dp"
+        android:layout_marginLeft="320dp"
+		android:layout_below="@+id/grid2" 
+		android:text="@string/shortPath"
+		android:visibility="invisible"
+		android:textColor="#fff" />
+    
+    <ToggleButton
+        android:id="@+id/startBtn"
+		android:layout_width="130dp"
+		android:layout_height="70dp"
+		android:layout_marginTop="270dp"
+        android:layout_marginLeft="120dp"
+        android:textSize="20sp"
+		android:layout_below="@+id/grid2" 
+		android:gravity="center_vertical|center_horizontal"
+		android:textOff="@string/start"
+		android:textOn="@string/end"
+		android:onClick="toggleStart"
+		android:visibility="invisible"
+		android:textColor="#fff" />
+    
+	<TextView
+        android:id="@+id/timer"
+        android:layout_marginTop="270dp"
+        android:layout_marginLeft="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/grid2"
+        android:layout_toRightOf="@+id/startBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="37dp"
+        android:textSize="40sp"
+        android:textColor="#ffffff"
+        android:visibility="invisible"
+        android:text="@string/timerVal" />
+
     
 </RelativeLayout>

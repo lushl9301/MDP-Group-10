@@ -69,10 +69,7 @@ public class BluetoothChatService {
 	public static final int STATE_CONNECTING = 2; // now initiating an outgoing
 													// connection
 	public static final int STATE_CONNECTED = 3; // now connected to a remote
-													// device
-	public static final int STATE_CON_F1 = 4; // connected and send Function 1
-	public static final int STATE_CON_F2 = 5; // connected and send Function 2
-	// device
+	public static final int STATE_SEND = 4; // now send message
 
 	/**
 	 * Constructor. Prepares a new BluetoothChat session.
@@ -503,6 +500,8 @@ public class BluetoothChatService {
 				// Share the sent message back to the UI Activity
 				mHandler.obtainMessage(MainActivity.MESSAGE_WRITE, -1, -1,
 						buffer).sendToTarget();
+				setState(STATE_SEND);
+				setState(STATE_CONNECTED);
 			} catch (IOException e) {
 				Log.e(TAG, "Exception during write", e);
 			}

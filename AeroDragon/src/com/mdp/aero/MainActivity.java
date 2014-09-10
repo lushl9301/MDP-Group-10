@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -42,6 +43,7 @@ import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 /**
  * This is the main Activity that displays the current chat session.
@@ -86,9 +88,20 @@ public class MainActivity extends Activity {
 	private Button resetButton;
 	private Button f1Button;
 	private Button f2Button;
-	private Button modeButton;
+	private ToggleButton modeButton;
 	private Button roundButton;
 	private Button mSendButton;
+	private Button exploreButton;
+	private Button shortButton;
+	private ToggleButton startButton;
+	
+	//for timer
+	private TextView timerVal;
+	private long startTime = 0L;
+	long timeInMilliseconds = 0L;
+	long timeSwapBuff = 0L;
+	long updatedTime = 0L;
+	private Handler customHandler = new Handler();
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -100,6 +113,10 @@ public class MainActivity extends Activity {
 	private BluetoothAdapter ba = null;
 	// Member object for the chat services
 	private BluetoothChatService mChatService = null;
+	
+	//for status on sending
+	String sentMsg = "No Action.";
+	int autoAct = 0;
 	
 	MapGenerator map;
 
@@ -132,8 +149,12 @@ public class MainActivity extends Activity {
 		f1Button = (Button) findViewById(R.id.f1Button);
 		f2Button = (Button) findViewById(R.id.f2Button);
 		resetButton = (Button) findViewById(R.id.resetButton);
-		modeButton = (Button) findViewById(R.id.modeButton);
+		modeButton = (ToggleButton) findViewById(R.id.modeButton);
 		roundButton = (Button) findViewById(R.id.roundButton);
+		exploreButton = (Button) findViewById(R.id.exploreBtn);
+		shortButton = (Button) findViewById(R.id.shortBtn);
+		timerVal = (TextView) findViewById(R.id.timer);
+		startButton = (ToggleButton) findViewById(R.id.startBtn);
 		
 		load();
 		
@@ -150,8 +171,24 @@ public class MainActivity extends Activity {
 				sendMessage(f2);
 			}		
 		});
+    	exploreButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				autoAct = 1;
+			}
+    	});
+    	shortButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				autoAct = 2;
+			}
+    		
+    	});
 		
 	}
+	
 
 	@Override
 	public void onStart() {
@@ -295,6 +332,7 @@ public class MainActivity extends Activity {
 
 		// Check that there's actually something to send
 		if (message.length() > 0) {
+			sentMsg = message;
 			// Get the message bytes and tell the BluetoothChatService to write
 			byte[] send = message.getBytes();
 			mChatService.write(send);
@@ -344,7 +382,8 @@ public class MainActivity extends Activity {
 				switch (msg.arg1) {
 				case BluetoothChatService.STATE_CONNECTED:
 					setStatus(getString(R.string.title_connected_to,
-							mConnectedDeviceName));
+							mConnectedDeviceName) + sentMsg);
+					sentMsg = "No Action.";
 					mConversationArrayAdapter.clear();
 					break;
 				case BluetoothChatService.STATE_CONNECTING:
@@ -354,12 +393,11 @@ public class MainActivity extends Activity {
 				case BluetoothChatService.STATE_NONE:
 					setStatus(R.string.title_not_connected);
 					break;
-				case BluetoothChatService.STATE_CON_F1:
-					setStatus(R.string.title_send_f1 + f1);
+				case BluetoothChatService.STATE_SEND:
+					setStatus(getString(R.string.title_connected_to,
+							mConnectedDeviceName) + sentMsg);
 					break;
-				case BluetoothChatService.STATE_CON_F2:
-					setStatus(R.string.title_send_f2 + f2);
-					break;
+
 				}
 				break;
 			case MESSAGE_WRITE:
@@ -509,6 +547,92 @@ public class MainActivity extends Activity {
 		
         return super.onPrepareOptionsMenu(menu);
 	}
+	
+	public void toggleMode(View view) {
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    
+	    if (on) {
+	    	//auto mode
+	    	roundButton.setVisibility(View.INVISIBLE);
+	    	
+	    	exploreButton.setVisibility(View.VISIBLE);
+	    	shortButton.setVisibility(View.VISIBLE);
+	    	timerVal.setVisibility(View.VISIBLE);
+	    	startButton.setVisibility(View.VISIBLE);
+	    	
+	    } else {
+	    	//manual mode
+	    	//all manual buttons available
+	    	roundButton.setVisibility(View.VISIBLE);
+	    	
+	    	exploreButton.setVisibility(View.INVISIBLE);
+	    	shortButton.setVisibility(View.INVISIBLE);
+	    	timerVal.setVisibility(View.INVISIBLE);
+	    	startButton.setVisibility(View.INVISIBLE);
+	    }
+	}
+	
+	public void toggleStart(View view) {
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    
+	    if (on) {
+	    	//do something to end run?
+	    	
+	    	//end timer
+	    	if(mChatService.getState() == BluetoothChatService.STATE_CONNECTED){
+	    		if(autoAct == 1){
+		    		sendMessage("Let's Explore!");
+		    		startTime = SystemClock.uptimeMillis();
+			    	customHandler.postDelayed(updateTimerThread, 0);
+		    	}
+		    	else if(autoAct ==2 ){
+		    		sendMessage("Let's find the Shortest Path!");
+		    		startTime = SystemClock.uptimeMillis();
+			    	customHandler.postDelayed(updateTimerThread, 0);
+		    	}
+		    	else{
+		    		startButton.setChecked(false);
+		    		Toast.makeText(this, R.string.no_action, Toast.LENGTH_SHORT).show();
+		    	}
+	    	}
+	    	else{
+	    		startButton.setChecked(false);
+	    		Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+	    	}
+	    	
+	    	
+	    	autoAct = 0;
+	    	
+	    } else {
+	    	//get something to say it is explore/shortest path
+	    	//then when start is pressed then start the activity
+	    	timeSwapBuff += timeInMilliseconds;
+	    	customHandler.removeCallbacks(updateTimerThread);
+	    	timeSwapBuff = 0;
+	    }
+	}
+	
+	private Runnable updateTimerThread = new Runnable() {
+
+		public void run() {
+
+			timeInMilliseconds = SystemClock.uptimeMillis() - startTime;
+
+			updatedTime = timeSwapBuff + timeInMilliseconds;
+
+			int secs = (int) (updatedTime / 1000);
+			int mins = secs / 60;
+			secs = secs % 60;
+			int milliseconds = (int) (updatedTime % 1000);
+			timerVal.setText("" + mins + ":"
+					+ String.format("%02d", secs) + ":"
+					+ String.format("%03d", milliseconds));
+			customHandler.postDelayed(this, 0);
+		}
+
+	};
 	
 	
 
