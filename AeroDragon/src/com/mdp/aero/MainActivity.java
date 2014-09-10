@@ -29,16 +29,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -64,14 +61,14 @@ public class MainActivity extends Activity {
 	public static final String DEFAULT="N/A";
 	String f1, f2;
 
-	// Message types sent from the BluetoothChatService Handler
+	// Message types sent from the Bluetooth Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
 	public static final int MESSAGE_READ = 2;
 	public static final int MESSAGE_WRITE = 3;
 	public static final int MESSAGE_DEVICE_NAME = 4;
 	public static final int MESSAGE_TOAST = 5;
 
-	// Key names received from the BluetoothChatService Handler
+	// Key names received from the Bluetooth Handler
 	public static final String DEVICE_NAME = "device_name";
 	public static final String TOAST = "toast";
 
@@ -81,7 +78,6 @@ public class MainActivity extends Activity {
 
 	// Layout Views
 	private ListView mConversationView;
-	private EditText mOutEditText;
 	private TextView tvConnectionStatus;
 	
 	//Buttons
@@ -94,12 +90,11 @@ public class MainActivity extends Activity {
 	private Button downButton;
 	private Button leftButton;
 	private Button rightButton;
-	private Button mSendButton;
 	private Button exploreButton;
 	private Button shortButton;
 	private ToggleButton startButton;
 	
-	//for timer
+	//for stopwatch
 	private TextView timerVal;
 	private long startTime = 0L;
 	long timeInMilliseconds = 0L;
@@ -115,8 +110,8 @@ public class MainActivity extends Activity {
 	private StringBuffer mOutStringBuffer;
 	// Local Bluetooth adapter
 	private BluetoothAdapter ba = null;
-	// Member object for the chat services
-	private BluetoothChatService mChatService = null;
+	// Member object for the services
+	private BluetoothManager btManager = null;
 	
 	//for status on sending
 	String sentMsg = "No Action.";
@@ -143,6 +138,8 @@ public class MainActivity extends Activity {
 			finish();
 			return;
 		}
+		
+		
 		GridLayout gv = (GridLayout)findViewById(R.id.grid2);
 		Log.i("tag","here3");
 		map = new MapGenerator(gv, this);
@@ -166,6 +163,7 @@ public class MainActivity extends Activity {
 		
 		load();
 		
+		//setting onClick listeners
 		f1Button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
@@ -192,7 +190,34 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				autoAct = 2;
 			}
-    		
+    	});
+    	leftButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				sendMessage("a");
+			}
+    	});
+    	rightButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				sendMessage("d");
+			}
+    	});
+    	upButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				sendMessage("w");
+			}
+    	});
+    	downButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				sendMessage("s");
+			}
     	});
 		
 	}
@@ -212,7 +237,7 @@ public class MainActivity extends Activity {
 			startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
 			// Otherwise, setup the chat session
 		} else {
-			if (mChatService == null)
+			if (btManager == null)
 				setupChat();
 		}
 	}
@@ -227,12 +252,12 @@ public class MainActivity extends Activity {
 		// not enabled during onStart(), so we were paused to enable it...
 		// onResume() will be called when ACTION_REQUEST_ENABLE activity
 		// returns.
-		if (mChatService != null) {
+		if (btManager != null) {
 			// Only if the state is STATE_NONE, do we know that we haven't
 			// started already
-			if (mChatService.getState() == BluetoothChatService.STATE_NONE) {
-				// Start the Bluetooth chat services
-				mChatService.start();
+			if (btManager.getState() == BluetoothManager.STATE_NONE) {
+				// Start the Bluetooth service
+				btManager.start();
 			}
 		}
 		
@@ -240,7 +265,7 @@ public class MainActivity extends Activity {
 			
 	}
 	
-	
+	//to load shared preferences
 	public void load(){
 		SharedPreferences sp = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 		f1 = sp.getString("Function1", DEFAULT);
@@ -263,25 +288,8 @@ public class MainActivity extends Activity {
 		mConversationView = (ListView) findViewById(R.id.in);
 		mConversationView.setAdapter(mConversationArrayAdapter);
 
-		/*
-		 // Initialize the compose field with a listener for the return key
-		
-		mOutEditText = (EditText) findViewById(R.id.edit_text_out);
-		mOutEditText.setOnEditorActionListener(mWriteListener);
-
-		// Initialize the send button with a listener that for click events
-		mSendButton = (Button) findViewById(R.id.button_send);
-		mSendButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// Send a message using content of the edit text widget
-				TextView view = (TextView) findViewById(R.id.edit_text_out);
-				String message = view.getText().toString();
-				sendMessage(message);
-			}
-		});
-		*/
-		// Initialize the BluetoothChatService to perform bluetooth connections
-		mChatService = new BluetoothChatService(this, mHandler);
+		// Initialize the BluetoothManager to perform bluetooth connections
+		btManager = new BluetoothManager(this, mHandler);
 
 		// Initialize the buffer for outgoing messages
 		mOutStringBuffer = new StringBuffer("");
@@ -305,13 +313,14 @@ public class MainActivity extends Activity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		// Stop the Bluetooth chat services
-		if (mChatService != null)
-			mChatService.stop();
+		// Stop the Bluetooth services
+		if (btManager != null)
+			btManager.stop();
 		if (D)
 			Log.e(TAG, "--- ON DESTROY ---");
 	}
 
+	//turn on and discover bluetooth
 	private void ensureDiscoverable() {
 		if (D)
 			Log.d(TAG, "ensure discoverable");
@@ -324,15 +333,10 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	/**
-	 * Sends a message.
-	 * 
-	 * @param message
-	 *            A string of text to send.
-	 */
+	//send message to AMD
 	private void sendMessage(String message) {
 		// Check that we're actually connected before trying anything
-		if (mChatService.getState() != BluetoothChatService.STATE_CONNECTED) {
+		if (btManager.getState() != BluetoothManager.STATE_CONNECTED) {
 			Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
 					.show();
 			return;
@@ -341,34 +345,13 @@ public class MainActivity extends Activity {
 		// Check that there's actually something to send
 		if (message.length() > 0) {
 			sentMsg = message;
-			// Get the message bytes and tell the BluetoothChatService to write
+			// Get the message bytes and tell the Bluetooth Service to write
 			byte[] send = message.getBytes();
-			mChatService.write(send);
-			/*
-			// Reset out string buffer to zero and clear the edit text field
-			mOutStringBuffer.setLength(0);
-			mOutEditText.setText(mOutStringBuffer);
-			*/
+			btManager.write(send);
 		}
 	}
 
-	// The action listener for the EditText widget, to listen for the return key
-	private TextView.OnEditorActionListener mWriteListener = new TextView.OnEditorActionListener() {
-		public boolean onEditorAction(TextView view, int actionId,
-				KeyEvent event) {
-			// If the action is a key-up event on the return key, send the
-			// message
-			if (actionId == EditorInfo.IME_NULL
-					&& event.getAction() == KeyEvent.ACTION_UP) {
-				String message = view.getText().toString();
-				sendMessage(message);
-			}
-			if (D)
-				Log.i(TAG, "END onEditorAction");
-			return true;
-		}
-	};
-
+	//set connection and action status
 	private final void setStatus(int resId) {
 		invalidateOptionsMenu();
 		tvConnectionStatus.setText(resId);
@@ -379,7 +362,7 @@ public class MainActivity extends Activity {
 		tvConnectionStatus.setText(subTitle);
 	}
 
-	// The Handler that gets information back from the BluetoothChatService
+	// The Handler that gets information back from the BluetoothManager
 	private final Handler mHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -388,20 +371,20 @@ public class MainActivity extends Activity {
 				if (D)
 					Log.i(TAG, "MESSAGE_STATE_CHANGE: " + msg.arg1);
 				switch (msg.arg1) {
-				case BluetoothChatService.STATE_CONNECTED:
+				case BluetoothManager.STATE_CONNECTED:
 					setStatus(getString(R.string.title_connected_to,
 							mConnectedDeviceName) + sentMsg);
 					sentMsg = "No Action.";
 					mConversationArrayAdapter.clear();
 					break;
-				case BluetoothChatService.STATE_CONNECTING:
+				case BluetoothManager.STATE_CONNECTING:
 					setStatus(R.string.title_connecting);
 					break;
-				case BluetoothChatService.STATE_LISTEN:
-				case BluetoothChatService.STATE_NONE:
+				case BluetoothManager.STATE_LISTEN:
+				case BluetoothManager.STATE_NONE:
 					setStatus(R.string.title_not_connected);
 					break;
-				case BluetoothChatService.STATE_SEND:
+				case BluetoothManager.STATE_SEND:
 					setStatus(getString(R.string.title_connected_to,
 							mConnectedDeviceName) + sentMsg);
 					break;
@@ -437,6 +420,7 @@ public class MainActivity extends Activity {
 		}
 	};
 
+	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (D)
 			Log.d(TAG, "onActivityResult " + resultCode);
@@ -462,6 +446,8 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	
+	
 	private void connectDevice(Intent data) {
 		// Get the device MAC address
 		String address = data.getExtras().getString(
@@ -469,9 +455,11 @@ public class MainActivity extends Activity {
 		// Get the BluetoothDevice object
 		BluetoothDevice device = ba.getRemoteDevice(address);
 		// Attempt to connect to the device
-		mChatService.connect(device);
+		btManager.connect(device);
 	}
 
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -479,6 +467,8 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
+	
+	//selecting things on action bar
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		invalidateOptionsMenu();
@@ -501,16 +491,16 @@ public class MainActivity extends Activity {
 			}
 			return true;
 		case R.id.search_toggle:
-			if(ba.isEnabled() && mChatService.getState()==3){
+			if(ba.isEnabled() && btManager.getState()==3){
 				//if connected to device, disconnect
-				mChatService.stop();
+				btManager.stop();
 			}
 			else{
 				Toast.makeText(getApplicationContext(), R.string.not_connected, Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		case R.id.dc_toggle:
-			if(ba.isEnabled() && mChatService.getState()!=3){
+			if(ba.isEnabled() && btManager.getState()!=3){
 				// Launch the DeviceListActivity to see devices and do scan
 				serverIntent = new Intent(this, DeviceListActivity.class);
 				startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
@@ -528,6 +518,9 @@ public class MainActivity extends Activity {
 		return false;
 	}
 	
+	
+	
+	//to refresh action bar
 	@Override
 	public boolean onPrepareOptionsMenu (Menu menu){
 		MenuItem switchOn = menu.findItem(R.id.on_toggle);
@@ -543,7 +536,7 @@ public class MainActivity extends Activity {
             switchOff.setVisible(true);
         }
 		
-		if(ba.isEnabled() && mChatService.getState()== mChatService.STATE_CONNECTED){
+		if(ba.isEnabled() && btManager.getState()== btManager.STATE_CONNECTED){
 			con_dev.setVisible(true);
             dis_dev.setVisible(false);
         }
@@ -556,6 +549,8 @@ public class MainActivity extends Activity {
         return super.onPrepareOptionsMenu(menu);
 	}
 	
+	
+	//MODE BUTTON FUNCTION
 	public void toggleMode(View view) {
 	    // Is the toggle on?
 	    boolean on = ((ToggleButton) view).isChecked();
@@ -563,6 +558,10 @@ public class MainActivity extends Activity {
 	    if (on) {
 	    	//auto mode
 	    	roundButton.setVisibility(View.INVISIBLE);
+	    	upButton.setVisibility(View.INVISIBLE);
+	    	downButton.setVisibility(View.INVISIBLE);
+	    	leftButton.setVisibility(View.INVISIBLE);
+	    	rightButton.setVisibility(View.INVISIBLE);
 	    	
 	    	exploreButton.setVisibility(View.VISIBLE);
 	    	shortButton.setVisibility(View.VISIBLE);
@@ -571,8 +570,11 @@ public class MainActivity extends Activity {
 	    	
 	    } else {
 	    	//manual mode
-	    	//all manual buttons available
 	    	roundButton.setVisibility(View.VISIBLE);
+	    	upButton.setVisibility(View.VISIBLE);
+	    	downButton.setVisibility(View.VISIBLE);
+	    	leftButton.setVisibility(View.VISIBLE);
+	    	rightButton.setVisibility(View.VISIBLE);
 	    	
 	    	exploreButton.setVisibility(View.INVISIBLE);
 	    	shortButton.setVisibility(View.INVISIBLE);
@@ -581,6 +583,8 @@ public class MainActivity extends Activity {
 	    }
 	}
 	
+	
+	//START BUTTON FUNCTION
 	public void toggleStart(View view) {
 	    // Is the toggle on?
 	    boolean on = ((ToggleButton) view).isChecked();
@@ -589,7 +593,7 @@ public class MainActivity extends Activity {
 	    	//do something to end run?
 	    	
 	    	//end timer
-	    	if(mChatService.getState() == BluetoothChatService.STATE_CONNECTED){
+	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
 	    		if(autoAct == 1){
 		    		sendMessage("Let's Explore!");
 		    		startTime = SystemClock.uptimeMillis();
@@ -622,6 +626,8 @@ public class MainActivity extends Activity {
 	    }
 	}
 	
+	
+	//STOPWATCH FUNCTION
 	private Runnable updateTimerThread = new Runnable() {
 
 		public void run() {
