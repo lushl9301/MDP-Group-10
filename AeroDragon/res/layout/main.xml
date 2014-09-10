@@ -8,7 +8,6 @@
         android:id="@+id/in"
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="1"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll" />
 
@@ -117,6 +116,53 @@
 		android:background="@drawable/round_button"
 		android:gravity="center_vertical|center_horizontal"
 		android:text="Stop"
+		android:textColor="#fff" />
+    
+    <Button
+        android:id="@+id/upButton"
+		android:layout_width="96dp"
+		android:layout_height="96dp"
+		android:layout_marginTop="62dp"
+        android:layout_marginLeft="248dp"
+		android:layout_below="@+id/grid2" 
+		android:background="@drawable/triangle_button"
+		android:gravity="center_vertical|center_horizontal"
+		android:textColor="#fff" />
+    
+    <Button
+        android:id="@+id/downButton"
+		android:layout_width="96dp"
+		android:layout_height="96dp"
+		android:layout_marginTop="288dp"
+        android:layout_marginLeft="248dp"
+		android:layout_below="@+id/grid2" 
+		android:rotation="180"
+		android:background="@drawable/triangle_button"
+		android:gravity="center_vertical|center_horizontal"
+		android:textColor="#fff" />
+    
+    <Button
+        android:id="@+id/leftButton"
+		android:layout_width="96dp"
+		android:layout_height="96dp"
+		android:layout_marginTop="175dp"
+        android:layout_marginLeft="135dp"
+		android:layout_below="@+id/grid2" 
+		android:rotation="270"
+		android:background="@drawable/triangle_button"
+		android:gravity="center_vertical|center_horizontal"
+		android:textColor="#fff" />
+    
+    <Button
+        android:id="@+id/rightButton"
+		android:layout_width="96dp"
+		android:layout_height="96dp"
+		android:layout_marginTop="175dp"
+        android:layout_marginLeft="362dp"
+		android:layout_below="@+id/grid2"
+		android:rotation="90"
+		android:background="@drawable/triangle_button"
+		android:gravity="center_vertical|center_horizontal"
 		android:textColor="#fff" />
     
     <Button

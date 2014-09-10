@@ -90,6 +90,10 @@ public class MainActivity extends Activity {
 	private Button f2Button;
 	private ToggleButton modeButton;
 	private Button roundButton;
+	private Button upButton;
+	private Button downButton;
+	private Button leftButton;
+	private Button rightButton;
 	private Button mSendButton;
 	private Button exploreButton;
 	private Button shortButton;
@@ -151,6 +155,10 @@ public class MainActivity extends Activity {
 		resetButton = (Button) findViewById(R.id.resetButton);
 		modeButton = (ToggleButton) findViewById(R.id.modeButton);
 		roundButton = (Button) findViewById(R.id.roundButton);
+		upButton = (Button) findViewById(R.id.upButton);
+		downButton = (Button) findViewById(R.id.downButton);
+		leftButton = (Button) findViewById(R.id.leftButton);
+		rightButton = (Button) findViewById(R.id.rightButton);
 		exploreButton = (Button) findViewById(R.id.exploreBtn);
 		shortButton = (Button) findViewById(R.id.shortBtn);
 		timerVal = (TextView) findViewById(R.id.timer);
