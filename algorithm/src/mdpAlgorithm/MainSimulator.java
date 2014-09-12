@@ -1,7 +1,5 @@
 package mdpAlgorithm;
 
-//hello world
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -108,9 +106,10 @@ public class MainSimulator {
 		c.gridy = 1;
 		addObs = new JToggleButton("Add Obstacles");
 		
-		final MouseAdapter addObsListener = new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				ButtonModel buttonModel = addObs.getModel();
+		final ChangeListener addObsListener = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                ButtonModel buttonModel = addObs.getModel();
                 boolean selected = buttonModel.isEnabled();
                 
                 if (selected) {
@@ -131,11 +130,10 @@ public class MainSimulator {
                     		});
             			}
             		}	
-                }
-			}
-		};
-		
-		addObs.addMouseListener(addObsListener);
+                }                
+            }
+        };
+		addObs.addChangeListener(addObsListener);
 		
 		buttonPanel.add(addObs, c);
 		
@@ -198,13 +196,13 @@ public class MainSimulator {
 				t.start();
 				
 				// disable other buttons
+				addObs.setSelected(false);
 				addObs.setEnabled(false);
-				addObs.doClick();
+				addObs.removeChangeListener(addObsListener);	
 				clearObs.setEnabled(false);
 				loadMap.setEnabled(false);
 				percentObstacles.setEnabled(false);
 				stepsPerSec.setEnabled(false);
-				
 				terminateEx.setEnabled(true);
 				
 				// insert robot
@@ -255,12 +253,10 @@ public class MainSimulator {
 		        
 				// disable other buttons
 				addObs.setEnabled(true);
-				
 				clearObs.setEnabled(true);
 				loadMap.setEnabled(true);
 				percentObstacles.setEnabled(true);
 				stepsPerSec.setEnabled(true);
-				
 				terminateEx.setEnabled(false);
 				
 				for (int i = 0; i < 15; i++) {
@@ -273,6 +269,8 @@ public class MainSimulator {
 				MapGrid.changeColour(map, 0, 0, "", STARTGOAL); // GREEN
 				MapGrid.changeColour(map, 12, 17, "", STARTGOAL); // GREEN
 				MapGrid.changeColour(map, 6, 8, "Explore", EXPLORE); // LIGHTER GREEN
+
+				addObs.addChangeListener(addObsListener);
 			}  
 		});
 		buttonPanel.add(terminateEx, c);
