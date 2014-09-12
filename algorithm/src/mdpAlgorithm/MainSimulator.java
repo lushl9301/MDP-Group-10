@@ -13,11 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-
-
-
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -112,10 +107,10 @@ public class MainSimulator {
 		c.gridx = 0;
 		c.gridy = 1;
 		addObs = new JToggleButton("Add Obstacles");
-		addObs.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                ButtonModel buttonModel = addObs.getModel();
+		
+		final MouseAdapter addObsListener = new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				ButtonModel buttonModel = addObs.getModel();
                 boolean selected = buttonModel.isEnabled();
                 
                 if (selected) {
@@ -136,9 +131,12 @@ public class MainSimulator {
                     		});
             			}
             		}	
-                }                
-            }
-        });
+                }
+			}
+		};
+		
+		addObs.addMouseListener(addObsListener);
+		
 		buttonPanel.add(addObs, c);
 		
 		c.gridx = 0;
@@ -201,6 +199,7 @@ public class MainSimulator {
 				
 				// disable other buttons
 				addObs.setEnabled(false);
+				addObs.doClick();
 				clearObs.setEnabled(false);
 				loadMap.setEnabled(false);
 				percentObstacles.setEnabled(false);
@@ -259,6 +258,7 @@ public class MainSimulator {
 		        
 				// disable other buttons
 				addObs.setEnabled(true);
+				
 				clearObs.setEnabled(true);
 				loadMap.setEnabled(true);
 				percentObstacles.setEnabled(true);
