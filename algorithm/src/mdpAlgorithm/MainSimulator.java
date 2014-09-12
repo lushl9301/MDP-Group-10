@@ -211,9 +211,6 @@ public class MainSimulator {
 				Robot rob = new Robot(map);
 
 				// insert exploration code here
-				Exploration letsgo = new Exploration();
-				letsgo.simulatorExplore();
-				
 				/*
 				rob.moveRobot(map, rob.getX(), rob.getY(), 3, rob.getOrientation());
 				rob.rotateRobot(map, rob.getX(), rob.getY(), "W");
@@ -224,7 +221,7 @@ public class MainSimulator {
 				*/
 			}  
 		});
-		//
+
 		buttonPanel.add(exploreMap, c);
 		
 		c.gridx = 1;
