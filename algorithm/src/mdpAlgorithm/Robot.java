@@ -13,6 +13,7 @@ public class Robot {
 	private static final Color FRONTROBOT = new Color(146, 208, 80);
 	private static final Color BORDER = new Color(153, 204, 255);
 	private static final Color EXPLORED = new Color(0, 128, 255);
+	private static final Color CONFIRMOBSTACLE = new Color(255, 30, 30);
 	private int robotX, robotY;
 	private String robotOrientation;
 	
@@ -118,8 +119,8 @@ public class Robot {
 		}
 	}
 	
-	public void rotateRobot(MapGrid map, int x, int y, String orientation) {
-		robotOrientation = orientation;
+	public void rotateRobot(MapGrid map, int x, int y, String turnWhere) {
+		robotOrientation = turnWhere;
 		
 		for (int i = x; i < x+3; i++) {
 			for (int j = y; j < y+3; j++) {
@@ -128,7 +129,7 @@ public class Robot {
 			}
 		}
 		
-		switch(orientation) {
+		switch(turnWhere) {
 			case "N": 
 				map.grid[x][y+1].setBackground(FRONTROBOT);
 				break;
@@ -142,5 +143,15 @@ public class Robot {
 				map.grid[x+1][y].setBackground(FRONTROBOT);
 				break;	
 		}
+	}
+	
+	public void detectObstacle(MapGrid map, int x, int y, String orientation) {
+		// insert code to detect obstacle here
+		// if color == grey or something		
+		// then call confirmObstacle(x,y)
+	}
+	
+	public void confirmObstacle(MapGrid map, int x, int y) {
+		map.grid[x][y].setBackground(CONFIRMOBSTACLE);
 	}
 }

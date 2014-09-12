@@ -32,12 +32,15 @@ public class MapGrid extends JPanel {
 			}
 		}
 		initLandmarks(this);
+		//init landmark label
+		grid[1][1].add(new JLabel("Start"), JLabel.CENTER);
+		grid[13][18].add(new JLabel("Goal"), JLabel.CENTER);
 	}
 	
-	private void initLandmarks(MapGrid map) {
+	public void initLandmarks(MapGrid map) {
 		changeColour(map, 0, 0, "Start", STARTGOAL);
 		changeColour(map, 12, 17, "Goal", STARTGOAL);
-		changeColour(map, 6, 8, "Explore", EXPLORE);
+		changeColour(map, 6, 8, "", EXPLORE);
 	}
 	
 	public static void changeColour(MapGrid map, int x, int y, String text, Color color) {
@@ -45,16 +48,11 @@ public class MapGrid extends JPanel {
 			for (int j = y; j < y+3; j++) {
 				map.grid[i][j].setBackground(color);
 				map.grid[i][j].setBorder(BorderFactory.createLineBorder(color, 1));
-				if(text == "Explore") {
+				if(color == EXPLORE) {
 					map.grid[i][j].setBorder(BorderFactory.createLineBorder(BORDER, 1));
 				}
 			}
 		}
-		if(text == "Explore") map.grid[x+1][y+1].setBackground(MIDEXPLORE);
-
-		else {
-			JLabel labelText = new JLabel(text);
-			map.grid[x+1][y+1].add(labelText, JLabel.CENTER); 
-		}
+		if(color == EXPLORE) map.grid[x+1][y+1].setBackground(MIDEXPLORE);
 	}
 }

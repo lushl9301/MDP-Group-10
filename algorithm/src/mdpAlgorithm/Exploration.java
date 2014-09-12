@@ -8,19 +8,15 @@ public class Exploration {
 	private static final int LeftWall = -1;
 	private static final int BottomWall = 15;
 	private static final int RightWall = 20;
-	
-	final MapGrid map = new MapGrid();
-	Robot rob = new Robot(map);
-	int x = rob.getX();
-	int y = rob.getY();
+
 	
 	public void robotExplore(){
 		
 	}
 	
-	public void simulatorExplore(){
-		x = rob.getX();
-		y = rob.getY();
+	public void simulatorExplore(MapGrid map, Robot rob){
+		int x = rob.getX();
+		int y = rob.getY();
 		
 		while ((x-1)!=TopWall) {
 			// if there's obstacle, always go WEST
