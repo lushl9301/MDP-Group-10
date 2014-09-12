@@ -225,7 +225,7 @@ public class MainSimulator {
 				*/
 			}  
 		});
-
+		//
 		buttonPanel.add(exploreMap, c);
 		
 		c.gridx = 1;
