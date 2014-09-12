@@ -66,10 +66,15 @@ Char for turning
 
 ####Arduino Send
 ```Arduino
-Serial.println("=============");
-Serial.println("F30"); //30cm in front
-Serial.print("L40"); //40cm on left
-Serial.print("R5"); //5cm on right
+    Serial.println("UF " + String(u_F_dis));
+    Serial.println("IRLF " + String(ir_lf_dis));
+    Serial.println("IRRF " + String(ir_rf_dis));
+
+    Serial.println("UL " + String(u_L_dis));
+    Serial.println("IRL " + String(ir_l_dis));
+    
+    Serial.println("UR " + String(u_R_dis));
+    Serial.println("IRR " + String(ir_r_dis));
 ```
 ####Arduino Get
 ```Arduino
