@@ -6,24 +6,29 @@
 #include "movement.h"  // turn & goAhead
 #include "autoFix.h"
 
+//digital 0, 1 are not alow to use ==> serial port is using
+//digital 2, 3, 4, 7, 8, 9, 10, 13 are occuppied by motor shield & encoder
+//A0, A1, 6, 12 need to be kicked out before use
+
+//5, 6, 11, 12
 
 //PWM for reading ==> orange
 //TRIG for writing ==> yellow  
 #define urTRIG A3 //use one to write command
 
-#define urPWM_F 15
-#define urPWM_L 14
-#define urPWM_R A2
+#define urPWM_F 12
+#define urPWM_L A2
+#define urPWM_R 5
 
 #define motor_L 13  // encoder
-#define motor_R 3   // encoder
+#define motor_R 3     // encoder
 
-/**********************/
+
 #define shortIR_LF_in A4
 #define shortIR_RF_in A5
 
-#define shortIR_L_in A0
-#define shortIR_R_in A1
+#define longIR_L_in A1
+#define shortIR_R_in A0
 
 //#define longIR_F_in A4
 /**********************/
@@ -42,8 +47,11 @@ int currentX, currentY;
 int goalX, goalY;
 
 URM37 u_F, u_L, u_R;
-SharpA02 longIR_F;
-SharpA21 shortIR_LF, shortIR_RF;
+SharpA21 shortIR_LF, shortIR_RF, shortIR_R;
+SharpA02 longIR_L;
+
+int u_F_dis, u_R_dis, u_L_dis;
+int ir_rf_dis, ir_lf_dis, ir_l_dis, ir_r_dis;
 
 MotorShield md;
 
@@ -75,9 +83,9 @@ void setup() {
     delay(10);
     
     //set up 3 Ultrasonic
-    u_F.init(urPWM_F, urTRIG_F);
-    u_L.init(urPWM_L, urTRIG_L);
-    u_R.init(urPWM_R, urTRIG_R);
+    u_F.init(urPWM_F, urTRIG);
+    u_L.init(urPWM_L, urTRIG);
+    u_R.init(urPWM_R, urTRIG);
     delay(10);
     
     //set up IR sensor
@@ -85,8 +93,7 @@ void setup() {
     shortIR_LF.init(shortIR_LF_in);
 
     shortIR_R.init(shortIR_R_in);
-    shortIR_L.init(shortIR_L_in);
-    //longIR_F.init(longIR_F_in);
+    longIR_L.init(longIR_L_in);
     delay(10);
 }
 
@@ -118,23 +125,51 @@ void loop() {
     currentY = 1;
     bridesheadRevisited();
 }
+
+void sensorReading() {
+    while ((u_F_dis = u_F.getDis()) == 0) {
+        delay(50);
+    }
+    while ((u_L_dis = u_L.getDis()) == 0) {
+        delay(50);
+    }
+    while ((u_R_dis = u_R.getDis()) == 0) {
+        delay(50);
+    }
+
+    ir_rf_dis = shortIR_RF.getDis();
+    ir_lf_dis = shortIR_LF.getDis();
+
+    ir_r_dis = shortIR_R.getDis();
+    ir_l_dis = longIR_L.getDis();
+
+    thinkForAWhile();
+}
+
+void thinkForAWhile() {
+    //think
+    //send and delay
+    Serial.println("UF " + String(u_F_dis));
+    Serial.println("IRLF " + String(ir_lf_dis));
+    Serial.println("IRRF " + String(ir_rf_dis));
+
+    Serial.println("UL " + String(u_L_dis));
+    Serial.println("IRL " + String(ir_l_dis));
+    
+    Serial.println("UR " + String(u_R_dis));
+    Serial.println("IRR " + String(ir_r_dis));
+
+    delay(500);
+}
+
 void exploration() {
     empty_space_R = 0;
     while (abs(goalX - currentX) >= 2 && abs(goalY - currentY) >= 2) {
         //check right
         
         //get all sensor data here.
-        u_F_dis = u_F.getDis();
-        u_L_dis = u_L.getDis();
-        u_R_dis = u_R.getDis();
-
-        ir_rf_dis = shortIR_RF.getDis();
-        ir_lf_dis = shortIR_LF.getDis();
-
-        ir_r_dis = shortIR_R.getDis();
-        ir_l_dis = longIR_F.getDis(); 
         
-        thinkForAWhile();
+        sensorReading();
 
         if (u_R_dis > 12) { //right got space
             ++empty_space_R;
@@ -175,12 +210,17 @@ void findWall() {
     HOWTO find closest obstacle
     360 turning. use sensor to see the distance
      */
-    f_dis = min(shortIR_RF.getDis(), shortIR_LF.getDis());
+
+    sensorReading();
+    f_dis = min(ir_rf_dis, ir_lf_dis);
+    
     int tempDis = f_dis;
     int tempMin = 0;
+    
     for (int i = 1; i <= 4; ++i) {
         turn(1);
-        f_dis = min(shortIR_RF.getDis(), shortIR_LF.getDis());
+        sensorReading();
+        f_dis = min(ir_rf_dis, ir_lf_dis);
         if (tempDis < f_dis && f_dis - tempDis > 50) {
             //ignore small difference
             tempMin = i;
@@ -192,21 +232,14 @@ void findWall() {
         turn(1);
     }
 
-    u_L_dis = u_F.getDis();
-    u_R_dis = u_R.getDis();
-
+    sensorReading();
     farthestX = currentX;
     farthestY = currentY;
     farthestDis = max(u_L_dis, u_R_dis);
 
     while (1) {
-        u_F_dis = u_F.getDis();
-        if (u_F_dis <= 6) {
-            break;
-        }
         goAhead(1);
-        u_L_dis = u_F.getDis();
-        u_R_dis = u_R.getDis();
+        sensorReading();
         if (u_L_dis > farthestDis) {
             farthestDis = u_L_dis;
             farthestX = currentX;
@@ -216,6 +249,9 @@ void findWall() {
             farthestDis = u_R_dis;
             farthestX = -currentX;
             farthestY = -currentY;
+        }
+        if (u_F_dis <= 6) {
+            break;
         }
     }
 
@@ -245,7 +281,7 @@ void findWall() {
     
     //go to the wall
     while (1) {
-        u_F_dis = u_F.getDis();
+        sensorReading();
         if (u_F_dis <= 6) {
             break;
         }
@@ -266,22 +302,6 @@ void bridesheadRevisited() {
     //turn(-1); //left
     //goAhead(l);
     getFRInstructions();
-}
-
-void thinkForAWhile() {
-    //think
-    //send and delay
-    Serial.println("UF " + String(u_F_dis));
-    Serial.println("IRLF " + String(ir_lf_dis));
-    Serial.println("IRRF " + String(ir_rf_dis));
-
-    Serial.println("UL " + String(u_L_dis));
-    Serial.println("IRL " + String(ir_l_dis));
-    
-    Serial.println("UR " + String(u_R_dis));
-    Serial.println("IRR " + String(ir_r_dis));
-
-    delay(500);
 }
 
 char getChar() {

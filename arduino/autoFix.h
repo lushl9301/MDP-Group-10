@@ -1,14 +1,20 @@
 void straighten() {
     adjustDistance();
+    delay(500);
     adjustDirection();
 }
 
 void adjustDirection() {
     //Ultrasonic go until 5cm
+    int speed = 60;
+    int l, r;
     for (int i = 0; i < 1000; i++) {
-        if (shortIR_RF.getDis() > shortIR_LF.getDis()) {
+        l = shortIR_LF.getDis();
+        r = shortIR_RF.getDis();
+        delay(10);
+        if (r > l) {
             md.setSpeeds(-60, 60);
-        } else if (shortIR_RF.getDis() < shortIR_LF.getDis()) {
+        } else if (r < l) {
             md.setSpeeds(60, -60);
         }
     }
@@ -16,12 +22,18 @@ void adjustDirection() {
 }
 
 void adjustDistance() {
-    int frontDis = max(shortIR_LF.getDis(), shortIR_RF.getDis());
+    int speed = 100;
+    int l, r, frontDis;
     for (int i = 0; i < 1000; i++) {
-        if (frontDis < 450) {
-            md.setSpeeds(100, 100);
-        } else if (frontDis > 500) {
-            md.setSpeeds(-100, -100);
+        l = shortIR_LF.getDis();
+        r = shortIR_RF.getDis();
+        delay(10);
+        frontDis = max(l, r);
+        
+        if (frontDis < 500) {
+            md.setSpeeds(speed, speed);
+        } else if (frontDis > 550) {
+            md.setSpeeds(-speed, -speed);
         } else {
             break;
         }
