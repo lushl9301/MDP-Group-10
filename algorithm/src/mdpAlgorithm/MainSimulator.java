@@ -212,12 +212,17 @@ public class MainSimulator {
 				Robot rob = new Robot(map);
 
 				// insert exploration code here
+				Exploration letsgo = new Exploration();
+				letsgo.simulatorExplore();
+				
+				/*
 				rob.moveRobot(map, rob.getX(), rob.getY(), 3, rob.getOrientation());
 				rob.rotateRobot(map, rob.getX(), rob.getY(), "W");
 				rob.moveRobot(map, rob.getX(), rob.getY(), 2, rob.getOrientation());
 				rob.rotateRobot(map, rob.getX(), rob.getY(), "S");
 				rob.moveRobot(map, rob.getX(), rob.getY(), 4, rob.getOrientation());
 				rob.rotateRobot(map, rob.getX(), rob.getY(), "E");
+				*/
 			}  
 		});
 
