@@ -142,6 +142,47 @@ public class Robot {
 		}
 	}
 	
+	/*
+	 * 
+	 * 
+	public void rotate(int degree) {
+		while (degree != 0) {
+			System.out.println("rotating " + degree);
+			if (degree >= 90) {
+				if (getDirection() == 'N')
+					setDirection('E');
+				else if (getDirection() == 'E')
+					setDirection('S');
+				else if (getDirection() == 'S')
+					setDirection('W');
+				else if (getDirection() == 'W')
+					setDirection('N');
+				
+				degree = degree - 90;
+			}
+			else if (degree <= -90) {
+				if (getDirection() == 'N')
+					setDirection('W');
+				else if (getDirection() == 'W')
+					setDirection('S');
+				else if (getDirection() == 'S')
+					setDirection('E');
+				else if (getDirection() == 'E')
+					setDirection('N');
+				
+				degree = degree + 90;
+			}
+			
+			
+			if (degree < 90 && degree > 0)
+				degree = 0;
+			
+			if (degree > -90 && degree < 0)
+				degree = 0;
+		}
+		
+	}*/
+	
 	public void detectObstacle(MapGrid map, int x, int y, String orientation) {
 		// insert code to detect obstacle here
 		// if color == grey or something		

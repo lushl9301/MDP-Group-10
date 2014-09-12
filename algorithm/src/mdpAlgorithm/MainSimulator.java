@@ -232,11 +232,11 @@ public class MainSimulator {
 				rob.rotateRobot(map, rob.getX(), rob.getY(), "E");
 				*/
 				
-				rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
-				rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
-				rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
-//				Exploration explore = new Exploration();
-//				explore.simulatorExplore(map, rob);
+				//rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
+				//rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
+				//rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
+				Exploration explore = new Exploration();
+				explore.simulatorExplore(map, rob);
 			}
 		};
 		exploreMap.addMouseListener(exploreListener);
