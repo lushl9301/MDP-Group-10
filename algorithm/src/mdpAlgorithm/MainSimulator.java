@@ -231,7 +231,10 @@ public class MainSimulator {
 				rob.moveRobot(map, rob.getX(), rob.getY(), 4, rob.getOrientation());
 				rob.rotateRobot(map, rob.getX(), rob.getY(), "E");
 				*/
-				rob.moveRobot(map, rob.getX(), rob.getY(), 3, rob.getOrientation());
+				
+				rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
+				rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
+				rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
 //				Exploration explore = new Exploration();
 //				explore.simulatorExplore(map, rob);
 			}

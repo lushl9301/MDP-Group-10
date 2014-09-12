@@ -1,10 +1,9 @@
 package mdpAlgorithm;
 
 import java.awt.Color;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
+import javax.swing.Timer;
 
 public class Robot {
 	private static final Color ROBOT = new Color(153, 204, 255);
