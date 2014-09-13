@@ -133,6 +133,12 @@ public class Exploration {
 						x = rob.getX();
 			    		y = rob.getY();
 					}
+					if (((x-1)==TopWall) && ((y-1)==LeftWall)) {
+						rob.rotateRobot(map, rob.getX(), rob.getY(), "S");
+					}
+					else {
+						rob.rotateRobot(map, rob.getX(), rob.getY(), "W");
+					}
 					x = rob.getX();
 		    		y = rob.getY();
 		    		System.out.println();
@@ -165,6 +171,12 @@ public class Exploration {
 						x = rob.getX();
 			    		y = rob.getY();
 					}
+					if (((x+3)==BottomWall) && ((y-1)==LeftWall)) {
+						rob.rotateRobot(map, rob.getX(), rob.getY(), "E");
+					}
+					else {
+						rob.rotateRobot(map, rob.getX(), rob.getY(), "S");
+					}
 					x = rob.getX();
 		    		y = rob.getY();
 					break;
@@ -193,6 +205,12 @@ public class Exploration {
 						x = rob.getX();
 			    		y = rob.getY();
 					}
+					if (((x+3)==BottomWall) && ((y+3)==RightWall)) {
+						rob.rotateRobot(map, rob.getX(), rob.getY(), "N");
+					}
+					else {
+						rob.rotateRobot(map, rob.getX(), rob.getY(), "E");
+					}
 					x = rob.getX();
 		    		y = rob.getY();
 					break;
@@ -220,6 +238,12 @@ public class Exploration {
 			            }
 						x = rob.getX();
 			    		y = rob.getY();
+					}
+					if (((x-1)==TopWall) && ((y+3)==RightWall)) {
+						rob.rotateRobot(map, rob.getX(), rob.getY(), "W");
+					}
+					else {
+						rob.rotateRobot(map, rob.getX(), rob.getY(), "N");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
