@@ -351,7 +351,6 @@ public class Exploration {
 		int y = rob.getY();
 		int steps = 0;
 		
-		int count=0; 
 		boolean completed = false;
 		boolean enteredGoal = false;
 		do { //DOWHILE loop until robot reaches GOAL POINT then START POINT
@@ -537,7 +536,6 @@ public class Exploration {
 		    		y = rob.getY();
 					break;		
 			}
-count++;
 		} while (!completed);
 		// while ( ((x-1)!=TopWall) || ((x+3)!=BottomWall) || ((y+3)!=RightWall) || ((y-1)!=LeftWall) );
 	}
