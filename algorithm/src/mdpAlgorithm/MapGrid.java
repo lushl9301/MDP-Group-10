@@ -37,10 +37,11 @@ public class MapGrid extends JPanel {
 		grid[13][18].add(new JLabel("Goal"), JLabel.CENTER);
 	}
 	
-	public void initLandmarks(MapGrid map) {
+	public static void initLandmarks(MapGrid map) {
 		changeColour(map, 0, 0, "Start", STARTGOAL);
 		changeColour(map, 12, 17, "Goal", STARTGOAL);
 		changeColour(map, 6, 8, "", EXPLORE);
+		map.grid[7][9].setBackground(MIDEXPLORE);
 	}
 	
 	public static void changeColour(MapGrid map, int x, int y, String text, Color color) {
@@ -53,6 +54,5 @@ public class MapGrid extends JPanel {
 				}
 			}
 		}
-		if(color == EXPLORE) map.grid[x+1][y+1].setBackground(MIDEXPLORE);
 	}
 }

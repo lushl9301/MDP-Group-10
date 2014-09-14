@@ -123,9 +123,7 @@ public class MainSimulator {
         			}
 				}
 				
-				MapGrid.changeColour(map, 0, 0, "", STARTGOAL); // GREEN
-				MapGrid.changeColour(map, 12, 17, "", STARTGOAL); // GREEN
-				MapGrid.changeColour(map, 6, 8, "Explore", EXPLORE); // LIGHTER GREEN
+				MapGrid.initLandmarks(map);
 			}  
 		});
 		buttonPanel.add(clearObs, c);
@@ -232,9 +230,6 @@ public class MainSimulator {
 				rob.rotateRobot(map, rob.getX(), rob.getY(), "E");
 				*/
 				
-				//rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
-				//rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
-				//rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
 				Exploration explore = new Exploration();
 				explore.simulatorExplore(map, rob);
 				explore.simulatorExplore2(map, rob);
