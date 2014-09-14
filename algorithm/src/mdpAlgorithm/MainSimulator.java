@@ -237,6 +237,7 @@ public class MainSimulator {
 				//rob.moveRobot(map, rob.getX(), rob.getY(), 1, rob.getOrientation());
 				Exploration explore = new Exploration();
 				explore.simulatorExplore(map, rob);
+				explore.simulatorExplore2(map, rob);
 			}
 		};
 		exploreMap.addMouseListener(exploreListener);
