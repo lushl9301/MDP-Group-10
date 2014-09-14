@@ -352,7 +352,12 @@ public class Exploration {
 		int steps = 0;
 		
 		int count=0; 
+		boolean completed = false;
+		boolean enteredGoal = false;
 		do { //DOWHILE loop until robot reaches GOAL POINT then START POINT
+			if(rob.getX() == 12 && rob.getY() == 17) enteredGoal = true;
+			if(rob.getX() == 0 && rob.getY() == 0 && enteredGoal) completed = true;
+
 			switch (rob.getOrientation()) {
 				case "N": 
 					steps = 0;
@@ -532,8 +537,8 @@ public class Exploration {
 		    		y = rob.getY();
 					break;		
 			}
-			count++;
-		} while (count<50);
+count++;
+		} while (!completed);
 		// while ( ((x-1)!=TopWall) || ((x+3)!=BottomWall) || ((y+3)!=RightWall) || ((y-1)!=LeftWall) );
 	}
 	
