@@ -150,7 +150,7 @@ public class MainSimulator {
 		c.gridy = 6;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 1;
-		JLabel percentObstaclesLabel = new JLabel("<html>Percentage of<br>obstacles to detect<br>(Simulator only): </html>"); 
+		JLabel percentObstaclesLabel = new JLabel("<html>Percentage of<br>maze to explore: </html>"); 
 		buttonPanel.add(percentObstaclesLabel, c);
 		
 		c.gridx = 1;
