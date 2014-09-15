@@ -9,10 +9,7 @@ public class Exploration implements Runnable {
 	private static final int LeftWall = -1;
 	private static final int BottomWall = 15;
 	private static final int RightWall = 20;
-	public Stack<Robot> rotateOnTheSpot;
-	public Stack<Robot> faceFirstDirection;
 	public Stack<Robot> pathTravelled;
-	public Stack<Robot> pathToFindWall;
 	public MapGrid map;
 	public Robot rob;
 	private int sleeptime;
@@ -29,15 +26,7 @@ public class Exploration implements Runnable {
 		boolean reachedWall = false;
 		boolean completed = false;
 		boolean enteredGoal = false;
-		
-		rotateOnTheSpot = new Stack<Robot>();
-		rotateOnTheSpot.push(rob);
-		
-		faceFirstDirection = new Stack<Robot>();
-		faceFirstDirection.push(rob);
-		
-		pathToFindWall = new Stack<Robot>();
-		pathToFindWall.push(rob);
+
 		
 		pathTravelled = new Stack<Robot>();
 		pathTravelled.push(rob);
@@ -46,37 +35,37 @@ public class Exploration implements Runnable {
 		int faceFirstDir = 0;
 		
 		do { // Fake 360 degree rotation to check distance
-			Robot currentDir = new Robot(rotateOnTheSpot.peek());
+			Robot currentDir = new Robot(pathTravelled.peek());
 			simulatorFirstRotation(map, rob, sleeptime); //rotate on the spot
 			if (currentDir != null) {
-				rotateOnTheSpot.push(currentDir);
+				pathTravelled.push(currentDir);
 			}
 			rotationCount++;
 		} while (rotationCount <4); //rotate on the spot 4 times
 		
 		
 		do { // First direction (This is where the first obstacle distance is being counted)
-			Robot goingDir = new Robot(faceFirstDirection.peek());
+			Robot goingDir = new Robot(pathTravelled.peek());
 			simulatorFirstDirection(map, rob, sleeptime); //Face first direction
 			if (goingDir != null) {
-				faceFirstDirection.push(goingDir);
+				pathTravelled.push(goingDir);
 			}
 			faceFirstDir++;
 		} while (faceFirstDir <1); //straight away face the direction with the obstacle
 		
 		
 		do { //path to find wall
-			Robot currentPost = new Robot(pathToFindWall.peek());
+			Robot currentPost = new Robot(pathTravelled.peek());
 			if (((rob.getX()-1)==TopWall) || ((rob.getX()+3)==BottomWall) || ((rob.getY()+3)==RightWall) || ((rob.getY()-1)==LeftWall)) reachedWall = true;
 			currentPost = simulatorExplore(map, rob, sleeptime);
 			if (currentPost != null) {
-				pathToFindWall.push(currentPost);
+				pathTravelled.push(currentPost);
 			}
 			else {
-				currentPost = pathToFindWall.pop();
+				currentPost = pathTravelled.pop();
 			}
 			
-		} while(!pathToFindWall.isEmpty() && !reachedWall);
+		} while(!pathTravelled.isEmpty() && !reachedWall);
 	
 		
 		do { // traverse wall

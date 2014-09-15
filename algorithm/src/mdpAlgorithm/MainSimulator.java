@@ -201,6 +201,9 @@ public class MainSimulator {
 		 		            timerLabel.setText(mPadding + m + ":"+ sPadding + s);
 		 		            time -= 1000;
 		 		        }
+		 		        else {
+		 		        	exploreThread.stop();
+		 		        }
 		 		    }
 		 		});
 				t.start();
@@ -291,6 +294,7 @@ public class MainSimulator {
 					
 					MapGrid.initLandmarks(map);
 					addObs.addChangeListener(addObsListener);
+					exploreThread.stop();
 				}
 			}  
 		});
