@@ -162,7 +162,7 @@ public class Exploration implements Runnable {
 		// To detect the furthest obs and face that direction
 		if (distanceToNorthObs>distanceToSouthObs && distanceToNorthObs>distanceToWestObs && distanceToNorthObs>distanceToEastObs){
 			rob.rotateRobot(map, rob, "N"); 
-			pathTravelled.push(rob);
+			//pathTravelled.push(rob);
 		}
 		else { 
 			if (distanceToEastObs>distanceToSouthObs && distanceToEastObs>distanceToWestObs && distanceToEastObs>distanceToNorthObs){
