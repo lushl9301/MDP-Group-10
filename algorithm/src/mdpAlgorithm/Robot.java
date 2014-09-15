@@ -189,7 +189,7 @@ public class Robot {
 		
 	}*/
 	
-	public boolean detectObstacle(MapGrid map, int x, int y, String orientation) {
+	public void detectObstacle(MapGrid map, int x, int y, String orientation) {
 		// insert code to detect obstacle here
 		// if color == grey or something		
 		// then call confirmObstacle(x,y)
