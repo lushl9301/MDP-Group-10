@@ -235,7 +235,7 @@ public class MainSimulator {
 //				Exploration explore = new Exploration();
 //				explore.simulatorExplore(map, rob);
 //				explore.simulatorExplore2(map, rob);
-				ExplorationMgr explore = new ExplorationMgr(map, rob);
+				Exploration explore = new Exploration(map, rob);
 				exploreThread = new Thread(explore);
 				exploreThread.start();
 			}

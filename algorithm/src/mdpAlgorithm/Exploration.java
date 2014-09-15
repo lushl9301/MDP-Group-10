@@ -1,14 +1,43 @@
 package mdpAlgorithm;
 
 import java.awt.Color;
+import java.util.Stack;
 
-public class Exploration {
+public class Exploration implements Runnable {
 	private static final Color OBSTACLE = Color.DARK_GRAY;
 	private static final int TopWall = -1;
 	private static final int LeftWall = -1;
 	private static final int BottomWall = 15;
 	private static final int RightWall = 20;
+	MapGrid map;
+	Robot rob;
+	public Stack<Robot> pathTravelled;
+	public Exploration(MapGrid map, Robot rob) {
+		this.rob = rob;
+		this.map = map;
+	}
+	
+	@Override
+	public void run() {
 
+		boolean completed = false;
+		boolean enteredGoal = false;
+		pathTravelled = new Stack<Robot>();
+		
+		Exploration explore = new Exploration(map, rob);
+		explore.simulatorExplore(map, rob); //rotate and find wall
+		
+		do {
+			if(rob.getX() == 12 && rob.getY() == 17) enteredGoal = true;
+			if(rob.getX() == 0 && rob.getY() == 0 && enteredGoal) completed = true;
+			explore.simulatorExplore2(map, rob);
+		} while(!completed);
+		
+
+//		
+//		Stack<Robot> pathTravelled = new Stack<Robot>();
+//		pathTravelled.push(rob);
+	}
 	
 	public void robotExplore(){
 		
@@ -23,7 +52,7 @@ public class Exploration {
 		int distanceToWestObs = 100;
 		int distanceToEastObs = 100;
 		
-		// Check whether there is an obstacle 3 grids away on top
+		// Check whether there is an obstacle 3 grids away on top (NORTH)
 		if (map.grid[x-6][y].getBackground() == OBSTACLE || map.grid[x-6][y+1].getBackground() == OBSTACLE || map.grid[x-6][y+2].getBackground() == OBSTACLE) {
 			distanceToNorthObs = 6;
 		}
@@ -44,7 +73,13 @@ public class Exploration {
 		}
 		
 		
-		// Check whether there is an obstacle 3 grids away on left
+		// Check whether there is an obstacle 3 grids away on left (WEST)
+		if (map.grid[x][y-8].getBackground() == OBSTACLE || map.grid[x+1][y-8].getBackground() == OBSTACLE || map.grid[x+2][y-8].getBackground() == OBSTACLE) {
+			distanceToWestObs = 8;
+		}
+		if (map.grid[x][y-7].getBackground() == OBSTACLE || map.grid[x+1][y-7].getBackground() == OBSTACLE || map.grid[x+2][y-7].getBackground() == OBSTACLE) {
+			distanceToWestObs = 7;
+		}
 		if (map.grid[x][y-6].getBackground() == OBSTACLE || map.grid[x+1][y-6].getBackground() == OBSTACLE || map.grid[x+2][y-6].getBackground() == OBSTACLE) {
 			distanceToWestObs = 6;
 		}
@@ -66,7 +101,7 @@ public class Exploration {
 		
 		
 		
-		// Check whether there is an obstacle 3 grids away on south
+		// Check whether there is an obstacle 3 grids away on south (SOUTH)
 		if (map.grid[x+8][y].getBackground() == OBSTACLE || map.grid[x+8][y+1].getBackground() == OBSTACLE || map.grid[x+8][y+2].getBackground() == OBSTACLE) {
 			distanceToSouthObs = 6;
 		}
@@ -87,7 +122,7 @@ public class Exploration {
 		}
 		
 		
-		// Check whether there is an obstacle 3 grids away on right	
+		// Check whether there is an obstacle 3 grids away on right	(EAST)
 		
 		if (map.grid[x][y+11].getBackground() == OBSTACLE || map.grid[x+1][y+11].getBackground() == OBSTACLE || map.grid[x+2][y+11].getBackground() == OBSTACLE) {
 			distanceToEastObs = 9;
@@ -127,6 +162,7 @@ public class Exploration {
 		// To detect the furthest obs and face that direction
 		if (distanceToNorthObs>distanceToSouthObs && distanceToNorthObs>distanceToWestObs && distanceToNorthObs>distanceToEastObs){
 			rob.rotateRobot(map, rob, "N"); 
+			pathTravelled.push(rob);
 		}
 		else { 
 			if (distanceToEastObs>distanceToSouthObs && distanceToEastObs>distanceToWestObs && distanceToEastObs>distanceToNorthObs){
@@ -143,23 +179,20 @@ public class Exploration {
 				}
 			}
 		}
+		
 		//for debugging
 		System.out.format ("The direction is: %s%n", rob.getOrientation());
 		
-		
-	}
-	public void simTest(MapGrid map, Robot rob) {
-		int x = rob.getX();
-		int y = rob.getY();
 		int LeftSideDistance = 0;
 		int RightSideDistance = 20;
 		int UpSideDistance = 0;
 		int DownSideDistance = 15;
-		
+		int count = 0;
+		do {
 		switch (rob.getOrientation()) {
 			case "N": 
 				while ((x-1)!=TopWall) { // heading up north
-					// if there's obstacle, always go WEST
+					// if there's obstacle..
 					x = rob.getX();
 		    		y = rob.getY();
 					LeftSideDistance = (y+1) - 0;
@@ -342,7 +375,8 @@ public class Exploration {
 	    		y = rob.getY();
 				break;		
 		}
-			
+	count++;
+	} while(count<5);
 		
 	}
 
@@ -530,8 +564,6 @@ public class Exploration {
 	    		y = rob.getY();
 				break;		
 			}
-		
-		// while ( ((x-1)!=TopWall) || ((x+3)!=BottomWall) || ((y+3)!=RightWall) || ((y-1)!=LeftWall) );
 	}
 	
 }
