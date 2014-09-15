@@ -13,6 +13,7 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -33,6 +34,7 @@ public class MainSimulator {
 	private static final Color EXPLORE = new Color(146, 208, 80);
 	private static final Color BORDER = new Color(225, 225, 225);
 	private static Timer t;
+	private static Thread exploreThread;
 	
 	public static void main(String[] args) {
 		
@@ -230,9 +232,12 @@ public class MainSimulator {
 				rob.rotateRobot(map, rob.getX(), rob.getY(), "E");
 				*/
 				
-				Exploration explore = new Exploration();
-				explore.simulatorExplore(map, rob);
-				explore.simulatorExplore2(map, rob);
+//				Exploration explore = new Exploration();
+//				explore.simulatorExplore(map, rob);
+//				explore.simulatorExplore2(map, rob);
+				ExplorationMgr explore = new ExplorationMgr(map, rob);
+				exploreThread = new Thread(explore);
+				exploreThread.start();
 			}
 		};
 		exploreMap.addMouseListener(exploreListener);
@@ -283,7 +288,7 @@ public class MainSimulator {
 	        			}
 					}
 					
-					map.initLandmarks(map);
+					MapGrid.initLandmarks(map);
 					addObs.addChangeListener(addObsListener);
 				}
 			}  
