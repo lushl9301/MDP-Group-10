@@ -235,7 +235,8 @@ public class MainSimulator {
 //				Exploration explore = new Exploration();
 //				explore.simulatorExplore(map, rob);
 //				explore.simulatorExplore2(map, rob);
-				Exploration explore = new Exploration(map, rob);
+				int time =  (1000 / Integer.parseInt(stepsPerSec.getText()));
+				Exploration explore = new Exploration(map, rob, time);
 				exploreThread = new Thread(explore);
 				exploreThread.start();
 			}

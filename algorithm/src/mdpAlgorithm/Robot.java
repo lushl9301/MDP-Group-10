@@ -1,9 +1,7 @@
 package mdpAlgorithm;
 
 import java.awt.Color;
-
 import javax.swing.BorderFactory;
-import javax.swing.Timer;
 
 public class Robot {
 	private static final Color ROBOT = new Color(153, 204, 255);
@@ -17,6 +15,12 @@ public class Robot {
 	
 	public Robot (MapGrid map) {
 		initRobot(map);
+	}
+	
+	public Robot(Robot rob) {
+		robotOrientation = rob.getOrientation();
+		robotX = rob.getX();
+		robotY = rob.getY();
 	}
 	
 	public int getX() {
