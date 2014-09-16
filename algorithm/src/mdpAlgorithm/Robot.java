@@ -7,9 +7,14 @@ public class Robot {
 	private static final Color ROBOT = new Color(153, 204, 255);
 	private static final Color FRONTROBOT = new Color(146, 208, 80);
 	private static final Color BORDER = new Color(153, 204, 255);
+	private static final Color GRIDBORDER = new Color(225, 225, 225);
 	private static final Color EXPLORED = new Color(0, 128, 255);
 	private static final Color CONFIRMOBSTACLE = new Color(255, 30, 30);
 	private static final Color OBSTACLE = Color.DARK_GRAY;
+	private static final Color SENSOR = new Color(0, 255, 17);
+	private static final int SHORTSENSOR = 3;
+	private static final int ULTRASONIC = 2;
+	private static final int LONGSENSOR = 5;
 	private int robotX, robotY;
 	private String robotOrientation;
 	
@@ -55,7 +60,7 @@ public class Robot {
 				}
 			}
 		}
-		
+
 		switch(orientation) {
 			case "N": 
 				if(map.grid[x][y+1].getBackground() != OBSTACLE)
@@ -73,47 +78,162 @@ public class Robot {
 				if(map.grid[x+1][y].getBackground() != OBSTACLE)
 					map.grid[x+1][y].setBackground(FRONTROBOT);
 				break;		
-		}	
+		}
+		setSensors(map);
+	}
+	
+	public void setSensors(MapGrid map){
+		int x = this.getX();
+		int y = this.getY();
+		String orientation = this.getOrientation();
+		
+		switch(orientation) {
+		case "N":
+			// short sensor 1
+			for (int i = 1; i <= SHORTSENSOR; i++) {
+				if(x-i < 0) break;
+				else {
+					map.grid[x-i][y].setBackground(SENSOR);
+					map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// ultrasonic sensor 1
+			for (int i = 1; i <= ULTRASONIC; i++) {
+				if(x-i < 0) break;
+				else {
+					map.grid[x-i][y+1].setBackground(SENSOR);
+					map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// short sensor 2
+			for (int i = 1; i <= SHORTSENSOR; i++) {
+				if(x-i < 0) break;
+				else {
+					map.grid[x-i][y+2].setBackground(SENSOR);
+					map.grid[x-i][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// long sensor
+			for (int i = 1; i <= LONGSENSOR; i++) {
+				if(y-i < 0) break;
+				else {
+					map.grid[x+2][y-i].setBackground(SENSOR);
+					map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// ultrasonic sensor 2
+			for (int i = 1; i <= ULTRASONIC; i++) {
+				if(y-i < 0) break;
+				else {
+					map.grid[x+1][y-i].setBackground(SENSOR);
+					map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// short sensor 3
+			for (int i = 1; i <= SHORTSENSOR; i++) {
+				if(y+2+i > 14) break;
+				else {
+					map.grid[x][y+2+i].setBackground(SENSOR);
+					map.grid[x][y+2+i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// ultrasonic sensor 3
+			for (int i = 1; i <= SHORTSENSOR; i++) {
+				if(y+2+i > 14) break;
+				else {
+					map.grid[x+1][y+2+i].setBackground(SENSOR);
+					map.grid[x+1][y+2+i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+						
+			break;
+		case "S":
+			
+			break;
+		case "E":
+			
+			break;
+		case "W":
+			// short sensor 1
+			for (int i = 1; i <= SHORTSENSOR; i++) {
+				if(y-i < 0) break;
+				else {
+					map.grid[x][y-i].setBackground(SENSOR);
+					map.grid[x][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// ultrasonic sensor 1
+			for (int i = 1; i <= ULTRASONIC; i++) {
+				if(y-i < 0) break;
+				else {
+					map.grid[x+1][y-i].setBackground(SENSOR);
+					map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// short sensor 2
+			for (int i = 1; i <= SHORTSENSOR; i++) {
+				if(y-i < 0) break;
+				else {
+					map.grid[x+2][y-i].setBackground(SENSOR);
+					map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// long sensor
+			for (int i = 1; i <= LONGSENSOR; i++) {
+				if(x+i > 14) break;
+				else {
+					map.grid[x+i+2][y+2].setBackground(SENSOR);
+					map.grid[x+i+2][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			
+			// ultrasonic sensor 2
+			for (int i = 1; i <= ULTRASONIC; i++) {
+				if(x+i > 14) break;
+				else {
+					map.grid[x+i+2][y+1].setBackground(SENSOR);
+					map.grid[x+i+2][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+				}
+			}
+			break;
+		
+		}
+		
+		
+		
 	}
 	
 	public void moveRobot(MapGrid map, int noOfSteps) {
 		int x = this.getX();
 		int y = this.getY();
 		String orientation = this.getOrientation();
-
-		switch(orientation) {
-			case "N": 
-				while (noOfSteps > 0) {
+		while (noOfSteps > 0) {
+			switch(orientation) {
+				case "N": 
 					x--;
-					setRobotXY(map, x, y, "Move", orientation); //move north
-					setExplored(map);
-					noOfSteps--;
-				}
-				break;
-			case "S": 
-				while (noOfSteps > 0) {
+					break;
+				case "S": 
 					x++;
-					setRobotXY(map, x, y, "Move", orientation); //move south
-					setExplored(map);
-					noOfSteps--;
-				}
-				break;
-			case "E": 
-				while (noOfSteps > 0) {
+					break;
+				case "E": 
 					y++;
-					setRobotXY(map, x, y, "Move", orientation); //move east
-					setExplored(map);
-					noOfSteps--;
-				}
-				break;
-			case "W": 				
-				while (noOfSteps > 0) {
+					break;
+				case "W": 				
 					y--;
-					setRobotXY(map, x, y, "Move", orientation); //move west
-					setExplored(map);
-					noOfSteps--;
-				}
-				break;
+					break;
+			}
+			setRobotXY(map, x, y, "Move", orientation);
+			setExplored(map);
+			noOfSteps--;
 		}
 	}
 	
