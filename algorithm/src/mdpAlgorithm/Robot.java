@@ -42,8 +42,11 @@ public class Robot {
 		robotOrientation = "N";
 	}
 	
-	public static void setRobotXY(MapGrid map, int x, int y, String text, String orientation) {
-
+	public void setRobotXY(MapGrid map, int x, int y, String text, String orientation) {
+		robotX = x;
+		robotY = y;
+		robotOrientation = orientation;
+		
 		for (int i = x; i < x+3; i++) {
 			for (int j = y; j < y+3; j++) {
 				if(map.grid[i][j].getBackground() != OBSTACLE) {
@@ -73,19 +76,17 @@ public class Robot {
 		}	
 	}
 	
-	public void moveRobot(MapGrid map, Robot rob, int noOfSteps) {
-		int x = rob.getX();
-		int y = rob.getY();
-		String orientation = rob.getOrientation();
+	public void moveRobot(MapGrid map, int noOfSteps) {
+		int x = this.getX();
+		int y = this.getY();
+		String orientation = this.getOrientation();
 
 		switch(orientation) {
 			case "N": 
 				while (noOfSteps > 0) {
 					x--;
 					setRobotXY(map, x, y, "Move", orientation); //move north
-					map.grid[x+3][y].setBackground(EXPLORED);
-					map.grid[x+3][y+1].setBackground(EXPLORED);
-					map.grid[x+3][y+2].setBackground(EXPLORED);
+					setExplored(map);
 					noOfSteps--;
 				}
 				break;
@@ -93,9 +94,7 @@ public class Robot {
 				while (noOfSteps > 0) {
 					x++;
 					setRobotXY(map, x, y, "Move", orientation); //move south
-					map.grid[x-1][y].setBackground(EXPLORED);
-					map.grid[x-1][y+1].setBackground(EXPLORED);
-					map.grid[x-1][y+2].setBackground(EXPLORED);
+					setExplored(map);
 					noOfSteps--;
 				}
 				break;
@@ -103,9 +102,7 @@ public class Robot {
 				while (noOfSteps > 0) {
 					y++;
 					setRobotXY(map, x, y, "Move", orientation); //move east
-					map.grid[x][y-1].setBackground(EXPLORED);
-					map.grid[x+1][y-1].setBackground(EXPLORED);
-					map.grid[x+2][y-1].setBackground(EXPLORED);
+					setExplored(map);
 					noOfSteps--;
 				}
 				break;
@@ -113,43 +110,15 @@ public class Robot {
 				while (noOfSteps > 0) {
 					y--;
 					setRobotXY(map, x, y, "Move", orientation); //move west
-					map.grid[x][y+3].setBackground(EXPLORED);
-					map.grid[x+1][y+3].setBackground(EXPLORED);
-					map.grid[x+2][y+3].setBackground(EXPLORED);
+					setExplored(map);
 					noOfSteps--;
 				}
 				break;
 		}
-		robotX = x;
-		robotY = y;
 	}
 	
-	public void rotateRobot(MapGrid map, Robot rob, String turnWhere) {
-		int x = rob.getX();
-		int y = rob.getY();
-		robotOrientation = turnWhere;
-		
-		for (int i = x; i < x+3; i++) {
-			for (int j = y; j < y+3; j++) {
-				map.grid[i][j].setBackground(ROBOT);
-				map.grid[i][j].setBorder(BorderFactory.createLineBorder(BORDER, 1));
-			}
-		}
-		
-		switch(turnWhere) {
-			case "N": 
-				map.grid[x][y+1].setBackground(FRONTROBOT);
-				break;
-			case "S":
-				map.grid[x+2][y+1].setBackground(FRONTROBOT);
-				break;
-			case "E":
-				map.grid[x+1][y+2].setBackground(FRONTROBOT);
-				break;
-			case "W":
-				map.grid[x+1][y].setBackground(FRONTROBOT);
-				break;	
-		}
+	public void rotateRobot(MapGrid map, String turnWhere) {
+		setRobotXY(map, this.getX(), this.getY(), "Rotate", turnWhere);
 	}
 	
 	/*
@@ -201,5 +170,41 @@ public class Robot {
 	
 	public void confirmObstacle(MapGrid map, int x, int y) {
 		map.grid[x][y].setBackground(CONFIRMOBSTACLE);
+	}
+	
+	public void setExplored(MapGrid map) {
+		int x = this.getX();
+		int y = this.getY();
+		
+		switch(this.getOrientation()) {
+			case "N":
+				if(map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE) {
+					map.grid[x+3][y].setBackground(EXPLORED);
+					map.grid[x+3][y+1].setBackground(EXPLORED);
+					map.grid[x+3][y+2].setBackground(EXPLORED);
+				}
+				break;
+			case "S":
+				if(map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE) {
+					map.grid[x-1][y].setBackground(EXPLORED);
+					map.grid[x-1][y+1].setBackground(EXPLORED);
+					map.grid[x-1][y+2].setBackground(EXPLORED);
+				}
+				break;
+			case "E":
+				if(map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE) {
+					map.grid[x][y-1].setBackground(EXPLORED);
+					map.grid[x+1][y-1].setBackground(EXPLORED);
+					map.grid[x+2][y-1].setBackground(EXPLORED);
+				}
+				break;
+			case "W":
+				if(map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE) {
+					map.grid[x][y+3].setBackground(EXPLORED);
+					map.grid[x+1][y+3].setBackground(EXPLORED);
+					map.grid[x+2][y+3].setBackground(EXPLORED);
+				}
+				break;
+		}
 	}
 }

@@ -96,16 +96,16 @@ public class Exploration implements Runnable {
 		// This method is a fake method to simulate the robot turning 360 degrees to check the distance from all sides
 		switch (rob.getOrientation()) {
 			case "N":
-				rob.rotateRobot(map, rob, "W");
+				rob.rotateRobot(map, "W");
 				break;
 			case "W":
-				rob.rotateRobot(map, rob, "S");
+				rob.rotateRobot(map, "S");
 				break;
 			case "S":
-				rob.rotateRobot(map, rob, "E");
+				rob.rotateRobot(map, "E");
 				break;
 			case "E":
-				rob.rotateRobot(map, rob, "N");
+				rob.rotateRobot(map, "N");
 				break;
 		}
 		try {
@@ -185,19 +185,19 @@ public class Exploration implements Runnable {
 
 		// To detect the furthest obs and face that direction
 		if (distanceToNorthObs>distanceToSouthObs && distanceToNorthObs>distanceToWestObs && distanceToNorthObs>distanceToEastObs){
-			rob.rotateRobot(map, rob, "N"); 
+			rob.rotateRobot(map, "N"); 
 		}
 		else { 
 			if (distanceToEastObs>distanceToSouthObs && distanceToEastObs>distanceToWestObs && distanceToEastObs>distanceToNorthObs){
-				rob.rotateRobot(map, rob, "E");
+				rob.rotateRobot(map, "E");
 			}
 			else {
 				if (distanceToSouthObs>distanceToNorthObs && distanceToSouthObs>distanceToWestObs && distanceToSouthObs>distanceToEastObs){
-					rob.rotateRobot(map, rob, "S");
+					rob.rotateRobot(map, "S");
 				}
 				else {
 					if (distanceToWestObs>distanceToNorthObs && distanceToWestObs>distanceToSouthObs && distanceToWestObs>distanceToEastObs){
-						rob.rotateRobot(map, rob, "W");
+						rob.rotateRobot(map, "W");
 					}
 				}
 			}
@@ -230,20 +230,20 @@ public class Exploration implements Runnable {
 					LeftSideDistance = (y+1) - 0;
 					RightSideDistance = 20 - (y+1);
 					if (((x-1)!=TopWall) && (map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 					}
 					else if (((x-1)!=TopWall) && (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
 						if (LeftSideDistance >= RightSideDistance) {
-							rob.rotateRobot(map, rob, "W");
+							rob.rotateRobot(map, "W");
 							break;
 						}
 						else {
-							rob.rotateRobot(map, rob, "E");
+							rob.rotateRobot(map, "E");
 							break;
 						}
 					}
 					else if (((x-1)==TopWall)) {
-						rob.rotateRobot(map, rob, "W");
+						rob.rotateRobot(map, "W");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
@@ -258,17 +258,17 @@ public class Exploration implements Runnable {
 						RightSideDistance = 20 - (y+1);
 						if(map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE) {
 							if (LeftSideDistance >= RightSideDistance) {
-								rob.rotateRobot(map, rob, "W");
+								rob.rotateRobot(map, "W");
 							}
 							else {
-								rob.rotateRobot(map, rob, "E");
+								rob.rotateRobot(map, "E");
 							}
 							x = rob.getX();
 				    		y = rob.getY();
 			    			break;
 			    		}
 			            else{ // else continue moving
-			            	rob.moveRobot(map, rob, 1);
+			            	rob.moveRobot(map, 1);
 			            }
 						x = rob.getX();
 			    		y = rob.getY();
@@ -287,18 +287,18 @@ public class Exploration implements Runnable {
 					LeftSideDistance = (y+1) - 0;
 					RightSideDistance = 20 - (y+1);
 					if (((x+3)!=BottomWall) && (map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 					}
 					else if (((x+3)!=BottomWall) && (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
 						if (LeftSideDistance >= RightSideDistance) {
-							rob.rotateRobot(map, rob, "W");
+							rob.rotateRobot(map, "W");
 						}
 						else {
-							rob.rotateRobot(map, rob, "E");
+							rob.rotateRobot(map, "E");
 						}
 					}
 					else if (((x+3)==BottomWall)) {
-						rob.rotateRobot(map, rob, "E");
+						rob.rotateRobot(map, "E");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
@@ -313,17 +313,17 @@ public class Exploration implements Runnable {
 						RightSideDistance = 20 - (y+1);
 						if (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE) {
 							if (LeftSideDistance >= RightSideDistance) {
-								rob.rotateRobot(map, rob, "W");
+								rob.rotateRobot(map, "W");
 							}
 							else {
-								rob.rotateRobot(map, rob, "E");
+								rob.rotateRobot(map, "E");
 							}
 							x = rob.getX();
 				    		y = rob.getY();
 			    			break;
 			    		}
 			            else{ // else continue moving
-			            	rob.moveRobot(map, rob, 1);
+			            	rob.moveRobot(map, 1);
 			            }
 						x = rob.getX();
 			    		y = rob.getY();
@@ -340,18 +340,18 @@ public class Exploration implements Runnable {
 					UpSideDistance = x - 0;
 					DownSideDistance = 15 - x;
 					if (((y+3)!=RightWall) && (map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 					}
 					else if (((y+3)!=RightWall) && (map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
 						if (UpSideDistance >= DownSideDistance) {
-							rob.rotateRobot(map, rob, "N");
+							rob.rotateRobot(map, "N");
 						}
 						else {
-							rob.rotateRobot(map, rob, "S");
+							rob.rotateRobot(map, "S");
 						}
 					}
 					else if (((y+3)==RightWall)) {
-						rob.rotateRobot(map, rob, "N");
+						rob.rotateRobot(map, "N");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
@@ -366,17 +366,17 @@ public class Exploration implements Runnable {
 						DownSideDistance = 15 - x;
 						if (map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE) {
 							if (UpSideDistance >= DownSideDistance) {
-								rob.rotateRobot(map, rob, "N");
+								rob.rotateRobot(map, "N");
 							}
 							else {
-								rob.rotateRobot(map, rob, "S");
+								rob.rotateRobot(map, "S");
 							}
 							x = rob.getX();
 				    		y = rob.getY();
 			    			break;
 			    		}
 			            else{ // else continue moving
-			            	rob.moveRobot(map, rob, 1);
+			            	rob.moveRobot(map, 1);
 			            }
 						x = rob.getX();
 			    		y = rob.getY();
@@ -392,18 +392,18 @@ public class Exploration implements Runnable {
 					UpSideDistance = x - 0;
 					DownSideDistance = 15 - x;
 					if (((y-1)!=LeftWall) && (map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 					}
 					else if (((y-1)!=LeftWall) && (map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
 						if (UpSideDistance >= DownSideDistance) {
-							rob.rotateRobot(map, rob, "N");
+							rob.rotateRobot(map, "N");
 						}
 						else {
-							rob.rotateRobot(map, rob, "S");
+							rob.rotateRobot(map, "S");
 						}
 					}
 					else if (((y-1)==LeftWall)) {
-						rob.rotateRobot(map, rob, "S");
+						rob.rotateRobot(map, "S");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
@@ -418,17 +418,17 @@ public class Exploration implements Runnable {
 						DownSideDistance = 15 - x;
 						if (map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE) {
 							if (UpSideDistance >= DownSideDistance) {
-								rob.rotateRobot(map, rob, "N");
+								rob.rotateRobot(map, "N");
 							}
 							else {
-								rob.rotateRobot(map, rob, "S");
+								rob.rotateRobot(map, "S");
 							}
 							x = rob.getX();
 				    		y = rob.getY();
 			    			break;
 			    		}
 			            else{ // else continue moving
-			            	rob.moveRobot(map, rob, 1);
+			            	rob.moveRobot(map, 1);
 			            }
 						x = rob.getX();
 			    		y = rob.getY();
@@ -469,41 +469,41 @@ public class Exploration implements Runnable {
 				steps = 0;
 				// If robot reaches TOP RIGHT corner wall
 				if (((x-1)==TopWall) && ((y+3)==RightWall)) {
-					rob.rotateRobot(map, rob, "W");
+					rob.rotateRobot(map, "W");
 				}
 				// If robot reaches TOP WALL but somewhere in the middle
 				else if ((x-1)==TopWall && ((y+3)!=LeftWall)) {
-					rob.rotateRobot(map, rob, "W");
+					rob.rotateRobot(map, "W");
 				}
 				// Going NORTH on the RIGHT WALL, but in front of robot got obstacle, then traverse obs
 				else if (((y+3)==RightWall) && (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
-					rob.rotateRobot(map, rob, "W");
+					rob.rotateRobot(map, "W");
 					do {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 						x = rob.getX();
 			    		y = rob.getY();
 						steps++;
 					} while ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE));
 					
-					rob.rotateRobot(map, rob, "N");
+					rob.rotateRobot(map, "N");
 					do {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 						x = rob.getX();
 			    		y = rob.getY();
 					} while ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE));
 					
-					rob.rotateRobot(map, rob, "E");
+					rob.rotateRobot(map, "E");
 					for (int i=0; i<steps;i++) {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 					}
-					rob.rotateRobot(map, rob, "N");		
+					rob.rotateRobot(map, "N");		
 				}		
 				else if (((y+3)==RightWall) && (map.grid[x-1][y].getBackground() != OBSTACLE || map.grid[x-1][y+1].getBackground() != OBSTACLE || map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
-					rob.moveRobot(map, rob, 1);
-					rob.rotateRobot(map, rob, "N");
+					rob.moveRobot(map, 1);
+					rob.rotateRobot(map, "N");
 				}
 				else {
-					rob.rotateRobot(map, rob, "N");
+					rob.rotateRobot(map, "N");
 				}
 				x = rob.getX();
 	    		y = rob.getY();
@@ -514,41 +514,41 @@ public class Exploration implements Runnable {
 				steps = 0;
 				// If robot reaches BOTTOM LEFT corner wall
 				if (((x+3)==BottomWall) && ((y-1)==LeftWall)) {
-					rob.rotateRobot(map, rob, "E");
+					rob.rotateRobot(map, "E");
 				}
 				// If robot reaches BOTTOM WALL but somewhere in the middle
 				else if (((x+3)==BottomWall) && ((y-1)!=RightWall)) {
-					rob.rotateRobot(map, rob, "E");
+					rob.rotateRobot(map, "E");
 				}
 				// Going SOUTH on the LEFT WALL, but in front of robot got obstacle, then traverse obs
 				else if (((y-1)==LeftWall) && (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
-					rob.rotateRobot(map, rob, "E");
+					rob.rotateRobot(map, "E");
 					do {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 						x = rob.getX();
 			    		y = rob.getY();
 						steps++;
 					} while ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE));
 					
-					rob.rotateRobot(map, rob, "S");
+					rob.rotateRobot(map, "S");
 					do {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 						x = rob.getX();
 			    		y = rob.getY();
 					} while ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE));
 					
-					rob.rotateRobot(map, rob, "W");
+					rob.rotateRobot(map, "W");
 					for (int i=0; i<steps;i++) {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 					}
-					rob.rotateRobot(map, rob, "S");		
+					rob.rotateRobot(map, "S");		
 				}		
 				else if (((y-1)==LeftWall) && (map.grid[x+3][y].getBackground() != OBSTACLE || map.grid[x+3][y+1].getBackground() != OBSTACLE || map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
-					rob.moveRobot(map, rob, 1);
-					rob.rotateRobot(map, rob, "S");
+					rob.moveRobot(map, 1);
+					rob.rotateRobot(map, "S");
 				}
 				else {
-					rob.rotateRobot(map, rob, "S");
+					rob.rotateRobot(map, "S");
 				}
 				x = rob.getX();
 	    		y = rob.getY();
@@ -558,41 +558,41 @@ public class Exploration implements Runnable {
 				steps = 0;
 				// If robot reaches BOTTOM RIGHT corner wall
 				if (((y+3)==RightWall) && ((x+3)==BottomWall) ) {
-					rob.rotateRobot(map, rob, "N");
+					rob.rotateRobot(map, "N");
 				}
 				// If robot reaches RIGHT WALL but somewhere in the middle
 				else if (((y+3)==RightWall) && ((x-1)!=TopWall) ) {
-					rob.rotateRobot(map, rob, "N");
+					rob.rotateRobot(map, "N");
 				}
 				// Going EAST on the BOTTOM WALL, but in front of robot got obstacle, then traverse obs	
 				else if (((x+3)==BottomWall) && (map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
-					rob.rotateRobot(map, rob, "N");
+					rob.rotateRobot(map, "N");
 					do {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 						x = rob.getX();
 			    		y = rob.getY();
 						steps++;
 					} while ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE));
 					
-					rob.rotateRobot(map, rob, "E");
+					rob.rotateRobot(map, "E");
 					do {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 						x = rob.getX();
 			    		y = rob.getY();
 					} while ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE));
 					
-					rob.rotateRobot(map, rob, "S");
+					rob.rotateRobot(map, "S");
 					for (int i=0; i<steps;i++) {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 					}
-					rob.rotateRobot(map, rob, "E");		
+					rob.rotateRobot(map, "E");		
 				}		
 				else if (((x+3)==BottomWall) && (map.grid[x][y+3].getBackground() != OBSTACLE || map.grid[x+1][y+3].getBackground() != OBSTACLE || map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
-					rob.moveRobot(map, rob, 1);
-					rob.rotateRobot(map, rob, "E");
+					rob.moveRobot(map, 1);
+					rob.rotateRobot(map, "E");
 				}
 				else {
-					rob.rotateRobot(map, rob, "E");
+					rob.rotateRobot(map, "E");
 				}
 				x = rob.getX();
 	    		y = rob.getY();
@@ -602,42 +602,42 @@ public class Exploration implements Runnable {
 				steps = 0;
 				// If robot reaches TOP LEFT corner wall
 				if (((y-1)==LeftWall) && ((x-1)==TopWall)) {
-					rob.rotateRobot(map, rob, "S");
+					rob.rotateRobot(map, "S");
 				}
 				// If robot reaches LEFT WALL but somewhere in the middle
 				else if (((y-1)==LeftWall) && ((x+3)!=BottomWall)) {
-					rob.rotateRobot(map, rob, "S");
+					rob.rotateRobot(map, "S");
 				}
 				// Going WEST on the TOP WALL, but in front of robot got obstacle, then traverse obs				
 				else if (((x-1)==TopWall) && (map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
-					rob.rotateRobot(map, rob, "S");
+					rob.rotateRobot(map, "S");
 					do {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 						x = rob.getX();
 			    		y = rob.getY();
 						steps++;
 					} while ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE));
 					
-					rob.rotateRobot(map, rob, "W");
+					rob.rotateRobot(map, "W");
 					do {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 						x = rob.getX();
 			    		y = rob.getY();
 					} while ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE));
 					
-					rob.rotateRobot(map, rob, "N");
+					rob.rotateRobot(map, "N");
 					for (int i=0; i<steps;i++) {
-						rob.moveRobot(map, rob, 1);
+						rob.moveRobot(map, 1);
 					}
-					rob.rotateRobot(map, rob, "W");		
+					rob.rotateRobot(map, "W");		
 				}		
 				else if (((x-1)==TopWall) && (map.grid[x][y-1].getBackground() != OBSTACLE || map.grid[x+1][y-1].getBackground() != OBSTACLE || map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
-					rob.moveRobot(map, rob, 1);
-					rob.rotateRobot(map, rob, "W");
+					rob.moveRobot(map, 1);
+					rob.rotateRobot(map, "W");
 				}
 				
 				else {
-					rob.rotateRobot(map, rob, "W");
+					rob.rotateRobot(map, "W");
 				}
 				x = rob.getX();
 	    		y = rob.getY();
