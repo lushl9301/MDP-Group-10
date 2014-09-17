@@ -26,7 +26,7 @@ public class Exploration implements Runnable {
 		boolean reachedWall = false;
 		boolean completed = false;
 		boolean enteredGoal = false;
-
+		boolean enteredStart = false;
 		
 		pathTravelled = new Stack<Robot>();
 		pathTravelled.push(rob);
@@ -77,8 +77,11 @@ public class Exploration implements Runnable {
 		do { // traverse wall
 			Robot currentPos = new Robot(pathTravelled.peek());
 			
-			if(rob.getX() == 12 && rob.getY() == 17) enteredGoal = true;
-			if(rob.getX() == 0 && rob.getY() == 0 && enteredGoal) completed = true;
+			
+			if(rob.getX() == 0 && rob.getY() == 0 && !enteredGoal) enteredStart = true;
+			else if(rob.getX() == 0 && rob.getY() == 0 && enteredGoal) completed = true;
+			if(rob.getX() == 12 && rob.getY() == 17 && enteredStart) enteredGoal = true;
+			
 			currentPos = simulatorExplore2(map, rob, sleeptime);
 			if (currentPos != null) {
 				pathTravelled.push(currentPos);

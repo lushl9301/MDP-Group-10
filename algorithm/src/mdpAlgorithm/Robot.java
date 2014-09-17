@@ -407,7 +407,7 @@ public class Robot {
 				
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
-					if(x+i > 14) break;
+					if(x+i+2 > 14) break;
 					else {
 						if(map.grid[x+i+2][y+2].getBackground() == OBSTACLE || map.grid[x+i+2][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+2);
@@ -420,7 +420,7 @@ public class Robot {
 				
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(x+i > 14) break;
+					if(x+i+2> 14) break;
 					else {
 						if(map.grid[x+i+2][y+1].getBackground() == OBSTACLE || map.grid[x+i+2][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+1);
@@ -551,6 +551,9 @@ public class Robot {
 					map.grid[x+3][y].setBackground(EXPLORED);
 					map.grid[x+3][y+1].setBackground(EXPLORED);
 					map.grid[x+3][y+2].setBackground(EXPLORED);
+					map.grid[x+3][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.grid[x+3][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.grid[x+3][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 				}
 				break;
 			case "S":
@@ -558,6 +561,9 @@ public class Robot {
 					map.grid[x-1][y].setBackground(EXPLORED);
 					map.grid[x-1][y+1].setBackground(EXPLORED);
 					map.grid[x-1][y+2].setBackground(EXPLORED);
+					map.grid[x-1][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.grid[x-1][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.grid[x-1][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 				}
 				break;
 			case "E":
@@ -565,6 +571,9 @@ public class Robot {
 					map.grid[x][y-1].setBackground(EXPLORED);
 					map.grid[x+1][y-1].setBackground(EXPLORED);
 					map.grid[x+2][y-1].setBackground(EXPLORED);
+					map.grid[x][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.grid[x+1][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.grid[x+2][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 				}
 				break;
 			case "W":
@@ -572,8 +581,13 @@ public class Robot {
 					map.grid[x][y+3].setBackground(EXPLORED);
 					map.grid[x+1][y+3].setBackground(EXPLORED);
 					map.grid[x+2][y+3].setBackground(EXPLORED);
+					map.grid[x][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.grid[x+1][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.grid[x+2][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					
 				}
 				break;
 		}
+		
 	}
 }
