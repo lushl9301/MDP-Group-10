@@ -13,7 +13,7 @@ public class Robot {
 	private static final Color OBSTACLE = Color.DARK_GRAY;
 	private static final Color SENSOR = new Color(0, 128, 255); // new Color(255, 225, 20);
 	private static final int SHORTSENSOR = 3;
-	private static final int ULTRASONIC = 2;
+	private static final int ULTRASONIC = 3;
 	private static final int LONGSENSOR = 5;
 	private int robotX, robotY;
 	private String robotOrientation;
@@ -92,6 +92,7 @@ public class Robot {
 				// short sensor 1 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(x-i < 0) break;
+					if (map.grid[x-i+1][y].getBackground() == OBSTACLE || map.grid[x-i+1][y].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y].getBackground() == OBSTACLE || map.grid[x-i][y].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y);
@@ -105,6 +106,7 @@ public class Robot {
 				// ultrasonic sensor 1 - front
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(x-i < 0) break;
+					if (map.grid[x-i+1][y+1].getBackground() == OBSTACLE || map.grid[x-i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y+1].getBackground() == OBSTACLE || map.grid[x-i][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y+1);
@@ -118,6 +120,7 @@ public class Robot {
 				// short sensor 2 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(x-i < 0) break;
+					if (map.grid[x-i+1][y+2].getBackground() == OBSTACLE || map.grid[x-i+1][y+2].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y+2].getBackground() == OBSTACLE || map.grid[x-i][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y+2);
@@ -131,6 +134,7 @@ public class Robot {
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
 					if(y-i < 0) break;
+					if (map.grid[x+2][y-i+1].getBackground() == OBSTACLE || map.grid[x+2][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2][y-i].getBackground() == OBSTACLE || map.grid[x+2][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2, y-i);
@@ -144,6 +148,7 @@ public class Robot {
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(y-i < 0) break;
+					if (map.grid[x+1][y-i+1].getBackground() == OBSTACLE || map.grid[x+1][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y-i].getBackground() == OBSTACLE || map.grid[x+1][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y-i);
@@ -157,6 +162,7 @@ public class Robot {
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(y+2+i > 14) break;
+					if (map.grid[x][y+1+i].getBackground() == OBSTACLE || map.grid[x][y+1+i].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y+2+i].getBackground() == OBSTACLE || map.grid[x][y+2+i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x, y+2+i);
@@ -170,6 +176,7 @@ public class Robot {
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(y+2+i > 14) break;
+					if (map.grid[x+1][y+1+i].getBackground() == OBSTACLE || map.grid[x+1][y+1+i].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y+2+i].getBackground() == OBSTACLE || map.grid[x+1][y+2+i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y+2+i);
@@ -185,6 +192,7 @@ public class Robot {
 				// short sensor 1 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(x+i+2 > 14) break;
+					if (map.grid[x+i+1][y].getBackground() == OBSTACLE || map.grid[x+i+1][y].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y].getBackground() == OBSTACLE || map.grid[x+i+2][y].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y);
@@ -198,6 +206,7 @@ public class Robot {
 				// ultrasonic sensor 1 - front
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(x+2+i > 14) break;
+					if (map.grid[x+i+1][y+1].getBackground() == OBSTACLE || map.grid[x+i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y+1].getBackground() == OBSTACLE || map.grid[x+i+2][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+1);
@@ -211,6 +220,7 @@ public class Robot {
 				// short sensor 2 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(x+i+2 > 14) break;
+					if (map.grid[x+i+1][y+2].getBackground() == OBSTACLE || map.grid[x+i+1][y+2].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y+2].getBackground() == OBSTACLE || map.grid[x+i+2][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+2);
@@ -224,6 +234,7 @@ public class Robot {
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
 					if(y+2+i > 19) break;
+					if (map.grid[x][y+i+1].getBackground() == OBSTACLE || map.grid[x][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y+i+2].getBackground() == OBSTACLE || map.grid[x][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x, y+i+2);
@@ -237,6 +248,7 @@ public class Robot {
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(y+2+i > 19) break;
+					if (map.grid[x+1][y+i+1].getBackground() == OBSTACLE || map.grid[x+1][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y+i+2].getBackground() == OBSTACLE || map.grid[x+1][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y+i+2);
@@ -250,6 +262,7 @@ public class Robot {
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(y-i < 0) break;
+					if (map.grid[x+2][y-i+1].getBackground() == OBSTACLE || map.grid[x+2][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2][y-i].getBackground() == OBSTACLE || map.grid[x+2][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2, y-i);
@@ -263,6 +276,7 @@ public class Robot {
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(y-i < 0) break;
+					if (map.grid[x+1][y-i+1].getBackground() == OBSTACLE || map.grid[x+1][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y-i].getBackground() == OBSTACLE || map.grid[x+1][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y-i);
@@ -277,6 +291,7 @@ public class Robot {
 				// short sensor 1 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(y+i+2 > 19) break;
+					if (map.grid[x][y+i+1].getBackground() == OBSTACLE || map.grid[x][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y+i+2].getBackground() == OBSTACLE || map.grid[x][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x, y+i+2);
@@ -290,6 +305,7 @@ public class Robot {
 				// ultrasonic sensor 1 - front
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(y+i+2 > 14) break;
+					if (map.grid[x+1][y+i+1].getBackground() == OBSTACLE || map.grid[x+1][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y+i+2].getBackground() == OBSTACLE || map.grid[x+1][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y+i+2);
@@ -303,6 +319,7 @@ public class Robot {
 				// short sensor 2 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(y+i+2 > 14) break;
+					if (map.grid[x+2][y+i+1].getBackground() == OBSTACLE || map.grid[x+2][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2][y+i+2].getBackground() == OBSTACLE || map.grid[x+2][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2, y+i+2);
@@ -316,6 +333,7 @@ public class Robot {
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
 					if(x-i < 0) break;
+					if (map.grid[x-i+1][y].getBackground() == OBSTACLE || map.grid[x-i+1][y].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y].getBackground() == OBSTACLE || map.grid[x-i][y].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y);
@@ -329,6 +347,7 @@ public class Robot {
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(x-i < 0) break;
+					if (map.grid[x-i+1][y+1].getBackground() == OBSTACLE || map.grid[x-i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y+1].getBackground() == OBSTACLE || map.grid[x-i][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y+1);
@@ -342,6 +361,7 @@ public class Robot {
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(x+2+i > 14) break;
+					if (map.grid[x+1+i][y+1].getBackground() == OBSTACLE || map.grid[x+1+i][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2+i][y+1].getBackground() == OBSTACLE || map.grid[x+2+i][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2+i, y+1);
@@ -355,6 +375,7 @@ public class Robot {
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(x+2+i > 14) break;
+					if (map.grid[x+1+i][y+2].getBackground() == OBSTACLE || map.grid[x+1+i][y+2].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2+i][y+2].getBackground() == OBSTACLE || map.grid[x+2+i][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2+i, y+2);
@@ -369,6 +390,7 @@ public class Robot {
 				// short sensor 1 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(y-i < 0) break;
+					if (map.grid[x][y-i+1].getBackground() == OBSTACLE || map.grid[x][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y-i].getBackground() == OBSTACLE || map.grid[x][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x, y-i);
@@ -382,6 +404,7 @@ public class Robot {
 				// ultrasonic sensor 1 - front
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(y-i < 0) break;
+					if (map.grid[x+1][y-i+1].getBackground() == OBSTACLE || map.grid[x+1][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y-i].getBackground() == OBSTACLE || map.grid[x+1][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y-i);
@@ -395,6 +418,7 @@ public class Robot {
 				// short sensor 2 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(y-i < 0) break;
+					if (map.grid[x+2][y-i+1].getBackground() == OBSTACLE || map.grid[x+2][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2][y-i].getBackground() == OBSTACLE || map.grid[x+2][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2, y-i);
@@ -408,6 +432,7 @@ public class Robot {
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
 					if(x+i+2 > 14) break;
+					if (map.grid[x+i+1][y+2].getBackground() == OBSTACLE || map.grid[x+i+1][y+2].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y+2].getBackground() == OBSTACLE || map.grid[x+i+2][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+2);
@@ -421,6 +446,7 @@ public class Robot {
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(x+i+2> 14) break;
+					if (map.grid[x+i+1][y+1].getBackground() == OBSTACLE || map.grid[x+i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y+1].getBackground() == OBSTACLE || map.grid[x+i+2][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+1);
@@ -434,6 +460,7 @@ public class Robot {
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
 					if(x-i < 0) break;
+					if (map.grid[x-i+1][y].getBackground() == OBSTACLE || map.grid[x-i+1][y].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y].getBackground() == OBSTACLE || map.grid[x-i][y].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y);
@@ -447,6 +474,7 @@ public class Robot {
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
 					if(x-i < 0) break;
+					if (map.grid[x-i+1][y+1].getBackground() == OBSTACLE || map.grid[x-i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y+1].getBackground() == OBSTACLE || map.grid[x-i][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y+1);

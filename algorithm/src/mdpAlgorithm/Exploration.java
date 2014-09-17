@@ -61,6 +61,7 @@ public class Exploration implements Runnable {
 		
 		
 		do { //path to find wall
+			
 			Robot currentPost = new Robot(pathTravelled.peek());
 			if (((rob.getX()-1)==TopWall) || ((rob.getX()+3)==BottomWall) || ((rob.getY()+3)==RightWall) || ((rob.getY()-1)==LeftWall)) reachedWall = true;
 			currentPost = simulatorExplore(map, rob, sleeptime);
@@ -143,10 +144,10 @@ public class Exploration implements Runnable {
 		int x = rob.getX();
 		int y = rob.getY();
 		
-		int distanceToNorthObs = 0;
-		int distanceToSouthObs = 0;
-		int distanceToWestObs = 0;
-		int distanceToEastObs = 0;
+		int distanceToNorthObs = -1;
+		int distanceToSouthObs = -1;
+		int distanceToWestObs = -1;
+		int distanceToEastObs = -1;
 		
 		// Check whether there is an obstacle 3 grids away on top (NORTH)
 		if (map.grid[x-3][y].getBackground() == OBSTACLE || map.grid[x-3][y+1].getBackground() == OBSTACLE || map.grid[x-3][y+2].getBackground() == OBSTACLE) {
@@ -202,7 +203,58 @@ public class Exploration implements Runnable {
 		System.out.format ("The east distance is: %d%n", distanceToEastObs);
 		System.out.format ("The direction is: %s%n", rob.getOrientation());
 
-		// To detect the furthest obs and face that direction
+		// To detect the nearest obs and face that direction
+		
+		if (distanceToNorthObs == distanceToSouthObs && distanceToNorthObs == distanceToWestObs && distanceToNorthObs == distanceToEastObs){
+			rob.rotateRobot(map, "N"); 
+		}
+		
+		
+		else if (distanceToNorthObs < distanceToWestObs && distanceToWestObs <= distanceToSouthObs && distanceToWestObs <= distanceToEastObs){
+			rob.rotateRobot(map, "N"); 
+		}
+		else if (distanceToNorthObs < distanceToSouthObs && distanceToSouthObs <= distanceToWestObs && distanceToSouthObs <= distanceToEastObs){
+			rob.rotateRobot(map, "N"); 
+		}
+		else if (distanceToNorthObs < distanceToEastObs && distanceToEastObs <= distanceToSouthObs && distanceToEastObs <= distanceToWestObs){
+			rob.rotateRobot(map, "N"); 
+		}
+		
+		
+		else if (distanceToWestObs < distanceToNorthObs && distanceToNorthObs <= distanceToSouthObs && distanceToNorthObs <= distanceToEastObs){
+			rob.rotateRobot(map, "W"); 
+		}
+		else if (distanceToWestObs < distanceToSouthObs && distanceToSouthObs <= distanceToNorthObs && distanceToSouthObs <= distanceToEastObs){
+			rob.rotateRobot(map, "W"); 
+		}
+		else if (distanceToWestObs < distanceToEastObs && distanceToEastObs <= distanceToNorthObs && distanceToEastObs <= distanceToSouthObs){
+			rob.rotateRobot(map, "W"); 
+		}
+
+		
+		else if (distanceToSouthObs < distanceToNorthObs && distanceToNorthObs <= distanceToWestObs && distanceToNorthObs <= distanceToEastObs){
+			rob.rotateRobot(map, "S"); 
+		}
+		else if (distanceToSouthObs < distanceToWestObs && distanceToWestObs <= distanceToNorthObs && distanceToWestObs <= distanceToEastObs){
+			rob.rotateRobot(map, "S"); 
+		}
+		else if (distanceToSouthObs < distanceToEastObs && distanceToEastObs <= distanceToNorthObs && distanceToEastObs <= distanceToWestObs){
+			rob.rotateRobot(map, "S"); 
+		}
+		
+		
+		else if (distanceToEastObs < distanceToNorthObs && distanceToNorthObs <= distanceToSouthObs && distanceToNorthObs <= distanceToWestObs){
+			rob.rotateRobot(map, "E"); 
+		}
+		else if (distanceToEastObs < distanceToSouthObs && distanceToSouthObs <= distanceToNorthObs && distanceToSouthObs <= distanceToWestObs){
+			rob.rotateRobot(map, "E"); 
+		}
+		else if (distanceToEastObs < distanceToWestObs && distanceToWestObs <= distanceToNorthObs && distanceToWestObs <= distanceToSouthObs){
+			rob.rotateRobot(map, "E"); 
+		}
+		
+		
+		/*
 		if (distanceToNorthObs>distanceToSouthObs && distanceToNorthObs>distanceToWestObs && distanceToNorthObs>distanceToEastObs){
 			rob.rotateRobot(map, "N"); 
 		}
@@ -221,7 +273,8 @@ public class Exploration implements Runnable {
 				}
 			}
 		}
-		
+		*/
+
 		try {
 			Thread.sleep(sleeptime);
 		} catch (InterruptedException e) {
@@ -478,7 +531,7 @@ public class Exploration implements Runnable {
 	
 	
 	
-	public Robot simulatorExplore2(MapGrid map, Robot rob, int sleeptime){
+	public Robot simulatorExplore2(MapGrid map, Robot rob, int sleeptime) {
 		int x = rob.getX();
 		int y = rob.getY();
 		int steps = 0;
@@ -497,6 +550,13 @@ public class Exploration implements Runnable {
 				// Going NORTH on the RIGHT WALL, but in front of robot got obstacle, then traverse obs
 				else if (((y+3)==RightWall) && (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
 					rob.rotateRobot(map, "W");
+					
+					do {
+						obstacleFrontNorth(map, rob, sleeptime);
+						if ((rob.getY()+3)==RightWall) break;
+					} while ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE));
+
+					/*
 					do {
 						rob.moveRobot(map, 1);
 						x = rob.getX();
@@ -516,6 +576,8 @@ public class Exploration implements Runnable {
 						rob.moveRobot(map, 1);
 					}
 					rob.rotateRobot(map, "N");		
+					*/
+					
 				}		
 				else if (((y+3)==RightWall) && (map.grid[x-1][y].getBackground() != OBSTACLE || map.grid[x-1][y+1].getBackground() != OBSTACLE || map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
 					rob.moveRobot(map, 1);
@@ -542,6 +604,13 @@ public class Exploration implements Runnable {
 				// Going SOUTH on the LEFT WALL, but in front of robot got obstacle, then traverse obs
 				else if (((y-1)==LeftWall) && (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
 					rob.rotateRobot(map, "E");
+					
+					do {
+						obstacleFrontSouth(map, rob, sleeptime);
+						if ((rob.getY()-1)==LeftWall) break;
+					} while ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE));
+
+					/*
 					do {
 						rob.moveRobot(map, 1);
 						x = rob.getX();
@@ -561,6 +630,8 @@ public class Exploration implements Runnable {
 						rob.moveRobot(map, 1);
 					}
 					rob.rotateRobot(map, "S");		
+					*/
+					
 				}		
 				else if (((y-1)==LeftWall) && (map.grid[x+3][y].getBackground() != OBSTACLE || map.grid[x+3][y+1].getBackground() != OBSTACLE || map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
 					rob.moveRobot(map, 1);
@@ -586,6 +657,13 @@ public class Exploration implements Runnable {
 				// Going EAST on the BOTTOM WALL, but in front of robot got obstacle, then traverse obs	
 				else if (((x+3)==BottomWall) && (map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
 					rob.rotateRobot(map, "N");
+					
+					do {
+						obstacleFrontEast(map, rob, sleeptime);
+						if ((rob.getX()+3)==BottomWall) break;
+					} while ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE));
+
+					/*
 					do {
 						rob.moveRobot(map, 1);
 						x = rob.getX();
@@ -604,8 +682,12 @@ public class Exploration implements Runnable {
 					for (int i=0; i<steps;i++) {
 						rob.moveRobot(map, 1);
 					}
-					rob.rotateRobot(map, "E");		
+					rob.rotateRobot(map, "E");	
+					*/
+					
 				}		
+				
+				
 				else if (((x+3)==BottomWall) && (map.grid[x][y+3].getBackground() != OBSTACLE || map.grid[x+1][y+3].getBackground() != OBSTACLE || map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
 					rob.moveRobot(map, 1);
 					rob.rotateRobot(map, "E");
@@ -630,6 +712,18 @@ public class Exploration implements Runnable {
 				// Going WEST on the TOP WALL, but in front of robot got obstacle, then traverse obs				
 				else if (((x-1)==TopWall) && (map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
 					rob.rotateRobot(map, "S");
+
+					do {
+						obstacleFrontWest(map, rob, sleeptime);
+						if ((rob.getX()-1)==TopWall) break;
+						if ((y-1)==LeftWall) {
+							rob.rotateRobot(map, "N");
+							break;
+						}
+					} while ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE));
+
+
+					/*
 					do {
 						rob.moveRobot(map, 1);
 						x = rob.getX();
@@ -649,8 +743,9 @@ public class Exploration implements Runnable {
 						rob.moveRobot(map, 1);
 					}
 					rob.rotateRobot(map, "W");		
+					*/
 				}		
-				else if (((x-1)==TopWall) && (map.grid[x][y-1].getBackground() != OBSTACLE || map.grid[x+1][y-1].getBackground() != OBSTACLE || map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
+				else if (((x-1)==TopWall) && (map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
 					rob.moveRobot(map, 1);
 					rob.rotateRobot(map, "W");
 				}
@@ -663,6 +758,303 @@ public class Exploration implements Runnable {
 				break;		
 			}
 		
+		try {
+			Thread.sleep(sleeptime);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rob;
+	}
+	
+
+	
+	public Robot obstacleFrontWest(MapGrid map, Robot rob, int sleeptime) {
+		int x = rob.getX();
+		int y = rob.getY();
+		boolean reachedWall = false;
+		
+		// This is when traversing WEST and infront there's an obstacle
+		switch (rob.getOrientation()) {
+			case "N":
+				if ((x-1)==TopWall) { 
+					reachedWall = true;
+				}
+				
+				if (reachedWall == false) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else if (reachedWall == true) {
+					rob.rotateRobot(map, "W");
+					break;
+				}
+				break;
+				
+			case "W":
+				
+				if ((map.grid[x-1][y-1].getBackground() == OBSTACLE) && ((x-1)!=TopWall) && ((y-1)!=LeftWall)) {
+					rob.moveRobot(map, 1);
+				}			
+				else if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
+					rob.rotateRobot(map, "S");
+				}
+				else if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE) && ((y-1)!=LeftWall)){
+					rob.rotateRobot(map, "N");
+				}				
+				break;
+
+			case "S":
+				if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
+					rob.rotateRobot(map, "E");
+				}
+				else if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE) || (map.grid[x+3][y-1].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else {
+					rob.rotateRobot(map, "W");
+				}
+				break;
+				
+			case "E":
+				if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)){
+					rob.moveRobot(map, 1);
+				}
+				else {
+					rob.rotateRobot(map, "S");
+				}
+				break;
+		}	
+		try {
+			Thread.sleep(sleeptime);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rob;
+	}
+	
+	
+	public Robot obstacleFrontEast(MapGrid map, Robot rob, int sleeptime) {
+		int x = rob.getX();
+		int y = rob.getY();
+		boolean reachedWall = false;
+		
+		// This is when traversing EAST and infront there's an obstacle
+		switch (rob.getOrientation()) {
+			case "S":
+				if ((x+3)==BottomWall) { 
+					reachedWall = true;
+				}
+				
+				if (reachedWall == false) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else if (reachedWall == true) {
+					rob.rotateRobot(map, "E");
+					break;
+				}
+				break;
+				
+			case "E":
+				if ((map.grid[x+3][y+3].getBackground() == OBSTACLE) && ((x+3)!=BottomWall) && ((y+3)!=RightWall)) {
+					rob.moveRobot(map, 1);
+				}
+				else if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
+					rob.rotateRobot(map, "N");
+				}
+				else if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)){
+					rob.rotateRobot(map, "S");
+				}
+				
+				break;
+
+			case "N":
+				if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
+					rob.rotateRobot(map, "W");
+				}
+				else if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE) || (map.grid[x-1][y+3].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else {
+					rob.rotateRobot(map, "E");
+				}
+				break;
+				
+			case "W":
+				if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)){
+					rob.moveRobot(map, 1);
+				}
+				else {
+					rob.rotateRobot(map, "N");
+				}
+				break;
+		}	
+		try {
+			Thread.sleep(sleeptime);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rob;
+	}
+	
+	
+	public Robot obstacleFrontSouth(MapGrid map, Robot rob, int sleeptime) {
+		int x = rob.getX();
+		int y = rob.getY();
+		boolean reachedWall = false;
+		
+		// This is when traversing SOUTH and infront there's an obstacle
+		switch (rob.getOrientation()) {
+			case "W":
+				if ((y-1)==LeftWall) { 
+					reachedWall = true;
+				}
+				
+				if (reachedWall == false) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else if (reachedWall == true) {
+					rob.rotateRobot(map, "S");
+					break;
+				}
+				break;
+				
+			case "S":
+				if ((map.grid[x+3][y-1].getBackground() == OBSTACLE) && ((y-1)!=LeftWall) && ((x+3)!=BottomWall)) {
+					rob.moveRobot(map, 1);
+				}
+				else if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
+					rob.rotateRobot(map, "E");
+				}
+				else if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else if ((map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)){
+					rob.rotateRobot(map, "W");
+				}
+				
+				break;
+
+			case "E":
+				if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
+					rob.rotateRobot(map, "N");
+				}
+				else if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE) || (map.grid[x+3][y+3].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else {
+					rob.rotateRobot(map, "S");
+				}
+				break;
+				
+			case "N":
+				if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+				}
+				else {
+					rob.rotateRobot(map, "E");
+				}
+				break;
+		}	
+		try {
+			Thread.sleep(sleeptime);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rob;
+	}
+	
+	
+	public Robot obstacleFrontNorth(MapGrid map, Robot rob, int sleeptime) {
+		int x = rob.getX();
+		int y = rob.getY();
+		boolean reachedWall = false;
+		
+		// This is when traversing NORTH and infront there's an obstacle
+		switch (rob.getOrientation()) {
+			case "E":
+				if ((y+3)==RightWall) { 
+					reachedWall = true;
+				}
+				
+				if (reachedWall == false) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else if (reachedWall == true) {
+					rob.rotateRobot(map, "N");
+					break;
+				}
+				break;
+				
+			case "N":
+				//if ((map.grid[x-1][y+3].getBackground() == OBSTACLE) && ((y+3)!=RightWall) && ((x-1)!=TopWall)) {
+				//	rob.moveRobot(map, 1);
+				//}
+				if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
+					rob.rotateRobot(map, "W");
+				}
+				else if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE || map.grid[x-1][y+3].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)){
+					rob.rotateRobot(map, "E");
+				}
+				
+				break;
+
+			case "W":
+				if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
+					rob.rotateRobot(map, "S");
+				}
+				else if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE) || (map.grid[x-1][y-1].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+					x = rob.getX();
+		    		y = rob.getY();
+				}
+				else {
+					rob.rotateRobot(map, "N");
+				}
+				break;
+				
+			case "S":
+				if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
+					rob.moveRobot(map, 1);
+				}
+				else {
+					rob.rotateRobot(map, "W");
+				}
+				break;
+		}	
 		try {
 			Thread.sleep(sleeptime);
 		} catch (InterruptedException e) {
