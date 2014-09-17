@@ -79,7 +79,7 @@ public class Robot {
 					map.grid[x+1][y].setBackground(FRONTROBOT);
 				break;		
 		}
-		setSensors(map);
+		//setSensors(map);
 	}
 	
 	public void setSensors(MapGrid map){
