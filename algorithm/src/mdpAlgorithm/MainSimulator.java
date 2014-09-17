@@ -4,16 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -31,8 +29,11 @@ public class MainSimulator {
 	private static final Color DEFAULTCELL = new Color(180, 180, 180);
 	private static final Color OBSTACLE = Color.DARK_GRAY;
 	private static final Color STARTGOAL= new Color(48, 208, 0);
+	private static final Color CONFIRMOBSTACLE = new Color(255, 30, 30);
 	private static final Color EXPLORE = new Color(146, 208, 80);
+	private static final Color MIDEXPLORE = new Color(255, 30, 30);
 	private static final Color BORDER = new Color(225, 225, 225);
+	private static final Color EXPLORED = new Color(0, 128, 255);
 	private static Timer t;
 	private static Thread exploreThread;
 	
@@ -45,14 +46,15 @@ public class MainSimulator {
 		final JButton terminateEx = new JButton("Terminate Explore");
 		final JToggleButton addObs;
 		final JToggleButton realTime = new JToggleButton("Real Time");
-		
+		GridCell newCell;
 		JFrame frame = new JFrame();
 		frame.setTitle("Group 10 - Maze Simulator");
-		frame.setSize(new Dimension(930, 620)); // length by breadth
+		frame.setSize(new Dimension(930, 600)); // length by breadth
 
 		Container contentPanel = frame.getContentPane(); // initialize content panel
 		
 		JPanel mapPanel = new JPanel();
+		mapPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		mapPanel.setPreferredSize(new Dimension(690, 520));
 		
 		final MapGrid map = new MapGrid(); // initialize map
@@ -82,7 +84,6 @@ public class MainSimulator {
 		c.gridy = 1;
 		addObs = new JToggleButton("Add Obstacles");
 
-		
 		final ChangeListener addObsListener = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -307,7 +308,84 @@ public class MainSimulator {
 		solveMap = new JButton("Solve Map!");
 		buttonPanel.add(solveMap, c);
 
+		
+		JPanel legendPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
+		GridBagConstraints legendC = new GridBagConstraints();
+		legendC.fill = GridBagConstraints.HORIZONTAL;
+		legendC.gridx = 0;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,30,0,0);
+		newCell = new GridCell(0,0);
+		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
+		newCell.setBackground(STARTGOAL);
+		legendPanel.add(newCell, legendC);
+		
+		legendC.gridx = 1;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,0,0,0);
+		JLabel startlabel = new JLabel("Start/Goal");
+		legendPanel.add(startlabel, legendC);
+		
+		legendC.gridx = 2;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,30,0,0);
+		newCell = new GridCell(0,0);
+		newCell.setBorder(BorderFactory.createLineBorder(EXPLORE, 3));
+		newCell.setPreferredSize(new Dimension(12, 12));
+		newCell.setBackground(MIDEXPLORE);
+		legendPanel.add(newCell, legendC);
+		
+		legendC.gridx = 3;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,2,0,0);
+		JLabel exploreStart = new JLabel("Exploration Start");
+		legendPanel.add(exploreStart, legendC);
+		
+		legendC.gridx = 4;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,30,0,0);
+		newCell = new GridCell(0,0);
+		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
+		newCell.setBackground(OBSTACLE);
+		legendPanel.add(newCell, legendC);
+		
+		legendC.gridx = 5;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,0,0,0);
+		JLabel unconfirmObs = new JLabel("Unconfirmed Obstacle");
+		legendPanel.add(unconfirmObs, legendC);
+		
+		legendC.gridx = 6;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,30,0,0);
+		newCell = new GridCell(0,0);
+		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
+		newCell.setBackground(CONFIRMOBSTACLE);
+		legendPanel.add(newCell, legendC);
+		
+		legendC.gridx = 7;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,0,0,0);
+		JLabel confirmObs = new JLabel("Confirmed Obstacle");
+		legendPanel.add(confirmObs, legendC);
+		
+		legendC.gridx = 8;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,30,0,0);
+		newCell = new GridCell(0,0);
+		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
+		newCell.setBackground(EXPLORED);
+		legendPanel.add(newCell, legendC);
+		
+		legendC.gridx = 9;
+		legendC.gridy = 0;
+		legendC.insets = new Insets(0,0,0,0);
+		JLabel explored = new JLabel("Explored");
+		legendPanel.add(explored, legendC);
+		
 		mapPanel.add(map);
+		mapPanel.add(legendPanel);
+		
 		contentPanel.add(mapPanel, BorderLayout.WEST);
 		contentPanel.add(buttonPanel, BorderLayout.EAST);
         

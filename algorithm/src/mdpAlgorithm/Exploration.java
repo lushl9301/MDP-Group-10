@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.util.Stack;
 
 public class Exploration implements Runnable {
-	private static final Color OBSTACLE = Color.DARK_GRAY;
+	private static final Color OBSTACLE = Color.RED;
 	private static final int TopWall = -1;
 	private static final int LeftWall = -1;
 	private static final int BottomWall = 15;
@@ -33,6 +33,12 @@ public class Exploration implements Runnable {
 		
 		int rotationCount = 0;
 		int faceFirstDir = 0;
+		
+		Robot firstDelay = new Robot(pathTravelled.peek());
+		firstDelay(map, rob, sleeptime); //rotate on the spot
+		if (firstDelay != null) {
+			pathTravelled.push(firstDelay);
+		}
 		
 		do { // Fake 360 degree rotation to check distance
 			Robot currentDir = new Robot(pathTravelled.peek());
@@ -92,6 +98,17 @@ public class Exploration implements Runnable {
 		
 	}
 	
+	public Robot firstDelay(MapGrid map, Robot rob, int sleeptime) {
+		rob.moveRobot(map, 0);
+		try {
+			Thread.sleep(sleeptime);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rob;
+	}
+	
 	public Robot simulatorFirstRotation(MapGrid map, Robot rob, int sleeptime){
 		// This method is a fake method to simulate the robot turning 360 degrees to check the distance from all sides
 		switch (rob.getOrientation()) {
@@ -138,7 +155,6 @@ public class Exploration implements Runnable {
 		if (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE) {
 			distanceToNorthObs = 1;
 		}
-		
 		
 		// Check whether there is an obstacle 3 grids away on left (WEST)
 		if (map.grid[x][y-3].getBackground() == OBSTACLE || map.grid[x+1][y-3].getBackground() == OBSTACLE || map.grid[x+2][y-3].getBackground() == OBSTACLE) {
