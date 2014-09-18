@@ -808,7 +808,12 @@ public class Exploration implements Runnable {
 					}
 				}
 				else if(y-1 == 0) {
-					rob.moveRobot(map, 1);
+					if (map.grid[x-1][y-1].getBackground() == OBSTACLE || map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE) {
+						rob.moveRobot(map, 1);
+					}
+					else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)){
+						rob.rotateRobot(map, "N");
+					}
 				}
 				else if (y == 0) {
 					// traverse wall using sensors on robots right
@@ -942,7 +947,12 @@ public class Exploration implements Runnable {
 					}
 				}
 				else if(y+1 == 17) {
-					rob.moveRobot(map, 1);
+					if ((map.grid[x+3][y+3].getBackground() == OBSTACLE || map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
+						rob.moveRobot(map, 1);
+					}
+					else if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE) && !blockGoingRight){
+						rob.rotateRobot(map, "S");
+					}	
 				}
 				else if (y == 17) {
 					// traverse wall using sensors on robots right
@@ -1074,7 +1084,12 @@ public class Exploration implements Runnable {
 					}
 				}
 				else if(x+1 == 12) {
-					rob.moveRobot(map, 1);
+					if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE || map.grid[x+3][y-1].getBackground() == OBSTACLE)) {
+						rob.moveRobot(map, 1);
+					}
+					else if ((map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE) && !blockGoingDown){
+						rob.rotateRobot(map, "W");
+					}	
 				}
 				else if (x == 12) {
 					// traverse wall using sensors on robots right
@@ -1206,7 +1221,12 @@ public class Exploration implements Runnable {
 					}
 				}
 				else if(x-1 == 0) {
-					rob.moveRobot(map, 1);
+					if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE || map.grid[x-1][y+3].getBackground() == OBSTACLE)) {
+						rob.moveRobot(map, 1);
+					}
+					else if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE) && !blockGoingUp){
+						rob.rotateRobot(map, "E");
+					}	
 				}
 				else if (x == 0) {
 					// traverse wall using sensors on robots right
