@@ -8,10 +8,11 @@ public class Robot {
 	private static final Color FRONTROBOT = new Color(146, 208, 80);
 	private static final Color BORDER = new Color(153, 204, 255);
 	private static final Color GRIDBORDER = new Color(225, 225, 225);
-	private static final Color EXPLORED = new Color(0, 128, 255);
+	private static final Color EXPLORED = Color.blue; //new Color(0, 128, 255);
 	private static final Color CONFIRMOBSTACLE = Color.RED;
 	private static final Color OBSTACLE = Color.DARK_GRAY;
-	private static final Color SENSOR = new Color(0, 128, 255); // new Color(255, 225, 20);
+	private static final Color DEFAULTCELL = Color.LIGHT_GRAY;
+	private static final Color SENSOR = Color.blue; //new Color(0, 128, 255);
 	private static final int SHORTSENSOR = 3;
 	private static final int ULTRASONIC = 3;
 	private static final int LONGSENSOR = 5;

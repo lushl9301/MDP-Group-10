@@ -11,7 +11,7 @@ class GridCell extends JPanel {
 	public GridCell(int row, int col) {
 		this.row = row;
 	    this.col = col;
-	    setBackground(new Color(180, 180, 180));
+	    setBackground(Color.LIGHT_GRAY);
 	}
 
 	public int getRow() {

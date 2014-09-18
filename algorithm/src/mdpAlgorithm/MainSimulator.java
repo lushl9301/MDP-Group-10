@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -26,7 +27,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 public class MainSimulator {
-	private static final Color DEFAULTCELL = new Color(180, 180, 180);
+	private static final Color DEFAULTCELL = Color.LIGHT_GRAY;
 	private static final Color OBSTACLE = Color.DARK_GRAY;
 	private static final Color STARTGOAL= new Color(48, 208, 0);
 	private static final Color CONFIRMOBSTACLE = new Color(255, 30, 30);
@@ -36,6 +37,7 @@ public class MainSimulator {
 	private static final Color EXPLORED = new Color(0, 128, 255);
 	private static Timer t;
 	private static Thread exploreThread;
+	private static Exploration explore;
 	
 	public static void main(String[] args) {
 		
@@ -190,7 +192,7 @@ public class MainSimulator {
 		 			
 		 		    public void actionPerformed(ActionEvent e) {
 		 		    						
-		 		        if (time >= 0) {
+		 		        if (time >= 0 && exploreThread.isAlive()) {
 		 		        	long s = ((time / 1000) % 60);
 		 		            long m = (((time / 1000) / 60) % 60);
 		 		            
@@ -201,6 +203,7 @@ public class MainSimulator {
 		 		            
 		 		            timerLabel.setText(mPadding + m + ":"+ sPadding + s);
 		 		            time -= 1000;
+		 		            
 		 		        }
 		 		        else {
 		 		        	exploreThread.stop();
@@ -208,7 +211,7 @@ public class MainSimulator {
 		 		    }
 		 		});
 				t.start();
-	
+				
 				// disable other buttons
 				addObs.setSelected(false);
 				addObs.setEnabled(false);
@@ -227,20 +230,9 @@ public class MainSimulator {
 				Robot rob = new Robot(map);
 
 				// insert exploration code here
-				/*
-				rob.moveRobot(map, rob.getX(), rob.getY(), 3, rob.getOrientation());
-				rob.rotateRobot(map, rob.getX(), rob.getY(), "W");
-				rob.moveRobot(map, rob.getX(), rob.getY(), 2, rob.getOrientation());
-				rob.rotateRobot(map, rob.getX(), rob.getY(), "S");
-				rob.moveRobot(map, rob.getX(), rob.getY(), 4, rob.getOrientation());
-				rob.rotateRobot(map, rob.getX(), rob.getY(), "E");
-				*/
-				
-//				Exploration explore = new Exploration();
-//				explore.simulatorExplore(map, rob);
-//				explore.simulatorExplore2(map, rob);
+				double percentage = Double.parseDouble(percentObstacles.getText())/100;
 				int time =  (1000 / Integer.parseInt(stepsPerSec.getText()));
-				Exploration explore = new Exploration(map, rob, time);
+				explore = new Exploration(map, rob, time, percentage);
 				exploreThread = new Thread(explore);
 				exploreThread.start();
 			}

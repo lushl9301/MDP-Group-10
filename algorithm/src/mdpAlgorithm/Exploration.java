@@ -5,6 +5,7 @@ import java.util.Stack;
 
 public class Exploration implements Runnable {
 	private static final Color OBSTACLE = Color.RED;
+	private static final Color EXPLORED = Color.blue;
 	private static final int TopWall = -1;
 	private static final int LeftWall = -1;
 	private static final int BottomWall = 15;
@@ -13,11 +14,13 @@ public class Exploration implements Runnable {
 	public MapGrid map;
 	public Robot rob;
 	private int sleeptime;
+	private double percentage;
 	
-	public Exploration(MapGrid map, Robot rob, int sleeptime) {
+	public Exploration(MapGrid map, Robot rob, int sleeptime, double percentage) {
 		this.rob = rob;
 		this.map = map;
 		this.sleeptime = sleeptime;
+		this.percentage = percentage;
 	}
 	
 	@Override
@@ -47,6 +50,7 @@ public class Exploration implements Runnable {
 				pathTravelled.push(currentDir);
 			}
 			rotationCount++;
+			checkCompleted(map, percentage);
 		} while (rotationCount <4); //rotate on the spot 4 times
 		
 		
@@ -57,6 +61,7 @@ public class Exploration implements Runnable {
 				pathTravelled.push(goingDir);
 			}
 			faceFirstDir++;
+			checkCompleted(map, percentage);
 		} while (faceFirstDir <1); //straight away face the direction with the obstacle
 		
 		
@@ -71,7 +76,7 @@ public class Exploration implements Runnable {
 			else {
 				currentPost = pathTravelled.pop();
 			}
-			
+			checkCompleted(map, percentage);
 		} while(!pathTravelled.isEmpty() && !reachedWall);
 	
 		
@@ -90,7 +95,7 @@ public class Exploration implements Runnable {
 			else {
 				currentPos = pathTravelled.pop();
 			}
-			
+			checkCompleted(map, percentage);
 		} while(!pathTravelled.isEmpty() && !completed);
 
 //		
@@ -100,6 +105,19 @@ public class Exploration implements Runnable {
 	
 	public void robotExplore(){
 		
+	}
+	
+	public void checkCompleted(MapGrid map, double percentage) {
+		int num = 0;
+		for (int i = 0; i < 15; i++) {
+			for (int j = 0; j < 20; j++) {
+				if(map.grid[i][j].getBackground() == EXPLORED) num++;
+			}
+		}
+
+		if(num >= (percentage*300)-9 && percentage < 1.0) {
+			Thread.currentThread().stop();
+		}
 	}
 	
 	public Robot firstDelay(MapGrid map, Robot rob, int sleeptime) {
