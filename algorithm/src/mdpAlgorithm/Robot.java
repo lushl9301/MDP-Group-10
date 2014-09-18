@@ -161,7 +161,7 @@ public class Robot {
 				
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(y+2+i > 14) break;
+					if(y+2+i > 19) break;
 					if (map.grid[x][y+1+i].getBackground() == OBSTACLE || map.grid[x][y+1+i].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y+2+i].getBackground() == OBSTACLE || map.grid[x][y+2+i].getBackground() == CONFIRMOBSTACLE)
@@ -175,7 +175,7 @@ public class Robot {
 				
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(y+2+i > 14) break;
+					if(y+2+i > 19) break;
 					if (map.grid[x+1][y+1+i].getBackground() == OBSTACLE || map.grid[x+1][y+1+i].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y+2+i].getBackground() == OBSTACLE || map.grid[x+1][y+2+i].getBackground() == CONFIRMOBSTACLE)
