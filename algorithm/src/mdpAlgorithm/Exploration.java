@@ -56,6 +56,7 @@ public class Exploration implements Runnable {
 			checkCompleted(map, percentage);
 		} while (rotationCount <4); //rotate on the spot 4 times
 		
+		/*
 		do { // First direction towards the nearest obstacle
 			Robot alignmentDir = new Robot(pathTravelled.peek());
 			goToNearestObstacle(map, rob, sleeptime); //rotate on the spot
@@ -65,7 +66,7 @@ public class Exploration implements Runnable {
 			//if (rob.getX()==6 && rob.getY()==8) backToPosition = true;
 			checkCompleted(map, percentage);
 		} while (!backToPosition); //rotate on the spot 4 times
-		
+		*/
 		
 		do { // First direction towards the furthest obstacle
 			Robot goingDir = new Robot(pathTravelled.peek());
@@ -75,7 +76,7 @@ public class Exploration implements Runnable {
 			}
 			faceFirstDir++;
 			checkCompleted(map, percentage);
-		} while (faceFirstDir <5); //straight away face the direction with the obstacle
+		} while (faceFirstDir <1); //straight away face the direction with the obstacle
 		
 		
 		do { //path to find wall
@@ -165,6 +166,7 @@ public class Exploration implements Runnable {
 		return rob;
 	}
 	
+	/*
 	public Robot goToNearestObstacle(MapGrid map, Robot rob, int sleeptime){
 		// This method is find the nearest obs to do auto fix with the wall
 		
@@ -351,6 +353,7 @@ public class Exploration implements Runnable {
 		}
 		return rob;
 	}
+	*/
 	
 	public Robot goToFurthestObstacle(MapGrid map, Robot rob, int sleeptime){
 	// This method calculates whether there are any obstacle in 3grids away from the robot and faces that direction
