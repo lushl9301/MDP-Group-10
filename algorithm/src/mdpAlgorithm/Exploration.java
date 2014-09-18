@@ -715,7 +715,15 @@ public class Exploration implements Runnable {
 
 					do {
 						obstacleFrontWest(map, rob, sleeptime);
-						if ((rob.getX()-1)==TopWall) break;
+						if (((x-1)==TopWall)
+								&& ((map.grid[x][y-1].getBackground() != OBSTACLE) && (map.grid[x+1][y-1].getBackground() != OBSTACLE) && (map.grid[x+2][y-1].getBackground() == OBSTACLE))) {
+									break;
+								}
+						if (((x-1)==TopWall) 
+								&& (((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE)) 
+								&& ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE)))) {
+							break;	
+						}
 						if ((y-1)==LeftWall) {
 							rob.rotateRobot(map, "N");
 							break;
@@ -825,6 +833,8 @@ public class Exploration implements Runnable {
 				break;
 				
 			case "E":
+				x = rob.getX();
+	    		y = rob.getY();
 				if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)){
 					rob.moveRobot(map, 1);
 				}
