@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class Exploration implements Runnable {
 	private static final Color OBSTACLE = Color.RED;
-	private static final Color EXPLORED = Color.blue;
+	private static final Color EXPLORED = new Color(0, 128, 255);
 	private static final int TopWall = -1;
 	private static final int LeftWall = -1;
 	private static final int BottomWall = 15;
@@ -111,7 +111,7 @@ public class Exploration implements Runnable {
 		int num = 0;
 		for (int i = 0; i < 15; i++) {
 			for (int j = 0; j < 20; j++) {
-				if(map.grid[i][j].getBackground() == EXPLORED) num++;
+				if(map.grid[i][j].getBackground().equals(EXPLORED)) num++;
 			}
 		}
 

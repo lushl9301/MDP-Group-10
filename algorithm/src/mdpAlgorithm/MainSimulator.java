@@ -12,7 +12,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -34,7 +33,7 @@ public class MainSimulator {
 	private static final Color EXPLORE = new Color(146, 208, 80);
 	private static final Color MIDEXPLORE = new Color(255, 30, 30);
 	private static final Color BORDER = new Color(225, 225, 225);
-	private static final Color EXPLORED = Color.blue;
+	private static final Color EXPLORED = new Color(0, 128, 255);
 	private static Timer t;
 	private static Thread exploreThread;
 	private static Exploration explore;
