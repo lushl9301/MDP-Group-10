@@ -121,6 +121,7 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		if (D)
 			Log.e(TAG, "+++ ON CREATE +++");
@@ -138,7 +139,7 @@ public class MainActivity extends Activity {
 			finish();
 			return;
 		}
-		
+	    
 		
 		GridLayout gv = (GridLayout)findViewById(R.id.grid2);
 		Log.i("tag","here3");
@@ -221,7 +222,6 @@ public class MainActivity extends Activity {
     	});
 		
 	}
-	
 
 	@Override
 	public void onStart() {
