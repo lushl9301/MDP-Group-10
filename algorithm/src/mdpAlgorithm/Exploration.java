@@ -6,10 +6,10 @@ import java.util.Stack;
 public class Exploration implements Runnable {
 	private static final Color OBSTACLE = Color.RED;
 	private static final Color EXPLORED = new Color(0, 128, 255);
-	private static final int TopWall = -1;
-	private static final int LeftWall = -1;
-	private static final int BottomWall = 15;
-	private static final int RightWall = 20;
+	private static final int TopWall = 0;
+	private static final int LeftWall = 0;
+	private static final int BottomWall = 16;
+	private static final int RightWall = 21;
 	public Stack<Robot> pathTravelled;
 	public MapGrid map;
 	public Robot rob;
@@ -98,9 +98,9 @@ public class Exploration implements Runnable {
 			Robot currentPos = new Robot(pathTravelled.peek());
 			
 			
-			if(rob.getX() == 0 && rob.getY() == 0 && !enteredGoal) enteredStart = true;
-			else if(rob.getX() == 0 && rob.getY() == 0 && enteredGoal) completed = true;
-			if(rob.getX() == 12 && rob.getY() == 17 && enteredStart) enteredGoal = true;
+			if(rob.getX() == 1 && rob.getY() == 1 && !enteredGoal) enteredStart = true;
+			else if(rob.getX() == 1 && rob.getY() == 1 && enteredGoal) completed = true;
+			if(rob.getX() == 13 && rob.getY() == 18 && enteredStart) enteredGoal = true;
 			
 			currentPos = simulatorExplore2(map, rob, sleeptime);
 			if (currentPos != null) {

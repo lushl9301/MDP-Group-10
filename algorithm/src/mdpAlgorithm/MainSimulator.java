@@ -29,14 +29,17 @@ public class MainSimulator {
 	private static final Color DEFAULTCELL = Color.LIGHT_GRAY;
 	private static final Color OBSTACLE = Color.DARK_GRAY;
 	private static final Color STARTGOAL= new Color(48, 208, 0);
-	private static final Color CONFIRMOBSTACLE = new Color(255, 30, 30);
+	private static final Color CONFIRMOBSTACLE = Color.RED;
 	private static final Color EXPLORE = new Color(146, 208, 80);
 	private static final Color MIDEXPLORE = new Color(255, 30, 30);
 	private static final Color BORDER = new Color(225, 225, 225);
 	private static final Color EXPLORED = new Color(0, 128, 255);
+	private static final Color ROBOT = new Color(153, 204, 255);
+	private static final Color FRONTROBOT = new Color(146, 208, 80);
 	private static Timer t;
 	private static Thread exploreThread;
 	private static Exploration explore;
+	private static boolean exploreStart = false;
 	
 	public static void main(String[] args) {
 		
@@ -92,21 +95,23 @@ public class MainSimulator {
                 boolean selected = buttonModel.isEnabled();
                 
                 if (selected) {
-                	for (int i = 0; i < 15; i++) {
-            			for (int j = 0; j < 20; j++) {
+                	for (int i = 1; i < 16; i++) {
+            			for (int j = 1; j < 21; j++) {
             				final int i2 = i;
             				final int j2 = j;
-            				map.grid[i][j].addMouseListener(new MouseAdapter() {
-                    			@Override
-                    			public void mousePressed(MouseEvent e) {
-                    				if(map.grid[i2][j2].getBackground() == OBSTACLE) {
-                    					map.grid[i2][j2].setBackground(DEFAULTCELL);
-                    				}
-                    				else {                    					
-	                    				map.grid[i2][j2].setBackground(OBSTACLE);
-                    				}
-                    			}  
-                    		});
+            				if(map.grid[i][j].getBackground() == DEFAULTCELL || map.grid[i][j].getBackground().equals(CONFIRMOBSTACLE) || map.grid[i][j].getBackground() == OBSTACLE) {
+	            				map.grid[i][j].addMouseListener(new MouseAdapter() {
+	                    			@Override
+	                    			public void mousePressed(MouseEvent e) {
+	                    				if(map.grid[i2][j2].getBackground() == OBSTACLE && !exploreStart) {
+	                    					map.grid[i2][j2].setBackground(DEFAULTCELL);
+	                    				}
+	                    				else if(map.grid[i2][j2].getBackground() != OBSTACLE && !exploreStart){                    					
+		                    				map.grid[i2][j2].setBackground(OBSTACLE);
+	                    				}
+	                    			}  
+	                    		});
+            				}
             			}
             		}	
                 }                
@@ -121,13 +126,14 @@ public class MainSimulator {
 		clearObs = new JButton("Clear Obstacles");
 		clearObs.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				for (int i = 0; i < 15; i++) {
-        			for (int j = 0; j < 20; j++) {
-						map.grid[i][j].setBackground(DEFAULTCELL);
+				for (int i = 1; i < 16; i++) {
+        			for (int j = 1; j < 21; j++) {
+        				map.grid[i][j].setBackground(DEFAULTCELL);
+        				map.grid[i][j].setBorder(BorderFactory.createLineBorder(BORDER, 1));
         			}
 				}
 				
-				MapGrid.initLandmarks(map);
+				map.initLandmarks();
 			}  
 		});
 		buttonPanel.add(clearObs, c);
@@ -181,6 +187,8 @@ public class MainSimulator {
 		
 		final MouseAdapter exploreListener = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				exploreStart = true;
+
 				// insert timer countdown code here
 				//if(!timeField.getText().equals("MM:SS")) test = (Integer.parseInt(timeField.getText().split(":")[0]) * 60000) + (Integer.parseInt(timeField.getText().split(":")[1])*1000);
 				timerLabel.setText(timeField.getText());
@@ -237,7 +245,6 @@ public class MainSimulator {
 			}
 		};
 		exploreMap.addMouseListener(exploreListener);
-
 		buttonPanel.add(exploreMap, c);
 		
 		c.gridx = 1;
@@ -256,6 +263,7 @@ public class MainSimulator {
 		terminateEx.setEnabled(false);
 		terminateEx.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				exploreStart = false;
 				ButtonModel terminateButtonModel = terminateEx.getModel();
                 boolean selected = terminateButtonModel.isEnabled();
                 
@@ -277,14 +285,19 @@ public class MainSimulator {
 					exploreMap.addMouseListener(exploreListener);
 					realTime.setEnabled(true);
 					
-					for (int i = 0; i < 15; i++) {
-	        			for (int j = 0; j < 20; j++) {
-							map.grid[i][j].setBackground(DEFAULTCELL);
-							map.grid[i][j].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+					for (int i = 1; i < 16; i++) {
+            			for (int j = 1; j < 21; j++) {
+            				if(map.grid[i][j].getBackground() == DEFAULTCELL || map.grid[i][j].getBackground().equals(EXPLORED) || map.grid[i][j].getBackground().equals(ROBOT)  || map.grid[i][j].getBackground().equals(FRONTROBOT) ) {
+								map.grid[i][j].setBackground(DEFAULTCELL);
+								map.grid[i][j].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+            				}
+            				else if(map.grid[i][j].getBackground().equals(CONFIRMOBSTACLE)) {
+            					map.grid[i][j].setBackground(OBSTACLE);
+            				}	
 	        			}
 					}
 					
-					MapGrid.initLandmarks(map);
+					map.initLandmarks();
 					addObs.addChangeListener(addObsListener);
 					exploreThread.stop();
 				}
@@ -319,7 +332,7 @@ public class MainSimulator {
 		
 		legendC.gridx = 2;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,30,0,0);
+		legendC.insets = new Insets(0,32,0,0);
 		newCell = new GridCell(0,0);
 		newCell.setBorder(BorderFactory.createLineBorder(EXPLORE, 3));
 		newCell.setPreferredSize(new Dimension(12, 12));
@@ -334,7 +347,7 @@ public class MainSimulator {
 		
 		legendC.gridx = 4;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,30,0,0);
+		legendC.insets = new Insets(0,32,0,0);
 		newCell = new GridCell(0,0);
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(OBSTACLE);
@@ -348,7 +361,7 @@ public class MainSimulator {
 		
 		legendC.gridx = 6;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,30,0,0);
+		legendC.insets = new Insets(0,32,0,0);
 		newCell = new GridCell(0,0);
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(CONFIRMOBSTACLE);
@@ -362,7 +375,7 @@ public class MainSimulator {
 		
 		legendC.gridx = 8;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,30,0,0);
+		legendC.insets = new Insets(0,32,0,0);
 		newCell = new GridCell(0,0);
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(EXPLORED);

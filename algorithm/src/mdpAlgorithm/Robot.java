@@ -12,6 +12,7 @@ public class Robot {
 	private static final Color CONFIRMOBSTACLE = Color.RED;
 	private static final Color OBSTACLE = Color.DARK_GRAY;
 	private static final Color SENSOR = new Color(0, 128, 255); //new Color(0, 128, 255);
+	private static final Color WALL =  new Color(160, 80, 70);
 	private static final int SHORTSENSOR = 3;
 	private static final int ULTRASONIC = 3;
 	private static final int LONGSENSOR = 5;
@@ -41,9 +42,9 @@ public class Robot {
 	}
 	
 	private void initRobot(MapGrid map) {
-		setRobotXY(map, 6, 8, "ExploreStart", "N"); // 6,8 top left of robot
-		robotX = 6;
-		robotY = 8;
+		setRobotXY(map, 7, 9, "ExploreStart", "N"); // 7,9 top left of robot
+		robotX = 7;
+		robotY = 9;
 		robotOrientation = "N";
 	}
 	
@@ -91,12 +92,12 @@ public class Robot {
 			case "N":
 				// short sensor 1 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(x-i < 0) break;
+					if(x-i < 1) break;
 					if (map.grid[x-i+1][y].getBackground() == OBSTACLE || map.grid[x-i+1][y].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y].getBackground() == OBSTACLE || map.grid[x-i][y].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y);
-						else {
+						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -105,12 +106,12 @@ public class Robot {
 				
 				// ultrasonic sensor 1 - front
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(x-i < 0) break;
+					if(x-i < 1) break;
 					if (map.grid[x-i+1][y+1].getBackground() == OBSTACLE || map.grid[x-i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y+1].getBackground() == OBSTACLE || map.grid[x-i][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y+1);
-						else {
+						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -119,12 +120,12 @@ public class Robot {
 				
 				// short sensor 2 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(x-i < 0) break;
+					if(x-i < 1) break;
 					if (map.grid[x-i+1][y+2].getBackground() == OBSTACLE || map.grid[x-i+1][y+2].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y+2].getBackground() == OBSTACLE || map.grid[x-i][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y+2);
-						else {
+						else if(!map.grid[x-i][y+2].getBackground().equals(WALL)) {
 							map.grid[x-i][y+2].setBackground(SENSOR);
 							map.grid[x-i][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -133,12 +134,12 @@ public class Robot {
 				
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
-					if(y-i < 0) break;
+					if(y-i < 1) break;
 					if (map.grid[x+2][y-i+1].getBackground() == OBSTACLE || map.grid[x+2][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2][y-i].getBackground() == OBSTACLE || map.grid[x+2][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2, y-i);
-						else {
+						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -147,12 +148,12 @@ public class Robot {
 				
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(y-i < 0) break;
+					if(y-i < 1) break;
 					if (map.grid[x+1][y-i+1].getBackground() == OBSTACLE || map.grid[x+1][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y-i].getBackground() == OBSTACLE || map.grid[x+1][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y-i);
-						else {
+						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -161,12 +162,12 @@ public class Robot {
 				
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(y+2+i > 19) break;
+					if(y+i+2 > 21) break;
 					if (map.grid[x][y+1+i].getBackground() == OBSTACLE || map.grid[x][y+1+i].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y+2+i].getBackground() == OBSTACLE || map.grid[x][y+2+i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x, y+2+i);
-						else {
+						else if(!map.grid[x][y+2+i].getBackground().equals(WALL)) {
 							map.grid[x][y+2+i].setBackground(SENSOR);
 							map.grid[x][y+2+i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -175,12 +176,12 @@ public class Robot {
 				
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(y+2+i > 19) break;
+					if(y+i+2 > 21) break;
 					if (map.grid[x+1][y+1+i].getBackground() == OBSTACLE || map.grid[x+1][y+1+i].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y+2+i].getBackground() == OBSTACLE || map.grid[x+1][y+2+i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y+2+i);
-						else {
+						else if(!map.grid[x+1][y+2+i].getBackground().equals(WALL)) {
 							map.grid[x+1][y+2+i].setBackground(SENSOR);
 							map.grid[x+1][y+2+i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -191,12 +192,12 @@ public class Robot {
 			case "S":
 				// short sensor 1 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(x+i+2 > 14) break;
+					if(x+i+2> 16) break;
 					if (map.grid[x+i+1][y].getBackground() == OBSTACLE || map.grid[x+i+1][y].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y].getBackground() == OBSTACLE || map.grid[x+i+2][y].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y);
-						else {
+						else if(!map.grid[x+i+2][y].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y].setBackground(SENSOR);
 							map.grid[x+i+2][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -205,12 +206,12 @@ public class Robot {
 				
 				// ultrasonic sensor 1 - front
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(x+2+i > 14) break;
+					if(x+i+2> 16) break;
 					if (map.grid[x+i+1][y+1].getBackground() == OBSTACLE || map.grid[x+i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y+1].getBackground() == OBSTACLE || map.grid[x+i+2][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+1);
-						else {
+						else if(!map.grid[x+i+2][y+1].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+1].setBackground(SENSOR);
 							map.grid[x+i+2][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -219,12 +220,12 @@ public class Robot {
 				
 				// short sensor 2 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(x+i+2 > 14) break;
+					if(x+i+2> 16) break;
 					if (map.grid[x+i+1][y+2].getBackground() == OBSTACLE || map.grid[x+i+1][y+2].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y+2].getBackground() == OBSTACLE || map.grid[x+i+2][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+2);
-						else {
+						else if(!map.grid[x+i+2][y+2].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+2].setBackground(SENSOR);
 							map.grid[x+i+2][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -233,12 +234,12 @@ public class Robot {
 				
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
-					if(y+2+i > 19) break;
+					if(y+i+2 > 21) break;
 					if (map.grid[x][y+i+1].getBackground() == OBSTACLE || map.grid[x][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y+i+2].getBackground() == OBSTACLE || map.grid[x][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x, y+i+2);
-						else {
+						else if(!map.grid[x][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x][y+i+2].setBackground(SENSOR);
 							map.grid[x][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -247,12 +248,12 @@ public class Robot {
 				
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(y+2+i > 19) break;
+					if(y+i+2 > 21) break;
 					if (map.grid[x+1][y+i+1].getBackground() == OBSTACLE || map.grid[x+1][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y+i+2].getBackground() == OBSTACLE || map.grid[x+1][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y+i+2);
-						else {
+						else if(!map.grid[x+1][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x+1][y+i+2].setBackground(SENSOR);
 							map.grid[x+1][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -261,12 +262,12 @@ public class Robot {
 				
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(y-i < 0) break;
+					if(y-i < 1) break;
 					if (map.grid[x+2][y-i+1].getBackground() == OBSTACLE || map.grid[x+2][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2][y-i].getBackground() == OBSTACLE || map.grid[x+2][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2, y-i);
-						else {
+						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -275,12 +276,12 @@ public class Robot {
 				
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(y-i < 0) break;
+					if(y-i < 1) break;
 					if (map.grid[x+1][y-i+1].getBackground() == OBSTACLE || map.grid[x+1][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y-i].getBackground() == OBSTACLE || map.grid[x+1][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y-i);
-						else {
+						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -290,12 +291,12 @@ public class Robot {
 			case "E":
 				// short sensor 1 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(y+i+2 > 19) break;
+					if(y+i+2 > 21) break;
 					if (map.grid[x][y+i+1].getBackground() == OBSTACLE || map.grid[x][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y+i+2].getBackground() == OBSTACLE || map.grid[x][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x, y+i+2);
-						else {
+						else if(!map.grid[x][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x][y+i+2].setBackground(SENSOR);
 							map.grid[x][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -304,12 +305,12 @@ public class Robot {
 				
 				// ultrasonic sensor 1 - front
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(y+i+2 > 14) break;
+					if(y+i+2 > 21) break;
 					if (map.grid[x+1][y+i+1].getBackground() == OBSTACLE || map.grid[x+1][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y+i+2].getBackground() == OBSTACLE || map.grid[x+1][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y+i+2);
-						else {
+						else if(!map.grid[x+1][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x+1][y+i+2].setBackground(SENSOR);
 							map.grid[x+1][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -318,12 +319,12 @@ public class Robot {
 				
 				// short sensor 2 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(y+i+2 > 14) break;
+					if(y+i+2 > 21) break;
 					if (map.grid[x+2][y+i+1].getBackground() == OBSTACLE || map.grid[x+2][y+i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2][y+i+2].getBackground() == OBSTACLE || map.grid[x+2][y+i+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2, y+i+2);
-						else {
+						else if(!map.grid[x+2][y+i+2].getBackground().equals(WALL)){
 							map.grid[x+2][y+i+2].setBackground(SENSOR);
 							map.grid[x+2][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -332,12 +333,12 @@ public class Robot {
 				
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
-					if(x-i < 0) break;
+					if(x-i < 1) break;
 					if (map.grid[x-i+1][y].getBackground() == OBSTACLE || map.grid[x-i+1][y].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y].getBackground() == OBSTACLE || map.grid[x-i][y].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y);
-						else {
+						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -346,12 +347,12 @@ public class Robot {
 				
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(x-i < 0) break;
+					if(x-i < 1) break;
 					if (map.grid[x-i+1][y+1].getBackground() == OBSTACLE || map.grid[x-i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y+1].getBackground() == OBSTACLE || map.grid[x-i][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y+1);
-						else {
+						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -360,12 +361,12 @@ public class Robot {
 				
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(x+2+i > 14) break;
+					if(x+i+2> 16) break;
 					if (map.grid[x+1+i][y+1].getBackground() == OBSTACLE || map.grid[x+1+i][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2+i][y+1].getBackground() == OBSTACLE || map.grid[x+2+i][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2+i, y+1);
-						else {
+						else if(!map.grid[x+2+i][y+1].getBackground().equals(WALL)) {
 							map.grid[x+2+i][y+1].setBackground(SENSOR);
 							map.grid[x+2+i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -374,12 +375,12 @@ public class Robot {
 				
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(x+2+i > 14) break;
+					if(x+i+2> 16) break;
 					if (map.grid[x+1+i][y+2].getBackground() == OBSTACLE || map.grid[x+1+i][y+2].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2+i][y+2].getBackground() == OBSTACLE || map.grid[x+2+i][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2+i, y+2);
-						else {
+						else if(!map.grid[x+2+i][y+2].getBackground().equals(WALL)) {
 							map.grid[x+2+i][y+2].setBackground(SENSOR);
 							map.grid[x+2+i][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -389,12 +390,12 @@ public class Robot {
 			case "W":
 				// short sensor 1 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(y-i < 0) break;
+					if(y-i < 1) break;
 					if (map.grid[x][y-i+1].getBackground() == OBSTACLE || map.grid[x][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x][y-i].getBackground() == OBSTACLE || map.grid[x][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x, y-i);
-						else {
+						else if(!map.grid[x][y-i].getBackground().equals(WALL)) {
 							map.grid[x][y-i].setBackground(SENSOR);
 							map.grid[x][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -403,12 +404,12 @@ public class Robot {
 				
 				// ultrasonic sensor 1 - front
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(y-i < 0) break;
+					if(y-i < 1) break;
 					if (map.grid[x+1][y-i+1].getBackground() == OBSTACLE || map.grid[x+1][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+1][y-i].getBackground() == OBSTACLE || map.grid[x+1][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+1, y-i);
-						else {
+						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -417,12 +418,12 @@ public class Robot {
 				
 				// short sensor 2 - front
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(y-i < 0) break;
+					if(y-i < 1) break;
 					if (map.grid[x+2][y-i+1].getBackground() == OBSTACLE || map.grid[x+2][y-i+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+2][y-i].getBackground() == OBSTACLE || map.grid[x+2][y-i].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+2, y-i);
-						else {
+						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -431,12 +432,12 @@ public class Robot {
 				
 				// long sensor - left
 				for (int i = 1; i <= LONGSENSOR; i++) {
-					if(x+i+2 > 14) break;
+					if(x+i+2> 16) break;
 					if (map.grid[x+i+1][y+2].getBackground() == OBSTACLE || map.grid[x+i+1][y+2].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y+2].getBackground() == OBSTACLE || map.grid[x+i+2][y+2].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+2);
-						else {
+						else if(!map.grid[x+i+2][y+2].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+2].setBackground(SENSOR);
 							map.grid[x+i+2][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -445,12 +446,12 @@ public class Robot {
 				
 				// ultrasonic sensor 2 - left
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(x+i+2> 14) break;
+					if(x+i+2> 16) break;
 					if (map.grid[x+i+1][y+1].getBackground() == OBSTACLE || map.grid[x+i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x+i+2][y+1].getBackground() == OBSTACLE || map.grid[x+i+2][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x+i+2, y+1);
-						else {
+						else if(!map.grid[x+i+2][y+1].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+1].setBackground(SENSOR);
 							map.grid[x+i+2][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -459,12 +460,12 @@ public class Robot {
 				
 				// short sensor 3 - right
 				for (int i = 1; i <= SHORTSENSOR; i++) {
-					if(x-i < 0) break;
+					if(x-i < 1) break;
 					if (map.grid[x-i+1][y].getBackground() == OBSTACLE || map.grid[x-i+1][y].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y].getBackground() == OBSTACLE || map.grid[x-i][y].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y);
-						else {
+						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -473,12 +474,12 @@ public class Robot {
 				
 				// ultrasonic sensor 3 - right
 				for (int i = 1; i <= ULTRASONIC; i++) {
-					if(x-i < 0) break;
+					if(x-i < 1) break;
 					if (map.grid[x-i+1][y+1].getBackground() == OBSTACLE || map.grid[x-i+1][y+1].getBackground() == CONFIRMOBSTACLE) break;
 					else {
 						if(map.grid[x-i][y+1].getBackground() == OBSTACLE || map.grid[x-i][y+1].getBackground() == CONFIRMOBSTACLE)
 							confirmObstacle(map, x-i, y+1);
-						else {
+						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						}
@@ -612,10 +613,8 @@ public class Robot {
 					map.grid[x][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+1][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+2][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-					
 				}
 				break;
-		}
-		
+		}	
 	}
 }
