@@ -10,6 +10,10 @@ public class Exploration implements Runnable {
 	private static final int LeftWall = 0;
 	private static final int BottomWall = 16;
 	private static final int RightWall = 21;
+	private int distanceToNorthObs = -1;
+	private int distanceToSouthObs = -1;
+	private int distanceToWestObs = -1;
+	private int distanceToEastObs = -1;
 	public Stack<Robot> pathTravelled;
 	public MapGrid map;
 	public Robot rob;
@@ -159,10 +163,10 @@ public class Exploration implements Runnable {
 		int x = rob.getX();
 		int y = rob.getY();
 		
-		int distanceToNorthObs = -1;
-		int distanceToSouthObs = -1;
-		int distanceToWestObs = -1;
-		int distanceToEastObs = -1;
+		//int distanceToNorthObs = -1;
+		//int distanceToSouthObs = -1;
+		//int distanceToWestObs = -1;
+		//int distanceToEastObs = -1;
 		
 		// Check whether there is an obstacle 3 grids away on top (NORTH)
 		if (map.grid[x-3][y].getBackground() == OBSTACLE || map.grid[x-3][y+1].getBackground() == OBSTACLE || map.grid[x-3][y+2].getBackground() == OBSTACLE) {
@@ -240,6 +244,8 @@ public class Exploration implements Runnable {
 		System.out.println();
 		System.out.printf("Distance to east is %d",distanceToEastObs);
 		System.out.println();
+		System.out.printf("Direction is %s",rob.getOrientation());
+		System.out.println();
 		
 
 		try {
@@ -255,7 +261,7 @@ public class Exploration implements Runnable {
 	public Robot simulatorExplore(MapGrid map, Robot rob, int sleeptime){
 		int x = rob.getX();
 		int y = rob.getY();
-
+		
 		int LeftSideDistance = 1;
 		int RightSideDistance = 21;
 		int UpSideDistance = 1;
@@ -275,9 +281,21 @@ public class Exploration implements Runnable {
 				case "N": 
 					x = rob.getX();
 		    		y = rob.getY();
-					LeftSideDistance = (y+1) - 1;
-					RightSideDistance = 21 - (y+1);
-					
+		    		if (distanceToWestObs<0) {
+		    			LeftSideDistance = (y+1) - 1;
+		    		}
+		    		else {
+		    			LeftSideDistance=distanceToWestObs;
+		    		}
+		    		
+		    		if (distanceToEastObs<0) {
+		    			RightSideDistance = 21 - (y+1);
+		    		}
+		    		else {
+		    			RightSideDistance=distanceToEastObs;
+		    		}
+
+		    		
 					if ((!blockGoingUp) && (map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
 						rob.moveRobot(map, 1);
 					}
@@ -301,8 +319,19 @@ public class Exploration implements Runnable {
 				case "S":
 					x = rob.getX();
 		    		y = rob.getY();
-					LeftSideDistance = (y+1) - 1;
-					RightSideDistance = 21 - (y+1);
+		    		if (distanceToWestObs<0) {
+		    			LeftSideDistance = (y+1) - 1;
+		    		}
+		    		else {
+		    			LeftSideDistance=distanceToWestObs;
+		    		}
+		    		
+		    		if (distanceToEastObs<0) {
+		    			RightSideDistance = 21 - (y+1);
+		    		}
+		    		else {
+		    			RightSideDistance=distanceToEastObs;
+		    		}
 					
 					if ((!blockGoingDown) && (map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
 						rob.moveRobot(map, 1);
@@ -326,8 +355,22 @@ public class Exploration implements Runnable {
 				case "E":
 					x = rob.getX();
 		    		y = rob.getY();
-					UpSideDistance = x - 1;
-					DownSideDistance = 16 - x;
+					//UpSideDistance = x - 1;
+					//DownSideDistance = 16 - x;
+					
+					if (distanceToNorthObs<0) {
+						UpSideDistance = x - 1;
+		    		}
+		    		else {
+		    			UpSideDistance=distanceToNorthObs;
+		    		}
+		    		
+		    		if (distanceToSouthObs<0) {
+		    			DownSideDistance = 16 - x;
+		    		}
+		    		else {
+		    			DownSideDistance=distanceToSouthObs;
+		    		}
 					
 					if ((!blockGoingRight) && (map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
 						rob.moveRobot(map, 1);
@@ -351,8 +394,22 @@ public class Exploration implements Runnable {
 				case "W":
 					x = rob.getX();
 		    		y = rob.getY();
-					UpSideDistance = x - 1;
-					DownSideDistance = 16 - x;
+					//UpSideDistance = x - 1;
+					//DownSideDistance = 16 - x;
+					
+					if (distanceToNorthObs<0) {
+						UpSideDistance = x - 1;
+		    		}
+		    		else {
+		    			UpSideDistance=distanceToNorthObs;
+		    		}
+		    		
+		    		if (distanceToSouthObs<0) {
+		    			DownSideDistance = 16 - x;
+		    		}
+		    		else {
+		    			DownSideDistance=distanceToSouthObs;
+		    		}
 					
 					if ((!blockGoingLeft) && (map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
 						rob.moveRobot(map, 1);
