@@ -44,7 +44,7 @@ public class Robot {
 	}
 	
 	public void setRCount(int count){
-		this.rCount = count;
+		rCount = count;
 	}
 	
 	public String getOrientation() {
