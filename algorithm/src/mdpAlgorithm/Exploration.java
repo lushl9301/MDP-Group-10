@@ -721,7 +721,6 @@ public class Exploration implements Runnable {
 				}	
 				
 				if (map.grid[x-1][y+2].getBackground().equals(WALL)) {
-					System.out.println("Reached back wall!");
 					reachedWall = true;
 				}
 				
@@ -941,7 +940,6 @@ public class Exploration implements Runnable {
 				}
 				
 				if (map.grid[x+3][y].getBackground().equals(WALL)) {
-					System.out.println("Reached back wall!");
 					reachedWall = true;
 				}
 				
@@ -1165,7 +1163,6 @@ public class Exploration implements Runnable {
 				}
 				
 				if (map.grid[x][y-1].getBackground().equals(WALL)) { 
-					System.out.println("Reached left wall!");
 					reachedWall = true;
 				}
 				
@@ -1383,7 +1380,6 @@ public class Exploration implements Runnable {
 				}	
 				
 				if (map.grid[x+2][y+3].getBackground().equals(WALL)) { 
-					System.out.println("Reached right wall!");
 					reachedWall = true;
 				}
 				
