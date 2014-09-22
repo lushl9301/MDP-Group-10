@@ -10,11 +10,15 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -50,20 +54,22 @@ public class MainSimulator {
 		final JButton terminateEx = new JButton("Terminate Explore");
 		final JToggleButton addObs;
 		final JToggleButton realTime = new JToggleButton("Real Time");
+		final JCheckBox md1;
+		final JCheckBox md2 = new JCheckBox("MD 2");;
 		GridCell newCell;
 		JFrame frame = new JFrame();
 		frame.setTitle("Group 10 - Maze Simulator");
-		frame.setSize(new Dimension(930, 600)); // length by breadth
+		frame.setSize(new Dimension(950, 600)); // length by breadth
 
 		Container contentPanel = frame.getContentPane(); // initialize content panel
 		
 		JPanel mapPanel = new JPanel();
 		mapPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		mapPanel.setPreferredSize(new Dimension(690, 520));
+		mapPanel.setPreferredSize(new Dimension(700, 525));
 		
 		final MapGrid map = new MapGrid(); // initialize map
-		map.setBorder(new EmptyBorder(20, 20, 0, 20) );
-		map.setPreferredSize(new Dimension(690, 520));
+		map.setBorder(new EmptyBorder(10, 20, 0, 20) );
+		map.setPreferredSize(new Dimension(700, 525));
 		JPanel buttonPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
 		buttonPanel.setBorder(new EmptyBorder(0, 0, 0, 20) );
 		
@@ -130,6 +136,7 @@ public class MainSimulator {
         			for (int j = 1; j < 21; j++) {
         				map.grid[i][j].setBackground(DEFAULTCELL);
         				map.grid[i][j].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+        				map.grid[i][j].clearLabels();
         			}
 				}
 				
@@ -181,8 +188,42 @@ public class MainSimulator {
 		
 		c.gridx = 0;
 		c.gridy = 8;
+		c.insets = new Insets(5,0,0,0);
+		md1 = new JCheckBox("MD 1");
+	    md1.addItemListener(new ItemListener() {
+	        public void itemStateChanged(ItemEvent e) {
+	            if(md1.isSelected()) {
+	            	md2.setEnabled(false);
+	            	map.setMD(1, true);
+	            }
+	            else {
+	            	md2.setEnabled(true);
+	            	map.setMD(1, false);
+	            }
+	          }
+        });
+		buttonPanel.add(md1, c);
+		
+		c.gridx = 1;
+		c.gridy = 8;
+		md2.addItemListener(new ItemListener() {
+	        public void itemStateChanged(ItemEvent e) {
+	            if(md2.isSelected()) {
+	            	md1.setEnabled(false);
+	            	map.setMD(2, true);
+	            }
+	            else {
+	            	md1.setEnabled(true);
+	            	map.setMD(2, false);
+	            }
+	          }
+        });
+		buttonPanel.add(md2, c);
+	
+		c.gridx = 0;
+		c.gridy = 9;
 		c.ipady = 30;
-		c.insets = new Insets(15,0,0,0);
+		c.insets = new Insets(5,0,0,0);
 		exploreMap = new JButton("Explore!");
 		
 		final MouseAdapter exploreListener = new MouseAdapter() {
@@ -235,7 +276,7 @@ public class MainSimulator {
 				
 				// insert robot
 				Robot rob = new Robot(map);
-
+				
 				// insert exploration code here
 				double percentage = Double.parseDouble(percentObstacles.getText())/100;
 				int time =  (1000 / Integer.parseInt(stepsPerSec.getText()));
@@ -248,14 +289,14 @@ public class MainSimulator {
 		buttonPanel.add(exploreMap, c);
 		
 		c.gridx = 1;
-		c.gridy = 8;
+		c.gridy = 9;
 		realTime.setPreferredSize(new Dimension(43,realTime.getPreferredSize().height));
 		realTime.setMargin(new Insets(0,0,0,0));
 		realTime.setFont(realTime.getFont().deriveFont(11.0f));
 		buttonPanel.add(realTime, c);
 			
 		c.gridx = 0;
-		c.gridy = 9;
+		c.gridy = 10;
 		c.ipady = 5;
 		c.insets = new Insets(0,0,0,0);
 		c.gridwidth = 2;
@@ -293,7 +334,8 @@ public class MainSimulator {
             				}
             				else if(map.grid[i][j].getBackground().equals(CONFIRMOBSTACLE)) {
             					map.grid[i][j].setBackground(OBSTACLE);
-            				}	
+            				}
+            				map.grid[i][j].clearLabels();
 	        			}
 					}
 					
@@ -306,7 +348,7 @@ public class MainSimulator {
 		buttonPanel.add(terminateEx, c);
 		
 		c.gridx = 0;
-		c.gridy = 10;
+		c.gridy = 11;
 		c.ipady = 45;
 		c.insets = new Insets(20,0,0,0);
 		solveMap = new JButton("Solve Map!");
@@ -319,7 +361,7 @@ public class MainSimulator {
 		legendC.gridx = 0;
 		legendC.gridy = 0;
 		legendC.insets = new Insets(0,30,0,0);
-		newCell = new GridCell(0,0);
+		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(STARTGOAL);
 		legendPanel.add(newCell, legendC);
@@ -333,7 +375,7 @@ public class MainSimulator {
 		legendC.gridx = 2;
 		legendC.gridy = 0;
 		legendC.insets = new Insets(0,32,0,0);
-		newCell = new GridCell(0,0);
+		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(EXPLORE, 3));
 		newCell.setPreferredSize(new Dimension(12, 12));
 		newCell.setBackground(MIDEXPLORE);
@@ -348,7 +390,7 @@ public class MainSimulator {
 		legendC.gridx = 4;
 		legendC.gridy = 0;
 		legendC.insets = new Insets(0,32,0,0);
-		newCell = new GridCell(0,0);
+		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(OBSTACLE);
 		legendPanel.add(newCell, legendC);
@@ -362,7 +404,7 @@ public class MainSimulator {
 		legendC.gridx = 6;
 		legendC.gridy = 0;
 		legendC.insets = new Insets(0,32,0,0);
-		newCell = new GridCell(0,0);
+		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(CONFIRMOBSTACLE);
 		legendPanel.add(newCell, legendC);
@@ -376,7 +418,7 @@ public class MainSimulator {
 		legendC.gridx = 8;
 		legendC.gridy = 0;
 		legendC.insets = new Insets(0,32,0,0);
-		newCell = new GridCell(0,0);
+		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(EXPLORED);
 		legendPanel.add(newCell, legendC);

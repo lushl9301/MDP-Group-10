@@ -101,18 +101,10 @@ public class Exploration implements Runnable {
 				currentPos = pathTravelled.pop();
 			}
 			checkCompleted(map, percentage);
-		} while(!pathTravelled.isEmpty() && !completed);
-		
-		String strMapDesc = "";
-		for(int i = 0; i < 20; i++) {
-			for (int j = 15; j> 0; j--) {	
-				strMapDesc += map.mapDescriptor1[j-1][i];
-			}
-			strMapDesc += "\n"; // comment this out if require a long string
-		}
-		System.out.println(strMapDesc);
 			
-//		
+		} while(!pathTravelled.isEmpty() && !completed);
+		System.out.println(map.getMapDesc());
+		map.getMapDesc2(map.getMapDesc());
 //		Stack<Robot> pathTravelled = new Stack<Robot>();
 //		pathTravelled.push(rob);
 	}
