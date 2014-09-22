@@ -4,10 +4,10 @@ public class Robot {
 	private int[][] position;
 	private int direction;
 	
-	public int U=0; //Left
-	public int R=1; //Right
-	public int D=2; //Down
-	public int L=3; //Left
+	public int NORTH=1; //Left
+	public int EAST=2; //Right
+	public int SOUTH=3; //Down
+	public int WEST=4; //Left
 	
 	public Robot () {}
 	public Robot(int[][] position, int direction)

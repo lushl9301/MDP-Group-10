@@ -628,28 +628,31 @@ public class Exploration implements Runnable {
 					System.out.println("Reached top wall!");
 					reachedWall = true;
 				}
-				
-				else if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
-					if (map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE) {
+				else if ( ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE))) {
+					//set the count here
+					
+					if (rob.getRCount() == 3 && (map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
 						rob.rotateRobot(map, "E");
 					}
-					else if (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE) {
+					else if (rob.getRCount() == 3 && (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
 						rob.rotateRobot(map, "W");
 					}
+					
+					
+					rob.setRCount(0);
 				}
-				
 				else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
 					if(map.grid[x-1][y+3].getBackground() == OBSTACLE ) {
 						rob.moveRobot(map, 1);
 					}
-					else if (map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE) {
+					else if (rob.getRCount() == 3 && (map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
 						rob.rotateRobot(map, "E");
 					}
-					else
+					else {
 						rob.moveRobot(map, 1);
-						
-					
+					}
 				}
+				
 				if (reachedWall == true) {
 					rob.rotateRobot(map, "W");
 					traversing = false;

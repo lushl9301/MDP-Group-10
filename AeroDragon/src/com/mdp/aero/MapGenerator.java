@@ -10,6 +10,7 @@ import android.widget.TextView;
 public class MapGenerator {
 	Context context;
 	GridLayout gv = null;
+	Robot r;
 	public MapGenerator(GridLayout gv, Context context){
 		this.gv=gv;
 		this.context=context;
@@ -36,7 +37,10 @@ public class MapGenerator {
         		tv = new TextView(this.context);
         		tv.setBackgroundColor(Color.parseColor("#686868")); //arena colour
         		//tv.setText("."); for the real output
-
+        		if (counter ==0 || counter ==1)
+        		{
+        			tv.setBackgroundColor(Color.parseColor("#FF0000"));
+        		}
         		tv.setId(counter);
         		tv.setText(Integer.toString(tv.getId()));
         		tv.setGravity(Gravity.CENTER);
@@ -64,6 +68,31 @@ public class MapGenerator {
     		}
     	}
     	return tvArray;
+	}
+	public void resetMap(){
+		TextView resetThis;
+		//int currentDir = r.getDirection();
+		//int[][] currentPosition = r.getPosition();
+		int i =0;
+		for (int row=0; row<15; row++){
+        	for (int col=0; col<20; col++){
+        		resetThis = (TextView)gv.getChildAt(i);
+        		resetThis.setBackgroundColor(Color.parseColor("#686868")); //arena colour
+        		i++;
+        	}
+		} 
+
+		int initial[][] = new int[2][2];
+		//To note: -1 due to array index starts from 0!!!
+		initial[0][0] = 0;
+		initial[0][1] = 1;
+		initial[1][0] = 20;
+		initial[1][1] = 21;
+		
+		//r.setPosition(initial);
+		//r.setDirection(r.EAST);//default set to south DO WE WANT TO MAKE THIS A VARIABLE?
+		//setEast(r.getPosition());
+		  
 	}
 	
 	private void printArray(int tvArray[][])

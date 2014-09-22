@@ -17,7 +17,7 @@ public class Robot {
 	private static final int SHORTSENSOR = 3;
 	private static final int ULTRASONIC = 3;
 	private static final int LONGSENSOR = 5;
-	private int robotX, robotY;
+	private int robotX, robotY, rCount;
 	private String robotOrientation;
 	
 	public Robot (MapGrid map) {
@@ -28,6 +28,7 @@ public class Robot {
 		robotOrientation = rob.getOrientation();
 		robotX = rob.getX();
 		robotY = rob.getY();
+		rCount = rob.getRCount();
 	}
 	
 	public int getX() {
@@ -36,6 +37,14 @@ public class Robot {
 	
 	public int getY() {
 		return robotY;
+	}
+	
+	public int getRCount() {
+		return rCount;
+	}
+	
+	public void setRCount(int count){
+		this.rCount = count;
 	}
 	
 	public String getOrientation() {
@@ -47,6 +56,7 @@ public class Robot {
 		robotX = 7;
 		robotY = 9;
 		robotOrientation = "N";
+		rCount = 0;
 	}
 	
 	public void setRobotXY(MapGrid map, int x, int y, String text, String orientation) {
