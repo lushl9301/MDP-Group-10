@@ -143,7 +143,7 @@ public class MainActivity extends Activity {
 		
 		GridLayout gv = (GridLayout)findViewById(R.id.grid2);
 		Log.i("tag","here3");
-		map = new MapGenerator(gv, this);
+		map = new MapGenerator(gv,this);
 		Log.i("tag","here4");
 		
 		tvConnectionStatus = (TextView)findViewById(R.id.tvConnectionStatus);
@@ -162,6 +162,9 @@ public class MainActivity extends Activity {
 		timerVal = (TextView) findViewById(R.id.timer);
 		startButton = (ToggleButton) findViewById(R.id.startBtn);
 		
+		int oldDir = map.getRobot().WEST;
+		int[][] oldPos = map.getRobot().getPosition();
+		updateMap(oldDir,oldPos);
 		load();
 		
 		//setting onClick listeners
@@ -654,7 +657,12 @@ public class MainActivity extends Activity {
 		}
 
 	};
-	
+	private void updateMap(int oldDir, int[][] oldPos) {
+		
+		
+			map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
+		
+	}
 	
 
 }
