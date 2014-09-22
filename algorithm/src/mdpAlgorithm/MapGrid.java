@@ -3,6 +3,7 @@ package mdpAlgorithm;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.math.BigInteger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -145,26 +146,60 @@ public class MapGrid extends JPanel {
 	
 	public String getMapDesc() {
 		String strMapDesc = "11";
+		//strMapDesc += "\n"; // comment this out if require a long string
 		for(int i = 0; i < 20; i++) {
-			for (int j = 15; j> 0; j--) {	
-				strMapDesc += mapDescriptor1[j-1][i];
+			for (int j = 0; j< 15; j++) {
+				strMapDesc += mapDescriptor1[j][i];
 			}
 			//strMapDesc += "\n"; // comment this out if require a long string
 		}
 		strMapDesc += "11";
-		return strMapDesc;
+		
+		return toHex(strMapDesc);
+		//return strMapDesc;
 	}
 	
 	public String getMapDesc2() {
 		String strMapDesc = "";
+		int strLength = 0;
+		boolean padEnough = false;
+		
 		for(int i = 0; i < 20; i++) {
-			for (int j = 15; j> 0; j--) {
-				if(!mapDescriptor2[j-1][i].isEmpty())
-					strMapDesc += mapDescriptor2[j-1][i];
+			for (int j = 0; j< 15; j++) {
+				if(!mapDescriptor2[j][i].equals("")) {
+					strLength++;
+					strMapDesc += mapDescriptor2[j][i];
+				}
 			}
 			//strMapDesc += "\n"; // comment this out if require a long string
 		}
-		return strMapDesc;
+
+		while (!padEnough) {
+			if(strLength % 8 != 0) {
+				strMapDesc += "0";
+				strLength++;
+			}
+			else padEnough = true;
+		}
+		
+		//System.out.println(strMapDesc);
+		//return strMapDesc;
+		return toHex(strMapDesc);
+	}
+	
+	public String toHex(String bin){
+		//System.out.println(bin);
+		BigInteger b = new BigInteger(bin, 2);
+		String hexNum = b.toString(16);
+		
+		int binaryLength = bin.length() * 2;
+		int hexLength = hexNum.length() * 8;
+		if(binaryLength - hexLength > 0) {
+			for(int i = 0; i < ((binaryLength - hexLength)/8); i++) {
+				hexNum = "0"+hexNum;
+			}
+		}
+		return hexNum;
 	}
 	
 	public void changeColour(int x, int y, String text, Color color) {
