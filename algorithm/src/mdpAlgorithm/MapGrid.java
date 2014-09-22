@@ -38,7 +38,7 @@ public class MapGrid extends JPanel {
 	
 	// =========== method 2 for map descriptor ===========
 	int[][] mapDescriptor1 = new int[15][20];
-	int[][] mapDescriptor2 = new int[15][20];
+	String[][] mapDescriptor2 = new String[15][20];
 
 	//	mapDescriptor1[14][0] = 1; // this represents grid (15,1)
 	//	mapDescriptor1[0][19] = 1; // this represents grid (1,20)
@@ -55,11 +55,11 @@ public class MapGrid extends JPanel {
 				newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 				grid[i][j] = newCell;
 				add(newCell);
-				// mapDescriptor2[i][j] = ;
 			}
 		}
 		initLandmarks();
 		initWalls();
+		initMD2();
 		//init landmark label
 		grid[2][2].setLabel("Start");
 		grid[14][19].setLabel("Goal");
@@ -70,6 +70,15 @@ public class MapGrid extends JPanel {
 		changeColour(13, 18, "Goal", STARTGOAL);
 		changeColour(7, 9, "", EXPLORE);
 		this.grid[8][10].setBackground(MIDEXPLORE);
+	}
+	
+	public void initMD2() {
+		for(int i = 0; i < 20; i++) {
+			for (int j = 14; j>= 0; j--) {	
+				mapDescriptor2[j][i] = "";
+			}
+		}
+		
 	}
 	
 	public void initWalls() {
@@ -91,8 +100,14 @@ public class MapGrid extends JPanel {
 	
 	public void setMapDesc(int x, int y) {
 		mapDescriptor1[x-1][y-1] = 1;
-		mapDescriptor2[x-1][y-1] = 1;
+		mapDescriptor2[x-1][y-1] = "0";
 		setMapDescLabel(x, y);
+	}
+	
+	public void setMapDescObstacles(int x, int y) {
+		mapDescriptor1[x-1][y-1] = 1;
+		mapDescriptor2[x-1][y-1] = "1";
+		setMapDescLabelObstacles(x, y);
 	}
 	
 	public void setMapDescLabel(int x, int y) {
@@ -103,6 +118,17 @@ public class MapGrid extends JPanel {
 		else if(md2) {
 			if(grid[x][y].getLabel() == "0" && !grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))
 				grid[x][y].setLabel("0");
+		}
+	}
+	
+	public void setMapDescLabelObstacles(int x, int y) {
+		if(md1) {
+			if(grid[x][y].getLabel() == "0" && !grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))
+				grid[x][y].setLabel("1");
+		}
+		else if(md2) {
+			if(grid[x][y].getLabel() == "0" && !grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))
+				grid[x][y].setLabel("1");
 		}
 	}
 	
@@ -118,19 +144,26 @@ public class MapGrid extends JPanel {
 	}
 	
 	public String getMapDesc() {
-		String strMapDesc = "";
+		String strMapDesc = "11";
 		for(int i = 0; i < 20; i++) {
 			for (int j = 15; j> 0; j--) {	
 				strMapDesc += mapDescriptor1[j-1][i];
 			}
-			strMapDesc += "\n"; // comment this out if require a long string
+			//strMapDesc += "\n"; // comment this out if require a long string
 		}
+		strMapDesc += "11";
 		return strMapDesc;
 	}
 	
-	public String getMapDesc2(String strMapDesc) {
-		
-		
+	public String getMapDesc2() {
+		String strMapDesc = "";
+		for(int i = 0; i < 20; i++) {
+			for (int j = 15; j> 0; j--) {
+				if(!mapDescriptor2[j-1][i].isEmpty())
+					strMapDesc += mapDescriptor2[j-1][i];
+			}
+			//strMapDesc += "\n"; // comment this out if require a long string
+		}
 		return strMapDesc;
 	}
 	

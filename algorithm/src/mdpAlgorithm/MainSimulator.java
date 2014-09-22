@@ -199,6 +199,7 @@ public class MainSimulator {
 	            else {
 	            	md2.setEnabled(true);
 	            	map.setMD(1, false);
+	            	
 	            }
 	          }
         });
@@ -273,6 +274,8 @@ public class MainSimulator {
 				stepsPerSec.setEnabled(false);
 				terminateEx.setEnabled(true);
 				timeField.setEnabled(false);
+				md1.setEnabled(false);
+				md2.setEnabled(false);
 				
 				// insert robot
 				Robot rob = new Robot(map);
@@ -325,6 +328,14 @@ public class MainSimulator {
 					exploreMap.setEnabled(true);
 					exploreMap.addMouseListener(exploreListener);
 					realTime.setEnabled(true);
+					if(md1.isSelected())
+						md1.setEnabled(true);
+					else if(md2.isSelected())
+						md2.setEnabled(true);
+					else {
+						md1.setEnabled(true);
+						md2.setEnabled(true);
+					}
 					
 					for (int i = 1; i < 16; i++) {
             			for (int j = 1; j < 21; j++) {
@@ -341,6 +352,7 @@ public class MainSimulator {
 					
 					map.initLandmarks();
 					addObs.addChangeListener(addObsListener);
+					map.initMD2();
 					exploreThread.stop();
 				}
 			}  
@@ -437,6 +449,5 @@ public class MainSimulator {
         
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
 	}	
 }
