@@ -1,6 +1,7 @@
 package mdpAlgorithm;
 
 import java.awt.Color;
+
 import javax.swing.BorderFactory;
 
 public class Robot {
@@ -100,6 +101,7 @@ public class Robot {
 						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x-i, y);
 						}
 					}
 				}
@@ -114,6 +116,7 @@ public class Robot {
 						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x-i, y+1);
 						}
 					}
 				}
@@ -128,6 +131,7 @@ public class Robot {
 						else if(!map.grid[x-i][y+2].getBackground().equals(WALL)) {
 							map.grid[x-i][y+2].setBackground(SENSOR);
 							map.grid[x-i][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x-i, y+2);
 						}
 					}
 				}
@@ -142,6 +146,7 @@ public class Robot {
 						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+2, y-i);
 						}
 					}
 				}
@@ -156,6 +161,7 @@ public class Robot {
 						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+1, y-i);
 						}
 					}
 				}
@@ -170,6 +176,7 @@ public class Robot {
 						else if(!map.grid[x][y+2+i].getBackground().equals(WALL)) {
 							map.grid[x][y+2+i].setBackground(SENSOR);
 							map.grid[x][y+2+i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x, y+2+i);
 						}
 					}
 				}
@@ -184,6 +191,7 @@ public class Robot {
 						else if(!map.grid[x+1][y+2+i].getBackground().equals(WALL)) {
 							map.grid[x+1][y+2+i].setBackground(SENSOR);
 							map.grid[x+1][y+2+i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+1, y+2+i);
 						}
 					}
 				}
@@ -200,6 +208,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y].setBackground(SENSOR);
 							map.grid[x+i+2][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+i+2, y);
 						}
 					}
 				}
@@ -214,6 +223,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y+1].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+1].setBackground(SENSOR);
 							map.grid[x+i+2][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+i+2, y+1);
 						}
 					}
 				}
@@ -228,6 +238,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y+2].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+2].setBackground(SENSOR);
 							map.grid[x+i+2][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+i+2, y+2);
 						}
 					}
 				}
@@ -242,6 +253,7 @@ public class Robot {
 						else if(!map.grid[x][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x][y+i+2].setBackground(SENSOR);
 							map.grid[x][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x, y+i+2);
 						}
 					}
 				}
@@ -256,6 +268,7 @@ public class Robot {
 						else if(!map.grid[x+1][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x+1][y+i+2].setBackground(SENSOR);
 							map.grid[x+1][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+1, y+i+2);
 						}
 					}
 				}
@@ -270,6 +283,7 @@ public class Robot {
 						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+2, y-i);
 						}
 					}
 				}
@@ -284,6 +298,7 @@ public class Robot {
 						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+1, y-i);
 						}
 					}
 				}
@@ -299,6 +314,7 @@ public class Robot {
 						else if(!map.grid[x][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x][y+i+2].setBackground(SENSOR);
 							map.grid[x][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x, y+i+2);
 						}
 					}
 				}
@@ -313,6 +329,7 @@ public class Robot {
 						else if(!map.grid[x+1][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x+1][y+i+2].setBackground(SENSOR);
 							map.grid[x+1][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+1, y+i+2);
 						}
 					}
 				}
@@ -327,6 +344,7 @@ public class Robot {
 						else if(!map.grid[x+2][y+i+2].getBackground().equals(WALL)){
 							map.grid[x+2][y+i+2].setBackground(SENSOR);
 							map.grid[x+2][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+2, y+i+2);
 						}
 					}
 				}
@@ -341,6 +359,7 @@ public class Robot {
 						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x-i, y);
 						}
 					}
 				}
@@ -355,6 +374,7 @@ public class Robot {
 						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x-i, y+1);
 						}
 					}
 				}
@@ -369,6 +389,7 @@ public class Robot {
 						else if(!map.grid[x+2+i][y+1].getBackground().equals(WALL)) {
 							map.grid[x+2+i][y+1].setBackground(SENSOR);
 							map.grid[x+2+i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+2+i, y+1);
 						}
 					}
 				}
@@ -383,6 +404,7 @@ public class Robot {
 						else if(!map.grid[x+2+i][y+2].getBackground().equals(WALL)) {
 							map.grid[x+2+i][y+2].setBackground(SENSOR);
 							map.grid[x+2+i][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+2+i, y+2);
 						}
 					}
 				}
@@ -398,6 +420,7 @@ public class Robot {
 						else if(!map.grid[x][y-i].getBackground().equals(WALL)) {
 							map.grid[x][y-i].setBackground(SENSOR);
 							map.grid[x][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x, y-i);
 						}
 					}
 				}
@@ -412,6 +435,7 @@ public class Robot {
 						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+1, y-i);
 						}
 					}
 				}
@@ -426,6 +450,7 @@ public class Robot {
 						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+2, y-i);
 						}
 					}
 				}
@@ -440,6 +465,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y+2].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+2].setBackground(SENSOR);
 							map.grid[x+i+2][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+i+2, y+2);
 						}
 					}
 				}
@@ -454,6 +480,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y+1].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+1].setBackground(SENSOR);
 							map.grid[x+i+2][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x+i+2, y+1);
 						}
 					}
 				}
@@ -468,6 +495,7 @@ public class Robot {
 						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x-i, y);
 						}
 					}
 				}
@@ -482,6 +510,7 @@ public class Robot {
 						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(x-i, y+1);
 						}
 					}
 				}
@@ -568,6 +597,7 @@ public class Robot {
 	
 	public void confirmObstacle(MapGrid map, int x, int y) {
 		map.grid[x][y].setBackground(CONFIRMOBSTACLE);
+		map.setMapDesc(x, y);
 	}
 	
 	public void setExplored(MapGrid map) {
@@ -583,6 +613,9 @@ public class Robot {
 					map.grid[x+3][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+3][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+3][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.setMapDesc(x+3, y);
+					map.setMapDesc(x+3, y+1);
+					map.setMapDesc(x+3, y+2);
 				}
 				break;
 			case "S":
@@ -593,6 +626,9 @@ public class Robot {
 					map.grid[x-1][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x-1][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x-1][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.setMapDesc(x-1, y);
+					map.setMapDesc(x-1, y+1);
+					map.setMapDesc(x-1, y+2);
 				}
 				break;
 			case "E":
@@ -603,6 +639,9 @@ public class Robot {
 					map.grid[x][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+1][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+2][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.setMapDesc(x, y-1);
+					map.setMapDesc(x+1, y-1);
+					map.setMapDesc(x+2, y-1);
 				}
 				break;
 			case "W":
@@ -613,6 +652,9 @@ public class Robot {
 					map.grid[x][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+1][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+2][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+					map.setMapDesc(x, y+3);
+					map.setMapDesc(x+1, y+3);
+					map.setMapDesc(x+2, y+3);
 				}
 				break;
 		}	

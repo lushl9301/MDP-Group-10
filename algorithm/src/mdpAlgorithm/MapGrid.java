@@ -18,6 +18,37 @@ public class MapGrid extends JPanel {
 	private static final Color WALL = new Color(160, 80, 70);
 	
 	JPanel[][] grid = new JPanel[MAP_ROW][MAP_COL];
+
+	// =========== method 1 for map descriptor =========== 
+	//		String mapDescriptor1 = "";
+	//		for(int i = 1; i <= 20; i++) {
+	//			for (int j = 15; j> 0; j--) {	
+	//				mapDescriptor1 += "0";
+	//			}
+	//			mapDescriptor1 += "\n";
+	//		}
+	//		
+	//		StringBuilder modMapDescriptor1 = new StringBuilder(mapDescriptor1);
+	//
+	//		modMapDescriptor1.setCharAt(15, 'x');
+	//		System.out.println(modMapDescriptor1);
+	// =================================================== 
+	
+	// =========== method 2 for map descriptor =========== 
+	int[][] mapDescriptor1 = new int[15][20];
+//	String strMapDesc = "";
+//	mapDescriptor1[14][0] = 1; // this represents grid (15,1)
+//	mapDescriptor1[0][19] = 1; // this represents grid (1,20)
+//	// prints map descriptor in correct sequence.
+//
+//	for(int i = 0; i < 20; i++) {
+//		for (int j = 15; j> 0; j--) {	
+//			strMapDesc += mapDescriptor1[j-1][i];
+//		}
+//		strMapDesc += "\n"; // comment this out if require a long string
+//	}
+//	System.out.println(strMapDesc);
+	// =================================================== 
 	
 	public MapGrid() {
 		initMaze();
@@ -62,6 +93,10 @@ public class MapGrid extends JPanel {
 			this.grid[16][i].setBorder(BorderFactory.createLineBorder(WALL, 1));
 			this.grid[16][i].setPreferredSize(new Dimension(12, 12));
 		}
+	}
+	
+	public void setMapDesc(int x, int y) {
+		this.mapDescriptor1[x-1][y-1] = 1;
 	}
 	
 	public void changeColour(int x, int y, String text, Color color) {

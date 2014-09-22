@@ -31,7 +31,7 @@ public class Exploration implements Runnable {
 	
 	@Override
 	public void run() {
-
+		
 		boolean reachedWall = false;
 		boolean completed = false;
 		boolean enteredGoal = false;
@@ -44,7 +44,7 @@ public class Exploration implements Runnable {
 		int faceFirstDir = 0;
 		
 		Robot firstDelay = new Robot(pathTravelled.peek());
-		firstDelay(map, rob, sleeptime); //rotate on the spot
+		firstDelay(map, rob, sleeptime);
 		if (firstDelay != null) {
 			pathTravelled.push(firstDelay);
 		}
@@ -102,7 +102,16 @@ public class Exploration implements Runnable {
 			}
 			checkCompleted(map, percentage);
 		} while(!pathTravelled.isEmpty() && !completed);
-
+		
+		String strMapDesc = "";
+		for(int i = 0; i < 20; i++) {
+			for (int j = 15; j> 0; j--) {	
+				strMapDesc += map.mapDescriptor1[j-1][i];
+			}
+			strMapDesc += "\n"; // comment this out if require a long string
+		}
+		System.out.println(strMapDesc);
+			
 //		
 //		Stack<Robot> pathTravelled = new Stack<Robot>();
 //		pathTravelled.push(rob);
@@ -122,6 +131,7 @@ public class Exploration implements Runnable {
 	}
 	
 	public Robot firstDelay(MapGrid map, Robot rob, int sleeptime) {
+		map.mapDescriptor1 = new int[15][20];
 		rob.moveRobot(map, 0);
 		try {
 			Thread.sleep(sleeptime);
