@@ -220,6 +220,13 @@ public class MainActivity extends Activity {
 				sendMessage("s");
 			}
     	});
+    	resetButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				map.resetMap(); //to reset map
+			}
+    	});
 		
 	}
 
