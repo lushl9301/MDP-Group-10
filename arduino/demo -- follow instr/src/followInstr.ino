@@ -33,8 +33,8 @@
 //#define longIR_F_in A4
 /**********************/
 #define RisingEdgePerGrid 380 // need testing
-#define RisingEdgePerTurn_200 382 //for speed 200
-#define stepToStraighten 3 //every 5 step make a auto adjust
+#define RisingEdgePerTurn_200 412 //for speed 200
+#define stepToStraighten 5 //every 5 step make a auto adjust
 
 
 volatile int direction;
@@ -84,28 +84,7 @@ void waitForCommand() {
 }
 
 void setup() {
-    // while (1) {
-    //     turn(1);
-    //     delay(500);
-    // }
-    // while (1) {
-    //     goAhead(7);
-    //     delay(500);
-    // }
-    // 
-    /*drifting
-    md.init();
-    while (1) {
-        md.setSpeeds(330, -100);
-        delay(2500);
-        md.setSpeeds(200, 200);
-        delay(2000);
-        md.setSpeeds(-100, 330);
-        delay(2500);
-        md.setSpeeds(200,200);
-        delay(2000);
-    }
-    */
+    
     Serial.begin(9600);
     setPinsMode();
 
@@ -133,37 +112,9 @@ void loop() {
     //     turn(1);
     //     delay(400);
     // }
-    
-    //waitForCommand();
-
-    currentX = 10;
-    currentY = 7;
-    pwd = 1;
-    //findWall();
-
-    counter_for_straighten = stepToStraighten; //every 3 or 5 step do a straighten
-    goalX = 1;
-    goalY = 1;
-    exploration();
-    delay(1000);
-    arriving(0);
-
-    goalX = 20;
-    goalY = 15;
-    exploration();
-    delay(1000);
-    arriving(1);
-
-    goalX = 1;
-    goalY = 1;
-    exploration();
-    arriving(0);
-
     waitForCommand();
-    //getFRInstructions();
-    currentX = 1;
-    currentY = 1;
-    bridesheadRevisited();
+    //getXY()?
+    followInstr();
 }
 
 void sensorReading() {
@@ -224,12 +175,9 @@ void exploration() {
             Serial.println("right no space");
             if (--counter_for_straighten == 0) {    //auto fix
                 turn(1);    //turn right
-                if (able2Straighten()) {
-                    //TODO testing
-                    straighten();
-                }
+                straighten();
                 turn(-1);   //turn left
-                counter_for_straighten = 3;
+                counter_for_straighten = 5;
             }
         }
 
@@ -248,143 +196,6 @@ void exploration() {
             goAhead(1);
         //}
     }
-}
-
-bool isGoodObstacle() {
-    if (ir_lf_dis < 300 || ir_rf_dis < 300) {
-        return false;
-    }
-    return able2Straighten();
-}
-
-bool able2Straighten() {
-    return (abs(shortSensorToCM(ir_rf_dis) - shortSensorToCM(ir_lf_dis)) < 10);
-}
-
-int shortSensorToCM() {
-    //TODO
-    //add library here
-}
-
-int longSensorToCM() {
-    //TODO
-    //add library here
-}
-
-void findWall() {
-    //find the closest obstacle
-    //go and auto fix
-    //go back
-    //find farthest obstacle according to the distance
-    //go that way
-  
-    /*
-    HOWTO find closest obstacle
-    360 turning. use sensor to see the distance
-     */
-    Serial.println("finding wall");
-    sensorReading();
-    int f_dis = min(ir_rf_dis, ir_lf_dis);
-    
-    int tempDis = f_dis;
-    int tempMin = 0;
-    
-    for (int i = 1; i <= 4; ++i) {
-        turn(1);
-        sensorReading();
-        if (!isGoodObstacle()) {
-            continue;
-        }
-        f_dis = min(ir_rf_dis, ir_lf_dis);
-        if (tempDis < f_dis && f_dis - tempDis > 10) {
-            //ignore small difference
-            tempMin = i;
-            tempDis = f_dis;
-        }
-    }
-    
-    for (int i = tempMin; i > 0; --i) {
-        turn(1);
-    }
-
-    sensorReading();
-    int farthestX = currentX;
-    int farthestY = currentY;
-    int farthestDis = max(u_L_dis, u_R_dis);
-    Serial.println("Found neasest one");
-
-    while (1) {
-        if (u_F_dis <= 6) {
-            break;
-        }
-        goAhead(1);
-        sensorReading();
-        if (u_L_dis > farthestDis) {
-            farthestDis = u_L_dis;
-            farthestX = currentX;
-            farthestY = currentY;
-        }
-        if (u_R_dis > farthestDis) {
-            farthestDis = u_R_dis;
-            farthestX = -currentX;
-            farthestY = -currentY;
-        }
-    }
-
-    straighten();
-    //auto fix
-
-    /*
-    HOWTO find fasest obstacle
-    1. go back
-    2. find the farthest distance
-    take this as the wall?
-    3. go to the wall
-     */
-    turn(1);
-    turn(1);
-
-    int grids2goback = (abs(farthestX - currentX) + abs(farthestY - currentY)) / 10;
-    Serial.print("Go back =======>");
-    Serial.println(grids2goback);
-    while (grids2goback > 0) {
-        goAhead(1);
-        grids2goback--;
-    }
-
-    if (farthestX < 0) {
-        turn(-1); //on right. go back. turn left
-    } else {
-        turn(1);
-
-    }
-    Serial.println("I found the wall");
-    //found where is the wall
-    
-    //go to the wall
-    while (1) {
-        sensorReading();
-        if (u_F_dis <= 6) {
-            break;
-        }
-        goAhead(1);
-    }
-    straighten();
-
-    turn(-1);
-    Serial.println("im with the wall now========================");
-    //turn left
-    //start stick2TheWall & turn right
-    //job done
-}
-
-void bridesheadRevisited() {
-    //follow instruction
-    //
-    //turn(1); //right
-    //turn(-1); //left
-    //goAhead(l);
-    getFRInstructions();
 }
 
 char getChar() {
@@ -437,20 +248,20 @@ void arriving(int endPoint) {
 
 }
 
-void getFRInstructions() {
+void followInstr() {
     //get shortest path from RPi
     //then move
 
     char instrChar;
     int grids;
     while (1) {
-        
+        sensorReading();
         while (isDigit(instrChar = getChar())) {
             grids = grids * 10 + instrChar - '0';
         }
-        if (grids != 0) {
-            goAhead(grids);
-            grids = 0;
+        while (grids > 0) {
+            goAhead(1);
+            --grids;
         }
         if (instrChar == 'R') {
             turn(1);
@@ -458,6 +269,10 @@ void getFRInstructions() {
             turn(-1);
         } else if (instrChar == 'G') {
             arriving(1);
+        } else if (instrChar == 'A') {
+            straighten();
+        } else if (instrChar == 'S') {
+            return;
         }
     }
 }
