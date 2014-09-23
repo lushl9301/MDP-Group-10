@@ -607,7 +607,8 @@ public class Robot {
 	
 	public void confirmObstacle(MapGrid map, int x, int y) {
 		map.grid[x][y].setBackground(CONFIRMOBSTACLE);
-		map.setMapDesc(x, y);
+		map.setMapDescObstacles(x, y);
+		
 	}
 	
 	public void setExplored(MapGrid map) {
