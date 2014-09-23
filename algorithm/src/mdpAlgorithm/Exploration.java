@@ -746,7 +746,7 @@ public class Exploration implements Runnable {
 					if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE) || (map.grid[x+3][y-1].getBackground() == OBSTACLE)) {
 						rob.rotateRobot(map, "E");
 					}
-					if (map.grid[x][y-1].getBackground() != OBSTACLE) {
+					if (map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
@@ -798,7 +798,20 @@ public class Exploration implements Runnable {
 				}
 				
 				else if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)){
-					rob.rotateRobot(map, "N");
+					if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)){
+						if (map.grid[x+3][y].getBackground() != OBSTACLE) {
+							rob.setRCount(3);
+						}
+						if (rob.getRCount()==3) {
+							rob.rotateRobot(map, "S");
+							rob.moveRobot(map, 1);
+							rob.setRCount(0);
+						}	
+					}
+					else {
+						rob.rotateRobot(map, "N");
+					}	
+					
 				}
 				
 				else if (map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE){
@@ -979,7 +992,7 @@ public class Exploration implements Runnable {
 					if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE) || (map.grid[x+3][y-1].getBackground() == OBSTACLE)) {
 						rob.rotateRobot(map, "W");
 					}
-					if (map.grid[x+2][y+3].getBackground() != OBSTACLE) {
+					if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE) ) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
@@ -1030,7 +1043,19 @@ public class Exploration implements Runnable {
 				}
 				
 				else if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)){
-					rob.rotateRobot(map, "S");
+					if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)){
+						if (map.grid[x-1][y+2].getBackground() != OBSTACLE) {
+							rob.setRCount(3);
+						}
+						if (rob.getRCount()==3) {
+							rob.rotateRobot(map, "N");
+							rob.moveRobot(map, 1);
+							rob.setRCount(0);
+						}	
+					}
+					else {
+						rob.rotateRobot(map, "S");
+					}	
 				}
 				
 				else if (map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE){
@@ -1147,6 +1172,9 @@ public class Exploration implements Runnable {
 					}
 				}
 				else if(x+1 == 13) {
+					if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
+						rob.rotateRobot(map, "E");
+					}
 					if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE || map.grid[x+3][y-1].getBackground() == OBSTACLE)) {
 						rob.moveRobot(map, 1);
 					}
@@ -1214,7 +1242,7 @@ public class Exploration implements Runnable {
 					if (((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE) || (map.grid[x+3][y+3].getBackground() == OBSTACLE))) {
 						rob.rotateRobot(map, "N");
 					}
-					if (map.grid[x+3][y].getBackground() != OBSTACLE) {
+					if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE) ) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
@@ -1265,7 +1293,19 @@ public class Exploration implements Runnable {
 				}
 				
 				else if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)){
-					rob.rotateRobot(map, "W");
+					if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)){
+						if (map.grid[x+2][y+3].getBackground() != OBSTACLE) {
+							rob.setRCount(3);
+						}
+						if (rob.getRCount()==3) {
+							rob.rotateRobot(map, "E");
+							rob.moveRobot(map, 1);
+							rob.setRCount(0);
+						}	
+					}
+					else {
+						rob.rotateRobot(map, "W");
+					}		
 				}
 				
 				else if (map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE){
@@ -1374,6 +1414,9 @@ public class Exploration implements Runnable {
 					}
 				}
 				else if(x-1 == 1) {
+					if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
+						rob.rotateRobot(map, "W");
+					}
 					if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE || map.grid[x-1][y+3].getBackground() == OBSTACLE)) {
 						rob.moveRobot(map, 1);
 					}
@@ -1445,7 +1488,7 @@ public class Exploration implements Runnable {
 					if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE) || (map.grid[x-1][y-1].getBackground() == OBSTACLE)) {
 						rob.rotateRobot(map, "S");
 					}
-					if (map.grid[x-1][y+2].getBackground() != OBSTACLE) {
+					if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE) ) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
@@ -1496,7 +1539,20 @@ public class Exploration implements Runnable {
 				}
 				
 				else if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)){
-					rob.rotateRobot(map, "E");
+					if ((map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)){
+						if (map.grid[x][y-1].getBackground() != OBSTACLE) { 
+							rob.setRCount(3);
+						}
+						if (rob.getRCount()==3) {
+							rob.rotateRobot(map, "W");
+							rob.moveRobot(map, 1);
+							rob.setRCount(0);
+						}	
+					}
+					else {
+						rob.rotateRobot(map, "E");
+					}	
+					
 				}
 				
 				else if (map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE){
