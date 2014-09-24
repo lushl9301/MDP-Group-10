@@ -155,8 +155,8 @@ public class MapGrid extends JPanel {
 		}
 		strMapDesc += "11";
 		
-		return toHex(strMapDesc);
-		//return strMapDesc;
+		return toHex(strMapDesc); // comment either one
+		//return strMapDesc; // comment this out if require a long string
 	}
 	
 	public String getMapDesc2() {
@@ -182,9 +182,8 @@ public class MapGrid extends JPanel {
 			else padEnough = true;
 		}
 		
-		//System.out.println(strMapDesc);
-		//return strMapDesc;
-		return toHex(strMapDesc);
+		//return strMapDesc; // comment this out if require long string
+		return toHex(strMapDesc); // comment either one
 	}
 	
 	public String toHex(String bin){
