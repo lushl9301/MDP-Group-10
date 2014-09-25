@@ -189,6 +189,36 @@ public class MapGrid extends JPanel {
 		//return toHex(strMapDesc); // comment either one
 	}
 	
+	public String getMapDesc3Testing() {
+		
+		System.out.println("");
+		System.out.println("2 means obs, 1 means explored; 0 means unexplored");
+		String strMapDesc = "";
+		strMapDesc += "111111112000000\n";
+		strMapDesc += "111111112000000\n";
+		strMapDesc += "111111112000000\n";
+		strMapDesc += "111111112222000\n";
+		strMapDesc += "111111111111200\n";
+		strMapDesc += "222111111111200\n";
+		strMapDesc += "002111111111222\n";
+		strMapDesc += "002111111111111\n";
+		strMapDesc += "002111111111111\n";
+		strMapDesc += "002111111111111\n";
+		strMapDesc += "002111111111111\n";
+		strMapDesc += "002111111111111\n";
+		strMapDesc += "002111111111111\n";
+		strMapDesc += "002111111111111\n";
+		strMapDesc += "002111111111111\n";
+		strMapDesc += "000221112222111\n";
+		strMapDesc += "000021112002111\n";
+		strMapDesc += "000021112002111\n";
+		strMapDesc += "000021112002111\n";
+		strMapDesc += "000021112002111\n";
+		//return toHex(strMapDesc); // comment either one
+		return strMapDesc; // comment this out if require a long string
+	}
+	
+	
 	public String toHex(String bin){
 		//System.out.println(bin);
 		BigInteger b = new BigInteger(bin, 2);
