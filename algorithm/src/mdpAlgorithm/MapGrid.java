@@ -146,20 +146,24 @@ public class MapGrid extends JPanel {
 	
 	public String getMapDesc() {
 		String strMapDesc = "11";
-		//strMapDesc += "\n"; // comment this out if require a long string
+		System.out.println("");
+		System.out.println("1 means explored; 0 means unexplored");
+		strMapDesc += "\n"; // comment this out if require a long string
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
 				strMapDesc += mapDescriptor1[j][i];
 			}
-			//strMapDesc += "\n"; // comment this out if require a long string
+			strMapDesc += "\n"; // comment this out if require a long string
 		}
 		strMapDesc += "11";
 		
-		return toHex(strMapDesc); // comment either one
-		//return strMapDesc; // comment this out if require a long string
+		//return toHex(strMapDesc); // comment either one
+		return strMapDesc; // comment this out if require a long string
 	}
 	
 	public String getMapDesc2() {
+		System.out.println("");
+		System.out.println("1 means obstacle; 0 means no obstacle; Unexplored grids not shown");
 		String strMapDesc = "";
 		int strLength = 0;
 		boolean padEnough = false;
@@ -171,7 +175,7 @@ public class MapGrid extends JPanel {
 					strMapDesc += mapDescriptor2[j][i];
 				}
 			}
-			//strMapDesc += "\n"; // comment this out if require a long string
+			strMapDesc += "\n"; // comment this out if require a long string
 		}
 
 		while (!padEnough) {
@@ -181,9 +185,8 @@ public class MapGrid extends JPanel {
 			}
 			else padEnough = true;
 		}
-		
-		//return strMapDesc; // comment this out if require long string
-		return toHex(strMapDesc); // comment either one
+		return strMapDesc; // comment this out if require long string
+		//return toHex(strMapDesc); // comment either one
 	}
 	
 	public String toHex(String bin){
