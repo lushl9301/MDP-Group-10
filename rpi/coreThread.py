@@ -91,7 +91,9 @@ class coreThread(threading.Thread):
         while not self.wifi.isConnected():
             continue
 
+        # send start signal to robot
         self.arduino.sendStart()
+
         print "==========================="
         print "PROJECT: DRAGON - BOOT UP /"
         print "==========================="
