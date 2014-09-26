@@ -1,19 +1,24 @@
 import serial
 import threading
 
+JSON_START = {"type": "START", "data": "START"}
+JSON_STOP = {"type": "STOP", "data": "STOP"}
+
 
 class piArduino:
     def __init__(self):
         self.ser = serial.Serial('/dev/ttyACM0', 9600)
-        print 'Arduino Connected'
+        print "Arduino Connected"
 
     def send(self, json_data):
         command = json_data["data"]
         self.ser.write(command)
-        print 'Send to Arduino: ' + command
+        print "Send to Arduino: " + command
 
     def receive(self):
-        return self.ser.readline()
+        # TODO: make sure it is JSON from the Arduino
+        json_data = self.ser.readline()
+        return json_data
 
 
 class arduinoThread(threading.Thread):
@@ -32,15 +37,13 @@ class arduinoThread(threading.Thread):
             self.piArduino.send(json_data)
 
         def sendStart(self):
-            # TODO: send start
-            self.piArduino.send()
+            self.piArduino.send(JSON_START)
 
         def sendStop(self):
-            # TODO: send stop
-            self.piArduino.send()
+            self.piArduino.send(JSON_STOP)
 
         def run(self):
-            print '[ Arduino Thread Start ]'
+            print "[ Arduino Thread Start ]"
             self.piArduino = piArduino()
 
             while 1:
