@@ -2,6 +2,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.OutputStreamWriter;
 import java.io.BufferedWriter;
+import java.io.IOException;
+import java.util.HashMap;
+
+// TODO: import JSONValue
 
 class PCClient {
 
@@ -55,10 +59,8 @@ class PCClient {
 		PCClient client = new PCClient("localhost", 8888)
 		try {
 			client.connect();
-			// if successful, try to get data
-			
+			// if successful, try to send data
 			client.readInput();
-
 		} catch (UnknownHostException e) {
 			System.err.println("Unknown Host");
 		} catch (IOException e) {
