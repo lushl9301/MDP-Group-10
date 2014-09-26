@@ -2,15 +2,16 @@ import threading
 import traceback
 import Queue
 
-from piArduino import piArduino
+from piArduino import arduinoThread
 from piWifi import wifiThread
+from piBT import btThread
 
 
 class protocolHandler:
-    def __init__(self, wifiThread, btThread, arduinoThread):
-        self.pc = wifiThread
-        self.bt = btThread
-        self.robot = arduinoThread
+    def __init__(self, wifi, bt, arduino):
+        self.pc = wifi
+        self.bt = bt
+        self.robot = arduino
 
     # what to do with the JSON data
     def decodeCommand(self, json_data):
@@ -48,27 +49,35 @@ class coreThread(threading.Thread):
 
     commandQueue = None
     lock = None
+    BUFFER = 3
 
-    def __init__(self, threadID, name, wifiThread, btThread, arduinoThread):
+    def __init__(self, threadID, name, wifi, bt, arduino):
         threading.Thread.__init__(self)
         self.threadID = threadID
         self.name = name
 
         # set the command queue
-        self.lock = threading.BoundedSemaphore(self.totalBuff)
+        self.lock = threading.BoundedSemaphore(self.BUFFER)
         self.commandQueue = Queue.Queue()
 
         # assign thread
-        self.wifiThread = wifiThread
-        self.btThread = btThread
-        self.arduinoThread = arduinoThread
+        self.wifi = wifi
+        self.bt = bt
+        self.arduino = arduino
 
         # assign handler for command
-        self.protocolHandler = protocolHandler(wifiThread, btThread, arduinoThread)
+        self.protocolHandler = protocolHandler(wifi, bt, arduino)
+
+    def addToQueue(self, json_data):
+        print "[ Adding to queue: " + str(json_data) + " ]"
+        self.commandQueue.put(json_data)
 
     def flushCommandQueue(self):
+        self.lock = threading.BoundedSemaphore(self.BUFFER)
+        self.arduino.sendStop()
         with self.commandQueue.mutex:
             self.commandQueue.queue.clear()
+        print "[ Flushed command queue ]"
 
     def processCommand(self):
         if not self.commandQueue.empty():
@@ -76,12 +85,15 @@ class coreThread(threading.Thread):
 
             self.lock.acquire()
             self.protocolHandler.decodeCommand(command)
+            self.lock.release()
 
     def run(self):
-        while not self.wifiThread.isConnected():
+        while not self.wifi.isConnected():
             continue
 
-        self.arduinoThread.sendStart()
+        # send start signal to robot
+        self.arduino.sendStart()
+
         print "==========================="
         print "PROJECT: DRAGON - BOOT UP /"
         print "==========================="
@@ -92,3 +104,18 @@ class coreThread(threading.Thread):
                     self.processCommand()
                 except Exception:
                         print "Unable to execute main thread"
+                        print traceback.format_exc()
+
+wifi = wifiThread(1, "WIFI")
+arduino = arduinoThread(2, "ARDUINO")
+bt = btThread(3, "BT")
+core = coreThread(0, "CORE", wifi, bt, arduino)
+
+wifi.assignMainThread(core)
+arduino.assignMainThread(core)
+bt.assignMainThread(core)
+
+wifi.start()
+arduino.start()
+bt.start()
+core.start()

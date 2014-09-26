@@ -23,7 +23,7 @@ class wifiThread (threading.Thread):
 
         def send(self, json_data):
             if self.connected:
-                    self.piWifi.send(json_data)
+                self.piWifi.send(json_data)
             else:
                 print 'Wifi not established for sending data'
 
@@ -36,7 +36,7 @@ class wifiThread (threading.Thread):
                     while 1:
                         receivedJSON = self.piWifi.receive()
                         # code to stop everything
-                        if receivedJSON["type"] == "CLEAR":
+                        if receivedJSON["type"] == "STOP":
                             self.mainthread.flushCommandQueue()
                         else:
                             self.mainthread.addToQueue(receivedJSON)
@@ -45,26 +45,26 @@ class wifiThread (threading.Thread):
                     print traceback.format_exc()
                 finally:
                     self.piWifi.close()
-                    self.connected = 0
+                    self.connected = False
 
 
 class piWifi:
-    # HOST = '192.168.10.10'
-    HOST = 'localhost'
-    PORT = 8888
+    # host = '192.168.10.10'
+    host = 'localhost'
+    port = 8888
     conn = None
     addr = None
     sock = None
 
-    def __init__(self, HOST='localhost', PORT=8888):
-        self.HOST = HOST
-        self.PORT = PORT
+    def __init__(self, host='localhost', port=8888):
+        self.host = host
+        self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         print '[Socket Created]'
 
         try:
-            self.sock.bind((self.HOST, self.PORT))
+            self.sock.bind((self.host, self.port))
 
         except socket.error as msg:
             print 'Bind failed, Error Code' + str(msg[0]) + ' Message' + msg[1]
@@ -81,7 +81,7 @@ class piWifi:
     def send(self, data):  # data is a dictionary
         json_string = json.dumps(data)
         if self.conn is not None:
-            print 'Send To PC: ' + str(data)
+            print 'Send To Wifi: ' + str(data)
             self.conn.send(json_string)
 
     def receive(self):
@@ -96,14 +96,9 @@ class piWifi:
                 completeJSON = True
         # TODO: add catch block if decoding fails
         json_data = json.loads(data)
-        print 'Receive From PC: ' + str(data)
+        print 'Receive From Wifi: ' + str(data)
         return json_data
 
     def close(self):
         self.conn.close()
         self.sock.close()
-
-piWifi = piWifi()
-
-while 1:
-        print piWifi.receive()

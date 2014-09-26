@@ -200,6 +200,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				sendMessage("a");
+				map.turnLeftMap();
 			}
     	});
     	rightButton.setOnClickListener(new OnClickListener(){
@@ -207,6 +208,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				sendMessage("d");
+				map.turnRightMap();
 			}
     	});
     	upButton.setOnClickListener(new OnClickListener(){
@@ -214,6 +216,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				sendMessage("w");
+				map.moveForwardMap();
 			}
     	});
     	downButton.setOnClickListener(new OnClickListener(){

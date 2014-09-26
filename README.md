@@ -60,7 +60,7 @@
 ####Sent from RPi
 ```
 {
-	type: "map" / "status"
+	type: "map" / "status" /
 	data (map): {
 		UL		: #
 		IRLF	: #
@@ -69,6 +69,8 @@
 		IRL		: #
 		UR		: #
 		IRR		: #
+        X       : #
+        Y       : #
 	}
 	data (status): "END_EXP" / "END_PATH"
 }

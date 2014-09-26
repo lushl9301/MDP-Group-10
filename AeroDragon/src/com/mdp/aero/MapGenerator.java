@@ -27,6 +27,7 @@ public class MapGenerator {
 		Log.i("tag", "create arena ok");
 		printArray(arena);
 		Log.i("tag", "print arena ok");
+		setEast(r.getPosition());
 
 	}
 	public Robot getRobot (){
@@ -50,7 +51,7 @@ public class MapGenerator {
 		Robot r = new Robot();
 		r.setPosition(initial);
 		r.setDirection(r.EAST);//default set to south DO WE WANT TO MAKE THIS A VARIABLE?
-    	
+		
 		return r;
 	}
 	private void createArena(GridLayout gv)
@@ -64,7 +65,7 @@ public class MapGenerator {
         		tv = new TextView(this.context);
         		tv.setBackgroundColor(Color.parseColor("#686868")); //arena colour
         		//tv.setText("."); for the real output
-        		if (counter ==0 || counter ==1||counter ==2 || 
+        		/*if (counter ==0 || counter ==1||counter ==2 || 
         				counter ==20||counter ==21 || counter ==22||
         				counter ==40||counter ==41 || counter ==42 ||
         				counter ==257 || counter ==258||counter ==259 || 
@@ -72,7 +73,7 @@ public class MapGenerator {
         				counter ==297||counter ==298 || counter ==299)
         		{
         			tv.setBackgroundColor(Color.parseColor("#FF0000"));
-        		}
+        		}*/
         		tv.setId(counter);
         		tv.setText(Integer.toString(tv.getId()));
         		tv.setGravity(Gravity.CENTER);
@@ -111,7 +112,7 @@ public class MapGenerator {
         		resetThis = (TextView)gv.getChildAt(i);
         		resetThis.setBackgroundColor(Color.parseColor("#686868")); //arena colour
         		
-        		if (i ==0 || i ==1||i ==2 || 
+        		/*if (i ==0 || i ==1||i ==2 || 
         				i ==20||i ==21 || i ==22||
         				i ==40||i ==41 || i ==42||
         				i ==257 || i ==258||i ==259 || 
@@ -119,7 +120,7 @@ public class MapGenerator {
         				i ==297||i ==298 || i ==299)
         		{
         			resetThis.setBackgroundColor(Color.parseColor("#FF0000"));
-        		}
+        		}*/
         		i++;
         	}
 		} 
@@ -137,8 +138,8 @@ public class MapGenerator {
 		initial[2][2] = 42;
 		
 		r.setPosition(initial);
-		//r.setDirection(r.EAST);//default set to south DO WE WANT TO MAKE THIS A VARIABLE?
-		//setEast(r.getPosition());
+		r.setDirection(r.EAST);//default set to south DO WE WANT TO MAKE THIS A VARIABLE?
+		setEast(r.getPosition());
 		  
 	}
 	
@@ -166,6 +167,7 @@ public class MapGenerator {
         bottomMid= (TextView)gv.getChildAt(currentPosition[2][1]);
         
         Log.i("tag","in set North");
+        clearMapColourRobot(topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight,topMid, bottomMid,midMid);
         colourRobot(topLeft, topRight, bottomLeft, bottomRight,topMid, bottomMid);
 	}
 	public void setEast(int[][] currentPosition){        
@@ -179,6 +181,7 @@ public class MapGenerator {
         bottomRight = (TextView)gv.getChildAt(currentPosition[2][0]);
         bottomMid= (TextView)gv.getChildAt(currentPosition[1][0]);
         Log.i("tag","in set East");
+        clearMapColourRobot(topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight,topMid, bottomMid,midMid);
         colourRobot(topLeft, topRight, bottomLeft, bottomRight,topMid, bottomMid);
 	}
 	public void setSouth(int[][] currentPosition){        
@@ -192,6 +195,7 @@ public class MapGenerator {
         bottomRight = (TextView)gv.getChildAt(currentPosition[0][0]);
         bottomMid= (TextView)gv.getChildAt(currentPosition[0][1]);
         Log.i("tag","in set South");
+        clearMapColourRobot(topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight,topMid, bottomMid,midMid);
         colourRobot(topLeft, topRight, bottomLeft, bottomRight,topMid, bottomMid);
 	}
 	public void setWest(int[][] currentPosition){
@@ -205,6 +209,7 @@ public class MapGenerator {
         bottomRight = (TextView)gv.getChildAt(currentPosition[0][2]);
         bottomMid= (TextView)gv.getChildAt(currentPosition[1][2]);
         Log.i("tag","in set West");
+        clearMapColourRobot(topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight,topMid, bottomMid,midMid);
         colourRobot(topLeft, topRight, bottomLeft, bottomRight,topMid, bottomMid);
 	}
 	public void moveForwardMap() {
@@ -246,9 +251,10 @@ public class MapGenerator {
 	            
 		        Log.i("tag","robot east");
 		        Log.i("tag",curTopLeft.getText().toString());
-		        int temp = Integer.parseInt(topLeft.getText().toString());
-		        if ( (temp+2)%20==0 ){
+		        int temp = Integer.parseInt(curTopLeft.getText().toString());
+		        if ( (temp+1)%20==0 ){
 		        	Log.i("tag","invalid move");
+		        	clearMapColourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,curMidLeft, curMidRight,curTopMid, curBottomMid,curMidMid);
 		        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
 		        	return;
 		        }
@@ -279,6 +285,7 @@ public class MapGenerator {
 		        Log.i("tag",curTopLeft.getText().toString());
 		        if ( Integer.parseInt(curTopLeft.getText().toString())>=280 && Integer.parseInt(topLeft.getText().toString())<300){
 		        	Log.i("tag","invalid move");
+		        	clearMapColourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,curMidLeft, curMidRight,curTopMid, curBottomMid,curMidMid);
 		        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
 		        	return;
 		        }
@@ -310,6 +317,7 @@ public class MapGenerator {
 		        Log.i("tag",curTopLeft.getText().toString());
 		        if ( Integer.parseInt(curTopLeft.getText().toString())%20==0 ){
 		        	Log.i("tag","invalid move");
+		        	clearMapColourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,curMidLeft, curMidRight,curTopMid, curBottomMid,curMidMid);
 		        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
 		        	return;
 		        }
@@ -341,6 +349,7 @@ public class MapGenerator {
 		        Log.i("tag",curTopLeft.getText().toString());
 		        if ( Integer.parseInt(topLeft.getText().toString())>=0 && Integer.parseInt(topLeft.getText().toString())<20){
 		        	Log.i("tag","invalid move");
+		        	clearMapColourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,curMidLeft, curMidRight,curTopMid, curBottomMid,curMidMid);
 		        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
 		        	return;
 		        }
@@ -512,10 +521,22 @@ public class MapGenerator {
 	}
 	public void colourRobot(TextView topLeft, TextView topRight, TextView bottomLeft, TextView bottomRight,TextView topMid, TextView bottomMid){
 		topLeft.setBackgroundColor(Color.GREEN);
-		topMid.setBackgroundColor(Color.GREEN);
+		//topMid.setBackgroundColor(Color.GREEN);
         topRight.setBackgroundColor(Color.GREEN);
-        bottomLeft.setBackgroundColor(Color.BLUE);
+        //bottomLeft.setBackgroundColor(Color.BLUE);
         bottomMid.setBackgroundColor(Color.BLUE);
-        bottomRight.setBackgroundColor(Color.BLUE);
+        //bottomRight.setBackgroundColor(Color.BLUE);
+	}
+
+	public void clearMapColourRobot(TextView topLeft, TextView topRight, TextView bottomLeft, TextView bottomRight,TextView midLeft, TextView midRight, TextView topMid, TextView bottomMid,TextView midMid){
+		topLeft.setBackgroundColor(Color.TRANSPARENT);
+		topMid.setBackgroundColor(Color.MAGENTA);
+        topRight.setBackgroundColor(Color.TRANSPARENT);
+        bottomLeft.setBackgroundColor(Color.MAGENTA);
+        midRight.setBackgroundColor(Color.MAGENTA);
+        midLeft.setBackgroundColor(Color.MAGENTA);
+        bottomMid.setBackgroundColor(Color.TRANSPARENT);
+        bottomRight.setBackgroundColor(Color.MAGENTA);
+        midMid.setBackgroundColor(Color.MAGENTA);
 	}
 }
