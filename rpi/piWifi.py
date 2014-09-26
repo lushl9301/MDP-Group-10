@@ -102,8 +102,3 @@ class piWifi:
     def close(self):
         self.conn.close()
         self.sock.close()
-
-piWifi = piWifi()
-
-while 1:
-        print piWifi.receive()

@@ -1,6 +1,8 @@
 from bluetooth import *
 import json
 import traceback
+import threading
+import Queue
 
 
 class btThread(threading.Thread):
@@ -62,7 +64,7 @@ class piBT:
                           service_classes=[self.uuid, SERIAL_PORT_CLASS],
                           profiles=[SERIAL_PORT_PROFILE],
                           )
-        print "Waiting for BT connection on RFCOMM channel " + self.port
+        print "Waiting for BT connection on RFCOMM channel " + str(self.port)
         self.client_sock, self.client_info = self.server_sock.accept()
         print "Accepted BT connection from ", self.client_info
 

@@ -49,6 +49,7 @@ class coreThread(threading.Thread):
 
     commandQueue = None
     lock = None
+    BUFFER = 3
 
     def __init__(self, threadID, name, wifi, bt, arduino):
         threading.Thread.__init__(self)
@@ -56,7 +57,7 @@ class coreThread(threading.Thread):
         self.name = name
 
         # set the command queue
-        self.lock = threading.BoundedSemaphore(self.totalBuff)
+        self.lock = threading.BoundedSemaphore(self.BUFFER)
         self.commandQueue = Queue.Queue()
 
         # assign thread
@@ -67,9 +68,16 @@ class coreThread(threading.Thread):
         # assign handler for command
         self.protocolHandler = protocolHandler(wifi, bt, arduino)
 
+    def addToQueue(self, json_data):
+        print "[ Adding to queue: " + str(json_data) + " ]"
+        self.commandQueue.put(json_data)
+
     def flushCommandQueue(self):
+        self.lock = threading.BoundedSemaphore(self.BUFFER)
+        self.arduino.sendStop()
         with self.commandQueue.mutex:
             self.commandQueue.queue.clear()
+        print "[ Flushed command queue ]"
 
     def processCommand(self):
         if not self.commandQueue.empty():
@@ -77,6 +85,7 @@ class coreThread(threading.Thread):
 
             self.lock.acquire()
             self.protocolHandler.decodeCommand(command)
+            self.lock.release()
 
     def run(self):
         while not self.wifi.isConnected():
