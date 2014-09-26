@@ -162,11 +162,10 @@ void MotorShield::setBrakes(int m1Brake, int m2Brake) {
 
 void MotorShield::brakeWithABS() {
     for (int i = 0; i < 20; i++) {
-        setBrakes(100, 100);
-        delay(5);
-        setBrakes(300, 300);
-        delay(5);
+        setBrakes(270, 270);
+        delay(2);
         setBrakes(400, 400);
+        delay(3);
     }
 }
 
