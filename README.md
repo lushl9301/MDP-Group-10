@@ -5,8 +5,10 @@
 - [ ] A1. The Raspberry Pi board (RPi) is able to
     - [x] accessed via a PC/notebook over Wifi
     - [x] be wirelessly connected to the Nexus 7 tablet
-    - [ ] communicate with the Arduino board through over a USB->Serial connection
-
+    - [x] communicate with the Arduino board through over a USB->Serial connection
+    - [ ] multithread between 3 components
+    - [ ] decode the data received (need testing)
+ 
 ####Arduino Team
 - [x] A2. Sensors calibrated to correctly return distance to obstacle
 - [x] A3. Accurate straight line motion
@@ -44,6 +46,34 @@
 
 
 ##Communication Format
+
+###JSON Format (RPi communication with Android and PC)
+
+####Received by RPi
+```
+{
+	type: "command" / "movement"
+	data (command)	: "START_EXP" / "START_PATH" / "STOP"
+	data (movement)	: "LRL4RRL"
+}
+```
+####Sent from RPi
+```
+{
+	type: "map" / "status"
+	data (map): {
+		UL		: #
+		IRLF	: #
+		IRRF	: #
+		UL		: #
+		IRL		: #
+		UR		: #
+		IRR		: #
+	}
+	data (status): "END_EXP" / "END_PATH"
+}
+```
+
 ###RPi/PC -> Arduino
 All ```Numbers``` and ```Chars```
 
