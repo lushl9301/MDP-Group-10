@@ -214,6 +214,11 @@ public class MapGrid extends JPanel {
 		strMapDesc += "000021112002111\n";
 		strMapDesc += "000021112002111\n";
 		strMapDesc += "000021112002111\n";
+		
+		
+		//do a toBinary function
+		//generate a md3
+		
 		//return toHex(strMapDesc); // comment either one
 		return strMapDesc; // comment this out if require a long string
 	}
