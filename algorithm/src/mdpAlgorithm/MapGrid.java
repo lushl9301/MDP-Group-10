@@ -102,17 +102,16 @@ public class MapGrid extends JPanel {
 	public void setMapDesc(int x, int y) {
 		mapDescriptor1[x-1][y-1] = 1;
 		mapDescriptor2[x-1][y-1] = "0";
-		toConfirmObstacle[x-1][y-1]--;
 		setMapDescLabel(x, y);
+		toConfirmObstacle[x-1][y-1]--;
 	}
 	
 	
 	public void setMapDescObstacles(int x, int y) {
 		mapDescriptor1[x-1][y-1] = 1;
 		mapDescriptor2[x-1][y-1] = "1";
-		toConfirmObstacle[x-1][y-1]++;
 		setMapDescLabelObstacles(x, y);
-		
+		toConfirmObstacle[x-1][y-1]++;
 	}
 	
 	
@@ -215,10 +214,10 @@ public class MapGrid extends JPanel {
 		newMd1 = newMd1.substring(2, newMd1.length()-2);	
 		String[] md1Array = toStringArr(newMd1);
 		String[] md2Array = toStringArr(newMd2);
-		
+
 		// make md3
-		int md1Counter = 0;
-		int md2Counter = 0;
+		int md1Counter = 1;
+		int md2Counter = 1;
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
 				if(md1Array[md1Counter].equals("1")) {

@@ -110,11 +110,11 @@ public class Exploration implements Runnable {
 		System.out.println(map.getMapDesc());
 		System.out.println(map.getMapDesc2());
 		System.out.println(map.getMapDescRealTime());
-		int[][] md3 = map.getMapDesc3Testing(map.getMapDesc(), map.getMapDesc2());
-		for (int j = 0; j< 15; j++) {
-			for(int i = 0; i < 20; i++) {
-			
-				System.out.print(md3[j][i]);
+		int[][] mapDesc3 = map.getMapDesc3Testing(map.getMapDesc(), map.getMapDesc2());
+		for(int i = 0; i < 20; i++) {	
+			for (int j = 0; j< 15; j++) {
+
+				System.out.print(mapDesc3[j][i]);
 			}
 			System.out.println();
 		}
