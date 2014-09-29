@@ -121,26 +121,26 @@ while (!Serial.available() || Serial.read() != 'P'); //Shortest Path
 
 ###Exploration
 * Exploration Start:
-** Android -> (command to start exploration) -> RPi -> (command to start exploration) -> Arduino
+    * Android -> (command to start exploration) -> RPi -> (command to start exploration) -> Arduino
 
 * Exploration:
-** Arduino -> (sensor readings, direction, coordinate) -> RPi -> (sensor readings, direction, coordinate) -> PC & Android
+    * Arduino -> (sensor readings, direction, coordinate) -> RPi -> (sensor readings, direction, coordinate) -> PC & Android
 
 * Exploration End:
-** Arduino -> (status exploration end) -> RPi -> (status exploration end) -> Android & PC 
-** PC -> (map matrix) -> RPi -> (map matrix) -> Android
+    * Arduino -> (status exploration end) -> RPi -> (status exploration end) -> Android & PC 
+    * PC -> (map matrix) -> RPi -> (map matrix) -> Android
 
 ###Shortest Path
 * Shortest Path Start:
-** Android -> (command to start shortest path) -> RPi -> (command to start shortest path) -> Arduino & PC
-** PC -> (shortest path movement) -> RPi -> (shortest path movement) -> Arduino
+    * Android -> (command to start shortest path) -> RPi -> (command to start shortest path) -> Arduino & PC
+    * PC -> (shortest path movement) -> RPi -> (shortest path movement) -> Arduino
 
 * Shortest Path:
-** Arduino -> (direction, coordinate) -> RPi -> (direction, coordinate) -> Android
+    * Arduino -> (direction, coordinate) -> RPi -> (direction, coordinate) -> Android
 
 * Shortest Path End:
-** Arduino -> (status shortest path end) -> RPi -> (status shortest path end) -> Android 
+    * Arduino -> (status shortest path end) -> RPi -> (status shortest path end) -> Android 
 
 ###Free Movement:
 * Free Movement:
-** Android -> (movement command) -> RPi -> (movement command) -> Arduino
+    * Android -> (movement command) -> RPi -> (movement command) -> Arduino
