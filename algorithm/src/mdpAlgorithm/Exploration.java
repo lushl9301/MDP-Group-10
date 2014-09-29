@@ -105,7 +105,14 @@ public class Exploration implements Runnable {
 		} while(!pathTravelled.isEmpty() && !completed);
 		System.out.println(map.getMapDesc());
 		System.out.println(map.getMapDesc2());
-		System.out.println(map.getMapDesc3Testing());
+		int[][] md3 = map.getMapDesc3Testing(map.getMapDesc(), map.getMapDesc2());
+		for (int j = 0; j< 15; j++) {
+			for(int i = 0; i < 20; i++) {
+			
+				System.out.print(md3[j][i]);
+			}
+			System.out.println();
+		}
 //		Stack<Robot> pathTravelled = new Stack<Robot>();
 //		pathTravelled.push(rob);
 	}
