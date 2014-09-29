@@ -126,10 +126,8 @@ public class MapGrid extends JPanel {
 				grid[x][y].setLabel("0");
 		}
 		else if(md3) {
-			if(!grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))
-				
+			if(!grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))			
 				grid[x][y].setLabel(Integer.toString(toConfirmObstacle[x-1][y-1]));
-			System.out.println("MD3");
 		}
 	}
 	
@@ -143,8 +141,7 @@ public class MapGrid extends JPanel {
 				grid[x][y].setLabel("1");
 		}
 		else if(md3) {
-			if(!grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))
-				
+			if(!grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))	
 				grid[x][y].setLabel(Integer.toString(toConfirmObstacle[x-1][y-1]));
 		}
 	}
@@ -235,52 +232,35 @@ public class MapGrid extends JPanel {
 				md1Counter++;
 			}
 		}
-
-		
-		// richard testing
-//		System.out.println("");
-//		System.out.println("2 means obs, 1 means explored; 0 means unexplored");
-//		String strMapDesc = "";
-//		strMapDesc += "111111112000000\n";
-//		strMapDesc += "111111112000000\n";
-//		strMapDesc += "111111112000000\n";
-//		strMapDesc += "111111112222000\n";
-//		strMapDesc += "111111111111200\n";
-//		strMapDesc += "222111111111200\n";
-//		strMapDesc += "002111111111222\n";
-//		strMapDesc += "002111111111111\n";
-//		strMapDesc += "002111111111111\n";
-//		strMapDesc += "002111111111111\n";
-//		strMapDesc += "002111111111111\n";
-//		strMapDesc += "002111111111111\n";
-//		strMapDesc += "002111111111111\n";
-//		strMapDesc += "002111111111111\n";
-//		strMapDesc += "002111111111111\n";
-//		strMapDesc += "000221112222111\n";
-//		strMapDesc += "000021112002111\n";
-//		strMapDesc += "000021112002111\n";
-//		strMapDesc += "000021112002111\n";
-//		strMapDesc += "000021112002111\n";
-		
 		//return toHex(strMapDesc); // comment either one
 		return mapDescriptor3; // comment this out if require a long string
 	}
 	
-	// TEsting for confirming obstacle
-	public String getConfirmedObstacleMap() {
-		String strMapDesc = "start";
-		System.out.println("");
-		System.out.println("Obstacle confirmation");
-		//strMapDesc += "\n"; // comment this out if require a long string
+	//For real time
+	public String getMapDescRealTime() {
+		System.out.println();
+		String strMapDescRealTime = "start of real time";
+		strMapDescRealTime += "\n"; // comment this out if require a long string
 		for(int i = 0; i < 20; i++) {
-			for (int j = 0; j< 15; j++) {
-				strMapDesc += toConfirmObstacle[j][i];
+			for (int j = 0; j< 15; j++) {				
+				if(toConfirmObstacle[j][i] >= 4) {
+					strMapDescRealTime += 2;
+				}
+				else if(toConfirmObstacle[j][i] > 0 && toConfirmObstacle[j][i] < 4) {
+					strMapDescRealTime += 1;
+				}
+				else if(toConfirmObstacle[j][i] < 0) {
+					strMapDescRealTime += 1;
+				}
+				else if(toConfirmObstacle[j][i] == 0) {
+					strMapDescRealTime += 0;
+				}
 			}
-			strMapDesc += "\n"; // comment this out if require a long string
+			strMapDescRealTime += "\n"; // comment this out if require a long string
 		}
-		strMapDesc += "end";
+		strMapDescRealTime += "end of real time";
 		//return toHex(strMapDesc); // comment either one
-		return strMapDesc; // comment this out if require a long string
+		return strMapDescRealTime; // comment this out if require a long string
 	}
 	
 	
