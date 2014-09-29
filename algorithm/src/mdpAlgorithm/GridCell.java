@@ -41,7 +41,7 @@ class GridCell extends JPanel {
 	
 	public void clearLabels() {
 		this.label = "0";
-		if(label1.getText().equals("1") || label1.getText().equals("0"))
+		if(!label1.getText().equals("Start") &&  !label1.getText().equals("Goal"))
 			label1.setText("");
 	}
 }
