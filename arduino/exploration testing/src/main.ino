@@ -6,6 +6,10 @@
 #include "URM37.h"     // Ultrasonic
 #include "MotorShield.h"
 
+#include "JsonGenerator/JsonGenerator.h" //adding Json generator https://github.com/bblanchon/ArduinoJson
+
+using namespace ArduinoJson::Generator;
+
 //digital 0, 1 are not alow to use ==> serial port is using
 //digital 2, 3, 4, 7, 8, 9, 10, 13 are occuppied by motor shield & encoder
 //A0, A1, 6, 12 need to be kicked out before use
@@ -32,9 +36,11 @@
 
 //#define longIR_F_in A4
 /**********************/
-#define RisingEdgePerGrid 380 // need testing
-#define RisingEdgePerTurn_200 382 //for speed 200
+#define RisingEdgePerGrid 273 // need testing
 #define stepToStraighten 3 //every 5 step make a auto adjust
+#define speedModeSpeed 300
+
+int RisingEdgePerTurn_200 = 395; //for speed 200 382
 
 
 volatile int direction;
@@ -89,8 +95,8 @@ void setup() {
     //     delay(500);
     // }
     // while (1) {
-    //     goAhead(7);
-    //     delay(500);
+    //      goAhead(1);
+    //      delay(100);
     // }
     // 
     /*drifting
@@ -135,28 +141,60 @@ void loop() {
     // }
     
     //waitForCommand();
+    // while(1) {
+    //     straighten();
+    //     turn(-1);
+    //     straighten();
+    //     turn(-1);
+    //     goAhead(6);
+    //     turn(1);
+    //     turn(1);
+    //     goAhead(6);
+    //     delay(500);
+    // }
+    
 
+    // RisingEdgePerTurn_200 /= 2;
+    // RisingEdgePerTurn_200 -= 10;
+    // int i = 8;
+    // while (i--) {
+    //     turn(1);
+    //     delay(200);
+    // }
+    // RisingEdgePerTurn_200 = 395 * 4 + 35;
+    // i = 3;
+    // while (i--) {
+    //     turn(1);
+    //     delay(400);
+    // }
+
+    RisingEdgePerTurn_200 = 395;
     currentX = 10;
     currentY = 7;
-    pwd = 1;
-    //findWall();
+    pwd = 1; //north
+    findWall();
 
+    pwd = 1;
     counter_for_straighten = stepToStraighten; //every 3 or 5 step do a straighten
     goalX = 1;
     goalY = 1;
     exploration();
-    delay(1000);
+    Serial.println("I reach here");
+    delay(3000);
     arriving(0);
 
+    turn(1);
     goalX = 20;
     goalY = 15;
     exploration();
-    delay(1000);
+    delay(3000);
     arriving(1);
 
+    turn(1);
     goalX = 1;
     goalY = 1;
     exploration();
+    delay(3000);
     arriving(0);
 
     waitForCommand();
@@ -168,17 +206,17 @@ void loop() {
 
 void sensorReading() {
     while ((u_F_dis = u_F.getDis()) == 0) {
-        delay(50);
+        delay(10);
     }
     while ((u_L_dis = u_L.getDis()) == 0) {
-        delay(50);
+        delay(10);
     }
     while ((u_R_dis = u_R.getDis()) == 0) {
-        delay(50);
+        delay(10);
     }
 
     ir_rf_dis = shortIR_RF.getDis();
-    ir_lf_dis = shortIR_LF.getDis();
+    ir_lf_dis = shortIR_LF.getDis() * 0.95;
 
     ir_r_dis = shortIR_R.getDis();
     ir_l_dis = longIR_L.getDis();
@@ -189,23 +227,47 @@ void sensorReading() {
 void thinkForAWhile() {
     //think
     //send and delay
-    Serial.println("==========================");
-    Serial.println("UF " + String(u_F_dis));
-    Serial.println("IRLF " + String(ir_lf_dis));
-    Serial.println("IRRF " + String(ir_rf_dis));
-
-    Serial.println("UL " + String(u_L_dis));
-    Serial.println("IRL " + String(ir_l_dis));
+    //cancel delay
     
-    Serial.println("UR " + String(u_R_dis));
-    Serial.println("IRR " + String(ir_r_dis));
-    Serial.println("___________________________");
-    delay(200);
+    JsonObject<10> talk_Json;
+    talk_Json["X"] = currentX;
+    talk_Json["Y"] = currentY;
+    talk_Json["direction"] = pwd;
+
+    talk_Json["U_F"] = u_F_dis;
+    talk_Json["U_R"] = u_R_dis;
+    talk_Json["U_L"] = u_L_dis;
+
+    talk_Json["short_LF"] = ir_lf_dis;
+    talk_Json["short_RF"] = ir_rf_dis;
+
+    talk_Json["short_FR"] = ir_r_dis;
+
+    talk_Json["long_BL"] = ir_l_dis;
+    Serial.print(talk_Json);
+    Serial.println();
+
+    //root.prettyPrintTo(Serial);
+
+    // Serial.println("==========================");
+    // Serial.println("X" + String(currentX));
+    // Serial.println("Y" + String(currentY));
+    // Serial.println("UF " + String(u_F_dis));
+    // Serial.println("IRLF " + String(ir_lf_dis));
+    // Serial.println("IRRF " + String(ir_rf_dis));
+
+    // Serial.println("UL " + String(u_L_dis));
+    // Serial.println("IRL " + String(ir_l_dis));
+
+    // Serial.println("UR " + String(u_R_dis));
+    // Serial.println("IRR " + String(ir_r_dis));
+    // Serial.println("___________________________");
+
 }
 
 void exploration() {
     empty_space_R = 0;
-    while (abs(goalX - currentX) >= 2 && abs(goalY - currentY) >= 2) {
+    while (abs(goalX - currentX) >= 2 || abs(goalY - currentY) >= 2) {
         //check right
         
         //get all sensor data here.
@@ -216,7 +278,8 @@ void exploration() {
             Serial.println("RRRRRRR");
             if (empty_space_R >= 2) {
                 turn(1);
-                empty_space_R = 0;
+                empty_space_R = -1;
+                counter_for_straighten = stepToStraighten;
                 continue;
             }
         } else {
@@ -224,19 +287,18 @@ void exploration() {
             Serial.println("right no space");
             if (--counter_for_straighten == 0) {    //auto fix
                 turn(1);    //turn right
-                if (able2Straighten()) {
-                    //TODO testing
-                    straighten();
-                }
+                straighten();
                 turn(-1);   //turn left
-                counter_for_straighten = 3;
+                counter_for_straighten = stepToStraighten;
+                sensorReading();
             }
         }
 
-        if (u_F_dis <= 6) {
+        if (u_F_dis <= 10 || ir_lf_dis > 400 || ir_rf_dis > 400) { //TODO at one edge of arena. strange things happened
             Serial.println("shit in front");
-            //straighten();
+            straighten();
             turn(-1);   //turn left
+            counter_for_straighten = stepToStraighten;
             empty_space_R = 0;
             continue;
         }
@@ -245,7 +307,7 @@ void exploration() {
         //default go ahead
         //if (u_F_dis > 12 && ir_rf_dis < 400 && ir_lf_dis < 400) {
             //can go
-            goAhead(1);
+        goAhead(1);
         //}
     }
 }
@@ -258,15 +320,18 @@ bool isGoodObstacle() {
 }
 
 bool able2Straighten() {
-    return (abs(shortSensorToCM(ir_rf_dis) - shortSensorToCM(ir_lf_dis)) < 10);
+    if (ir_rf_dis > 500 && ir_lf_dis > 500) {
+        return true;
+    }
+    return (abs(ir_rf_dis - ir_lf_dis) < 100);
 }
 
-int shortSensorToCM() {
+int shortSensorToCM(int ir_rf_dis) {
     //TODO
     //add library here
 }
 
-int longSensorToCM() {
+int longSensorToCM(int ir_l_dis) {
     //TODO
     //add library here
 }
@@ -287,38 +352,33 @@ void findWall() {
     int f_dis = min(ir_rf_dis, ir_lf_dis);
     
     int tempDis = f_dis;
-    int tempMin = 0;
+    int tempMin = 1;
     
-    for (int i = 1; i <= 4; ++i) {
+    for (int i = 2; i <= 4; ++i) {
         turn(1);
         sensorReading();
         if (!isGoodObstacle()) {
             continue;
         }
         f_dis = min(ir_rf_dis, ir_lf_dis);
-        if (tempDis < f_dis && f_dis - tempDis > 10) {
+        if (tempDis < f_dis && (f_dis - tempDis) > 10) {
             //ignore small difference
             tempMin = i;
             tempDis = f_dis;
         }
     }
-    
-    for (int i = tempMin; i > 0; --i) {
+    turn(1);
+    for (int i = 1; i < tempMin; ++i) {
         turn(1);
     }
 
     sensorReading();
     int farthestX = currentX;
     int farthestY = currentY;
-    int farthestDis = max(u_L_dis, u_R_dis);
+    int farthestDis = 3;
     Serial.println("Found neasest one");
 
     while (1) {
-        if (u_F_dis <= 6) {
-            break;
-        }
-        goAhead(1);
-        sensorReading();
         if (u_L_dis > farthestDis) {
             farthestDis = u_L_dis;
             farthestX = currentX;
@@ -329,6 +389,11 @@ void findWall() {
             farthestX = -currentX;
             farthestY = -currentY;
         }
+        if (u_F_dis <= 10) {
+            break;
+        }
+        goAhead(1);
+        sensorReading();
     }
 
     straighten();
@@ -344,7 +409,7 @@ void findWall() {
     turn(1);
     turn(1);
 
-    int grids2goback = (abs(farthestX - currentX) + abs(farthestY - currentY)) / 10;
+    int grids2goback = abs(abs(farthestX) - currentX) + abs(abs(farthestY) - currentY)  ;
     Serial.print("Go back =======>");
     Serial.println(grids2goback);
     while (grids2goback > 0) {
@@ -353,10 +418,9 @@ void findWall() {
     }
 
     if (farthestX < 0) {
-        turn(-1); //on right. go back. turn left
-    } else {
+        turn(-1); //was on the right. go back. turn left
+    } else {        
         turn(1);
-
     }
     Serial.println("I found the wall");
     //found where is the wall
@@ -364,11 +428,12 @@ void findWall() {
     //go to the wall
     while (1) {
         sensorReading();
-        if (u_F_dis <= 6) {
+        if (u_F_dis <= 10) {
             break;
         }
         goAhead(1);
     }
+
     straighten();
 
     turn(-1);
@@ -396,44 +461,41 @@ void arriving(int endPoint) {
     //TODO
     //when near the end point
     //do nice stop
-    if (!endPoint) {
-        if (pwd == 4) {
+    if (endPoint) {
+        if (pwd == 3) {
             turn(-1); //face down/3
         }
         straighten();
     
         //now face 3
         turn(1); // turn right
-        ++pwd;
         straighten();
         turn(1);
-        turn(1);
     } else {
-        if (pwd == 2) {
+        if (pwd == 1) {
             turn(-1); //face up/1
         }
         straighten();
 
         //now face up 1
         turn(1); //turn right
-        ++pwd;
         straighten();
-        turn(1);
         turn(1);
     }
     //face to
-    //||
-    //|| (1, 1)
-    //|| o -> 2
     //==========
+    //|| o -> 2
+    //|| (1, 1)
+    //|| 
+
     //
     //OR
     //
-    //===========
-    //  4 <- o ||
-    // (20, 15)||
-    //         ||
     //
+    //         ||
+    // (20, 15)||
+    //  4 <- o ||
+    //===========
 
 }
 
@@ -479,7 +541,7 @@ void goAhead(int grids) {
     attachInterrupt(1, countRight, RISING);
 
     md.init();
-    md.setSpeeds(250, 250);
+    md.setSpeeds(speedModeSpeed, speedModeSpeed);
     while (--leftMCtr) {
         while (digitalRead(motor_L));
         while (!digitalRead(motor_L));
@@ -493,17 +555,17 @@ void goAhead(int grids) {
     
     //update direciton
     switch (pwd) {
-        case 1: currentY +=grids;
+        case 1: currentY -=grids;
                 break;
         case 2: currentX +=grids;
                 break;
-        case 3: currentY -=grids;
+        case 3: currentY +=grids;
                 break;
         case 4: currentX -=grids;
                 break;
         default: break;
     }
-    delay(3000);
+    delay(500);
 }
 
 void turn(int turnRight) {
@@ -536,7 +598,7 @@ void turn(int turnRight) {
     } else if (pwd == 0) {
         pwd = 4;
     }
-    delay(3000);
+    delay(500);
 }
 
 
@@ -574,7 +636,7 @@ void detachTimerInterrupt() {
 }
 ISR(TIMER1_COMPA_vect) {
     if (speedMode) {
-        md.setM2Speed((250 - delta*5) * direction);
+        md.setM2Speed((speedModeSpeed - delta*5) * direction);
     } else {
         md.setM2Speed((200 - delta*5) * direction);
     }
@@ -588,6 +650,10 @@ ISR(TIMER1_COMPA_vect) {
 
 
 void straighten() {
+    sensorReading();
+    if (!isGoodObstacle()) {
+        return;
+    }
     adjustDistance();
     delay(50);
     adjustDirection();
@@ -598,11 +664,11 @@ void adjustDirection() {
     //Ultrasonic go until 5cm
     int speed = 60;
     int l, r;
-    for (int i = 0; i < 800; i++) {
-        l = shortIR_LF.getDis();
+    for (int i = 0; i < 150; i++) {
+        l = shortIR_LF.getDis() * 0.95;
         r = shortIR_RF.getDis();
-        delay(10);
-        if (r > l + 20) { //TODO WARNING
+        delay(3);
+        if (r > l) { //TODO WARNING
             md.setSpeeds(-60, 60);
         } else if (r < l) {
             md.setSpeeds(60, -60);
@@ -614,15 +680,15 @@ void adjustDirection() {
 void adjustDistance() {
     int speed = 100;
     int l, r, frontDis;
-    for (int i = 0; i < 500; i++) {
-        l = shortIR_LF.getDis();
+    for (int i = 0; i < 1000; i++) {
+        l = shortIR_LF.getDis() * 0.95;
         r = shortIR_RF.getDis();
-        delay(6);
+        delay(7);
         frontDis = max(l, r);
         
-        if (frontDis < 450) {
+        if (frontDis < 480) {
             md.setSpeeds(speed, speed);
-        } else if (frontDis > 500) {
+        } else if (frontDis > 530) {
             md.setSpeeds(-speed, -speed);
         } else {
             break;
