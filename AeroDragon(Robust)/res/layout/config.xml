@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    
+     <TextView
+        android:id="@+id/dispType"
+		android:text="@string/display" 
+		android:textSize="20sp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="100dp"
+     />
+
+    <TextView
+        android:id="@+id/func_1"
+		android:text="@string/fun_1" 
+		android:textSize="20sp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dispType" 
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="100dp"
+        android:layout_alignParentLeft="true"
+     />
+    
+    
+    <TextView
+        android:id="@+id/func_2"
+		android:text="@string/fun_2" 
+		android:textSize="20sp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/func_1" 
+        android:layout_marginTop="45dp"
+        android:layout_marginLeft="100dp"
+     />
+
+    <EditText
+        android:id="@+id/fun_1_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/func_1"
+        android:layout_below="@+id/disp2d"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="150dp"
+        android:ems="15"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/fun_2_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/func_2"
+        android:layout_below="@+id/fun_1_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="150dp"
+        android:ems="15"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/disp2d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dispType"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="150dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/disp2" />
+    
+    <Button
+        android:id="@+id/disp25d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dispType"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="220dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/disp25" />
+    
+    <Button
+        android:id="@+id/disp3d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dispType"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="305dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/disp3" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="100dp"
+        android:layout_below="@+id/func_2"
+        android:onClick="save"
+        android:text="@string/saveBtn" />
+
+    <Button
+        android:id="@+id/load_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="120dp"
+        android:layout_below="@+id/func_2"
+        android:layout_toRightOf="@+id/save_btn"
+        android:onClick="load"
+        android:text="@string/loadBtn" />
+
+</RelativeLayout>
