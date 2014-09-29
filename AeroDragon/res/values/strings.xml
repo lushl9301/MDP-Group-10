@@ -67,7 +67,9 @@
     <string name="fun_1">Function 1:</string>
     <string name="fun_2">Function 2:</string>
     <string name="display">Display Type: </string>
-    <string name="displayBtn">2D</string>
+    <string name="disp2">2D</string>
+    <string name="disp25">2.5D</string>
+    <string name="disp3">3D</string>
     <string name="saveBtn">Save Changes</string>
     <string name="loadBtn">Load Data</string>
 </resources>

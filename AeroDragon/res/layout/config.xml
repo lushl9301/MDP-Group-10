@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/func_1"
-        android:layout_below="@+id/dispButton"
+        android:layout_below="@+id/disp2d"
         android:layout_marginTop="25dp"
         android:layout_marginLeft="150dp"
         android:ems="15"
@@ -64,7 +64,7 @@
         android:inputType="text" />
 
     <Button
-        android:id="@+id/dispButton"
+        android:id="@+id/disp2d"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/dispType"
@@ -72,7 +72,29 @@
         android:layout_marginLeft="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/displayBtn" />
+        android:text="@string/disp2" />
+    
+    <Button
+        android:id="@+id/disp25d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dispType"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="220dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/disp25" />
+    
+    <Button
+        android:id="@+id/disp3d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dispType"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="305dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/disp3" />
 
     <Button
         android:id="@+id/save_btn"

@@ -6,7 +6,7 @@ import android.util.Log;
 
 public class JsonObj {
 	public static JSONObject JObj;
-	
+	public static JSONObject JObjr;
 	public JsonObj(){
 		//JObj = new JSONObject();
 	}
@@ -20,7 +20,6 @@ public class JsonObj {
 			 Log.i("OutPut", JObj.toString());
 			return JObj.toString();
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -28,6 +27,7 @@ public class JsonObj {
 	}
 	
 	public int[][] recJson(){
+		JObjr = new JSONObject() ;
 		
 		return null;
 		

@@ -115,7 +115,7 @@
 		android:layout_below="@+id/grid2" 
 		android:background="@drawable/round_button"
 		android:gravity="center_vertical|center_horizontal"
-		android:text="Stop"
+		android:text="Update"
 		android:textColor="#fff" />
     
     <Button
