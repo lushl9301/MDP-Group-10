@@ -55,11 +55,12 @@ public class MainSimulator {
 		final JToggleButton addObs;
 		final JToggleButton realTime = new JToggleButton("Real Time");
 		final JCheckBox md1;
-		final JCheckBox md2 = new JCheckBox("MD 2");;
+		final JCheckBox md2 = new JCheckBox("MD 2");
+		final JCheckBox md3 = new JCheckBox("MD 3");
 		GridCell newCell;
 		JFrame frame = new JFrame();
 		frame.setTitle("Group 10 - Maze Simulator");
-		frame.setSize(new Dimension(950, 600)); // length by breadth
+		frame.setSize(new Dimension(950, 700)); // length by breadth (950x600)
 
 		Container contentPanel = frame.getContentPane(); // initialize content panel
 		
@@ -353,6 +354,7 @@ public class MainSimulator {
 					map.initLandmarks();
 					addObs.addChangeListener(addObsListener);
 					map.initMD2();
+					map.toConfirmObstacle = new int[15][20];
 					exploreThread.stop();
 				}
 			}  
@@ -365,6 +367,19 @@ public class MainSimulator {
 		c.insets = new Insets(20,0,0,0);
 		solveMap = new JButton("Solve Map!");
 		buttonPanel.add(solveMap, c);
+		
+		c.gridx = 0;
+		c.gridy = 12;
+		md3.addItemListener(new ItemListener() {
+	        public void itemStateChanged(ItemEvent e) {
+	        	if(md3.isSelected()) {
+	        		map.setMD(3, true);
+	        	}
+	        	else
+	        		map.setMD(3, false);
+	        }
+        });
+		buttonPanel.add(md3, c);
 
 		
 		JPanel legendPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
