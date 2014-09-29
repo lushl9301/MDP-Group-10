@@ -10,7 +10,7 @@ public class TestDijkstraAlgorithm {
 	int[][] mapDescriptor3 = new int[15][20];
 	
 	public static void testExecute() {
-		// initialise the nodes
+		// initialise the 300 nodes
 		nodes = new ArrayList<DijVertex>();
 		edges = new ArrayList<DijEdge>();
 		
@@ -20,12 +20,10 @@ public class TestDijkstraAlgorithm {
 				nodes.add(location);
 			}
 		}
-		
-		
-		
+
 		// hard code test values
-		String md1 = "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
-		String md2= "0000000000000000000000000000000000000000000000000000000000000000000000040000";
+		String md1 = "fffe7ffcffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+		String md2= "00080040038000000000000000000000000000000000000000000000000000000000000000";
 		
 		// get md3
 		MapGrid m = new MapGrid();
@@ -39,67 +37,56 @@ public class TestDijkstraAlgorithm {
 			System.out.println();
 		}
 		
-		// process map and add edges for dijkstra calculation
+		//print a space
+		System.out.println();
 		
-		boolean flag = true;
-		String edgeName;
-		//System.out.println(md3[14][19]+"testsetset"); //[breadth][length]
-		//md3[14][19] this is the bottom right hand corner
-		//md3[0][19] this is the top right hand corner
-		//md3[14][0] this is the bottom left hand corner
-
+		// process map and add edges for Dijkstra calculation
+		//setting true and false for 3x3 availability
+		boolean flag;
+		boolean[][] vertexCheck= new boolean[15][20];
 		
-		for (int j = 0; j< 13; j++) {
-			for(int i = 0; i < 18; i++) {
+		//checking for vertex availability
+		for(int i = 0; i < 18; i++) {
+			for (int j = 0; j< 13; j++) {
+			
+				flag = true;
+				// checking the 9 squares with vertex at top left hand corner
 				for(int y = i; y < i+3; y++) {
 					for (int x = j; x < j+3; x++) {
-						if(md3[j][i] == 2) {
+						if(md3[x][y] == 2) { // if this spot is a obstacle
 							flag = false;
-							return;
-						}	
+						}
 					}
 				}
-				if(flag == true) {
-					edgeName = "Edge_"+ i +"_" + j;
-					addLane(edgeName, 8, 9, 1);
+				
+				if(flag) {
+					vertexCheck[j][i] = true;
 				}
-
 			}
-			
+		}
+		for(int i = 0; i < 20; i++) {
+			for (int j = 0; j< 15; j++) {
+				if(vertexCheck[j][i]) System.out.print("t");
+				else  System.out.print("f");
+			}
+			 System.out.println("");
 		}
 		
-
-//		flag = true;
-//		// robot 3x3
-//		for (int x = i; x < i+3; x++) {
-//			for (int y = j; y < j+3; y++) {
-//				if(md3[y][x] == 2) {
-//					flag = false;
-//					return;
-//				}
-//			}
-//		}
-//		
-//		if(flag == true) {
-//			
-//			edgeName = "Edge_"+ i +"_" + j;
-//			System.out.println(arrayCounter);
-//			addLane(edgeName, arrayCounter, arrayCounter+1, 1);
-//		}
+		// part two of adding vertex
 		
-		///////////////////////////////////////////////////////////////////////////
+		
  
-//    addLane("Edge_1", 0, 1, 1);
-//    addLane("Edge_2", 0, 10, 12);
-//    addLane("Edge_3", 1, 2, 12);
-//    addLane("Edge_4", 1, 3, 2);
-//    addLane("Edge_5", 3, 7, 1);
-//    addLane("Edge_6", 5, 8, 1);
-//    addLane("Edge_7", 8, 9, 1);
-//    addLane("Edge_8", 7, 9, 1);
-//    addLane("Edge_9", 4, 9, 1);
-//    addLane("Edge_10", 9, 10, 1);
-//    addLane("Edge_11", 1, 10, 1);
+    addLane("Edge_1", 0, 1, 1);
+    addLane("Edge_2", 0, 10, 12);
+    addLane("Edge_3", 1, 2, 12);
+    addLane("Edge_4", 1, 3, 2);
+    addLane("Edge_5", 3, 7, 1);
+    addLane("Edge_6", 5, 8, 1);
+    addLane("Edge_7", 8, 9, 1);
+    addLane("Edge_8", 7, 9, 1);
+    addLane("Edge_9", 4, 9, 1);
+    addLane("Edge_10", 9, 10, 1);
+    addLane("Edge_11", 1, 10, 1);
 
     // Lets check from location Loc_1 to Loc_10
     DijGraph graph = new DijGraph(nodes, edges);
