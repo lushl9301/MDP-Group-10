@@ -17,10 +17,10 @@ public class TestDijkstraAlgorithm {
 			for(int i = 0; i < 20; i++) {
 				DijVertex location = new DijVertex("Node_" + nodeCounter, "Node_" + nodeCounter);
 				nodes.add(location);
-				System.out.print("Node_" + nodeCounter);
+				//System.out.print("Node_" + nodeCounter);
 				nodeCounter++;
 			}
-			System.out.println();
+			//System.out.println();
 		}
 
 		// hard code test values
@@ -96,41 +96,28 @@ public class TestDijkstraAlgorithm {
 //				System.out.println();
 //			}
 //		}
-		int testC = 0;
-
+		
+		int whichEdge = 0;
 		String edgeName;
 		for (int i =0; i<300; i++) {
 			if(oneDmd3[i]) {
 				if(oneDmd3[i+1]) {
-					testC = i+1;
-					edgeName = "Edge_"+testC;
-					addLane(edgeName, i, testC, 1);
-					System.out.print(edgeName);
+					whichEdge = i+1;
+					edgeName = "Edge_"+whichEdge;
+					addLane(edgeName, i, whichEdge, 1);
+					//System.out.print(edgeName);
 				}
 				if(oneDmd3[i+20]) {
-					testC = i+20;
-					edgeName = "Edge_"+testC;
-					addLane(edgeName, i, testC, 1);
-					System.out.print(edgeName);
+					whichEdge = i+20;
+					edgeName = "Edge_"+whichEdge;
+					addLane(edgeName, i, whichEdge, 1);
+					//System.out.print(edgeName);
 				}
-				System.out.println();
+				//System.out.println();
 			}
 			
 		}		
-		
-//    addLane("Edge_1", 0, 1, 1);
-//    addLane("Edge_2", 0, 10, 12);
-//    addLane("Edge_3", 1, 2, 12);
-//    addLane("Edge_4", 1, 3, 2);
-//    addLane("Edge_5", 3, 7, 1);
-//    addLane("Edge_6", 5, 8, 1);
-//    addLane("Edge_7", 8, 9, 1);
-//    addLane("Edge_8", 7, 9, 1);
-//    addLane("Edge_9", 4, 9, 1);
-//    addLane("Edge_10", 9, 10, 1);
-//    addLane("Edge_11", 1, 10, 1);
 
-    // Lets check from location Loc_1 to Loc_10
     DijGraph graph = new DijGraph(nodes, edges);
     DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
     dijkstra.execute(nodes.get(0));
