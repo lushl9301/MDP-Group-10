@@ -17,7 +17,6 @@ public class JsonObj {
 		try {
 			JObj.put("data", data);
 			JObj.put("type", type);
-			 //Log.i("TAG", type);
 			 Log.i("OutPut", JObj.toString());
 			return JObj.toString();
 		} catch (JSONException e) {
@@ -25,6 +24,10 @@ public class JsonObj {
 			e.printStackTrace();
 		}
 		
+		return null;		
+	}
+	
+	public int[][] recJson(){
 		
 		return null;
 		

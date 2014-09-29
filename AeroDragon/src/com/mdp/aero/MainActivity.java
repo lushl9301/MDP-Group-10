@@ -166,9 +166,9 @@ public class MainActivity extends Activity {
 		startButton = (ToggleButton) findViewById(R.id.startBtn);
 		
 		//trial for obstacles
-		int oldDir = map.getRobot().WEST;
+		/*int oldDir = map.getRobot().WEST;
 		int[][] oldPos = map.getRobot().getPosition();
-		updateMap(oldDir,oldPos);
+		updateMap(oldDir,oldPos);*/
 		
 		
 		
@@ -234,6 +234,14 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				sendMessage("s");
+				map.moveDownMap();
+			}
+    	});
+    	roundButton.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				sendMessage("GRID");
 			}
     	});
     	resetButton.setOnClickListener(new OnClickListener(){
@@ -615,7 +623,7 @@ public class MainActivity extends Activity {
 	    
 	    if (on) {
 	    	//do something to end run?
-	    	sendMessage(JsonObj.sendJson("command", "STOP"));
+	    	sendMessage(JsonObj.sendJson("command", "S"));
 	    	//end timer
 	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
 	    		if(autoAct == 1){
@@ -671,12 +679,12 @@ public class MainActivity extends Activity {
 		}
 
 	};
-	private void updateMap(int oldDir, int[][] oldPos) {
+	/*private void updateMap(int oldDir, int[][] oldPos) {
 		
 		
-			map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
+			//map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
 		
-	}
+	}*/
 	
 
 }
