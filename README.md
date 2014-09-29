@@ -100,15 +100,26 @@ Char for turning
 
 ####Arduino Send
 ```Arduino
-    Serial.println("UF " + String(u_F_dis));
-    Serial.println("IRLF " + String(ir_lf_dis));
-    Serial.println("IRRF " + String(ir_rf_dis));
+    JsonObject<10> talk_Json;
+    talk_Json["X"] = currentX;
+    talk_Json["Y"] = currentY;
+    talk_Json["direction"] = pwd;
 
-    Serial.println("UL " + String(u_L_dis));
-    Serial.println("IRL " + String(ir_l_dis));
-    
-    Serial.println("UR " + String(u_R_dis));
-    Serial.println("IRR " + String(ir_r_dis));
+    talk_Json["U_F"] = u_F_dis;
+    talk_Json["U_R"] = u_R_dis;
+    talk_Json["U_L"] = u_L_dis;
+
+    talk_Json["short_LF"] = ir_lf_dis;
+    talk_Json["short_RF"] = ir_rf_dis;
+
+    talk_Json["short_FR"] = ir_r_dis;
+
+    talk_Json["long_BL"] = ir_l_dis;
+    Serial.print(talk_Json);
+    Serial.println();
+    //eg.
+    //{"X":10,"Y":7,"direction":1,"U_F":5,"U_R":20,"U_L":231,"short_LF":659,"short_RF":608,"short_FR":354,"long_BL":216}
+    //
 ```
 ####Arduino Get
 ```Arduino
