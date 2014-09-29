@@ -69,8 +69,9 @@ class coreThread(threading.Thread):
         self.protocolHandler = protocolHandler(wifi, bt, arduino)
 
     def addToQueue(self, json_data):
-        print "[ Adding to queue: " + str(json_data) + " ]"
-        self.commandQueue.put(json_data)
+        if json_data is not None:
+            print "[ Adding to queue: " + str(json_data) + " ]"
+            self.commandQueue.put(json_data)
 
     def flushCommandQueue(self):
         self.lock = threading.BoundedSemaphore(self.BUFFER)

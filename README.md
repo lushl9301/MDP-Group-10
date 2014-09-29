@@ -60,19 +60,21 @@
 ####Sent from RPi
 ```
 {
-	type: "map" / "status" /
-	data (map): {
-		UL		: #
-		IRLF	: #
-		IRRF	: #
-		UL		: #
-		IRL		: #
-		UR		: #
-		IRR		: #
-        X       : #
-        Y       : #
+	type: "reading" / "status" / "map"
+	data (reading): {
+		U_F		    : #
+		U_R	        : #
+		U_L	        : #
+		short_LF	: #
+		short_RF	: #
+		short_FR	: #
+		long_BL		: #
+        X           : #
+        Y           : #
+        direction   : #
 	}
-	data (status): "END_EXP" / "END_PATH"
+	data (status)   : "END_EXP" / "END_PATH"
+    data (map)      : []
 }
 ```
 
@@ -115,3 +117,30 @@ while (!Serial.available() || Serial.read() != 'S'); //Start command
 while (!Serial.available() || Serial.read() != 'P'); //Shortest Path
 ```
 
+##Communication Scenarios
+
+###Exploration
+* Exploration Start:
+    * Android -> (command to start exploration) -> RPi -> (command to start exploration) -> Arduino
+
+* Exploration:
+    * Arduino -> (sensor readings, direction, coordinate) -> RPi -> (sensor readings, direction, coordinate) -> PC & Android
+
+* Exploration End:
+    * Arduino -> (status exploration end) -> RPi -> (status exploration end) -> Android & PC 
+    * PC -> (map matrix) -> RPi -> (map matrix) -> Android
+
+###Shortest Path
+* Shortest Path Start:
+    * Android -> (command to start shortest path) -> RPi -> (command to start shortest path) -> Arduino & PC
+    * PC -> (shortest path movement) -> RPi -> (shortest path movement) -> Arduino
+
+* Shortest Path:
+    * Arduino -> (direction, coordinate) -> RPi -> (direction, coordinate) -> Android
+
+* Shortest Path End:
+    * Arduino -> (status shortest path end) -> RPi -> (status shortest path end) -> Android 
+
+###Free Movement:
+* Free Movement:
+    * Android -> (movement command) -> RPi -> (movement command) -> Arduino

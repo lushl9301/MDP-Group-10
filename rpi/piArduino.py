@@ -1,5 +1,6 @@
 import serial
 import threading
+import json
 
 JSON_START = {"type": "START", "data": "START"}
 JSON_STOP = {"type": "STOP", "data": "STOP"}
@@ -16,9 +17,15 @@ class piArduino:
         print "Send to Arduino: " + command
 
     def receive(self):
-        # TODO: make sure it is JSON from the Arduino
-        json_data = self.ser.readline()
-        return json_data
+        json_string = self.ser.readline()
+        try:
+            json_data = json.loads(json_string)
+        except ValueError, e:
+            print "ERROR: decoding JSON from arduino. " + e.message
+            pass
+        else:
+            print "[ From Arduino receive: " + json_data + " ]"
+            return json_data
 
 
 class arduinoThread(threading.Thread):

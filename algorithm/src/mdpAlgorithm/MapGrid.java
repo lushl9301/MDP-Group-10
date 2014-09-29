@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.math.BigInteger;
-
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MapGrid extends JPanel {
@@ -148,17 +146,16 @@ public class MapGrid extends JPanel {
 		String strMapDesc = "11";
 		System.out.println("");
 		System.out.println("1 means explored; 0 means unexplored");
-		strMapDesc += "\n"; // comment this out if require a long string
+		//strMapDesc += "\n"; // comment this out if require a long string
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
 				strMapDesc += mapDescriptor1[j][i];
 			}
-			strMapDesc += "\n"; // comment this out if require a long string
+			//strMapDesc += "\n"; // comment this out if require a long string
 		}
 		strMapDesc += "11";
-		
-		//return toHex(strMapDesc); // comment either one
-		return strMapDesc; // comment this out if require a long string
+		return toHex(strMapDesc); // comment either one
+		//return strMapDesc; // comment this out if require a long string
 	}
 	
 	public String getMapDesc2() {
@@ -175,7 +172,7 @@ public class MapGrid extends JPanel {
 					strMapDesc += mapDescriptor2[j][i];
 				}
 			}
-			strMapDesc += "\n"; // comment this out if require a long string
+			//strMapDesc += "\n"; // comment this out if require a long string
 		}
 
 		while (!padEnough) {
@@ -185,42 +182,67 @@ public class MapGrid extends JPanel {
 			}
 			else padEnough = true;
 		}
-		return strMapDesc; // comment this out if require long string
-		//return toHex(strMapDesc); // comment either one
+		//return strMapDesc; // comment this out if require long string
+
+		return toHex(strMapDesc); // comment either one
 	}
 	
-	public String getMapDesc3Testing() {
+	public int[][] getMapDesc3Testing(String md1, String md2) {
+		int[][] mapDescriptor3 = new int[15][20];
 		
-		System.out.println("");
-		System.out.println("2 means obs, 1 means explored; 0 means unexplored");
-		String strMapDesc = "";
-		strMapDesc += "111111112000000\n";
-		strMapDesc += "111111112000000\n";
-		strMapDesc += "111111112000000\n";
-		strMapDesc += "111111112222000\n";
-		strMapDesc += "111111111111200\n";
-		strMapDesc += "222111111111200\n";
-		strMapDesc += "002111111111222\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "000221112222111\n";
-		strMapDesc += "000021112002111\n";
-		strMapDesc += "000021112002111\n";
-		strMapDesc += "000021112002111\n";
-		strMapDesc += "000021112002111\n";
+		String newMd1 = toBinary(md1);
+		String newMd2 = toBinary(md2);
 		
+		// process md1
+		newMd1 = newMd1.substring(2, newMd1.length()-2);	
+		String[] md1Array = toStringArr(newMd1);
+		String[] md2Array = toStringArr(newMd2);
 		
-		//do a toBinary function
-		//generate a md3
+		// make md3
+		int md1Counter = 0;
+		int md2Counter = 0;
+		for(int i = 0; i < 20; i++) {
+			for (int j = 0; j< 15; j++) {
+				if(md1Array[md1Counter].equals("1")) {
+					mapDescriptor3[j][i]++;
+					
+					if(md2Array[md2Counter].equals("1")) {
+						mapDescriptor3[j][i]++;
+					}
+					md2Counter++;
+				}
+				md1Counter++;
+			}
+		}
+
+		
+		// richard testing
+//		System.out.println("");
+//		System.out.println("2 means obs, 1 means explored; 0 means unexplored");
+//		String strMapDesc = "";
+//		strMapDesc += "111111112000000\n";
+//		strMapDesc += "111111112000000\n";
+//		strMapDesc += "111111112000000\n";
+//		strMapDesc += "111111112222000\n";
+//		strMapDesc += "111111111111200\n";
+//		strMapDesc += "222111111111200\n";
+//		strMapDesc += "002111111111222\n";
+//		strMapDesc += "002111111111111\n";
+//		strMapDesc += "002111111111111\n";
+//		strMapDesc += "002111111111111\n";
+//		strMapDesc += "002111111111111\n";
+//		strMapDesc += "002111111111111\n";
+//		strMapDesc += "002111111111111\n";
+//		strMapDesc += "002111111111111\n";
+//		strMapDesc += "002111111111111\n";
+//		strMapDesc += "000221112222111\n";
+//		strMapDesc += "000021112002111\n";
+//		strMapDesc += "000021112002111\n";
+//		strMapDesc += "000021112002111\n";
+//		strMapDesc += "000021112002111\n";
 		
 		//return toHex(strMapDesc); // comment either one
-		return strMapDesc; // comment this out if require a long string
+		return mapDescriptor3; // comment this out if require a long string
 	}
 	
 	
@@ -237,6 +259,15 @@ public class MapGrid extends JPanel {
 			}
 		}
 		return hexNum;
+	}
+	
+	
+	public String toBinary(String hex) {
+		return new BigInteger("1" + hex, 16).toString(2).substring(1);
+	}
+	
+	public String[] toStringArr(String bin) {
+		return bin.split("");
 	}
 	
 	public void changeColour(int x, int y, String text, Color color) {

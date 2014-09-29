@@ -41,6 +41,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import org.json.*;
 
 /**
  * This is the main Activity that displays the current chat session.
@@ -118,6 +119,8 @@ public class MainActivity extends Activity {
 	int autoAct = 0;
 	
 	MapGenerator map;
+	
+	public static JsonObj JsonO;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -162,9 +165,13 @@ public class MainActivity extends Activity {
 		timerVal = (TextView) findViewById(R.id.timer);
 		startButton = (ToggleButton) findViewById(R.id.startBtn);
 		
+		//trial for obstacles
 		int oldDir = map.getRobot().WEST;
 		int[][] oldPos = map.getRobot().getPosition();
 		updateMap(oldDir,oldPos);
+		
+		
+		
 		load();
 		
 		//setting onClick listeners
@@ -186,6 +193,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				autoAct = 1;
+				sendMessage(JsonObj.sendJson("command", "START_EXP"));
+				
 			}
     	});
     	shortButton.setOnClickListener(new OnClickListener(){
@@ -193,6 +202,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				autoAct = 2;
+				sendMessage(JsonObj.sendJson("command", "START_PATH"));
 			}
     	});
     	leftButton.setOnClickListener(new OnClickListener(){
@@ -230,6 +240,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				sendMessage("Map Reset");
 				map.resetMap(); //to reset map
 			}
     	});
@@ -604,7 +615,7 @@ public class MainActivity extends Activity {
 	    
 	    if (on) {
 	    	//do something to end run?
-	    	
+	    	sendMessage(JsonObj.sendJson("command", "STOP"));
 	    	//end timer
 	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
 	    		if(autoAct == 1){
