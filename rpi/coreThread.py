@@ -112,19 +112,19 @@ class coreThread(threading.Thread):
             continue
 
         # send start signal to robot
-        self.arduino.sendStart()
+        # self.arduino.sendStart()
 
         print "==========================="
         print "PROJECT: DRAGON - BOOT UP /"
         print "==========================="
 
         while 1:
+            try:
                 self.processCommand()
-                try:
-                    self.processCommand()
-                except Exception:
-                        print "Unable to execute main thread"
-                        print traceback.format_exc()
+            except Exception, e:
+                print "Unable to decode JSON: " + e.message
+                print traceback.format_exc()
+                pass
 
 wifi = wifiThread(1, "WIFI")
 arduino = arduinoThread(2, "ARDUINO")
