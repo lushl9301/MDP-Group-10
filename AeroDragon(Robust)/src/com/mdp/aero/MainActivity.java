@@ -31,6 +31,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -155,6 +156,7 @@ public class MainActivity extends Activity {
 		Log.i("tag","here4");
 		
 		tvConnectionStatus = (TextView)findViewById(R.id.tvConnectionStatus);
+		tvConnectionStatus.setMovementMethod(new ScrollingMovementMethod());
 		
 		f1Button = (Button) findViewById(R.id.f1Button);
 		f2Button = (Button) findViewById(R.id.f2Button);
@@ -432,14 +434,17 @@ public class MainActivity extends Activity {
 				byte[] writeBuf = (byte[]) msg.obj;
 				// construct a string from the buffer
 				String writeMessage = new String(writeBuf);
-				mConversationArrayAdapter.add("Me:  " + writeMessage);
+				//mConversationArrayAdapter.add("Me:  " + writeMessage);
 				break;
+				
 			case MESSAGE_READ:
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				mConversationArrayAdapter.add(mConnectedDeviceName + ":  "
-						+ readMessage);
+				map.plotObsAuto(JsonObj.recJson(readMessage));
+				setStatus(getString(R.string.title_connected_to,
+						mConnectedDeviceName) + readMessage);
+				 
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
@@ -637,14 +642,14 @@ public class MainActivity extends Activity {
 	    			sendMessage(JsonObj.sendJson("command", "START_EXP"));
 		    		//sendMessage("Let's Explore!");
 		    		startTime = SystemClock.uptimeMillis();
-		    		//timer.schedule(new askGrid(), 0, 1000);
+		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
 		    	}
 		    	else if(autoAct ==2 ){
 		    		sendMessage(JsonObj.sendJson("command", "START_PATH"));
 		    		//sendMessage("Let's find the Shortest Path!");
 		    		startTime = SystemClock.uptimeMillis();
-		    		//timer.schedule(new askGrid(), 0, 1000);
+		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
 		    	}
 		    	else{

@@ -18,7 +18,7 @@ public class MapGenerator {
 	public MapGenerator(GridLayout gv, Context context){
 		this.gv=gv;
 		this.context=context;
-		obstacleArray = new int[][]{
+		/*obstacleArray = new int[][]{
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
@@ -35,12 +35,11 @@ public class MapGenerator {
 				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
 				{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}
 					
-			};
+			};*/
 		Log.i("tag", "before create arena ok");
 		int[][] arena = new int[15][20];
 		Log.i("tag", "before create arena ok");
 		createArena(gv);
-		plotObsAuto(obstacleArray);
 		Log.i("tag", "create arena ok");
 		arena  = getAccessToArena(gv);
 		Log.i("tag", "create arena ok");
@@ -143,7 +142,6 @@ public class MapGenerator {
         		i++;
         	}
 		} 
-		plotObsAuto(obstacleArray);
 		
 		int initial[][] = new int[3][3];
 		//To note: -1 due to array index starts from 0!!!
@@ -204,8 +202,10 @@ public class MapGenerator {
         clearMapColourRobot(topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight,topMid, bottomMid,midMid);
         colourRobot(topLeft, topRight, bottomLeft, bottomRight,topMid, bottomMid);
 	}
-	public void setSouth(int[][] currentPosition){        
+	public void setSouth(int[][] currentPosition){ 
+		Log.i("tag", ""+currentPosition[2][2]);
         topLeft = (TextView)gv.getChildAt(currentPosition[2][2]);
+        
 		topMid= (TextView)gv.getChildAt(currentPosition[2][1]);
         topRight = (TextView)gv.getChildAt(currentPosition[2][0]);
 		midLeft= (TextView)gv.getChildAt(currentPosition[1][2]);
@@ -215,6 +215,7 @@ public class MapGenerator {
         bottomRight = (TextView)gv.getChildAt(currentPosition[0][0]);
         bottomMid= (TextView)gv.getChildAt(currentPosition[0][1]);
         Log.i("tag","in set South");
+        
         clearMapColourRobot(topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight,topMid, bottomMid,midMid);
         colourRobot(topLeft, topRight, bottomLeft, bottomRight,topMid, bottomMid);
 	}
@@ -236,7 +237,7 @@ public class MapGenerator {
 	public void moveDownMap() {
 		int currentPosition[][] =  r.getPosition();
         int direction = r.getDirection();
-        
+        int i = 0;
         topLeft.setBackgroundColor(Color.parseColor("#7fb2e5"));
         topMid.setBackgroundColor(Color.parseColor("#7fb2e5"));
         topRight.setBackgroundColor(Color.parseColor("#7fb2e5"));
@@ -247,6 +248,11 @@ public class MapGenerator {
         bottomMid.setBackgroundColor(Color.parseColor("#7fb2e5"));
         bottomRight.setBackgroundColor(Color.parseColor("#7fb2e5"));
         
+       /* for (int row=0; row<15; row++){
+        	for (int col=0; col<20; col++){*/
+        			
+        		
+        		
         if (direction == r.SOUTH){	            
             TextView curTopLeft = (TextView)gv.getChildAt(currentPosition[2][2]);
             TextView curTopMid= (TextView)gv.getChildAt(currentPosition[2][1]);
@@ -265,19 +271,24 @@ public class MapGenerator {
 	        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
 	        	return;
 	        }
-	        else {
-	        	currentPosition[0][0] += 20;
-		        currentPosition[0][1] += 20;
-		        currentPosition[0][2] += 20;
-		        currentPosition[1][0] += 20;
-		        currentPosition[1][1] += 20;
-		        currentPosition[1][2] += 20;
-		        currentPosition[2][0] += 20;
-		        currentPosition[2][1] += 20;
-		        currentPosition[2][2] += 20;
-		        setSouth(currentPosition);
-	        }
+	       // else if()
+		 else {
+			 //Log.i("SomeTag",""+currentPosition);
+			 	currentPosition[0][0] += 20;
+  		        currentPosition[0][1] += 20;
+  		        currentPosition[0][2] += 20;
+  		        currentPosition[1][0] += 20;
+  		        currentPosition[1][1] += 20;
+  		        currentPosition[1][2] += 20;
+  		        currentPosition[2][0] += 20;
+  		        currentPosition[2][1] += 20;
+  		        currentPosition[2][2] += 20;
+  		        setSouth(currentPosition);
+  		       
+  		        }
+	        		  
         }
+        
         
         if (direction == r.EAST || direction == r.WEST){
         	r.setDirection(r.SOUTH);
@@ -289,8 +300,10 @@ public class MapGenerator {
         	setNorth(currentPosition);
         }
         r.setPosition(currentPosition);
-		
-	}
+        i++;
+        	}
+		//} 
+	//}
 	public void moveForwardMap() {
 		 
         int currentPosition[][] =  r.getPosition();
@@ -636,8 +649,8 @@ public class MapGenerator {
 		
 		
 		TextView testThis;
-		//int currentDir = r.getDirection();
-		//int[][] currentPosition = r.getPosition();
+		int currentDir = r.getDirection();
+		int[][] currentPosition = r.getPosition();
 		int i =0;
 		for (int row=0; row<15; row++){
         	for (int col=0; col<20; col++){
@@ -647,12 +660,15 @@ public class MapGenerator {
         			
         		}
         		else{
-        			//testThis.setBackgroundColor(Color.parseColor("#686868"));
+        			testThis.setBackgroundColor(Color.parseColor("#686868"));
         		}
         		
         		i++;
         	}
 		} 
+		r.setDirection(currentDir);
+		r.setPosition(currentPosition);
+		setEast(r.getPosition());
 	
 	}
 	//ONLY WORKING FOR 2x2
