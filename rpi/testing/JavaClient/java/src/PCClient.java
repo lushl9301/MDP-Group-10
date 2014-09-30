@@ -6,7 +6,7 @@ import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 import org.json.simple.*;
 
 class PCClient {
@@ -27,14 +27,14 @@ class PCClient {
 	}
 
 	public void sendJSON(String type, String data) {
-		HashMap<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<String, String>();
 		map.put("type", type);
 		map.put("data", data);
 		String jsonString = JSONValue.toJSONString(map);
 
-		BufferedWriter writer;
+		 
 		try {
-			writer = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
+			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
 			writer.write(jsonString);
 			writer.flush();
 		} catch (IOException e) {
@@ -44,21 +44,21 @@ class PCClient {
 		
 	}
 
-	public HashMap<String, String> receiveJSON() {
+	public Map<String, String> receiveJSON() {
 		String jsonString;
-		HashMap<String, String> map = null;
+		Map<String, String> map = null;
 		
+		 
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
-			
-			// TODO: not sure if can read until end of brace only
 			jsonString = reader.readLine();
+			// TODO: not sure if can read until end of brace only
+			if (jsonString != null) {
 			
 			// TODO: might have queue of JSON here
-			List jsonList = (JSONArray)JSONValue.parse(jsonString);
-			
-			map = (JSONObject) jsonList.get(0);
-			System.out.println("Received: "+ map.toString());
+				map = (JSONObject) JSONValue.parse(jsonString);
+				System.out.println("Received: "+ map.toString());
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -73,7 +73,6 @@ class PCClient {
 		String data = "";
 
 		while (true) {
-//			this.receiveJSON();
 			try {
 				System.out.print("Input type: ");
 				type = br.readLine();
@@ -81,6 +80,7 @@ class PCClient {
 				data = br.readLine();
 
 				this.sendJSON(type, data);
+				this.receiveJSON();
 			} catch (IOException e) {
 				System.out.println("IO error");		
 			}
