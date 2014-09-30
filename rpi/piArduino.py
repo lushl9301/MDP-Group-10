@@ -1,6 +1,7 @@
 import serial
 import threading
 import json
+import traceback
 
 JSON_START = {"type": "START", "data": "START"}
 JSON_STOP = {"type": "STOP", "data": "STOP"}
@@ -32,8 +33,13 @@ class arduinoThread(threading.Thread):
             self.piArduino = piArduino()
 
             while 1:
-                receivedJSON = self.piArduino.receive()
-                self.mainthread.addToQueue(receivedJSON)
+                try:
+                    receivedJSON = self.piArduino.receive()
+                    self.mainthread.addToQueue(receivedJSON)
+                except IOError, e:
+                    print "Arduino Thread Receive Exception: " + e.message
+                    print traceback.format_exc()
+                    pass
 
 
 class piArduino:

@@ -39,9 +39,10 @@ class btThread(threading.Thread):
                                 self.mainthread.flushCommandQueue()
                             else:
                                 self.mainthread.addToQueue(receivedJSON)
-                    except Exception:
-                            print "BT Thread Receive Exception"
+                    except IOError, e:
+                            print "BT Thread Receive Exception: " + e.message
                             print traceback.format_exc()
+                            pass
                     finally:
                         self.piBT.close()
                         self.connected = False
@@ -85,8 +86,8 @@ class piBT:
                 if completeJSON:
                         print "Received From Bluetooth: " + str(data)
                         return json_data
-        except IOError:
-                print "Bluetooth Receival Exception"
+        except IOError, e:
+                print "Bluetooth Receive Exception: " + e.message
                 print traceback.format_exc()
                 pass
 
@@ -96,8 +97,8 @@ class piBT:
         try:
                 json_string = json.dumps(data)
                 self.client_sock.send(json_string)
-        except IOError:
-                print "Bluetooth Sending Exception"
+        except IOError, e:
+                print "Bluetooth Sending Exception: " + e.message
                 print traceback.format_exc()
                 pass
 
