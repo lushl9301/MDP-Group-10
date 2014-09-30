@@ -13,16 +13,34 @@ public class MapGenerator {
 	Context context;
 	GridLayout gv = null;
 	Robot r = setupRobot();
-	ArrayList<TextView> obstacleArray = new ArrayList<TextView>();
+	int[][] obstacleArray;
 	TextView topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight, topMid, bottomMid,midMid;
 	public MapGenerator(GridLayout gv, Context context){
 		this.gv=gv;
 		this.context=context;
+		obstacleArray = new int[][]{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+				{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}
+					
+			};
 		Log.i("tag", "before create arena ok");
 		int[][] arena = new int[15][20];
 		Log.i("tag", "before create arena ok");
 		createArena(gv);
-		plotObsAuto();
+		plotObsAuto(obstacleArray);
 		Log.i("tag", "create arena ok");
 		arena  = getAccessToArena(gv);
 		Log.i("tag", "create arena ok");
@@ -125,7 +143,8 @@ public class MapGenerator {
         		i++;
         	}
 		} 
-
+		plotObsAuto(obstacleArray);
+		
 		int initial[][] = new int[3][3];
 		//To note: -1 due to array index starts from 0!!!
 		initial[0][0] = 0;
@@ -612,26 +631,9 @@ public class MapGenerator {
         }     */   	        
 	}
 	
-	protected void plotObsAuto()
+	protected void plotObsAuto(int[][] dummy)
 	{
-		int[][] dummy = new int[][]{
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-			{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}
-				
-		};
+		
 		
 		TextView testThis;
 		//int currentDir = r.getDirection();
@@ -645,7 +647,7 @@ public class MapGenerator {
         			
         		}
         		else{
-        			testThis.setBackgroundColor(Color.parseColor("#686868"));
+        			//testThis.setBackgroundColor(Color.parseColor("#686868"));
         		}
         		
         		i++;
