@@ -3,12 +3,17 @@ package mdpAlgorithm;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-public class TestDijkstraAlgorithm {
+public class Dijkstra {
 
 	private static List<DijVertex> nodes;
 	private static List<DijEdge> edges;
+	public static boolean[] route = new boolean[300];
 	
-	public static void testExecute() {
+	public Dijkstra (String md1, String md2) {
+		execute(md1, md2);
+	}
+	
+	public static void execute(String md1, String md2) {
 		// initialise the 300 nodes
 		nodes = new ArrayList<DijVertex>();
 		edges = new ArrayList<DijEdge>();
@@ -24,8 +29,8 @@ public class TestDijkstraAlgorithm {
 		}
 
 		// hard code test values
-		String md1 = "fff87ff0ffe1ffc3ff87fff0ffe1ffc3ff87ff0ffe1ffc3ff87ff0ffe1ffc3ff87ff0ffe1fff";
-		String md2= "00200400801003f07e00400801002004008010020041082104208410";
+		//String md1 = "fff87ff0ffe1ffc3ff87fff0ffe1ffc3ff87ff0ffe1ffc3ff87ff0ffe1ffc3ff87ff0ffe1fff";
+		//String md2= "00200400801003f07e00400801002004008010020041082104208410";
 		
 		// get md3
 		MapGrid m = new MapGrid();
@@ -123,8 +128,10 @@ public class TestDijkstraAlgorithm {
     dijkstra.execute(nodes.get(0));
     LinkedList<DijVertex> path =  dijkstra.getPath(nodes.get(257));      
     
+    int vertexId;
 	for (DijVertex vertex : path) {
-    	System.out.println(vertex);
+		vertexId = Integer.parseInt(vertex.getName().split("_")[1]);
+    	route[vertexId] = true;
     }
     
   }
@@ -133,8 +140,5 @@ public class TestDijkstraAlgorithm {
 	  DijEdge lane = new DijEdge(laneId,nodes.get(sourceLocNo), nodes.get(destLocNo), duration);
 	  edges.add(lane);
   }
-  
-  public static void main(String[] args) {
-	  testExecute();
-  }
+
 } 

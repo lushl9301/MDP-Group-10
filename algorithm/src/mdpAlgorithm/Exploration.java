@@ -22,6 +22,7 @@ public class Exploration implements Runnable {
 	private double percentage;
 	private boolean traversing = false;
 	private String previousDirection = "";
+	public boolean completed;
 	
 	public Exploration(MapGrid map, Robot rob, int sleeptime, double percentage) {
 		this.rob = rob;
@@ -34,7 +35,7 @@ public class Exploration implements Runnable {
 	public void run() {
 		
 		boolean reachedWall = false;
-		boolean completed = false;
+		completed = false;
 		boolean enteredGoal = false;
 		boolean enteredStart = false;
 		

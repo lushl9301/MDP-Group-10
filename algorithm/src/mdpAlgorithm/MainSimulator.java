@@ -18,7 +18,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -26,7 +25,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -56,7 +54,7 @@ public class MainSimulator {
 		final JButton clearObs;
 		final JButton loadMap;
 		final JButton exploreMap;
-		JButton solveMap;
+		final JButton solveMap = new JButton("Solve Map!");
 		final JButton terminateEx = new JButton("Terminate Explore");
 		final JToggleButton addObs;
 		final JToggleButton realTime = new JToggleButton("Real Time");
@@ -90,7 +88,7 @@ public class MainSimulator {
 		c.gridx = 0;
 		c.gridy = 0;
 		
-        final JLabel timerLabel = new JLabel("08:00", JLabel.CENTER); 
+        final JLabel timerLabel = new JLabel("06:00", JLabel.CENTER); 
  		timerLabel.setFont(timerLabel.getFont().deriveFont(50.0f));
 		Color color = new Color(211,211,211);
 		timerLabel.setBackground(color);
@@ -231,7 +229,7 @@ public class MainSimulator {
 		
 		c.gridx = 1;
 		c.gridy = 7;
-		final JTextField timeField = new JTextField("08:00", 5);
+		final JTextField timeField = new JTextField("06:00", 5);
 		buttonPanel.add(timeField, c);
 		
 		c.gridx = 0;
@@ -324,7 +322,7 @@ public class MainSimulator {
 				timeField.setEnabled(false);
 				md1.setEnabled(false);
 				md2.setEnabled(false);
-				
+				solveMap.setEnabled(true);
 				// insert robot
 				Robot rob = new Robot(map);
 				
@@ -334,6 +332,7 @@ public class MainSimulator {
 				explore = new Exploration(map, rob, time, percentage);
 				exploreThread = new Thread(explore);
 				exploreThread.start();
+				
 			}
 		};
 		exploreMap.addMouseListener(exploreListener);
@@ -363,7 +362,7 @@ public class MainSimulator {
 					// insert timer countdown code here
 					t.stop();
 					
-			        timerLabel.setText("08:00"); 
+			        timerLabel.setText(timeField.getText()); 
 			        
 					// disable other buttons
 					addObs.setEnabled(true);
@@ -372,6 +371,7 @@ public class MainSimulator {
 					percentObstacles.setEnabled(true);
 					stepsPerSec.setEnabled(true);
 					terminateEx.setEnabled(false);
+					solveMap.setEnabled(false);
 					timeField.setEnabled(true);
 					exploreMap.setEnabled(true);
 					exploreMap.addMouseListener(exploreListener);
@@ -387,7 +387,7 @@ public class MainSimulator {
 					
 					for (int i = 1; i < 16; i++) {
             			for (int j = 1; j < 21; j++) {
-            				if(map.grid[i][j].getBackground() == DEFAULTCELL || map.grid[i][j].getBackground().equals(EXPLORED) || map.grid[i][j].getBackground().equals(ROBOT)  || map.grid[i][j].getBackground().equals(FRONTROBOT) ) {
+            				if(map.grid[i][j].getBackground() == DEFAULTCELL || map.grid[i][j].getBackground().equals(EXPLORED) || map.grid[i][j].getBackground().equals(ROBOT)  || map.grid[i][j].getBackground().equals(FRONTROBOT)) {
 								map.grid[i][j].setBackground(DEFAULTCELL);
 								map.grid[i][j].setBorder(BorderFactory.createLineBorder(BORDER, 1));
             				}
@@ -398,6 +398,7 @@ public class MainSimulator {
 	        			}
 					}
 					
+					Dijkstra.route = new boolean[300];
 					map.initLandmarks();
 					addObs.addChangeListener(addObsListener);
 					map.initMD2();
@@ -412,7 +413,41 @@ public class MainSimulator {
 		c.gridy = 11;
 		c.ipady = 45;
 		c.insets = new Insets(20,0,0,0);
-		solveMap = new JButton("Solve Map!");
+		solveMap.setEnabled(false);
+		solveMap.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				int whichCounter = 0;
+				int midCounter = 0;
+				String[] midroute = new String[300];
+				new Dijkstra(map.getMapDesc(), map.getMapDesc2());
+				for (int i = 1; i < 16; i++) {
+        			for (int j = 1; j < 21; j++) {
+        				if(Dijkstra.route[whichCounter]) {
+        					for (int x = 0; x < 3; x++) {
+        	        			for (int y = 0; y < 3; y++) {
+        	        				map.grid[i+x][j+y].setBackground(ROBOT);
+        	        				map.grid[i+x][j+y].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+        	        				
+        	        				if(x == 1 && y == 1) {
+        	        					midroute[midCounter] = (i+x) + "," + (j+y);
+        	        					midCounter++;
+        	        				}
+        	        			}
+        					}
+        				}
+        				whichCounter++;
+        			}
+				}
+				int x;
+				int y;
+				for(int i = 0; i< midCounter; i++) {
+					x = Integer.parseInt(midroute[i].split(",")[0]);
+					y = Integer.parseInt(midroute[i].split(",")[1]);
+					map.grid[x][y].setBackground(EXPLORE);
+				}
+			}
+		});
+
 		buttonPanel.add(solveMap, c);
 		
 		c.gridx = 0;
@@ -511,5 +546,7 @@ public class MainSimulator {
         
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+		
+		
 	}	
 }
