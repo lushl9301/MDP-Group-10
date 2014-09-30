@@ -216,8 +216,8 @@ public class MapGrid extends JPanel {
 		String[] md2Array = toStringArr(newMd2);
 
 		// make md3
-		int md1Counter = 0;
-		int md2Counter = 0;
+		int md1Counter = 1;
+		int md2Counter = 1;
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
 				if(md1Array[md1Counter].equals("1")) {
