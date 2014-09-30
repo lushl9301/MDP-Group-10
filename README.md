@@ -6,8 +6,11 @@
     - [x] accessed via a PC/notebook over Wifi
     - [x] be wirelessly connected to the Nexus 7 tablet
     - [x] communicate with the Arduino board through over a USB->Serial connection
-    - [ ] multithread between 3 components
-    - [ ] decode the data received (need testing)
+    - [X] multithread between 3 components
+    - [X] decode the data received
+    - [ ] robot deployment
+    - [ ] dropped connection testing
+
  
 ####Arduino Team
 - [x] A2. Sensors calibrated to correctly return distance to obstacle

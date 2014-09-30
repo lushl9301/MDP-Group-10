@@ -4,6 +4,7 @@ import json
 import traceback
 import threading
 import Queue
+import errno
 
 
 class btThread(threading.Thread):

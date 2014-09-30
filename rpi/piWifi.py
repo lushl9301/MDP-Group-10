@@ -4,6 +4,7 @@ import threading
 import socket
 import sys
 import json
+import errno
 
 
 class wifiThread (threading.Thread):
@@ -87,7 +88,7 @@ class piWifi:
         if self.conn is not None:
             try:
                 print "Send To Wifi: " + str(data)
-                self.conn.send(json_string)
+                self.conn.send(json_string + "\n")
             except IOError, e:
                 print "Wifi sending exception. " + e.message
                 print traceback.format_exc()
