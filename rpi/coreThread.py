@@ -21,20 +21,24 @@ class protocolHandler:
                    "status": self.sendStatus,
                    "movement": self.doMovement
                    }
-        if options.get(json_data["type"]):
-            return options[json_data["type"]](json_data, lock)
-        else:
-            print "ERROR: invalid JSON type key"
+        try:
+            if options.get(json_data["type"]):
+                return options[json_data["type"]](json_data, lock)
+            else:
+                print "ERROR: invalid JSON type key"
+        except Exception:
+            print "Invalid JSON"
+            pass
 
     def sendCommand(self, json_data, lock):
         if json_data["data"] == CMD_START_EXP:
             lock.acquire()
-            self.arduino.send(json_data)
+            self.robot.send(json_data)
             lock.release()
             print "..starting exploration.."
         elif json_data["data"] == CMD_START_PATH:
             lock.acquire()
-            self.arduino.send(json_data)
+            self.robot.send(json_data)
             lock.acquire()
             self.pc.send(json_data)
             lock.release()

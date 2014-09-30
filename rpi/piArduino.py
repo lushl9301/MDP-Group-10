@@ -51,12 +51,16 @@ class piArduino:
         print "Send to Arduino: " + command
 
     def receive(self):
-        json_string = self.ser.readline()
         try:
-            json_data = json.loads(json_string)
-        except ValueError, e:
-            # print "ERROR: decoding JSON from arduino. " + e.message
+            json_string = self.ser.readline().strip()
+            try:
+                json_data = json.loads(json_string)
+                print "[ From Arduino receive: " + str(json_data) + " ]"
+                return json_data
+            except ValueError, e:
+                # print "ERROR: decoding JSON from arduino. " + e.message
+                print "From robot: " + json_string;
+                pass
+        except SerialException:
+            print "Disconnected from Arduino"
             pass
-        else:
-            print "[ From Arduino receive: " + json_data + " ]"
-            return json_data
