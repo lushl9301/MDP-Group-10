@@ -10,7 +10,7 @@ from piBT import btThread
 class protocolHandler:
     def __init__(self, wifi, bt, arduino):
         self.pc = wifi
-        self.bt = bt
+        self.android = bt
         self.robot = arduino
 
     # what to do with the JSON data
@@ -31,17 +31,17 @@ class protocolHandler:
 
     def sendMap(self, json_data):
         self.pc.send(json_data)
-        self.bt.send(json_data)
+        self.android.send(json_data)
         print "send map data to PC"
 
     def sendStatus(self, json_data):
         self.pc.send(json_data)
-        self.bt.send(json_data)
+        self.android.send(json_data)
         print "send status update to PC"
 
     def doMovement(self, json_data):
         self.robot.send(json_data)
-        self.bt.send(json_data)
+        self.android.send(json_data)
         print "do robot movement"
 
 

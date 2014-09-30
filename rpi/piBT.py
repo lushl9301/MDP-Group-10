@@ -24,7 +24,7 @@ class btThread(threading.Thread):
 
         def send(self, json_data):
             if self.connected:
-                self.piBT.send(str(data))
+                self.piBT.send(data)
 
         def run(self):
             print "[ BT Thread Start ]"
@@ -40,7 +40,7 @@ class btThread(threading.Thread):
                             else:
                                 self.mainthread.addToQueue(receivedJSON)
                     except Exception:
-                            print "BlueTooth ThreadReceive Exception"
+                            print "BT Thread Receive Exception"
                             print traceback.format_exc()
                     finally:
                         self.piBT.close()
