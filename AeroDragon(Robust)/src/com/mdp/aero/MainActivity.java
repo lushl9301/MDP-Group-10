@@ -32,13 +32,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -46,6 +44,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import org.json.*;
 
 /**
  * This is the main Activity that displays the current chat session.
@@ -200,6 +199,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				autoAct = 1;
 				
+				
 			}
     	});
     	shortButton.setOnClickListener(new OnClickListener(){
@@ -207,6 +207,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				autoAct = 2;
+				
 			}
     	});
     	leftButton.setOnClickListener(new OnClickListener(){
@@ -264,6 +265,7 @@ public class MainActivity extends Activity {
 		super.onStart();
 		if (D)
 			Log.e(TAG, "++ ON START ++");
+
 		// If BT is not on, request that it be enabled.
 		// setupChat() will then be called during onActivityResult
 		if (!ba.isEnabled()) {
@@ -277,7 +279,6 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	
 	@Override
 	public synchronized void onResume() {
 		super.onResume();
@@ -324,7 +325,6 @@ public class MainActivity extends Activity {
 		mConversationView = (ListView) findViewById(R.id.in);
 		mConversationView.setAdapter(mConversationArrayAdapter);
 
-		
 		// Initialize the BluetoothManager to perform bluetooth connections
 		btManager = new BluetoothManager(this, mHandler);
 
@@ -432,14 +432,14 @@ public class MainActivity extends Activity {
 				byte[] writeBuf = (byte[]) msg.obj;
 				// construct a string from the buffer
 				String writeMessage = new String(writeBuf);
-//				mConversationArrayAdapter.add("Me:  " + writeMessage);
+				mConversationArrayAdapter.add("Me:  " + writeMessage);
 				break;
 			case MESSAGE_READ:
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-//				mConversationArrayAdapter.add(mConnectedDeviceName + ":  "
-//						+ readMessage);
+				mConversationArrayAdapter.add(mConnectedDeviceName + ":  "
+						+ readMessage);
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
@@ -621,52 +621,54 @@ public class MainActivity extends Activity {
 	}
 	
 	
-	// START BUTTON FUNCTION
+	//START BUTTON FUNCTION
 	public void toggleStart(View view) {
-		// Is the toggle on?
-		boolean on = ((ToggleButton) view).isChecked();
-
-		if (on) {
-			// end timer
-			timer = new Timer();
-			if (btManager.getState() == BluetoothManager.STATE_CONNECTED) {
-				if (autoAct == 1) {
-					//sendMessage("Let's Explore!");
-					sendMessage(JsonObj.sendJson("command", "START_EXP"));
-					startTime = SystemClock.uptimeMillis();
-					// 1 sec timer
-					timer.schedule(new askGrid(), 0, 1000);
-					customHandler.postDelayed(updateTimerThread, 0);
-				} else if (autoAct == 2) {
-					//sendMessage("Let's find the Shortest Path!");
-					sendMessage(JsonObj.sendJson("command", "START_PATH"));
-					startTime = SystemClock.uptimeMillis();
-					// 1 sec timer
-					timer.schedule(new askGrid(), 0, 1000);
-					customHandler.postDelayed(updateTimerThread, 0);
-				} else {
-					startButton.setChecked(false);
-					Toast.makeText(this, R.string.no_action, Toast.LENGTH_SHORT)
-							.show();
-				}
-			} else {
-				startButton.setChecked(false);
-				sendMessage(JsonObj.sendJson("command", "STOP"));
-				Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
-						.show();
-			}
-
-			autoAct = 0;
-
-		} else {
-			// get something to say it is explore/shortest path
-			// then when start is pressed then start the activity
-			timeSwapBuff += timeInMilliseconds;
-			customHandler.removeCallbacks(updateTimerThread);
-			timeSwapBuff = 0;
-			timer.cancel();
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    
+	    if (on) {
+	    	//do something to end run?
+	    	// end timer
+	    	timer = new Timer();
+	    	//sendMessage(JsonObj.sendJson("command", "STOP"));
+	    	//end timer
+	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
+	    		if(autoAct == 1){
+	    			sendMessage(JsonObj.sendJson("command", "START_EXP"));
+		    		//sendMessage("Let's Explore!");
+		    		startTime = SystemClock.uptimeMillis();
+		    		//timer.schedule(new askGrid(), 0, 1000);
+			    	customHandler.postDelayed(updateTimerThread, 0);
+		    	}
+		    	else if(autoAct ==2 ){
+		    		sendMessage(JsonObj.sendJson("command", "START_PATH"));
+		    		//sendMessage("Let's find the Shortest Path!");
+		    		startTime = SystemClock.uptimeMillis();
+		    		//timer.schedule(new askGrid(), 0, 1000);
+			    	customHandler.postDelayed(updateTimerThread, 0);
+		    	}
+		    	else{
+		    		startButton.setChecked(false);
+		    		Toast.makeText(this, R.string.no_action, Toast.LENGTH_SHORT).show();
+		    	}
+	    	}
+	    	else{
+	    		startButton.setChecked(false);
+	    		Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+	    	}
+	    	
+	    	
+	    	autoAct = 0;
+	    	
+	    } else {
+	    	//get something to say it is explore/shortest path
+	    	//then when start is pressed then start the activity
+	    	timeSwapBuff += timeInMilliseconds;
+	    	customHandler.removeCallbacks(updateTimerThread);
+	    	timeSwapBuff = 0;
+	    	timer.cancel();
 			timer.purge();
-		}
+	    }
 	}
 	
 	
@@ -696,12 +698,10 @@ public class MainActivity extends Activity {
 			//map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
 		
 	}*/
-	
-		public class askGrid extends TimerTask {
+	public class askGrid extends TimerTask {
 		public void run() {
 			sendMessage("GRID");
 		}
-	}
-	
 
+}
 }
