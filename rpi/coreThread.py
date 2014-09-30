@@ -31,7 +31,7 @@ class protocolHandler:
         if options.get(json_data["type"]):
             return options[json_data["type"]](json_data)
         else:
-            print "Error: invalid JSON type key"
+            print "ERROR: invalid JSON type key"
 
     def sendCommand(self, json_data):
         if json_data["data"] == CMD_START_EXP:
@@ -42,26 +42,31 @@ class protocolHandler:
             self.pc.send(json_data)
             print "..starting shortest path.."
         else:
-            print "ERROR: unknown command - cannot process"
+            print "ERROR: unknown command data - cannot process"
 
     def sendReading(self, json_data):
         self.pc.send(json_data)
         self.android.send(json_data)
-        print "..sending reading data to PC - Android.."
+        print "..sending robot data to PC - Android.."
 
     def sendMap(self, json_data):
         self.android.send(json_data)
         print "..sending map data to Android.."
 
     def sendStatus(self, json_data):
-        self.pc.send(json_data)
-        self.android.send(json_data)
-        print "send status update to PC"
+        if json_data["data"] == ST_END_EXP:
+            self.pc.send(json_data)
+            self.android.send(json_data)
+            print "..sending end exploration.."
+        elif json_data["data"] == ST_END_PATH:
+            self.android.send(json_data)
+            print "..sending end shortest path.."
+        else:
+            print "ERROR: unknown status data - cannot process"
 
     def doMovement(self, json_data):
         self.robot.send(json_data)
-        self.android.send(json_data)
-        print "do robot movement"
+        print "..sending robot movement.."
 
 
 class coreThread(threading.Thread):
