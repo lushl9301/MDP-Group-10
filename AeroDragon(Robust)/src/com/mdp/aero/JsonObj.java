@@ -26,10 +26,21 @@ public class JsonObj {
 		return null;		
 	}
 	
-	public int[][] recJson(){
-		JObjr = new JSONObject() ;
+	public static int[][] recJson(String msg){
 		
-		return null;
+		String[] splited = msg.split("\\s+");
+		Log.i("OutPut", splited[0]);
+		int o = 0;
+		int[][] array2D = new int[15][20];
+		for(int i=0; i<15;i++)
+			   for(int j=0;j<20;j++)
+			   {
+			       array2D[i][j] = Integer.parseInt(splited[(j%20+i*20)+7]);
+			   }
+
+		//JObjr = new JSONObject() ;
+		return array2D;
+		
 		
 	}
 }
