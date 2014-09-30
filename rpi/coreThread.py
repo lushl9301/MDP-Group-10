@@ -1,17 +1,10 @@
+from piConfig import *
 import threading
 import traceback
 import Queue
-
 from piArduino import arduinoThread
 from piWifi import wifiThread
 from piBT import btThread
-
-# define constants
-CMD_START_EXP = "START_EXP"
-CMD_START_PATH = "START_PATH"
-CMD_STOP = "STOP"
-ST_END_EXP = "END_EXP"
-ST_END_PATH = "END_PATH"
 
 
 class protocolHandler:
@@ -21,7 +14,7 @@ class protocolHandler:
         self.robot = arduino
 
     # what to do with the JSON data
-    def decodeCommand(self, json_data):
+    def decodeCommand(self, json_data, lock):
         options = {"command": self.sendCommand,
                    "reading": self.sendReading,
                    "map": self.sendMap,
@@ -29,43 +22,64 @@ class protocolHandler:
                    "movement": self.doMovement
                    }
         if options.get(json_data["type"]):
-            return options[json_data["type"]](json_data)
+            return options[json_data["type"]](json_data, lock)
         else:
             print "ERROR: invalid JSON type key"
 
-    def sendCommand(self, json_data):
+    def sendCommand(self, json_data, lock):
         if json_data["data"] == CMD_START_EXP:
+            lock.acquire()
             self.arduino.send(json_data)
+            lock.release()
             print "..starting exploration.."
         elif json_data["data"] == CMD_START_PATH:
+            lock.acquire()
             self.arduino.send(json_data)
+            lock.acquire()
             self.pc.send(json_data)
+            lock.release()
+            lock.release()
             print "..starting shortest path.."
         else:
             print "ERROR: unknown command data - cannot process"
 
-    def sendReading(self, json_data):
+    def sendReading(self, json_data, lock):
+        lock.acquire()
         self.pc.send(json_data)
+        print "..sending robot data to PC.."
+        lock.acquire()
         self.android.send(json_data)
-        print "..sending robot data to PC - Android.."
+        lock.release()
+        lock.release()
+        print "..sending robot data to Android.."
 
-    def sendMap(self, json_data):
+    def sendMap(self, json_data, lock):
+        lock.acquire()
         self.android.send(json_data)
+        lock.release()
         print "..sending map data to Android.."
 
-    def sendStatus(self, json_data):
+    def sendStatus(self, json_data, lock):
         if json_data["data"] == ST_END_EXP:
+            lock.acquire()
             self.pc.send(json_data)
+            lock.release()
+            lock.acquire()
             self.android.send(json_data)
+            lock.release()
             print "..sending end exploration.."
         elif json_data["data"] == ST_END_PATH:
+            lock.acquire()
             self.android.send(json_data)
+            lock.release()
             print "..sending end shortest path.."
         else:
             print "ERROR: unknown status data - cannot process"
 
-    def doMovement(self, json_data):
+    def doMovement(self, json_data, lock):
+        lock.acquire()
         self.robot.send(json_data)
+        lock.release()
         print "..sending robot movement.."
 
 
@@ -73,7 +87,6 @@ class coreThread(threading.Thread):
 
     commandQueue = None
     lock = None
-    BUFFER = 3
 
     def __init__(self, threadID, name, wifi, bt, arduino):
         threading.Thread.__init__(self)
@@ -81,7 +94,7 @@ class coreThread(threading.Thread):
         self.name = name
 
         # set the command queue
-        self.lock = threading.BoundedSemaphore(self.BUFFER)
+        self.lock = threading.BoundedSemaphore(SEMAPHORE_BUF)
         self.commandQueue = Queue.Queue()
 
         # assign thread
@@ -98,7 +111,7 @@ class coreThread(threading.Thread):
             self.commandQueue.put(json_data)
 
     def flushCommandQueue(self):
-        self.lock = threading.BoundedSemaphore(self.BUFFER)
+        self.lock = threading.BoundedSemaphore(SEMAPHORE_BUF)
         self.arduino.sendStop()
         with self.commandQueue.mutex:
             self.commandQueue.queue.clear()
@@ -108,12 +121,12 @@ class coreThread(threading.Thread):
         if not self.commandQueue.empty():
             command = self.commandQueue.get()
 
-            self.lock.acquire()
-            self.protocolHandler.decodeCommand(command)
-            self.lock.release()
+            # self.lock.acquire()
+            self.protocolHandler.decodeCommand(command, self.lock)
+            # self.lock.release()
 
     def run(self):
-        while not self.wifi.isConnected():
+        while not self.bt.isConnected() or not self.wifi.isConnected():
             continue
 
         # send start signal to robot
@@ -125,7 +138,8 @@ class coreThread(threading.Thread):
 
         while 1:
             try:
-                self.processCommand()
+                if self.bt.isConnected() and self.wifi.isConnected():
+                    self.processCommand()
             except Exception, e:
                 print "Unable to decode JSON: " + e.message
                 print traceback.format_exc()

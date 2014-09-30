@@ -1,10 +1,8 @@
+from piConfig import *
 import serial
 import threading
 import json
 import traceback
-
-JSON_START = {"type": "START", "data": "START"}
-JSON_STOP = {"type": "STOP", "data": "STOP"}
 
 
 class arduinoThread(threading.Thread):

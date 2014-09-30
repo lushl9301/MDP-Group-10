@@ -1,3 +1,4 @@
+from piConfig import *
 from bluetooth import *
 import json
 import traceback
@@ -35,17 +36,20 @@ class btThread(threading.Thread):
                     while 1:
                         receivedJSON = self.piBT.receive()
                         # code to stop everything
-                        if receivedJSON["type"] == "STOP":
+                        if receivedJSON == JSON_STOP:
                             self.mainthread.flushCommandQueue()
                         else:
                             self.mainthread.addToQueue(receivedJSON)
                 except IOError, e:
-                    print "BT Thread Receive Exception: " + e.message
-                    print traceback.format_exc()
+                    if e.errno == errno.ECONNRESET:
+                        print "ERROR: BT disconnected. Try resuming.."
+                    else:
+                        print "BT Thread Receive Exception: " + e.message
+                        print traceback.format_exc()
                     pass
                 finally:
-                    self.piBT.close()
                     self.connected = False
+                    self.piBT.close()
 
 
 class piBT:
@@ -72,35 +76,35 @@ class piBT:
     def receive(self):
         if self.client_sock is None:
             return
-        try:
-            data = ''
-            completeJSON = False
-            while not completeJSON:
-                # receive the data per char
-                buff = self.client_sock.recv(1)
-                data += buff
-                if buff == '}':  # detects the end of a JSON in buffer
-                    completeJSON = True
-            # TODO: add catch block if decoding fails
-            json_data = json.loads(data)
-            if completeJSON:
-                print "Received From Bluetooth: " + str(data)
-                return json_data
-        except IOError, e:
-            print "Bluetooth Receive Exception: " + e.message
-            print traceback.format_exc()
-            pass
+        # try:
+        data = ''
+        completeJSON = False
+        while not completeJSON:
+            # receive the data per char
+            buff = self.client_sock.recv(1)
+            data += buff
+            if buff == '}':  # detects the end of a JSON in buffer
+                completeJSON = True
+        # TODO: add catch block if decoding fails
+        json_data = json.loads(data)
+        if completeJSON:
+            print "Received From Bluetooth: " + str(data)
+            return json_data
+        # except IOError, e:
+        #     print "Bluetooth Receive Exception: " + e.message
+        #     print traceback.format_exc()
+        #     pass
 
     def send(self, data):
-        if self.client_sock is None:
-            return
-        try:
-            json_string = json.dumps(data)
-            self.client_sock.send(json_string)
-        except IOError, e:
-            print "Bluetooth Sending Exception: " + e.message
-            print traceback.format_exc()
-            pass
+        if self.client_sock is not None:
+            try:
+                json_string = json.dumps(data)
+                self.client_sock.send(json_string)
+                print "Send to BT: " + str(data)
+            except IOError, e:
+                print "Bluetooth Sending Exception: " + e.message
+                print traceback.format_exc()
+                pass
 
     def close(self):
         self.client_sock.close()

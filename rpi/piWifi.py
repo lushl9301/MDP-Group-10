@@ -1,3 +1,4 @@
+from piConfig import *
 import traceback
 import threading
 import socket
@@ -25,32 +26,34 @@ class wifiThread (threading.Thread):
             if self.connected:
                 self.piWifi.send(json_data)
             else:
-                print 'Wifi not established for sending data'
+                print "Wifi not established for sending data"
 
         def run(self):
             print "[ Wifi Thread Start ]"
             while 1:
                 try:
-                    self.piWifi = piWifi('192.168.10.10', 8888)
+                    self.piWifi = piWifi(WIFI_IP, WIFI_PORT)
                     self.connected = True
                     while 1:
                         receivedJSON = self.piWifi.receive()
                         # code to stop everything
-                        if receivedJSON["type"] == "STOP":
+                        if receivedJSON == JSON_STOP:
                             self.mainthread.flushCommandQueue()
                         else:
                             self.mainthread.addToQueue(receivedJSON)
                 except IOError, e:
-                    print "Wifi Thread Receive Exception: " + e.message
-                    print traceback.format_exc()
-                    pass
+                    if e.errno == errno.ECONNRESET:
+                        print "ERROR: WIFI disconnected. Try resuming.."
+                    else:
+                        print "Wifi Thread Receive Exception: " + e.message
+                        print traceback.format_exc()
+                        pass
                 finally:
-                    self.piWifi.close()
                     self.connected = False
+                    self.piWifi.close()
 
 
 class piWifi:
-    # host = '192.168.10.10'
     host = 'localhost'
     port = 8888
     conn = None
@@ -62,42 +65,47 @@ class piWifi:
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        print '[Socket Created]'
+        print "[Socket Created]"
 
         try:
             self.sock.bind((self.host, self.port))
 
         except socket.error as msg:
-            print 'Bind failed, Error Code' + str(msg[0]) + ' Message' + msg[1]
+            print "WIFI bind failed. " + str(msg[0]) + ". msg:" + str(msg[1])
             sys.exit()
 
-        print '[Socket Bind complete]'
+        print "[Socket Bind complete]"
 
         self.sock.listen(5)  # 5 is the usual known max queued connection
-        print '[Socket Now Listening]'
+        print "[Socket Now Listening]"
 
         (self.conn, self.addr) = self.sock.accept()
-        print 'Connected with:' + self.addr[0] + ':' + str(self.addr[1])
+        print "WIFI connected with:" + self.addr[0] + ":" + str(self.addr[1])
 
     def send(self, data):  # data is a dictionary
         json_string = json.dumps(data)
         if self.conn is not None:
-            print 'Send To Wifi: ' + str(data)
-            self.conn.send(json_string)
+            try:
+                print "Send To Wifi: " + str(data)
+                self.conn.send(json_string)
+            except IOError, e:
+                print "Wifi sending exception. " + e.message
+                print traceback.format_exc()
+                pass
 
     def receive(self):
         if self.conn is None:
             return
-        data = ''
+        data = ""
         completeJSON = False
         while not completeJSON:
             buff = self.conn.recv(1)  # receive the data per char
             data += buff
-            if buff == '}':  # detects the end of a JSON in buffer
+            if buff == "}":  # detects the end of a JSON in buffer
                 completeJSON = True
         # TODO: add catch block if decoding fails
         json_data = json.loads(data)
-        print 'Receive From Wifi: ' + str(data)
+        print "Receive From Wifi: " + str(data)
         return json_data
 
     def close(self):
