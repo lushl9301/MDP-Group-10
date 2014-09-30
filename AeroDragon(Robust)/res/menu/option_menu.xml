@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/on_toggle"
+          android:title="@string/onOffBT"
+          android:icon="@drawable/connect"	
+          android:showAsAction="ifRoom|withText" />
+    
+    <item android:id="@+id/off_toggle"
+          android:title="@string/onOffBT"
+          android:icon="@drawable/disconnected"		
+          android:showAsAction="ifRoom|withText" />
+    
+    <item android:id="@+id/search_toggle"
+          android:icon="@drawable/dev_con"
+          android:title="@string/dev_connect"
+          android:showAsAction="ifRoom|withText" />
+    
+    <item android:id="@+id/dc_toggle"
+          android:icon="@drawable/no_dev"
+          android:title="@string/dev_connect"
+          android:showAsAction="ifRoom|withText" />
+    
+    <item android:id="@+id/configure"
+          android:icon="@drawable/ic_action_settings"
+          android:title="@string/config"
+          android:showAsAction="ifRoom|withText" />
+</menu>

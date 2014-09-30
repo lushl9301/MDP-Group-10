@@ -4,9 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.math.BigInteger;
-
 import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class MapGrid extends JPanel {
@@ -19,6 +17,7 @@ public class MapGrid extends JPanel {
 	private static final Color WALL = new Color(160, 80, 70);
 	public boolean md1 = false;
 	public boolean md2 = false;
+	public boolean md3 = false;
 	
 	GridCell[][] grid = new GridCell[MAP_ROW][MAP_COL];
 
@@ -40,6 +39,7 @@ public class MapGrid extends JPanel {
 	// =========== method 2 for map descriptor ===========
 	int[][] mapDescriptor1 = new int[15][20];
 	String[][] mapDescriptor2 = new String[15][20];
+	int[][] toConfirmObstacle = new int[15][20];
 
 	//	mapDescriptor1[14][0] = 1; // this represents grid (15,1)
 	//	mapDescriptor1[0][19] = 1; // this represents grid (1,20)
@@ -103,13 +103,17 @@ public class MapGrid extends JPanel {
 		mapDescriptor1[x-1][y-1] = 1;
 		mapDescriptor2[x-1][y-1] = "0";
 		setMapDescLabel(x, y);
+		toConfirmObstacle[x-1][y-1]--;
 	}
+	
 	
 	public void setMapDescObstacles(int x, int y) {
 		mapDescriptor1[x-1][y-1] = 1;
 		mapDescriptor2[x-1][y-1] = "1";
 		setMapDescLabelObstacles(x, y);
+		toConfirmObstacle[x-1][y-1]++;
 	}
+	
 	
 	public void setMapDescLabel(int x, int y) {
 		if(md1) {
@@ -119,6 +123,10 @@ public class MapGrid extends JPanel {
 		else if(md2) {
 			if(grid[x][y].getLabel() == "0" && !grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))
 				grid[x][y].setLabel("0");
+		}
+		else if(md3) {
+			if(!grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))			
+				grid[x][y].setLabel(Integer.toString(toConfirmObstacle[x-1][y-1]));
 		}
 	}
 	
@@ -131,6 +139,10 @@ public class MapGrid extends JPanel {
 			if(grid[x][y].getLabel() == "0" && !grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))
 				grid[x][y].setLabel("1");
 		}
+		else if(md3) {
+			if(!grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))	
+				grid[x][y].setLabel(Integer.toString(toConfirmObstacle[x-1][y-1]));
+		}
 	}
 	
 	public void setMD(int which, boolean onOff) {
@@ -141,6 +153,9 @@ public class MapGrid extends JPanel {
 			case 2:
 				md2 = onOff;
 				break;
+			case 3:
+				md3 = onOff;
+				break;
 		}
 	}
 	
@@ -148,17 +163,16 @@ public class MapGrid extends JPanel {
 		String strMapDesc = "11";
 		System.out.println("");
 		System.out.println("1 means explored; 0 means unexplored");
-		strMapDesc += "\n"; // comment this out if require a long string
+		//strMapDesc += "\n"; // comment this out if require a long string
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
 				strMapDesc += mapDescriptor1[j][i];
 			}
-			strMapDesc += "\n"; // comment this out if require a long string
+			//strMapDesc += "\n"; // comment this out if require a long string
 		}
 		strMapDesc += "11";
-		
-		//return toHex(strMapDesc); // comment either one
-		return strMapDesc; // comment this out if require a long string
+		return toHex(strMapDesc); // comment either one
+		//return strMapDesc; // comment this out if require a long string
 	}
 	
 	public String getMapDesc2() {
@@ -175,7 +189,7 @@ public class MapGrid extends JPanel {
 					strMapDesc += mapDescriptor2[j][i];
 				}
 			}
-			strMapDesc += "\n"; // comment this out if require a long string
+			//strMapDesc += "\n"; // comment this out if require a long string
 		}
 
 		while (!padEnough) {
@@ -185,42 +199,67 @@ public class MapGrid extends JPanel {
 			}
 			else padEnough = true;
 		}
-		return strMapDesc; // comment this out if require long string
-		//return toHex(strMapDesc); // comment either one
+		//return strMapDesc; // comment this out if require long string
+
+		return toHex(strMapDesc); // comment either one
 	}
 	
-	public String getMapDesc3Testing() {
+	public int[][] getMapDesc3Testing(String md1, String md2) {
+		int[][] mapDescriptor3 = new int[15][20];
 		
-		System.out.println("");
-		System.out.println("2 means obs, 1 means explored; 0 means unexplored");
-		String strMapDesc = "";
-		strMapDesc += "111111112000000\n";
-		strMapDesc += "111111112000000\n";
-		strMapDesc += "111111112000000\n";
-		strMapDesc += "111111112222000\n";
-		strMapDesc += "111111111111200\n";
-		strMapDesc += "222111111111200\n";
-		strMapDesc += "002111111111222\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "002111111111111\n";
-		strMapDesc += "000221112222111\n";
-		strMapDesc += "000021112002111\n";
-		strMapDesc += "000021112002111\n";
-		strMapDesc += "000021112002111\n";
-		strMapDesc += "000021112002111\n";
+		String newMd1 = toBinary(md1);
+		String newMd2 = toBinary(md2);
 		
-		
-		//do a toBinary function
-		//generate a md3
-		
+		// process md1
+		newMd1 = newMd1.substring(2, newMd1.length()-2);	
+		String[] md1Array = toStringArr(newMd1);
+		String[] md2Array = toStringArr(newMd2);
+
+		// make md3
+		int md1Counter = 1;
+		int md2Counter = 1;
+		for(int i = 0; i < 20; i++) {
+			for (int j = 0; j< 15; j++) {
+				if(md1Array[md1Counter].equals("1")) {
+					mapDescriptor3[j][i]++;
+					
+					if(md2Array[md2Counter].equals("1")) {
+						mapDescriptor3[j][i]++;
+					}
+					md2Counter++;
+				}
+				md1Counter++;
+			}
+		}
 		//return toHex(strMapDesc); // comment either one
-		return strMapDesc; // comment this out if require a long string
+		return mapDescriptor3; // comment this out if require a long string
+	}
+	
+	//For real time
+	public String getMapDescRealTime() {
+		System.out.println();
+		String strMapDescRealTime = "start of real time";
+		strMapDescRealTime += "\n"; // comment this out if require a long string
+		for(int i = 0; i < 20; i++) {
+			for (int j = 0; j< 15; j++) {				
+				if(toConfirmObstacle[j][i] >= 4) {
+					strMapDescRealTime += 2;
+				}
+				else if(toConfirmObstacle[j][i] > 0 && toConfirmObstacle[j][i] < 4) {
+					strMapDescRealTime += 1;
+				}
+				else if(toConfirmObstacle[j][i] < 0) {
+					strMapDescRealTime += 1;
+				}
+				else if(toConfirmObstacle[j][i] == 0) {
+					strMapDescRealTime += 0;
+				}
+			}
+			strMapDescRealTime += "\n"; // comment this out if require a long string
+		}
+		strMapDescRealTime += "end of real time";
+		//return toHex(strMapDesc); // comment either one
+		return strMapDescRealTime; // comment this out if require a long string
 	}
 	
 	
@@ -237,6 +276,15 @@ public class MapGrid extends JPanel {
 			}
 		}
 		return hexNum;
+	}
+	
+	
+	public String toBinary(String hex) {
+		return new BigInteger("1" + hex, 16).toString(2).substring(1);
+	}
+	
+	public String[] toStringArr(String bin) {
+		return bin.split("");
 	}
 	
 	public void changeColour(int x, int y, String text, Color color) {

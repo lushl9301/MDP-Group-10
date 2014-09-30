@@ -14,13 +14,19 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
@@ -44,9 +50,9 @@ public class MainSimulator {
 	private static Thread exploreThread;
 	private static Exploration explore;
 	private static boolean exploreStart = false;
-	
+	private static JFrame frame;
 	public static void main(String[] args) {
-		
+
 		final JButton clearObs;
 		final JButton loadMap;
 		final JButton exploreMap;
@@ -55,11 +61,12 @@ public class MainSimulator {
 		final JToggleButton addObs;
 		final JToggleButton realTime = new JToggleButton("Real Time");
 		final JCheckBox md1;
-		final JCheckBox md2 = new JCheckBox("MD 2");;
+		final JCheckBox md2 = new JCheckBox("MD 2");
+		final JCheckBox md3 = new JCheckBox("MD 3");
 		GridCell newCell;
-		JFrame frame = new JFrame();
+		frame = new JFrame();
 		frame.setTitle("Group 10 - Maze Simulator");
-		frame.setSize(new Dimension(950, 600)); // length by breadth
+		frame.setSize(new Dimension(950, 700)); // length by breadth (950x600)
 
 		Container contentPanel = frame.getContentPane(); // initialize content panel
 		
@@ -148,6 +155,47 @@ public class MainSimulator {
 		c.gridx = 0;
 		c.gridy = 4;
 		loadMap = new JButton("Load Map");
+		final JFileChooser fc = new JFileChooser();
+		loadMap.addActionListener(new ActionListener() {
+			 
+            public void actionPerformed(ActionEvent e) {
+            	try {
+	                int retVal = fc.showOpenDialog(frame);
+	                if (retVal == JFileChooser.APPROVE_OPTION) {
+	                	
+	                	//reset map
+	                	for (int i = 1; i < 16; i++) {
+	            			for (int j = 1; j < 21; j++) {
+	            				map.grid[i][j].setBackground(DEFAULTCELL);
+	            				map.grid[i][j].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+	            				map.grid[i][j].clearLabels();
+	            			}
+	    				}
+	    				
+	    				map.initLandmarks();
+	                	
+	    				// get select file and load obstacles in
+	                    File selectedFile = fc.getSelectedFile();
+	                    FileInputStream fis = new FileInputStream(selectedFile);
+	                    InputStreamReader in =  new InputStreamReader(fis, Charset.forName("UTF-8")); 
+	                    char[] buffer = new char[1024];
+	                    int n = in.read(buffer);
+	                    String text = new String(buffer, 0, n);
+	                    
+	                    // get obstacles
+	                    String[] obstacles = text.split(";");
+	                    for(int i=0; i< obstacles.length; i++) {
+	                    	String[] obsXY = obstacles[i].split(",");
+	                    	map.grid[Integer.parseInt(obsXY[1])+1][Integer.parseInt(obsXY[0])+1].setBackground(OBSTACLE);
+	                    }
+
+	                    in.close();
+	                }
+            	} catch (Exception f) {
+                 	 f.printStackTrace();
+            	}
+            }
+        });
 		buttonPanel.add(loadMap, c);
 		
 		c.gridx = 0;
@@ -353,6 +401,7 @@ public class MainSimulator {
 					map.initLandmarks();
 					addObs.addChangeListener(addObsListener);
 					map.initMD2();
+					map.toConfirmObstacle = new int[15][20];
 					exploreThread.stop();
 				}
 			}  
@@ -365,6 +414,19 @@ public class MainSimulator {
 		c.insets = new Insets(20,0,0,0);
 		solveMap = new JButton("Solve Map!");
 		buttonPanel.add(solveMap, c);
+		
+		c.gridx = 0;
+		c.gridy = 12;
+		md3.addItemListener(new ItemListener() {
+	        public void itemStateChanged(ItemEvent e) {
+	        	if(md3.isSelected()) {
+	        		map.setMD(3, true);
+	        	}
+	        	else
+	        		map.setMD(3, false);
+	        }
+        });
+		buttonPanel.add(md3, c);
 
 		
 		JPanel legendPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
