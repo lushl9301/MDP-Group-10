@@ -417,34 +417,36 @@ public class MainSimulator {
 		solveMap.setEnabled(false);
 		solveMap.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				int whichCounter = 0;
-				int midCounter = 0;
-				String[] midroute = new String[300];
-				new Dijkstra(map.getMapDesc(), map.getMapDesc2());
-				for (int i = 1; i < 16; i++) {
-        			for (int j = 1; j < 21; j++) {
-        				if(Dijkstra.route[whichCounter]) {
-        					for (int x = 0; x < 3; x++) {
-        	        			for (int y = 0; y < 3; y++) {
-        	        				map.grid[i+x][j+y].setBackground(ROBOT);
-        	        				map.grid[i+x][j+y].setBorder(BorderFactory.createLineBorder(BORDER, 1));
-        	        				
-        	        				if(x == 1 && y == 1) {
-        	        					midroute[midCounter] = (i+x) + "," + (j+y);
-        	        					midCounter++;
-        	        				}
-        	        			}
-        					}
-        				}
-        				whichCounter++;
-        			}
-				}
-				int x;
-				int y;
-				for(int i = 0; i< midCounter; i++) {
-					x = Integer.parseInt(midroute[i].split(",")[0]);
-					y = Integer.parseInt(midroute[i].split(",")[1]);
-					map.grid[x][y].setBackground(EXPLORE);
+				if(solveMap.isEnabled()) {
+					int whichCounter = 0;
+					int midCounter = 0;
+					String[] midroute = new String[300];
+					new Dijkstra(map.getMapDesc(), map.getMapDesc2());
+					for (int i = 1; i < 16; i++) {
+	        			for (int j = 1; j < 21; j++) {
+	        				if(Dijkstra.route[whichCounter]) {
+	        					for (int x = 0; x < 3; x++) {
+	        	        			for (int y = 0; y < 3; y++) {
+	        	        				map.grid[i+x][j+y].setBackground(ROBOT);
+	        	        				map.grid[i+x][j+y].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+	        	        				
+	        	        				if(x == 1 && y == 1) {
+	        	        					midroute[midCounter] = (i+x) + "," + (j+y);
+	        	        					midCounter++;
+	        	        				}
+	        	        			}
+	        					}
+	        				}
+	        				whichCounter++;
+	        			}
+					}
+					int x;
+					int y;
+					for(int i = 0; i< midCounter; i++) {
+						x = Integer.parseInt(midroute[i].split(",")[0]);
+						y = Integer.parseInt(midroute[i].split(",")[1]);
+						map.grid[x][y].setBackground(EXPLORE);
+					}
 				}
 			}
 		});
