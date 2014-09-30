@@ -37,7 +37,6 @@ class PCClient {
 			writer = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
 			writer.write(jsonString);
 			writer.flush();
-			writer.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,7 +73,7 @@ class PCClient {
 		String data = "";
 
 		while (true) {
-			this.receiveJSON();
+//			this.receiveJSON();
 			try {
 				System.out.print("Input type: ");
 				type = br.readLine();
