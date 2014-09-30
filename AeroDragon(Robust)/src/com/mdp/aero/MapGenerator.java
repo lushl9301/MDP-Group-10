@@ -14,6 +14,7 @@ public class MapGenerator {
 	GridLayout gv = null;
 	Robot r = setupRobot();
 	int[][] obstacleArray;
+	Boolean turn180 = false;
 	TextView topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight, topMid, bottomMid,midMid;
 	public MapGenerator(GridLayout gv, Context context){
 		this.gv=gv;
@@ -237,7 +238,8 @@ public class MapGenerator {
 	public void moveDownMap() {
 		int currentPosition[][] =  r.getPosition();
         int direction = r.getDirection();
-        int i = 0;
+        
+        //int i = 0;
         topLeft.setBackgroundColor(Color.parseColor("#7fb2e5"));
         topMid.setBackgroundColor(Color.parseColor("#7fb2e5"));
         topRight.setBackgroundColor(Color.parseColor("#7fb2e5"));
@@ -291,16 +293,22 @@ public class MapGenerator {
         
         
         if (direction == r.EAST || direction == r.WEST){
+        	//turn180 = false;
         	r.setDirection(r.SOUTH);
         	Log.i("tag","now face south");
         	setSouth(currentPosition);
         }
         if (direction == r.NORTH){
-        	r.setDirection(r.NORTH);
-        	setNorth(currentPosition);
+        	//turn180 = true;
+        	r.setDirection(r.EAST);
+        	setEast(currentPosition);
+        	//if(turn180==true){
+        		//r.setDirection(r.SOUTH);
+            	//setEast(currentPosition);
+        	//}
         }
         r.setPosition(currentPosition);
-        i++;
+        //i++;
         	}
 		//} 
 	//}
