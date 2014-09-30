@@ -40,9 +40,10 @@ class wifiThread (threading.Thread):
                             self.mainthread.flushCommandQueue()
                         else:
                             self.mainthread.addToQueue(receivedJSON)
-                except IOError:
-                    print "Wifi Receiving Exception"
+                except IOError, e:
+                    print "Wifi Thread Receive Exception: " + e.message
                     print traceback.format_exc()
+                    pass
                 finally:
                     self.piWifi.close()
                     self.connected = False

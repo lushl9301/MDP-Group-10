@@ -1,31 +1,10 @@
 import serial
 import threading
 import json
+import traceback
 
 JSON_START = {"type": "START", "data": "START"}
 JSON_STOP = {"type": "STOP", "data": "STOP"}
-
-
-class piArduino:
-    def __init__(self):
-        self.ser = serial.Serial('/dev/ttyACM0', 9600)
-        print "Arduino Connected"
-
-    def send(self, json_data):
-        command = json_data["data"]
-        self.ser.write(command)
-        print "Send to Arduino: " + command
-
-    def receive(self):
-        json_string = self.ser.readline()
-        try:
-            json_data = json.loads(json_string)
-        except ValueError, e:
-            print "ERROR: decoding JSON from arduino. " + e.message
-            pass
-        else:
-            print "[ From Arduino receive: " + json_data + " ]"
-            return json_data
 
 
 class arduinoThread(threading.Thread):
@@ -54,5 +33,32 @@ class arduinoThread(threading.Thread):
             self.piArduino = piArduino()
 
             while 1:
-                receivedJSON = self.piArduino.receive()
-                self.mainthread.addToQueue(receivedJSON)
+                try:
+                    receivedJSON = self.piArduino.receive()
+                    self.mainthread.addToQueue(receivedJSON)
+                except IOError, e:
+                    print "Arduino Thread Receive Exception: " + e.message
+                    print traceback.format_exc()
+                    pass
+
+
+class piArduino:
+    def __init__(self):
+        self.ser = serial.Serial('/dev/ttyACM0', 9600)
+        print "Arduino Connected"
+
+    def send(self, json_data):
+        command = json_data["data"]
+        self.ser.write(command)
+        print "Send to Arduino: " + command
+
+    def receive(self):
+        json_string = self.ser.readline()
+        try:
+            json_data = json.loads(json_string)
+        except ValueError, e:
+            # print "ERROR: decoding JSON from arduino. " + e.message
+            pass
+        else:
+            print "[ From Arduino receive: " + json_data + " ]"
+            return json_data

@@ -6,16 +6,24 @@ from piArduino import arduinoThread
 from piWifi import wifiThread
 from piBT import btThread
 
+# define constants
+CMD_START_EXP = "START_EXP"
+CMD_START_PATH = "START_PATH"
+CMD_STOP = "STOP"
+ST_END_EXP = "END_EXP"
+ST_END_PATH = "END_PATH"
+
 
 class protocolHandler:
     def __init__(self, wifi, bt, arduino):
         self.pc = wifi
-        self.bt = bt
+        self.android = bt
         self.robot = arduino
 
     # what to do with the JSON data
     def decodeCommand(self, json_data):
         options = {"command": self.sendCommand,
+                   "reading": self.sendReading,
                    "map": self.sendMap,
                    "status": self.sendStatus,
                    "movement": self.doMovement
@@ -26,22 +34,33 @@ class protocolHandler:
             print "Error: invalid JSON type key"
 
     def sendCommand(self, json_data):
+        if json_data["data"] == CMD_START_EXP:
+            self.arduino.send(json_data)
+            print "..starting exploration.."
+        elif json_data["data"] == CMD_START_PATH:
+            self.arduino.send(json_data)
+            self.pc.send(json_data)
+            print "..starting shortest path.."
+        else:
+            print "ERROR: unknown command - cannot process"
+
+    def sendReading(self, json_data):
         self.pc.send(json_data)
-        print "send command to PC"
+        self.android.send(json_data)
+        print "..sending reading data to PC - Android.."
 
     def sendMap(self, json_data):
-        self.pc.send(json_data)
-        self.bt.send(json_data)
-        print "send map data to PC"
+        self.android.send(json_data)
+        print "..sending map data to Android.."
 
     def sendStatus(self, json_data):
         self.pc.send(json_data)
-        self.bt.send(json_data)
+        self.android.send(json_data)
         print "send status update to PC"
 
     def doMovement(self, json_data):
         self.robot.send(json_data)
-        self.bt.send(json_data)
+        self.android.send(json_data)
         print "do robot movement"
 
 
