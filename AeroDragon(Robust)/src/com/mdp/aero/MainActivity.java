@@ -55,12 +55,6 @@ public class MainActivity extends Activity {
 	private static final String TAG = "Aero Dragon";
 	private static final boolean D = true;
 	
-	//for robot and map sensor position
-	public static final int TOP_LEFT_SIDE=0;
-	public static final int TOP_RIGHT_SIDE=1;
-	public static final int TOP_LEFT_FRONT=2;
-	public static final int TOP_RIGHT_FRONT=3;
-	
 	
 	//Shared Preferences
 	public static final String DEFAULT="N/A";
@@ -127,6 +121,7 @@ public class MainActivity extends Activity {
 	MapGenerator map;
 	
 	public static JsonObj JsonO;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -172,15 +167,11 @@ public class MainActivity extends Activity {
 		timerVal = (TextView) findViewById(R.id.timer);
 		startButton = (ToggleButton) findViewById(R.id.startBtn);
 		
-		//trial for obstacles
-		/*int oldDir = map.getRobot().WEST;
-		int[][] oldPos = map.getRobot().getPosition();
-		updateMap(oldDir,oldPos);*/
 		
 		
 		
 		load();
-		
+		//sendMessage(JsonObj.sendJson("command", "R"));
 		//setting onClick listeners
 		f1Button.setOnClickListener(new OnClickListener(){
 			@Override
@@ -216,38 +207,44 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
-				sendMessage("a");
+				//sendMessage("a");
+				
 				map.turnLeftMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
     	});
     	rightButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				sendMessage("d");
+				//sendMessage("d");
 				map.turnRightMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
     	});
     	upButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				sendMessage("w");
+				//sendMessage("w");
 				map.moveForwardMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
     	});
     	downButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				sendMessage("s");
+				//sendMessage("s");
 				map.moveDownMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
     	});
     	roundButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
+				
 				sendMessage("GRID");
 			}
     	});
@@ -441,12 +438,38 @@ public class MainActivity extends Activity {
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				JsonObj.recJson(readMessage);
-				map.plotObsAuto(JsonObj.amdString(readMessage));
-				//map.plotObsAuto(JsonObj.array2D);
+				//JsonObj.recJson(readMessage);
+				//JsonObj.amdS(readMessage);
+				
+				JsonObj.amdString(readMessage);
+				//GridLayout gv = (GridLayout)findViewById(R.id.grid2);
+				//Robot ro = new Robot();
+				map.getRobot().setPosition(JsonObj.position);
+				map.plotObsAuto(JsonObj.array2D);
+				Log.i("Tag", ""+JsonObj.dir);
+				map.getRobot().setDirection(JsonObj.dir);
+				if (JsonObj.dir==3)
+				{
+					map.setSouth(JsonObj.position);
+				}
+				else if (JsonObj.dir==1)
+				{
+					map.setNorth(JsonObj.position);
+				}
+				else if (JsonObj.dir==2)
+				{
+					map.setEast(JsonObj.position);
+				}
+				else if (JsonObj.dir==4)
+				{
+					map.setWest(JsonObj.position);
+				}
+				
+				
 				setStatus(getString(R.string.title_connected_to,
 						mConnectedDeviceName) + readMessage);
-				 
+				
+				
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
@@ -612,6 +635,8 @@ public class MainActivity extends Activity {
 	    	timerVal.setVisibility(View.VISIBLE);
 	    	startButton.setVisibility(View.VISIBLE);
 	    	
+	    	sendMessage(JsonObj.sendJson("command", "G"));
+	    	
 	    } else {
 	    	//manual mode
 	    	roundButton.setVisibility(View.VISIBLE);
@@ -624,6 +649,7 @@ public class MainActivity extends Activity {
 	    	shortButton.setVisibility(View.INVISIBLE);
 	    	timerVal.setVisibility(View.INVISIBLE);
 	    	startButton.setVisibility(View.INVISIBLE);
+	    	sendMessage(JsonObj.sendJson("command", "R"));
 	    }
 	}
 	
@@ -637,21 +663,21 @@ public class MainActivity extends Activity {
 	    	//do something to end run?
 	    	// end timer
 	    	timer = new Timer();
-	    	//sendMessage(JsonObj.sendJson("command", "STOP"));
+	    	
 	    	//end timer
 	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
 	    		if(autoAct == 1){
-	    			sendMessage(JsonObj.sendJson("command", "S"));
+	    			sendMessage(JsonObj.sendJson("command", "E"));
 		    		//sendMessage("Let's Explore!");
 		    		startTime = SystemClock.uptimeMillis();
-		    		timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
+		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
 		    	}
 		    	else if(autoAct ==2 ){
-		    		sendMessage(JsonObj.sendJson("command", "START_PATH"));
+		    		sendMessage(JsonObj.sendJson("command", "P"));
 		    		//sendMessage("Let's find the Shortest Path!");
 		    		startTime = SystemClock.uptimeMillis();
-		    		timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
+		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
 		    	}
 		    	else{
@@ -670,6 +696,7 @@ public class MainActivity extends Activity {
 	    } else {
 	    	//get something to say it is explore/shortest path
 	    	//then when start is pressed then start the activity
+	    	sendMessage(JsonObj.sendJson("command", "G"));
 	    	timeSwapBuff += timeInMilliseconds;
 	    	customHandler.removeCallbacks(updateTimerThread);
 	    	timeSwapBuff = 0;
