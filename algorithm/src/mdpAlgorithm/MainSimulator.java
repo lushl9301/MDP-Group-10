@@ -64,7 +64,7 @@ public class MainSimulator {
 		GridCell newCell;
 		frame = new JFrame();
 		frame.setTitle("Group 10 - Maze Simulator");
-		frame.setSize(new Dimension(950, 700)); // length by breadth (950x600)
+		frame.setSize(new Dimension(950, 600)); // length by breadth (950x600) 950x700
 
 		Container contentPanel = frame.getContentPane(); // initialize content panel
 		
@@ -462,6 +462,7 @@ public class MainSimulator {
 	        		map.setMD(3, false);
 	        }
         });
+		md3.setVisible(false);
 		buttonPanel.add(md3, c);
 
 		
