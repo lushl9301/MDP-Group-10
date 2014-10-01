@@ -54,47 +54,34 @@ class btThread(threading.Thread):
 
 
 class piBT:
-    uuid = "00001101-0000-1000-8000-00805F9B34FB"
     server_sock = None
     port = None
     client_sock = None
     client_info = None
+    buff = None
 
     def __init__(self):
         self.server_sock = BluetoothSocket(RFCOMM)
         self.server_sock.bind(("", 1))
         self.server_sock.listen(10)
         self.port = self.server_sock.getsockname()[1]
-        advertise_service(self.server_sock, "MDP10_BTServer",
-                          service_id=self.uuid,
-                          service_classes=[self.uuid, SERIAL_PORT_CLASS],
+        advertise_service(self.server_sock, BT_SERVER_NAME,
+                          service_id=BT_UUID,
+                          service_classes=[BT_UUID, SERIAL_PORT_CLASS],
                           profiles=[SERIAL_PORT_PROFILE],
                           )
         print "Waiting for BT connection on RFCOMM channel " + str(self.port)
         self.client_sock, self.client_info = self.server_sock.accept()
         print "Accepted BT connection from ", self.client_info
 
+        # instantiate file buffer for receival
+        if self.conn is not None:
+            self.buff = self.client_sock.makefile("r")
+
     def receive(self):
-        if self.client_sock is None:
+        if self.conn is None:
             return
-        # try:
-        data = ''
-        completeJSON = False
-        while not completeJSON:
-            # receive the data per char
-            buff = self.client_sock.recv(1)
-            data += buff
-            if buff == '}':  # detects the end of a JSON in buffer
-                completeJSON = True
-        # TODO: add catch block if decoding fails
-        json_data = json.loads(data)
-        if completeJSON:
-            print "Received From Bluetooth: " + str(data)
-            return json_data
-        # except IOError, e:
-        #     print "Bluetooth Receive Exception: " + e.message
-        #     print traceback.format_exc()
-        #     pass
+        return receiveJSON(self.buff, "BT")
 
     def send(self, data):
         if self.client_sock is not None:

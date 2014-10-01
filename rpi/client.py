@@ -1,3 +1,4 @@
+from piConfig import *
 import socket
 import json
 from sys import stdin
@@ -6,7 +7,7 @@ from sys import stdin
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
-sock.connect(('192.168.10.10', 8888))
+sock.connect((WIFI_IP, WIFI_PORT))
 
 while 1:
     print "input type: "
@@ -16,4 +17,4 @@ while 1:
     data = {"type": data_type, "data": data_data}
     print ">>>>>>> SENDING >>>>>>>"
     json_string = json.dumps(data)
-    sock.send(json_string)
+    sock.send(json_string + "\n")

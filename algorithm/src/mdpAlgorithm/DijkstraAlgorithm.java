@@ -43,7 +43,14 @@ public class DijkstraAlgorithm {
 		List<DijVertex> adjacentNodes = getNeighbors(node);
 		for (DijVertex target : adjacentNodes) {
 			if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
-				distance.put(target, getShortestDistance(node) + getDistance(node, target));
+				if(predecessors.get(node) != null) {
+					if( (Integer.parseInt(target.getName().toString().split("Node_")[1]) - Integer.parseInt(node.toString().split("Node_")[1])) != (Integer.parseInt(node.toString().split("Node_")[1]) - Integer.parseInt(predecessors.get(node).toString().split("Node_")[1]))) {
+						distance.put(target, getShortestDistance(node) + getDistance(node, target) + 1);
+					}
+					else
+						distance.put(target, getShortestDistance(node) + getDistance(node, target));
+				}
+				else distance.put(target, getShortestDistance(node) + getDistance(node, target));
 				predecessors.put(target, node);
 				unSettledNodes.add(target);
 			}
@@ -54,7 +61,7 @@ public class DijkstraAlgorithm {
 		for (DijEdge edge : edges) {
 			if (edge.getSource().equals(node) && edge.getDestination().equals(target)) {
 				return edge.getWeight();
-			}
+			}	
 		}
 		throw new RuntimeException("Should not happen");
 	}

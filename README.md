@@ -7,9 +7,17 @@
     - [x] be wirelessly connected to the Nexus 7 tablet
     - [x] communicate with the Arduino board through over a USB->Serial connection
     - [X] multithread between 3 components
+    - MORE DETAILED TASKS
     - [X] decode the data received
-    - [ ] robot deployment
-    - [ ] dropped connection testing
+    - [X] robot deployment
+    - [ ] PC Java connection testing
+    - [ ] dropped connection from PC testing
+    - [ ] dropped connection from Android testing
+    - [ ] no initial connection from Arduino testing
+    - FLOW TESTING
+    - [ ] remote control testing
+    - [ ] exploration testing
+    - [ ] shortest path testing
 
  
 ####Arduino Team
@@ -56,7 +64,7 @@
 ```
 {
 	type: "command" / "movement"
-	data (command)	: "START_EXP" / "START_PATH" / "STOP"
+	data (command)	: "S" (initiate robot) / "E" (exploration) / "P" (shortest path) / "R" (remote-control) / "G" (stop)
 	data (movement)	: "LRL4RRL"
 }
 ```
@@ -76,8 +84,8 @@
         Y           : #
         direction   : #
 	}
-	data (status)   : "END_EXP" / "END_PATH"
-    data (map)      : []
+	data (status)   : "END_EXP" / "END_PATH" / "END_RMT"
+    data (map)      : [](map matrix)
 }
 ```
 
