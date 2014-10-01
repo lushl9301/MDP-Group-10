@@ -43,9 +43,15 @@ class arduinoThread(threading.Thread):
 
 class piArduino:
     def __init__(self):
-        arduinoPort = glob.glob("/dev/ttyACM*")[0]
-        self.ser = serial.Serial(arduinoPort, 9600)
-        print "Arduino Connected"
+        while 1:
+            try:
+                arduinoPort = glob.glob("/dev/ttyACM*")[0]
+                self.ser = serial.Serial(arduinoPort, 9600)
+                print "Arduino Connected"
+                break
+            except IndexError:
+                print "WARNING! Arduino not connected yet."
+                pass
 
     def send(self, json_data):
         command = json_data["data"]
