@@ -126,6 +126,14 @@ public class Dijkstra {
 						//System.out.print(edgeName);
 					}
 				}
+				if((i%20)!=0) {
+					if(oneDmd3[i-1]) {
+						whichEdge = i-1;
+						edgeName = "Edge_"+whichEdge;
+						addLane(edgeName, i, whichEdge, 1);
+						//System.out.print(edgeName);
+					}
+				}
 				
 				//System.out.println();
 			}

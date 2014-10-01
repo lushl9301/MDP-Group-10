@@ -8,7 +8,14 @@ public class JsonObj {
 	public static JSONObject JObj;
 	public static JSONObject JObjr;
 	public static int[][] array2D = new int[15][20];
+	static int y_head;
+	static int x_head;
+	static int y_tail;
+	static int x_tail;
+	static int [][] position = new int[3][3]; 
+	static int dir =0;
 	static Robot r;
+	public static String words;
 	public JsonObj(){
 		//JObj = new JSONObject();
 		r = new Robot();
@@ -21,7 +28,7 @@ public class JsonObj {
 			JObj.put("data", data);
 			JObj.put("type", type);
 			 Log.i("OutPut", JObj.toString());
-			return JObj.toString();
+			return JObj.toString()+"\n";
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -37,8 +44,18 @@ public class JsonObj {
 					JSONObject data = jsonObj.getJSONObject("data");
 					int x = data.getInt("X");
 					int y = data.getInt("Y");
-					int direction = data.getInt("direction");
-					r.setDirection(direction);
+					dir = data.getInt("direction");
+					
+					position[0][0] = ((y*20)-20+(x-1));
+					position[0][1] = ((y*20)-20+(x-1))+1;
+					position[0][2] = ((y*20)-20+(x-1))+2;
+					position[1][0] = ((y*20)-20+(x-1))+20;
+					position[1][1] = ((y*20)-20+(x-1))+21;
+					position[1][2] = ((y*20)-20+(x-1))+22;
+					position[2][0] = ((y*20)-20+(x-1))+40;
+					position[2][1] = ((y*20)-20+(x-1))+41;
+					position[2][2] = ((y*20)-20+(x-1))+42;
+					
 					
 				}
 				else if(jsonObj.getString("type").equals("status")){
@@ -73,21 +90,63 @@ public class JsonObj {
 			
 		
 	}
-	
-	public static int[][] amdString(String msg){
+	public static String amdS(String msg){
 		//for AMD tool
 		
+				return msg;
+				
+	}
+	public static void amdString(String msg){
+		//for AMD tool
+				
+				words = msg;
 				String[] splited = msg.split("\\s+");
 				Log.i("OutPut", splited[0]);
+				x_head = Integer.parseInt(splited[3]);
+				y_head = Integer.parseInt(splited[4]);
+				x_tail = Integer.parseInt(splited[5]);
+				y_tail = Integer.parseInt(splited[6]);
+				
+				if(y_head < y_tail){
+					dir = 3;
+				}
+				else if (y_head > y_tail)
+				{
+					dir = 1;
+				}
+				else if (x_head < x_tail)
+				{
+					dir = 2;
+				}
+				else if (x_head > x_tail)
+				{
+					dir = 4;
+				}
+				position[0][0] = ((y_head*20)-20+(x_head-1));
+				position[0][1] = ((y_head*20)-20+(x_head-1))+1;
+				position[0][2] = ((y_head*20)-20+(x_head-1))+2;
+				position[1][0] = ((y_head*20)-20+(x_head-1))+20;
+				position[1][1] = ((y_head*20)-20+(x_head-1))+21;
+				position[1][2] = ((y_head*20)-20+(x_head-1))+22;
+				position[2][0] = ((y_head*20)-20+(x_head-1))+40;
+				position[2][1] = ((y_head*20)-20+(x_head-1))+41;
+				position[2][2] = ((y_head*20)-20+(x_head-1))+42;
+				//Log.i("tag", Boolean.toString(y_head < y_tail));
+				//r.setPosition(position);
+				
 				int o = 0;
-				int[][] arrayA = new int[15][20];
+				//int[][] arrayA = new int[15][20];
+				if (splited[0].equals("GRID"))
+				{
 				for(int i=0; i<15;i++)
 					   for(int j=0;j<20;j++)
 					   {
-					       arrayA[i][j] = Integer.parseInt(splited[(j%20+i*20)+7]);
+					       array2D[i][j] = Integer.parseInt(splited[(j%20+i*20)+7]);
 					   }
+				}
+				//return array2D;
 
 				//JObjr = new JSONObject() ;
-				return arrayA;
+				
 	}
 }
