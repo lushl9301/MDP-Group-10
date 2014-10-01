@@ -1,3 +1,4 @@
+package mdpAlgorithm;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.io.OutputStreamWriter;
@@ -35,7 +36,7 @@ class PCClient {
 		 
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
-			writer.write(jsonString + "/n");
+			writer.write(jsonString);
 			writer.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
