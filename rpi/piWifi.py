@@ -55,14 +55,14 @@ class wifiThread (threading.Thread):
 
 
 class piWifi:
-    host = 'localhost'
-    port = 8888
+    host = WIFI_IP
+    port = WIFI_PORT
     conn = None
     addr = None
     sock = None
     buff = None
 
-    def __init__(self, host='localhost', port=8888):
+    def __init__(self, host=WIFI_IP, port=WIFI_PORT):
         self.host = host
         self.port = port
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
