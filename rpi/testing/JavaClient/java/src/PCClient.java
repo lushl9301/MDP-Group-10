@@ -35,7 +35,7 @@ class PCClient {
 		 
 		try {
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
-			writer.write(jsonString);
+			writer.write(jsonString + "/n");
 			writer.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
