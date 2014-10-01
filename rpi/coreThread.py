@@ -2,6 +2,7 @@ from piConfig import *
 import threading
 import traceback
 import Queue
+from protocolHandler import protocolHandler
 from piArduino import arduinoThread
 from piWifi import wifiThread
 from piBT import btThread
@@ -50,11 +51,8 @@ class coreThread(threading.Thread):
             # self.lock.release()
 
     def run(self):
-        while not self.bt.isConnected() or not self.wifi.isConnected():
+        while not self.wifi.isConnected():  # or not self.bt.isConnected():
             continue
-
-        # send start signal to robot
-        # self.arduino.sendStart()
 
         print "==========================="
         print "PROJECT: DRAGON - BOOT UP /"
@@ -62,7 +60,7 @@ class coreThread(threading.Thread):
 
         while 1:
             try:
-                if self.bt.isConnected() and self.wifi.isConnected():
+                if self.wifi.isConnected():  # and self.bt.isConnected():
                     self.processCommand()
             except Exception, e:
                 print "Unable to decode JSON: " + e.message

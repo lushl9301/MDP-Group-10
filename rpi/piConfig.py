@@ -1,5 +1,6 @@
 # imports
 import json
+import errno
 
 # CONSTANTS #
 
@@ -30,12 +31,16 @@ SEMAPHORE_BUF = 3
 
 
 def receiveJSON(buff, senderName):
-        json_string = buff.readline().strip()
+        json_string = buff.readline()
+        if json_string is None:
+            return None
         try:
-            json_data = json.loads(json_string)
+            json_data = json.loads(json_string.strip())
             print "JSON from " + senderName + ": " + str(json_string)
             return json_data
         except ValueError:
+            if json_string is None:
+                raise IOError()
             print "string from " + senderName + ": " + str(json_string)
             pass
 

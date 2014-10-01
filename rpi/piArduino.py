@@ -50,7 +50,7 @@ class piArduino:
                 print "Arduino Connected"
                 break
             except IndexError:
-                print "WARNING! Arduino not connected yet."
+                print "Trying to reconnect Arduino.."
                 pass
 
     def send(self, json_data):
