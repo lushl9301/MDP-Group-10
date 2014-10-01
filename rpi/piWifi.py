@@ -60,6 +60,7 @@ class piWifi:
     conn = None
     addr = None
     sock = None
+    buff = None
 
     def __init__(self, host='localhost', port=8888):
         self.host = host
@@ -83,6 +84,10 @@ class piWifi:
         (self.conn, self.addr) = self.sock.accept()
         print "WIFI connected with:" + self.addr[0] + ":" + str(self.addr[1])
 
+        # instantiate file buffer for receival
+        if self.conn is not None:
+            self.buff = self.conn.makefile("r")
+
     def send(self, data):  # data is a dictionary
         json_string = json.dumps(data)
         if self.conn is not None:
@@ -97,17 +102,7 @@ class piWifi:
     def receive(self):
         if self.conn is None:
             return
-        data = ""
-        completeJSON = False
-        while not completeJSON:
-            buff = self.conn.recv(1)  # receive the data per char
-            data += buff
-            if buff == "}":  # detects the end of a JSON in buffer
-                completeJSON = True
-        # TODO: add catch block if decoding fails
-        json_data = json.loads(data)
-        print "Receive From Wifi: " + str(data)
-        return json_data
+        return receiveJSON(self.buff, "Wifi")
 
     def close(self):
         self.conn.close()
