@@ -29,9 +29,14 @@ SEMAPHORE_BUF = 3
 
 def receiveJSON(buff, senderName):
         json_string = buff.readline().strip()
-        json_data = json.loads(json_string)
-        print "From " + senderName + ": " + str(json_string)
-        return json_data
+        try:
+            json_data = json.loads(json_string)
+            print "JSON from " + senderName + ": " + str(json_string)
+            return json_data
+        except ValueError:
+            print "string from " + senderName + ": " + str(json_string)
+            pass
+
 
 
 # unused methods
