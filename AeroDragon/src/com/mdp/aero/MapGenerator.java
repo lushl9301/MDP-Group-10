@@ -13,16 +13,35 @@ public class MapGenerator {
 	Context context;
 	GridLayout gv = null;
 	Robot r = setupRobot();
-	ArrayList<TextView> obstacleArray = new ArrayList<TextView>();
+	int[][] obstacleArray;
+	public static String rotate;
+	public static int M = 0;
 	TextView topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight, topMid, bottomMid,midMid;
 	public MapGenerator(GridLayout gv, Context context){
 		this.gv=gv;
 		this.context=context;
+		/*obstacleArray = new int[][]{
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
+				{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+				{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}
+					
+			};*/
 		Log.i("tag", "before create arena ok");
 		int[][] arena = new int[15][20];
 		Log.i("tag", "before create arena ok");
 		createArena(gv);
-		plotObsAuto();
 		Log.i("tag", "create arena ok");
 		arena  = getAccessToArena(gv);
 		Log.i("tag", "create arena ok");
@@ -125,7 +144,7 @@ public class MapGenerator {
         		i++;
         	}
 		} 
-
+		
 		int initial[][] = new int[3][3];
 		//To note: -1 due to array index starts from 0!!!
 		initial[0][0] = 0;
@@ -185,8 +204,10 @@ public class MapGenerator {
         clearMapColourRobot(topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight,topMid, bottomMid,midMid);
         colourRobot(topLeft, topRight, bottomLeft, bottomRight,topMid, bottomMid);
 	}
-	public void setSouth(int[][] currentPosition){        
+	public void setSouth(int[][] currentPosition){ 
+		Log.i("tag", ""+currentPosition[2][2]);
         topLeft = (TextView)gv.getChildAt(currentPosition[2][2]);
+        
 		topMid= (TextView)gv.getChildAt(currentPosition[2][1]);
         topRight = (TextView)gv.getChildAt(currentPosition[2][0]);
 		midLeft= (TextView)gv.getChildAt(currentPosition[1][2]);
@@ -196,6 +217,7 @@ public class MapGenerator {
         bottomRight = (TextView)gv.getChildAt(currentPosition[0][0]);
         bottomMid= (TextView)gv.getChildAt(currentPosition[0][1]);
         Log.i("tag","in set South");
+        
         clearMapColourRobot(topLeft, topRight, bottomLeft, bottomRight,midLeft, midRight,topMid, bottomMid,midMid);
         colourRobot(topLeft, topRight, bottomLeft, bottomRight,topMid, bottomMid);
 	}
@@ -227,7 +249,8 @@ public class MapGenerator {
         bottomLeft.setBackgroundColor(Color.parseColor("#7fb2e5"));
         bottomMid.setBackgroundColor(Color.parseColor("#7fb2e5"));
         bottomRight.setBackgroundColor(Color.parseColor("#7fb2e5"));
-        
+  		
+        		
         if (direction == r.SOUTH){	            
             TextView curTopLeft = (TextView)gv.getChildAt(currentPosition[2][2]);
             TextView curTopMid= (TextView)gv.getChildAt(currentPosition[2][1]);
@@ -246,32 +269,50 @@ public class MapGenerator {
 	        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
 	        	return;
 	        }
-	        else {
-	        	currentPosition[0][0] += 20;
-		        currentPosition[0][1] += 20;
-		        currentPosition[0][2] += 20;
-		        currentPosition[1][0] += 20;
-		        currentPosition[1][1] += 20;
-		        currentPosition[1][2] += 20;
-		        currentPosition[2][0] += 20;
-		        currentPosition[2][1] += 20;
-		        currentPosition[2][2] += 20;
-		        setSouth(currentPosition);
-	        }
+	       // else if()
+		 else {
+			 //Log.i("SomeTag",""+currentPosition);
+			 	currentPosition[0][0] += 20;
+  		        currentPosition[0][1] += 20;
+  		        currentPosition[0][2] += 20;
+  		        currentPosition[1][0] += 20;
+  		        currentPosition[1][1] += 20;
+  		        currentPosition[1][2] += 20;
+  		        currentPosition[2][0] += 20;
+  		        currentPosition[2][1] += 20;
+  		        currentPosition[2][2] += 20;
+  		        rotate ="1";
+  		        setSouth(currentPosition);
+  		        
+  		        }
+	        		  
         }
         
-        if (direction == r.EAST || direction == r.WEST){
+        
+        if (direction == r.EAST){
         	r.setDirection(r.SOUTH);
         	Log.i("tag","now face south");
+        	rotate = "R";
         	setSouth(currentPosition);
         }
+        
+        if (direction == r.WEST){
+        	r.setDirection(r.SOUTH);
+        	Log.i("tag","now face south");
+        	rotate = "L";
+        	setSouth(currentPosition);
+        } 
         if (direction == r.NORTH){
-        	r.setDirection(r.NORTH);
-        	setNorth(currentPosition);
+        	r.setDirection(r.EAST);
+        	rotate = "R";
+        	setEast(currentPosition);
+        	
         }
         r.setPosition(currentPosition);
-		
-	}
+        //i++;
+        	}
+		//} 
+	//}
 	public void moveForwardMap() {
 		 
         int currentPosition[][] =  r.getPosition();
@@ -286,124 +327,7 @@ public class MapGenerator {
         bottomLeft.setBackgroundColor(Color.parseColor("#7fb2e5"));
         bottomMid.setBackgroundColor(Color.parseColor("#7fb2e5"));
         bottomRight.setBackgroundColor(Color.parseColor("#7fb2e5"));
-        /*TextView topLeft = (TextView)gv.getChildAt(currentPosition[0][0]);
-        TextView topMid= (TextView)gv.getChildAt(currentPosition[0][1]);
-        TextView topRight = (TextView)gv.getChildAt(currentPosition[0][2]);
-        TextView midLeft= (TextView)gv.getChildAt(currentPosition[1][0]);
-        TextView midMid= (TextView)gv.getChildAt(currentPosition[1][1]);
-        TextView midRight= (TextView)gv.getChildAt(currentPosition[1][2]);
-        TextView bottomLeft = (TextView)gv.getChildAt(currentPosition[2][0]);
-        TextView bottomRight = (TextView)gv.getChildAt(currentPosition[2][2]);
-        TextView bottomMid= (TextView)gv.getChildAt(currentPosition[2][1]);
-	        
-	        //Explored colour
-	        topLeft.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	        topMid.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	        topRight.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	        midLeft.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	        midMid.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	        midRight.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	        bottomLeft.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	        bottomMid.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	        bottomRight.setBackgroundColor(Color.parseColor("#7fb2e5"));
-	
-	        /*if (direction == r.EAST){
-	        	TextView curTopLeft = (TextView)gv.getChildAt(currentPosition[0][2]);
-	            TextView curTopMid= (TextView)gv.getChildAt(currentPosition[1][2]);
-	            TextView curTopRight = (TextView)gv.getChildAt(currentPosition[2][2]);
-	            TextView curMidLeft= (TextView)gv.getChildAt(currentPosition[0][1]);
-	            TextView curMidMid= (TextView)gv.getChildAt(currentPosition[1][1]);
-	            TextView curMidRight= (TextView)gv.getChildAt(currentPosition[2][1]);
-	            TextView curBottomLeft = (TextView)gv.getChildAt(currentPosition[0][0]);
-	            TextView curBottomRight = (TextView)gv.getChildAt(currentPosition[2][0]);
-	            TextView curBottomMid= (TextView)gv.getChildAt(currentPosition[1][0]);
-	            
-		        Log.i("tag","robot east");
-		        Log.i("tag",curTopLeft.getText().toString());
-		        int temp = Integer.parseInt(curTopLeft.getText().toString());
-		        if ( (temp+1)%20==0 ){
-		        	Log.i("tag","invalid move");
-		        	clearMapColourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,curMidLeft, curMidRight,curTopMid, curBottomMid,curMidMid);
-		        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
-		        	return;
-		        }
-		        else {
-			        currentPosition[0][0] += 1;
-			        currentPosition[0][1] += 1;
-			        currentPosition[0][2] += 1;
-			        currentPosition[1][0] += 1;
-			        currentPosition[1][1] += 1;
-			        currentPosition[1][2] += 1;
-			        currentPosition[2][0] += 1;
-			        currentPosition[2][1] += 1;
-			        currentPosition[2][2] += 1;
-			        setEast(currentPosition);
-		        }
-	        }
-	        if (direction == r.SOUTH){	            
-	            TextView curTopLeft = (TextView)gv.getChildAt(currentPosition[2][2]);
-	            TextView curTopMid= (TextView)gv.getChildAt(currentPosition[2][1]);
-	            TextView curTopRight = (TextView)gv.getChildAt(currentPosition[2][0]);
-	            TextView curMidLeft= (TextView)gv.getChildAt(currentPosition[1][2]);
-	            TextView curMidMid= (TextView)gv.getChildAt(currentPosition[1][1]);
-	            TextView curMidRight= (TextView)gv.getChildAt(currentPosition[1][0]);
-	            TextView curBottomLeft = (TextView)gv.getChildAt(currentPosition[0][2]);
-	            TextView curBottomRight = (TextView)gv.getChildAt(currentPosition[0][0]);
-	            TextView curBottomMid= (TextView)gv.getChildAt(currentPosition[0][1]);
-		        Log.i("tag","robot south");
-		        Log.i("tag",curTopLeft.getText().toString());
-		        if ( Integer.parseInt(curTopLeft.getText().toString())>=280 && Integer.parseInt(topLeft.getText().toString())<300){
-		        	Log.i("tag","invalid move");
-		        	clearMapColourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,curMidLeft, curMidRight,curTopMid, curBottomMid,curMidMid);
-		        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
-		        	return;
-		        }
-		        else {
-		        	currentPosition[0][0] += 20;
-			        currentPosition[0][1] += 20;
-			        currentPosition[0][2] += 20;
-			        currentPosition[1][0] += 20;
-			        currentPosition[1][1] += 20;
-			        currentPosition[1][2] += 20;
-			        currentPosition[2][0] += 20;
-			        currentPosition[2][1] += 20;
-			        currentPosition[2][2] += 20;
-			        setSouth(currentPosition);
-		        }
-	        }
-	        if (direction == r.WEST){
-	        	TextView curTopLeft = (TextView)gv.getChildAt(currentPosition[2][0]);
-	            TextView curTopMid= (TextView)gv.getChildAt(currentPosition[1][0]);
-	            TextView curTopRight = (TextView)gv.getChildAt(currentPosition[0][0]);
-	            TextView curMidLeft= (TextView)gv.getChildAt(currentPosition[2][1]);
-	            TextView curMidMid= (TextView)gv.getChildAt(currentPosition[1][1]);
-	            TextView curMidRight= (TextView)gv.getChildAt(currentPosition[0][1]);
-	            TextView curBottomLeft = (TextView)gv.getChildAt(currentPosition[2][2]);
-	            TextView curBottomRight = (TextView)gv.getChildAt(currentPosition[0][2]);
-	            TextView curBottomMid= (TextView)gv.getChildAt(currentPosition[1][2]);
-	            
-		        Log.i("tag","robot west");
-		        Log.i("tag",curTopLeft.getText().toString());
-		        if ( Integer.parseInt(curTopLeft.getText().toString())%20==0 ){
-		        	Log.i("tag","invalid move");
-		        	clearMapColourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,curMidLeft, curMidRight,curTopMid, curBottomMid,curMidMid);
-		        	colourRobot(curTopLeft, curTopRight, curBottomLeft, curBottomRight,topMid,bottomMid);
-		        	return;
-		        }
-		        else {
-		        	
-		        	currentPosition[0][0] -= 1;
-			        currentPosition[0][1] -= 1;
-			        currentPosition[0][2] -= 1;
-			        currentPosition[1][0] -= 1;
-			        currentPosition[1][1] -= 1;
-			        currentPosition[1][2] -= 1;
-			        currentPosition[2][0] -= 1;
-			        currentPosition[2][1] -= 1;
-			        currentPosition[2][2] -= 1; 
-			        setWest(currentPosition);
-		        }
-	        }*/
+
 	        if (direction == r.NORTH){
 	        	TextView curTopLeft = (TextView)gv.getChildAt(currentPosition[0][0]);
 	            TextView curTopMid= (TextView)gv.getChildAt(currentPosition[0][1]);
@@ -432,19 +356,28 @@ public class MapGenerator {
 			        currentPosition[2][0] -= 20;
 			        currentPosition[2][1] -= 20;
 			        currentPosition[2][2] -= 20;
+			        rotate = "1";
 			        setNorth(currentPosition);
 		        }
 	        }
-	        if (direction == r.EAST || direction == r.WEST){
+	        if (direction == r.EAST){
 	        	r.setDirection(r.NORTH);
+	        	Log.i("tag","now face north");
+	        	rotate = "L";
+	        	setNorth(currentPosition);
+	        }
+	        
+	        if (direction == r.WEST){
+	        	r.setDirection(r.NORTH);
+	        	rotate = "R";
 	        	Log.i("tag","now face north");
 	        	setNorth(currentPosition);
 	        }
 	        
 	        if (direction == r.SOUTH){
-	        	r.setDirection(r.SOUTH);
-	        	Log.i("tag","now face south");
-	        	setSouth(currentPosition);
+	        	r.setDirection(r.EAST);
+	        	rotate = "L";
+	        	setEast(currentPosition);
 	        }
 	        r.setPosition(currentPosition);
         }
@@ -491,40 +424,31 @@ public class MapGenerator {
 	        currentPosition[2][0] += 1;
 	        currentPosition[2][1] += 1;
 	        currentPosition[2][2] += 1;
+	        rotate = "1";
 	        setEast(currentPosition);
         }
     }
-		 if (direction == r.NORTH || direction == r.SOUTH){
+		 if (direction == r.NORTH){
 	        	r.setDirection(r.EAST);
 	        	Log.i("tag","now face east");
+	        	rotate = "R";
+	        	setEast(currentPosition);
+	        }
+		 
+		 if (direction == r.SOUTH){
+	        	r.setDirection(r.EAST);
+	        	Log.i("tag","now face east");
+	        	rotate = "L";
 	        	setEast(currentPosition);
 	        }
 		 
 		 if (direction == r.WEST){
-	        	r.setDirection(r.WEST);
+	        	r.setDirection(r.NORTH);
+	        	rotate = "R";
 	        	setWest(currentPosition);
+	        	
 	        }
-        /*if (direction == r.EAST){
-        	r.setDirection(r.SOUTH);
-        	Log.i("tag","now face south");
-        	setSouth(currentPosition);
-        }
-        if (direction == r.SOUTH){
-        	r.setDirection(r.WEST);
-        	Log.i("tag","now face west");
-        	setWest(currentPosition);
-	        
-        }
-        if (direction == r.WEST){
-        	r.setDirection(r.NORTH);
-        	Log.i("tag","now face north");
-        	setNorth(currentPosition);	        
-        }
-        if (direction == r.NORTH){
-        	r.setDirection(r.EAST);
-        	Log.i("tag","now face east");
-	        setEast(currentPosition);
-        }*/
+       
 		 r.setPosition(currentPosition);
 	}
  
@@ -574,68 +498,37 @@ public class MapGenerator {
 		        currentPosition[2][0] -= 1;
 		        currentPosition[2][1] -= 1;
 		        currentPosition[2][2] -= 1; 
+		        rotate = "1";
 		        setWest(currentPosition);
 	        }
-        }
-        r.setPosition(currentPosition);
-        if (direction == r.NORTH||direction == r.SOUTH){
-        	r.setDirection(r.WEST);
-        	Log.i("tag","now face west");
-        	setWest(currentPosition);
-        } 
-        if (direction == r.EAST){
-        	r.setDirection(r.EAST);
-        	setEast(currentPosition);
-        }
-        r.setPosition(currentPosition);
-        /*if (direction == r.EAST){
-        	r.setDirection(r.NORTH);
-        	Log.i("tag","now face north");
-        	setNorth(currentPosition);
-        }
-        if (direction == r.SOUTH){
-        	r.setDirection(r.EAST);
-        	Log.i("tag","now face east");
-        	setEast(currentPosition);
-	        
-        }
-        if (direction == r.WEST){
-        	r.setDirection(r.SOUTH);
-        	Log.i("tag","now face south");
-        	setSouth(currentPosition);
-	        
         }
         if (direction == r.NORTH){
         	r.setDirection(r.WEST);
         	Log.i("tag","now face west");
+        	rotate = "L";
         	setWest(currentPosition);
-        }     */   	        
+        } 
+        if (direction == r.SOUTH){
+        	r.setDirection(r.WEST);
+        	rotate = "R";
+        	Log.i("tag","now face west");
+        	setWest(currentPosition);
+        } 
+        if (direction == r.EAST){
+        	r.setDirection(r.SOUTH);
+        	rotate = "R";
+        	setSouth(currentPosition);
+        }
+        r.setPosition(currentPosition);
 	}
 	
-	protected void plotObsAuto()
+	protected void plotObsAuto(int[][] dummy)
 	{
-		int[][] dummy = new int[][]{
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-			{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-			{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}
-				
-		};
+		
 		
 		TextView testThis;
-		//int currentDir = r.getDirection();
-		//int[][] currentPosition = r.getPosition();
+		int currentDir = r.getDirection();
+		int[][] currentPosition = r.getPosition();
 		int i =0;
 		for (int row=0; row<15; row++){
         	for (int col=0; col<20; col++){
@@ -651,6 +544,9 @@ public class MapGenerator {
         		i++;
         	}
 		} 
+		r.setDirection(currentDir);
+		r.setPosition(currentPosition);
+		setEast(r.getPosition());
 	
 	}
 	//ONLY WORKING FOR 2x2
