@@ -125,13 +125,12 @@ public class Exploration implements Runnable {
 	
 	public void checkCompleted(MapGrid map, double percentage) {
 		int num = 0;
-		for (int i = 0; i < 15; i++) {
-			for (int j = 0; j < 20; j++) {
+		for (int i = 1; i < 16; i++) {
+			for (int j = 1; j < 21; j++) {
 				if(map.grid[i][j].getBackground().equals(EXPLORED)) num++;
 			}
 		}
-
-		if(num >= (percentage*300)-9 && percentage < 1.0) {
+		if(num >= ((percentage*300)-9) && percentage < 1.0) {
 			Thread.currentThread().stop();
 		}
 	}

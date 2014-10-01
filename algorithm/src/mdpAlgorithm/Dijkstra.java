@@ -127,7 +127,7 @@ public class Dijkstra {
 					}
 				}
 				
-				System.out.println();
+				//System.out.println();
 			}
 			
 		}		
