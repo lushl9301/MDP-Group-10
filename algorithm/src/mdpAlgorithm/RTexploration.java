@@ -37,22 +37,25 @@ public class RTexploration implements Runnable{
 			// if successful, try to send data
 			//client.readInput();
 			
-			String test;
+			String status;
+			String reading;
 			do {  // get inputs while exploration is still not completed
-				
-//				Robot currentPos = new Robot(pathTravelled.peek());
-//				getPos(map, rob); 
-//				if (currentPos != null) {
-//					pathTravelled.push(currentPos);
-//				}
 
-				test = client.receiveJSON().get("data").toString();
-				if(test != null) {
-					if(test.equals("END_EXP"))
-						rtCompleted = true;
-					
-					System.out.println(test.toString());
+				if(client.receiveJSON().get("type").toString().equals("status")) {
+					status = client.receiveJSON().get("data").toString();
+					if(status != null) {
+						if(status.equals("END_EXP")) {
+							rtCompleted = true;
+							break;
+						}
+						
+						System.out.println(status.toString());
+					}
 				}
+				else if(client.receiveJSON().get("type").toString().equals("reading")) {
+					reading = client.receiveJSON().get("data").toString();
+				}
+				
 			} while (!rtCompleted);
 
 		} catch (UnknownHostException e) {

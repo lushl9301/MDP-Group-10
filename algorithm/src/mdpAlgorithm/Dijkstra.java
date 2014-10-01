@@ -156,7 +156,7 @@ public class Dijkstra {
 		
 		currentVertexID = Integer.parseInt(vertex.getName().split("_")[1]);
     	route[currentVertexID] = true;
-    	System.out.println(currentVertexID);
+    	//System.out.println(currentVertexID);
     	newStepCounter = currentVertexID - previousVertexID;
     	
     	if(newStepCounter == previousStepCounter) { // if just walking straight
@@ -185,7 +185,7 @@ public class Dijkstra {
     	previousVertexID = currentVertexID;
     	
     }
-    
+	System.out.println(MainSimulator.shortestRoute);
   }
 
   private static void addLane(String laneId, int sourceLocNo, int destLocNo, int duration) {
