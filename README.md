@@ -10,9 +10,14 @@
     - MORE DETAILED TASKS
     - [X] decode the data received
     - [X] robot deployment
-    - [ ] dropped connection testing
     - [ ] PC Java connection testing
-    - [ ] 
+    - [ ] dropped connection from PC testing
+    - [ ] dropped connection from Android testing
+    - [ ] no initial connection from Arduino testing
+    - FLOW TESTING
+    - [ ] remote control testing
+    - [ ] exploration testing
+    - [ ] shortest path testing
 
  
 ####Arduino Team
