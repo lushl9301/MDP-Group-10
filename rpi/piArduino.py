@@ -3,6 +3,7 @@ import serial
 import threading
 import json
 import traceback
+import glob
 
 
 class arduinoThread(threading.Thread):
@@ -42,7 +43,8 @@ class arduinoThread(threading.Thread):
 
 class piArduino:
     def __init__(self):
-        self.ser = serial.Serial('/dev/ttyACM0', 9600)
+        arduinoPort = glob.glob("/dev/ttyACM*")[0]
+        self.ser = serial.Serial(arduinoPort, 9600)
         print "Arduino Connected"
 
     def send(self, json_data):
@@ -57,9 +59,9 @@ class piArduino:
                 json_data = json.loads(json_string)
                 print "[ From Arduino receive: " + str(json_data) + " ]"
                 return json_data
-            except ValueError, e:
+            except ValueError:
                 # print "ERROR: decoding JSON from arduino. " + e.message
-                print "From robot: " + json_string;
+                print "From robot: " + json_string
                 pass
         except SerialException:
             print "Disconnected from Arduino"
