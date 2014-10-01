@@ -40,6 +40,7 @@ public class MapGrid extends JPanel {
 	int[][] mapDescriptor1 = new int[15][20];
 	String[][] mapDescriptor2 = new String[15][20];
 	int[][] toConfirmObstacle = new int[15][20];
+	public int[][] rtToConfirmObstacle = new int[15][20];
 
 	//	mapDescriptor1[14][0] = 1; // this represents grid (15,1)
 	//	mapDescriptor1[0][19] = 1; // this represents grid (1,20)
