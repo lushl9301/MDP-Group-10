@@ -49,6 +49,7 @@ public class MainSimulator {
 	private static Exploration explore;
 	private static boolean exploreStart = false;
 	private static JFrame frame;
+	private static boolean rtSelected = false;
 	public static void main(String[] args) {
 
 		final JButton clearObs;
@@ -75,6 +76,13 @@ public class MainSimulator {
 		final MapGrid map = new MapGrid(); // initialize map
 		map.setBorder(new EmptyBorder(10, 20, 0, 20) );
 		map.setPreferredSize(new Dimension(700, 525));
+		
+		final MapGrid map2 = new MapGrid(); // initialize real time map
+		map2.setBorder(new EmptyBorder(10, 20, 0, 20) );
+		map2.setPreferredSize(new Dimension(700, 525));
+		map2.grid[1][1].setBackground(Color.magenta);
+		map2.setVisible(false);
+		
 		JPanel buttonPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
 		buttonPanel.setBorder(new EmptyBorder(0, 0, 0, 20) );
 		
@@ -314,7 +322,7 @@ public class MainSimulator {
 				addObs.removeChangeListener(addObsListener);
 				exploreMap.setEnabled(false);
 				exploreMap.removeMouseListener(this);
-				realTime.setEnabled(false);
+				//realTime.setEnabled(false);
 				clearObs.setEnabled(false);
 				loadMap.setEnabled(false);
 				percentObstacles.setEnabled(false);
@@ -344,6 +352,32 @@ public class MainSimulator {
 		realTime.setPreferredSize(new Dimension(43,realTime.getPreferredSize().height));
 		realTime.setMargin(new Insets(0,0,0,0));
 		realTime.setFont(realTime.getFont().deriveFont(11.0f));
+		final MouseAdapter addRTListener = new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				
+				
+            	
+            	
+                if(!rtSelected) {
+                	rtSelected = true;
+                	
+                	//show Real time map
+                	map.setVisible(false);
+                	map2.setVisible(true);
+                	
+                	// instantiate rpi connection
+	
+                }
+                else {
+                	rtSelected = false;
+                	
+                	//hide real time map
+                	map.setVisible(true);
+                	map2.setVisible(false);
+                }
+            }
+        };
+        realTime.addMouseListener(addRTListener);
 		buttonPanel.add(realTime, c);
 			
 		c.gridx = 0;
@@ -376,7 +410,7 @@ public class MainSimulator {
 					timeField.setEnabled(true);
 					exploreMap.setEnabled(true);
 					exploreMap.addMouseListener(exploreListener);
-					realTime.setEnabled(true);
+					//realTime.setEnabled(true);
 					if(md1.isSelected())
 						md1.setEnabled(true);
 					else if(md2.isSelected())
@@ -540,7 +574,15 @@ public class MainSimulator {
 		JLabel explored = new JLabel("Explored");
 		legendPanel.add(explored, legendC);
 		
-		mapPanel.add(map);
+		JPanel mapSwitchPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
+		GridBagConstraints mapSwitchPanelC = new GridBagConstraints();
+		mapSwitchPanelC.fill = GridBagConstraints.HORIZONTAL;
+		mapSwitchPanelC.gridx = 0;
+		mapSwitchPanelC.gridy = 0;
+		mapSwitchPanel.add(map ,mapSwitchPanelC);
+		mapSwitchPanel.add(map2 ,mapSwitchPanelC);
+		
+		mapPanel.add(mapSwitchPanel);
 		mapPanel.add(legendPanel);
 		
 		contentPanel.add(mapPanel, BorderLayout.WEST);
