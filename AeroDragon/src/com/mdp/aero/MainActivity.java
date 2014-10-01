@@ -27,25 +27,29 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import org.json.*;
+
 
 /**
  * This is the main Activity that displays the current chat session.
@@ -54,12 +58,6 @@ public class MainActivity extends Activity {
 	// Debugging
 	private static final String TAG = "Aero Dragon";
 	private static final boolean D = true;
-	
-	//for robot and map sensor position
-	public static final int TOP_LEFT_SIDE=0;
-	public static final int TOP_RIGHT_SIDE=1;
-	public static final int TOP_LEFT_FRONT=2;
-	public static final int TOP_RIGHT_FRONT=3;
 	
 	
 	//Shared Preferences
@@ -124,9 +122,11 @@ public class MainActivity extends Activity {
 	String sentMsg = "No Action.";
 	int autoAct = 0;
 	
-	MapGenerator map;
+	//MapGenerator map;
+	private GLSurfaceView glSurfaceView;
 	
 	public static JsonObj JsonO;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -150,12 +150,22 @@ public class MainActivity extends Activity {
 		}
 	    
 		
-		GridLayout gv = (GridLayout)findViewById(R.id.grid2);
+		
+		//GridLayout gv = (GridLayout)findViewById(R.id.grid2);
+		// We create our Surfaceview for our OpenGL here.
+        glSurfaceView = new GLSurf(this);
 		Log.i("tag","here3");
-		map = new MapGenerator(gv,this);
+		//map = new MapGenerator(gv,this);
 		Log.i("tag","here4");
+		// Retrieve our Relative layout from our main layout we just set to our view.
+        LinearLayout layout = (LinearLayout) findViewById(R.id.gllayout);
+        
+        // Attach our surfaceview to our relative layout from our main layout.
+        LinearLayout.LayoutParams glParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        layout.addView(glSurfaceView, glParams);
 		
 		tvConnectionStatus = (TextView)findViewById(R.id.tvConnectionStatus);
+		tvConnectionStatus.setMovementMethod(new ScrollingMovementMethod());
 		
 		f1Button = (Button) findViewById(R.id.f1Button);
 		f2Button = (Button) findViewById(R.id.f2Button);
@@ -171,15 +181,11 @@ public class MainActivity extends Activity {
 		timerVal = (TextView) findViewById(R.id.timer);
 		startButton = (ToggleButton) findViewById(R.id.startBtn);
 		
-		//trial for obstacles
-		/*int oldDir = map.getRobot().WEST;
-		int[][] oldPos = map.getRobot().getPosition();
-		updateMap(oldDir,oldPos);*/
 		
 		
 		
 		load();
-		
+		//sendMessage(JsonObj.sendJson("command", "R"));
 		//setting onClick listeners
 		f1Button.setOnClickListener(new OnClickListener(){
 			@Override
@@ -200,6 +206,7 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				autoAct = 1;
 				
+				
 			}
     	});
     	shortButton.setOnClickListener(new OnClickListener(){
@@ -207,44 +214,51 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				autoAct = 2;
+				
 			}
     	});
     	leftButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				sendMessage("a");
-				map.turnLeftMap();
+				//sendMessage("a");
+				
+				//map.turnLeftMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
     	});
     	rightButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				sendMessage("d");
-				map.turnRightMap();
+				//sendMessage("d");
+				//map.turnRightMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
     	});
     	upButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				sendMessage("w");
-				map.moveForwardMap();
+				//sendMessage("w");
+				//map.moveForwardMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
     	});
     	downButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				sendMessage("s");
-				map.moveDownMap();
+				//sendMessage("s");
+				//map.moveDownMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
     	});
     	roundButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
+				
 				sendMessage("GRID");
 			}
     	});
@@ -253,7 +267,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				sendMessage("Map Reset");
-				map.resetMap(); //to reset map
+				//map.resetMap(); //to reset map
 			}
     	});
 		
@@ -264,6 +278,7 @@ public class MainActivity extends Activity {
 		super.onStart();
 		if (D)
 			Log.e(TAG, "++ ON START ++");
+
 		// If BT is not on, request that it be enabled.
 		// setupChat() will then be called during onActivityResult
 		if (!ba.isEnabled()) {
@@ -277,7 +292,6 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	
 	@Override
 	public synchronized void onResume() {
 		super.onResume();
@@ -324,7 +338,6 @@ public class MainActivity extends Activity {
 		mConversationView = (ListView) findViewById(R.id.in);
 		mConversationView.setAdapter(mConversationArrayAdapter);
 
-		
 		// Initialize the BluetoothManager to perform bluetooth connections
 		btManager = new BluetoothManager(this, mHandler);
 
@@ -432,14 +445,45 @@ public class MainActivity extends Activity {
 				byte[] writeBuf = (byte[]) msg.obj;
 				// construct a string from the buffer
 				String writeMessage = new String(writeBuf);
-//				mConversationArrayAdapter.add("Me:  " + writeMessage);
+				//mConversationArrayAdapter.add("Me:  " + writeMessage);
 				break;
+				
 			case MESSAGE_READ:
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-//				mConversationArrayAdapter.add(mConnectedDeviceName + ":  "
-//						+ readMessage);
+				//JsonObj.recJson(readMessage);
+				//JsonObj.amdS(readMessage);
+				
+				JsonObj.amdString(readMessage);
+				//GridLayout gv = (GridLayout)findViewById(R.id.grid2);
+				//Robot ro = new Robot();
+				//map.getRobot().setPosition(JsonObj.position);
+				//map.plotObsAuto(JsonObj.array2D);
+				Log.i("Tag", ""+JsonObj.dir);
+				//map.getRobot().setDirection(JsonObj.dir);
+				if (JsonObj.dir==3)
+				{
+					//map.setSouth(JsonObj.position);
+				}
+				else if (JsonObj.dir==1)
+				{
+					//map.setNorth(JsonObj.position);
+				}
+				else if (JsonObj.dir==2)
+				{
+					//map.setEast(JsonObj.position);
+				}
+				else if (JsonObj.dir==4)
+				{
+					//map.setWest(JsonObj.position);
+				}
+				
+				
+				setStatus(getString(R.string.title_connected_to,
+						mConnectedDeviceName) + readMessage);
+				
+				
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
@@ -605,6 +649,8 @@ public class MainActivity extends Activity {
 	    	timerVal.setVisibility(View.VISIBLE);
 	    	startButton.setVisibility(View.VISIBLE);
 	    	
+	    	sendMessage(JsonObj.sendJson("command", "G"));
+	    	
 	    } else {
 	    	//manual mode
 	    	roundButton.setVisibility(View.VISIBLE);
@@ -617,56 +663,60 @@ public class MainActivity extends Activity {
 	    	shortButton.setVisibility(View.INVISIBLE);
 	    	timerVal.setVisibility(View.INVISIBLE);
 	    	startButton.setVisibility(View.INVISIBLE);
+	    	sendMessage(JsonObj.sendJson("command", "R"));
 	    }
 	}
 	
 	
-	// START BUTTON FUNCTION
+	//START BUTTON FUNCTION
 	public void toggleStart(View view) {
-		// Is the toggle on?
-		boolean on = ((ToggleButton) view).isChecked();
-
-		if (on) {
-			// end timer
-			timer = new Timer();
-			if (btManager.getState() == BluetoothManager.STATE_CONNECTED) {
-				if (autoAct == 1) {
-					//sendMessage("Let's Explore!");
-					sendMessage(JsonObj.sendJson("command", "START_EXP"));
-					startTime = SystemClock.uptimeMillis();
-					// 1 sec timer
-					timer.schedule(new askGrid(), 0, 1000);
-					customHandler.postDelayed(updateTimerThread, 0);
-				} else if (autoAct == 2) {
-					//sendMessage("Let's find the Shortest Path!");
-					sendMessage(JsonObj.sendJson("command", "START_PATH"));
-					startTime = SystemClock.uptimeMillis();
-					// 1 sec timer
-					timer.schedule(new askGrid(), 0, 1000);
-					customHandler.postDelayed(updateTimerThread, 0);
-				} else {
-					startButton.setChecked(false);
-					Toast.makeText(this, R.string.no_action, Toast.LENGTH_SHORT)
-							.show();
-				}
-			} else {
-				startButton.setChecked(false);
-				sendMessage(JsonObj.sendJson("command", "STOP"));
-				Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
-						.show();
-			}
-
-			autoAct = 0;
-
-		} else {
-			// get something to say it is explore/shortest path
-			// then when start is pressed then start the activity
-			timeSwapBuff += timeInMilliseconds;
-			customHandler.removeCallbacks(updateTimerThread);
-			timeSwapBuff = 0;
-			timer.cancel();
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    
+	    if (on) {
+	    	//do something to end run?
+	    	// end timer
+	    	timer = new Timer();
+	    	
+	    	//end timer
+	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
+	    		if(autoAct == 1){
+	    			sendMessage(JsonObj.sendJson("command", "E"));
+		    		//sendMessage("Let's Explore!");
+		    		startTime = SystemClock.uptimeMillis();
+		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
+			    	customHandler.postDelayed(updateTimerThread, 0);
+		    	}
+		    	else if(autoAct ==2 ){
+		    		sendMessage(JsonObj.sendJson("command", "P"));
+		    		//sendMessage("Let's find the Shortest Path!");
+		    		startTime = SystemClock.uptimeMillis();
+		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
+			    	customHandler.postDelayed(updateTimerThread, 0);
+		    	}
+		    	else{
+		    		startButton.setChecked(false);
+		    		Toast.makeText(this, R.string.no_action, Toast.LENGTH_SHORT).show();
+		    	}
+	    	}
+	    	else{
+	    		startButton.setChecked(false);
+	    		Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+	    	}
+	    	
+	    	
+	    	autoAct = 0;
+	    	
+	    } else {
+	    	//get something to say it is explore/shortest path
+	    	//then when start is pressed then start the activity
+	    	sendMessage(JsonObj.sendJson("command", "G"));
+	    	timeSwapBuff += timeInMilliseconds;
+	    	customHandler.removeCallbacks(updateTimerThread);
+	    	timeSwapBuff = 0;
+	    	timer.cancel();
 			timer.purge();
-		}
+	    }
 	}
 	
 	
@@ -696,12 +746,10 @@ public class MainActivity extends Activity {
 			//map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
 		
 	}*/
-	
-		public class askGrid extends TimerTask {
+	public class askGrid extends TimerTask {
 		public void run() {
 			sendMessage("GRID");
 		}
-	}
-	
 
+}
 }

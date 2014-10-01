@@ -35,15 +35,6 @@ public class Robot {
 	
 	public int[][] getPosition()
 	{
-		/*position[0][0] = 0;
-		position[0][1] = 1;
-		position[0][2] = 2;
-		position[1][0] = 20;
-		position[1][1] = 21;
-		position[1][2] = 22;
-		position[2][0] = 40;
-		position[2][1] = 41;
-		position[2][2] = 42;*/
 		
 		return position;
 	}

@@ -11,40 +11,44 @@
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll" />
 
-    <GridLayout 
-	    android:id="@+id/grid1"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
-	    android:rowCount="5"
-	    android:columnCount="8" >
-	
-       
+    <GridLayout
+        android:id="@+id/grid1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="8"
+        android:orientation="horizontal"
+        android:rowCount="5" >
     </GridLayout>
 
-    
-<GridLayout
+    <GridLayout
         android:id="@+id/grid2"
-        android:paddingLeft="20dp"
-        android:layout_below="@+id/grid1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/grid1"
         android:layout_marginTop="8dp"
         android:columnCount="20"
         android:gravity="center"
         android:horizontalSpacing="30dp"
+        android:paddingLeft="20dp"
         android:rowCount="15"
         android:stretchMode="columnWidth"
-        
         android:verticalSpacing="30dp" >
-
     </GridLayout>
-	
-	<GridLayout
-	    android:layout_below="@+id/grid2"
+
+    <LinearLayout
+        android:id="@+id/gllayout"
+        android:layout_width="wrap_content"
+        android:layout_height="450dp"
+        android:layout_below="@+id/grid1"
+        android:orientation="vertical"
+        android:paddingLeft="20dp" >
+    </LinearLayout>
+
+    <GridLayout
         android:id="@+id/grid3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/gllayout"
         android:layout_marginTop="26dp"
         android:background="#b7b7b7"
         android:columnCount="15"
@@ -52,170 +56,172 @@
         android:horizontalSpacing="40dp"
         android:rowCount="20"
         android:stretchMode="columnWidth"
-        
         android:verticalSpacing="40dp" >
-
     </GridLayout>
+
     <TextView
         android:id="@+id/tvConnectionStatus"
-		android:text="@string/status" 
-		android:background="#cccccc"
-		android:textColor="#FF0000"
-		android:gravity="center"
-		android:textSize="17sp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/grid2" 
+        android:layout_below="@+id/gllayout"
         android:layout_marginTop="8dp"
-     />
-<Button
+        android:background="#cccccc"
+        android:gravity="center"
+        android:maxLines="10"
+        android:scrollbars="vertical"
+        android:text="@string/status"
+        android:textColor="#FF0000"
+        android:textSize="17sp" />
+
+    <Button
         android:id="@+id/f1Button"
         android:layout_width="144dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/grid2"     
-        android:layout_marginTop="32dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="8dp"
+        android:layout_marginTop="80dp"
         android:text="@string/function_1" />
-<Button
+
+    <Button
         android:id="@+id/f2Button"
         android:layout_width="144dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/grid2"     
-        android:layout_marginTop="32dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="152dp"
+        android:layout_marginTop="80dp"
         android:text="@string/function_2" />
+
     <Button
         android:id="@+id/resetButton"
         android:layout_width="144dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/grid2"     
-        android:layout_marginTop="32dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="296dp"
+        android:layout_marginTop="80dp"
         android:text="@string/resetMap" />
-    
+
     <ToggleButton
         android:id="@+id/modeButton"
         android:layout_width="144dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/grid2"     
-        android:layout_marginTop="32dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="440dp"
+        android:layout_marginTop="80dp"
         android:onClick="toggleMode"
-        android:textOff="@string/modeBtn1" 
+        android:textOff="@string/modeBtn1"
         android:textOn="@string/modeBtn2" />
-    	
+
     <Button
         android:id="@+id/roundButton"
-		android:layout_width="96dp"
-		android:layout_height="96dp"
-		android:layout_marginTop="176dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="248dp"
-		android:layout_below="@+id/grid2" 
-		android:background="@drawable/round_button"
-		android:gravity="center_vertical|center_horizontal"
-		android:text="Update"
-		android:textColor="#fff" />
-    
+        android:layout_marginTop="194dp"
+        android:background="@drawable/round_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="Update"
+        android:textColor="#fff" />
+
     <Button
         android:id="@+id/upButton"
-		android:layout_width="96dp"
-		android:layout_height="96dp"
-		android:layout_marginTop="62dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="248dp"
-		android:layout_below="@+id/grid2" 
-		android:background="@drawable/triangle_button"
-		android:gravity="center_vertical|center_horizontal"
-		android:textColor="#fff" />
-    
+        android:layout_marginTop="80dp"
+        android:background="@drawable/triangle_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:textColor="#fff" />
+
     <Button
         android:id="@+id/downButton"
-		android:layout_width="96dp"
-		android:layout_height="96dp"
-		android:layout_marginTop="288dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="248dp"
-		android:layout_below="@+id/grid2" 
-		android:rotation="180"
-		android:background="@drawable/triangle_button"
-		android:gravity="center_vertical|center_horizontal"
-		android:textColor="#fff" />
-    
+        android:layout_marginTop="300dp"
+        android:background="@drawable/triangle_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:rotation="180"
+        android:textColor="#fff" />
+
     <Button
         android:id="@+id/leftButton"
-		android:layout_width="96dp"
-		android:layout_height="96dp"
-		android:layout_marginTop="175dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="135dp"
-		android:layout_below="@+id/grid2" 
-		android:rotation="270"
-		android:background="@drawable/triangle_button"
-		android:gravity="center_vertical|center_horizontal"
-		android:textColor="#fff" />
-    
+        android:layout_marginTop="193dp"
+        android:background="@drawable/triangle_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:rotation="270"
+        android:textColor="#fff" />
+
     <Button
         android:id="@+id/rightButton"
-		android:layout_width="96dp"
-		android:layout_height="96dp"
-		android:layout_marginTop="175dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="362dp"
-		android:layout_below="@+id/grid2"
-		android:rotation="90"
-		android:background="@drawable/triangle_button"
-		android:gravity="center_vertical|center_horizontal"
-		android:textColor="#fff" />
-    
+        android:layout_marginTop="193dp"
+        android:background="@drawable/triangle_button"
+        android:gravity="center_vertical|center_horizontal"
+        android:rotation="90"
+        android:textColor="#fff" />
+
     <Button
         android:id="@+id/exploreBtn"
-		android:layout_width="200dp"
-		android:layout_height="96dp"
-		android:layout_marginTop="150dp"
+        android:layout_width="200dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="80dp"
-		android:layout_below="@+id/grid2" 
-		android:text="@string/explore"
-		android:visibility="invisible"
-		android:textColor="#fff" />
-    
+        android:layout_marginTop="150dp"
+        android:text="@string/explore"
+        android:textColor="#fff"
+        android:visibility="invisible" />
+
     <Button
         android:id="@+id/shortBtn"
-		android:layout_width="200dp"
-		android:layout_height="96dp"
-		android:layout_marginTop="150dp"
+        android:layout_width="200dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="320dp"
-		android:layout_below="@+id/grid2" 
-		android:text="@string/shortPath"
-		android:visibility="invisible"
-		android:textColor="#fff" />
-    
+        android:layout_marginTop="150dp"
+        android:text="@string/shortPath"
+        android:textColor="#fff"
+        android:visibility="invisible" />
+
     <ToggleButton
         android:id="@+id/startBtn"
-		android:layout_width="130dp"
-		android:layout_height="70dp"
-		android:layout_marginTop="270dp"
+        android:layout_width="130dp"
+        android:layout_height="70dp"
+        android:layout_below="@+id/gllayout"
         android:layout_marginLeft="120dp"
-        android:textSize="20sp"
-		android:layout_below="@+id/grid2" 
-		android:gravity="center_vertical|center_horizontal"
-		android:textOff="@string/start"
-		android:textOn="@string/end"
-		android:onClick="toggleStart"
-		android:visibility="invisible"
-		android:textColor="#fff" />
-    
-	<TextView
-        android:id="@+id/timer"
         android:layout_marginTop="270dp"
-        android:layout_marginLeft="50dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:onClick="toggleStart"
+        android:textColor="#fff"
+        android:textOff="@string/start"
+        android:textOn="@string/end"
+        android:textSize="20sp"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/grid2"
-        android:layout_toRightOf="@+id/startBtn"
+        android:layout_below="@+id/gllayout"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="37dp"
-        android:textSize="40sp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="270dp"
+        android:layout_toRightOf="@+id/startBtn"
+        android:text="@string/timerVal"
         android:textColor="#ffffff"
-        android:visibility="invisible"
-        android:text="@string/timerVal" />
+        android:textSize="40sp"
+        android:visibility="invisible" />
 
-    
 </RelativeLayout>
