@@ -171,7 +171,6 @@ public class MainActivity extends Activity {
 		
 		
 		load();
-		//sendMessage(JsonObj.sendJson("command", "R"));
 		//setting onClick listeners
 		f1Button.setOnClickListener(new OnClickListener(){
 			@Override
@@ -438,12 +437,8 @@ public class MainActivity extends Activity {
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				//JsonObj.recJson(readMessage);
-				//JsonObj.amdS(readMessage);
-				
+				//JsonObj.recJson(readMessage);				
 				JsonObj.amdString(readMessage);
-				//GridLayout gv = (GridLayout)findViewById(R.id.grid2);
-				//Robot ro = new Robot();
 				map.getRobot().setPosition(JsonObj.position);
 				map.plotObsAuto(JsonObj.array2D);
 				Log.i("Tag", ""+JsonObj.dir);
