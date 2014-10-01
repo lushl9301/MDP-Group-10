@@ -149,42 +149,107 @@ public class Dijkstra {
     int currentVertexID;
     int previousVertexID = 0;
     int numOfSteps = 0;
-    int previousStepCounter = 1;
+    int previousStepCounter = 0;
     int newStepCounter = 0;
+    String currentDirection = "E";
+    MainSimulator.shortestRoute = "";
     
 	for (DijVertex vertex : path) {
 		
 		currentVertexID = Integer.parseInt(vertex.getName().split("_")[1]);
     	route[currentVertexID] = true;
-    	//System.out.println(currentVertexID);
+    	System.out.println(currentVertexID+"_"+numOfSteps);
     	newStepCounter = currentVertexID - previousVertexID;
     	
-    	if(newStepCounter == previousStepCounter) { // if just walking straight
+    	// If at starting point, there is obstacle in front of robot
+    	if (currentVertexID==20 && previousVertexID==0)  {
+    		MainSimulator.shortestRoute += "R";
+    		currentDirection = "S";
+    		previousStepCounter = 20;
+    		numOfSteps--;
+    	}
+    	
+    	// If at starting point, there is NO obstacle in front of robot
+    	if (currentVertexID==1 && previousVertexID==0)  {
+    		numOfSteps--;
+    		
+    	}
+    	
+    	// Movement counter algorithm
+    	if (newStepCounter == previousStepCounter) { // if just walking straight
     		numOfSteps++;
     	}
-    	else if (newStepCounter != previousStepCounter) {
-    		if(newStepCounter == 20) { // if need to turn right
-    			MainSimulator.shortestRoute += Integer.toString(numOfSteps);
-        		MainSimulator.shortestRoute += "R";
+    	if (newStepCounter != previousStepCounter) {
+    		if(newStepCounter == 20) { // if need to go down
+    			if (currentDirection == "E") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "R";
+            		currentDirection = "S";
+    			}
+    			if (currentDirection == "W") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "L";
+            		currentDirection = "S";
+    			}
     		}
-    		else if(newStepCounter == -20) { // if need to turn left
-    			MainSimulator.shortestRoute += Integer.toString(numOfSteps);
-        		MainSimulator.shortestRoute += "L";
+    		else if(newStepCounter == -20) { // if need to go up
+    			if (currentDirection == "W") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "R";
+            		currentDirection = "N";
+    			}
+    			if (currentDirection == "E") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "L";
+            		currentDirection = "N";
+    			}
     		}
-    		else if(newStepCounter == 1) { // if need to turn right
-    			MainSimulator.shortestRoute += Integer.toString(numOfSteps);
-        		MainSimulator.shortestRoute += "R";
+    		else if(newStepCounter == 1) { // if need to go right
+    			if (currentDirection == "S") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "L";
+            		currentDirection = "E";
+    			}
+    			if (currentDirection == "N") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "R";
+            		currentDirection = "E";
+    			}
     		}
-    		else if(newStepCounter == -1) { // if need to turn left
-    			MainSimulator.shortestRoute += Integer.toString(numOfSteps);
-        		MainSimulator.shortestRoute += "L";
+    		else if(newStepCounter == -1) { // if need to go left
+    			if (currentDirection == "S") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "R";
+            		currentDirection = "W";
+    			}
+    			if (currentDirection == "N") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "L";
+            		currentDirection = "W";
+    			}
     		}
-    		numOfSteps = 0;
+    		numOfSteps = 1;
     	}
-    	previousStepCounter = newStepCounter;	
+
+    	// If reached goal, print the last numOfSteps and end loop
+    	if (currentVertexID==257) {
+    		MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+    		break;
+    	}
+    	
+    	// This is just for the first straight movement
+    	if (previousStepCounter == 0) {
+    		previousStepCounter = 1;
+    	}
+    	else {
+    		previousStepCounter = newStepCounter;
+    	}
+    	
+    	// prev = cur
     	previousVertexID = currentVertexID;
     	
     }
+	System.out.println();
 	System.out.println(MainSimulator.shortestRoute);
   }
 
