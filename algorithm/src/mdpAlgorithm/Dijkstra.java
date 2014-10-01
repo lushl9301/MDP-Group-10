@@ -71,6 +71,7 @@ public class Dijkstra {
 				}
 			}
 		}
+		
 //		for(int i = 0; i < 20; i++) {
 //			for (int j = 0; j< 15; j++) {
 //				if(vertexCheck[j][i]) System.out.print("t");
@@ -145,26 +146,44 @@ public class Dijkstra {
     dijkstra.execute(nodes.get(0));
     LinkedList<DijVertex> path =  dijkstra.getPath(nodes.get(257));      
     
-    int vertexId;
-    int previousVertex = 0;
+    int currentVertexID;
+    int previousVertexID = 0;
     int numOfSteps = 0;
+    int previousStepCounter = 1;
+    int newStepCounter = 0;
     
 	for (DijVertex vertex : path) {
 		
-		vertexId = Integer.parseInt(vertex.getName().split("_")[1]);
-    	route[vertexId] = true;
-    	System.out.println(vertexId);
+		currentVertexID = Integer.parseInt(vertex.getName().split("_")[1]);
+    	route[currentVertexID] = true;
+    	System.out.println(currentVertexID);
+    	newStepCounter = currentVertexID - previousVertexID;
     	
-    		
-//    	if(vertexId - previousVertex == 20)
-//    		MainSimulator.shortestRoute += "R";
-//    	else if(vertexId - previousVertex == 1) {
-//    		// walk straight
-//    		numOfSteps++;
-//    		
-//    		//MainSimulator.shortestRoute += "L";
-//    	}
-    	//previousVertex = vertexId;
+    	if(newStepCounter == previousStepCounter) { // if just walking straight
+    		numOfSteps++;
+    	}
+    	else if (newStepCounter != previousStepCounter) {
+    		if(newStepCounter == 20) { // if need to turn right
+    			MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+        		MainSimulator.shortestRoute += "R";
+    		}
+    		else if(newStepCounter == -20) { // if need to turn left
+    			MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+        		MainSimulator.shortestRoute += "L";
+    		}
+    		else if(newStepCounter == 1) { // if need to turn right
+    			MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+        		MainSimulator.shortestRoute += "R";
+    		}
+    		else if(newStepCounter == -1) { // if need to turn left
+    			MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+        		MainSimulator.shortestRoute += "L";
+    		}
+    		numOfSteps = 0;
+    	}
+    	previousStepCounter = newStepCounter;	
+    	previousVertexID = currentVertexID;
+    	
     }
     
   }
