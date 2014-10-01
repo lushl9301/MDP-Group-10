@@ -53,6 +53,7 @@ public class MainSimulator {
 	private static JFrame frame;
 	private static boolean rtSelected = false;
 	public static boolean rtThreadStarted = false;
+	public static String shortestRoute = "";
 	public static void main(String[] args) {
 
 		final JButton clearObs;

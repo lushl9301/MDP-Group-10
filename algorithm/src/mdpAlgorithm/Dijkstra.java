@@ -146,10 +146,25 @@ public class Dijkstra {
     LinkedList<DijVertex> path =  dijkstra.getPath(nodes.get(257));      
     
     int vertexId;
+    int previousVertex = 0;
+    int numOfSteps = 0;
+    
 	for (DijVertex vertex : path) {
+		
 		vertexId = Integer.parseInt(vertex.getName().split("_")[1]);
     	route[vertexId] = true;
-		
+    	System.out.println(vertexId);
+    	
+    		
+//    	if(vertexId - previousVertex == 20)
+//    		MainSimulator.shortestRoute += "R";
+//    	else if(vertexId - previousVertex == 1) {
+//    		// walk straight
+//    		numOfSteps++;
+//    		
+//    		//MainSimulator.shortestRoute += "L";
+//    	}
+    	//previousVertex = vertexId;
     }
     
   }
