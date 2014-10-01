@@ -4,16 +4,18 @@ import json
 # CONSTANTS #
 
 # commands
-CMD_START_EXP = "S"
-CMD_START_PATH = "S"
+CMD_START_EXP = "E"
+CMD_START_PATH = "P"
+CMD_START_REMOTE = "R"
 
 # status
 ST_END_EXP = "END_EXP"
 ST_END_PATH = "END_PATH"
+ST_END_REMOTE = "END_RMT"
 
 # json
 JSON_START = {"type": "START", "data": "S"}
-JSON_STOP = {"type": "STOP", "data": "STOP"}
+JSON_STOP = {"type": "STOP", "data": "G"}  # currently not used by rpi
 
 # network
 WIFI_IP = "192.168.10.10"
