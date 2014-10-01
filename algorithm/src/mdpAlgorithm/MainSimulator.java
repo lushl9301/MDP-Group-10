@@ -302,6 +302,7 @@ public class MainSimulator {
 		 		        }
 		 		        else {
 		 		        	exploreThread.stop();
+		 		        	solveMap.setEnabled(true);
 		 		        }
 		 		    }
 		 		});
@@ -322,7 +323,7 @@ public class MainSimulator {
 				timeField.setEnabled(false);
 				md1.setEnabled(false);
 				md2.setEnabled(false);
-				solveMap.setEnabled(true);
+				
 				// insert robot
 				Robot rob = new Robot(map);
 				

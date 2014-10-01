@@ -441,7 +441,9 @@ public class MainActivity extends Activity {
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				map.plotObsAuto(JsonObj.recJson(readMessage));
+				JsonObj.recJson(readMessage);
+				map.plotObsAuto(JsonObj.amdString(readMessage));
+				//map.plotObsAuto(JsonObj.array2D);
 				setStatus(getString(R.string.title_connected_to,
 						mConnectedDeviceName) + readMessage);
 				 
@@ -639,17 +641,17 @@ public class MainActivity extends Activity {
 	    	//end timer
 	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
 	    		if(autoAct == 1){
-	    			sendMessage(JsonObj.sendJson("command", "START_EXP"));
+	    			sendMessage(JsonObj.sendJson("command", "S"));
 		    		//sendMessage("Let's Explore!");
 		    		startTime = SystemClock.uptimeMillis();
-		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
+		    		timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
 		    	}
 		    	else if(autoAct ==2 ){
 		    		sendMessage(JsonObj.sendJson("command", "START_PATH"));
 		    		//sendMessage("Let's find the Shortest Path!");
 		    		startTime = SystemClock.uptimeMillis();
-		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
+		    		timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
 		    	}
 		    	else{

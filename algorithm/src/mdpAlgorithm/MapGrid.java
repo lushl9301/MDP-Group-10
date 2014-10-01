@@ -102,16 +102,16 @@ public class MapGrid extends JPanel {
 	public void setMapDesc(int x, int y) {
 		mapDescriptor1[x-1][y-1] = 1;
 		mapDescriptor2[x-1][y-1] = "0";
-		setMapDescLabel(x, y);
 		toConfirmObstacle[x-1][y-1]--;
+		setMapDescLabel(x, y);
 	}
 	
 	
 	public void setMapDescObstacles(int x, int y) {
 		mapDescriptor1[x-1][y-1] = 1;
 		mapDescriptor2[x-1][y-1] = "1";
-		setMapDescLabelObstacles(x, y);
 		toConfirmObstacle[x-1][y-1]++;
+		setMapDescLabelObstacles(x, y);
 	}
 	
 	
@@ -127,6 +127,7 @@ public class MapGrid extends JPanel {
 		else if(md3) {
 			if(!grid[x][y].label1.getText().equals("Start") && !grid[x][y].label1.getText().equals("Goal"))			
 				grid[x][y].setLabel(Integer.toString(toConfirmObstacle[x-1][y-1]));
+			//System.out.print(toConfirmObstacle[x-1][y-1]+" ");
 		}
 	}
 	

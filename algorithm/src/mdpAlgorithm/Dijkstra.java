@@ -22,7 +22,7 @@ public class Dijkstra {
 			for(int i = 0; i < 20; i++) {
 				DijVertex location = new DijVertex("Node_" + nodeCounter, "Node_" + nodeCounter);
 				nodes.add(location);
-				//System.out.print("Node_" + nodeCounter);
+				//System.out.println("Node_" + nodeCounter);
 				nodeCounter++;
 			}
 			//System.out.println();
@@ -118,7 +118,16 @@ public class Dijkstra {
 					addLane(edgeName, i, whichEdge, 1);
 					//System.out.print(edgeName);
 				}
-				//System.out.println();
+				if(i>=20) {
+					if(oneDmd3[i-20]) {
+						whichEdge = i-20;
+						edgeName = "Edge_"+whichEdge;
+						addLane(edgeName, i, whichEdge, 1);
+						//System.out.print(edgeName);
+					}
+				}
+				
+				System.out.println();
 			}
 			
 		}		
@@ -132,6 +141,7 @@ public class Dijkstra {
 	for (DijVertex vertex : path) {
 		vertexId = Integer.parseInt(vertex.getName().split("_")[1]);
     	route[vertexId] = true;
+		
     }
     
   }
