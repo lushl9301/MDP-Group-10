@@ -71,6 +71,7 @@ public class Dijkstra {
 				}
 			}
 		}
+		
 //		for(int i = 0; i < 20; i++) {
 //			for (int j = 0; j< 15; j++) {
 //				if(vertexCheck[j][i]) System.out.print("t");
@@ -145,13 +146,111 @@ public class Dijkstra {
     dijkstra.execute(nodes.get(0));
     LinkedList<DijVertex> path =  dijkstra.getPath(nodes.get(257));      
     
-    int vertexId;
-	for (DijVertex vertex : path) {
-		vertexId = Integer.parseInt(vertex.getName().split("_")[1]);
-    	route[vertexId] = true;
-		
-    }
+    int currentVertexID;
+    int previousVertexID = 0;
+    int numOfSteps = 0;
+    int previousStepCounter = 0;
+    int newStepCounter = 0;
+    String currentDirection = "E";
+    MainSimulator.shortestRoute = "";
     
+	for (DijVertex vertex : path) {
+		
+		currentVertexID = Integer.parseInt(vertex.getName().split("_")[1]);
+    	route[currentVertexID] = true;
+    	System.out.println(currentVertexID+"_"+numOfSteps);
+    	newStepCounter = currentVertexID - previousVertexID;
+    	
+    	// If at starting point, there is obstacle in front of robot
+    	if (currentVertexID==20 && previousVertexID==0)  {
+    		MainSimulator.shortestRoute += "R";
+    		currentDirection = "S";
+    		previousStepCounter = 20;
+    		numOfSteps--;
+    	}
+    	
+    	// If at starting point, there is NO obstacle in front of robot
+    	if (currentVertexID==1 && previousVertexID==0)  {
+    		numOfSteps--;
+    		
+    	}
+    	
+    	// Movement counter algorithm
+    	if (newStepCounter == previousStepCounter) { // if just walking straight
+    		numOfSteps++;
+    	}
+    	if (newStepCounter != previousStepCounter) {
+    		if(newStepCounter == 20) { // if need to go down
+    			if (currentDirection == "E") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "R";
+            		currentDirection = "S";
+    			}
+    			if (currentDirection == "W") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "L";
+            		currentDirection = "S";
+    			}
+    		}
+    		else if(newStepCounter == -20) { // if need to go up
+    			if (currentDirection == "W") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "R";
+            		currentDirection = "N";
+    			}
+    			if (currentDirection == "E") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "L";
+            		currentDirection = "N";
+    			}
+    		}
+    		else if(newStepCounter == 1) { // if need to go right
+    			if (currentDirection == "S") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "L";
+            		currentDirection = "E";
+    			}
+    			if (currentDirection == "N") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "R";
+            		currentDirection = "E";
+    			}
+    		}
+    		else if(newStepCounter == -1) { // if need to go left
+    			if (currentDirection == "S") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "R";
+            		currentDirection = "W";
+    			}
+    			if (currentDirection == "N") {
+    				MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+            		MainSimulator.shortestRoute += "L";
+            		currentDirection = "W";
+    			}
+    		}
+    		numOfSteps = 1;
+    	}
+
+    	// If reached goal, print the last numOfSteps and end loop
+    	if (currentVertexID==257) {
+    		MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+    		break;
+    	}
+    	
+    	// This is just for the first straight movement
+    	if (previousStepCounter == 0) {
+    		previousStepCounter = 1;
+    	}
+    	else {
+    		previousStepCounter = newStepCounter;
+    	}
+    	
+    	// prev = cur
+    	previousVertexID = currentVertexID;
+    	
+    }
+	System.out.println();
+	System.out.println(MainSimulator.shortestRoute);
   }
 
   private static void addLane(String laneId, int sourceLocNo, int destLocNo, int duration) {

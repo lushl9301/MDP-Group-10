@@ -46,10 +46,14 @@ public class MainSimulator {
 	private static final Color FRONTROBOT = new Color(146, 208, 80);
 	private static Timer t;
 	private static Thread exploreThread;
+	private static Thread rtExploreThread;
 	private static Exploration explore;
+	private static RTexploration rtExplore;
 	private static boolean exploreStart = false;
 	private static JFrame frame;
 	private static boolean rtSelected = false;
+	public static boolean rtThreadStarted = false;
+	public static String shortestRoute = "";
 	public static void main(String[] args) {
 
 		final JButton clearObs;
@@ -354,10 +358,7 @@ public class MainSimulator {
 		realTime.setFont(realTime.getFont().deriveFont(11.0f));
 		final MouseAdapter addRTListener = new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				
-				
-            	
-            	
+
                 if(!rtSelected) {
                 	rtSelected = true;
                 	
@@ -366,7 +367,14 @@ public class MainSimulator {
                 	map2.setVisible(true);
                 	
                 	// instantiate rpi connection
-	
+                	Robot rob2 = new Robot(map2);
+                	
+                	if(!rtThreadStarted) {
+                		rtThreadStarted = true;
+	                	rtExplore = new RTexploration(map2, rob2);
+	                	rtExploreThread = new Thread(rtExplore);
+	                	rtExploreThread.start();
+                	}
                 }
                 else {
                 	rtSelected = false;

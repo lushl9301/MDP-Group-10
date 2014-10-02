@@ -45,9 +45,9 @@ class PCClient {
 		
 	}
 
-	public Map<String, String> receiveJSON() {
+	public HashMap<String, String> receiveJSON() {
 		String jsonString;
-		Map<String, String> map = null;
+		HashMap<String, String> map = null;
 		
 		 
 		try {
@@ -58,7 +58,7 @@ class PCClient {
 			
 			// TODO: might have queue of JSON here
 				map = (JSONObject) JSONValue.parse(jsonString);
-				System.out.println("Received: "+ map.toString());
+				//System.out.println("Received: "+ map.toString());
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -88,16 +88,16 @@ class PCClient {
 		}
 	}
 
-	public static void main(String[] args) {
-		PCClient client = new PCClient("192.168.10.10", 8888);
-		try {
-			client.connect();
-			// if successful, try to send data
-			client.readInput();
-		} catch (UnknownHostException e) {
-			System.err.println("Unknown Host");
-		} catch (IOException e) {
-			System.err.println("Cannot establish connection. "+e.getMessage());
-		}
-	}
+//	public static void main(String[] args) {
+//		PCClient client = new PCClient("192.168.10.10", 8888);
+//		try {
+//			client.connect();
+//			// if successful, try to send data
+//			client.readInput();
+//		} catch (UnknownHostException e) {
+//			System.err.println("Unknown Host");
+//		} catch (IOException e) {
+//			System.err.println("Cannot establish connection. "+e.getMessage());
+//		}
+//	}
 }

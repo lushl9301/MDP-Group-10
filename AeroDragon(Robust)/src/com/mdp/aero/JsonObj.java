@@ -60,14 +60,8 @@ public class JsonObj {
 				}
 				else if(jsonObj.getString("type").equals("status")){
 					
-					if(jsonObj.getString("data").equals("END_EXP")){
-						//stop timer?
-						//MainActivity.
-					}
-					else if(jsonObj.getString("data").equals("END_PATH")){
-						//Log.i("Tag", jsonObj.getString("data"));
-						//stop timer?
-					}
+					words = jsonObj.getString("data");
+					
 				}
 				else if(jsonObj.getString("type").equals("map")){
 					
@@ -89,12 +83,6 @@ public class JsonObj {
 			}
 			
 		
-	}
-	public static String amdS(String msg){
-		//for AMD tool
-		
-				return msg;
-				
 	}
 	public static void amdString(String msg){
 		//for AMD tool
