@@ -34,6 +34,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -47,6 +48,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+import android.view.MotionEvent;
 
 import org.json.*;
 
@@ -96,6 +98,7 @@ public class MainActivity extends Activity {
 	private Button exploreButton;
 	private Button shortButton;
 	private ToggleButton startButton;
+	GestureDetector gestureDetector;
 	
 	//for stopwatch
 	private TextView timerVal;
@@ -269,6 +272,22 @@ public class MainActivity extends Activity {
 				sendMessage("Map Reset");
 				//map.resetMap(); //to reset map
 			}
+    	});
+    	
+    	final GestureDetector gestureDetector = null;
+    	layout.setOnTouchListener(new OnSwipeTouchListener(this) {
+    	    public void onSwipeTop() {
+    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+    	    }
+    	    public void onSwipeRight() {
+    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+    	    }
+    	    public void onSwipeLeft() {
+    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+    	    }
+    	    public void onSwipeBottom() {
+    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+    	    }
     	});
 		
 	}

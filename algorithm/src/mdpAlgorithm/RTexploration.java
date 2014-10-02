@@ -30,32 +30,39 @@ public class RTexploration implements Runnable{
 	
 	@Override
 	public void run() {
+		
+		curStack = new Stack<Robot>();
+		curStack.push(rob);
+				
 		// instantiate connection to rpi
 		PCClient client = new PCClient("192.168.10.10", 8888);
 		try {
 			client.connect();
 			// if successful, try to send data
 			//client.readInput();
-			
+
 			String status;
 			HashMap<String, String> reading;
 			do {  // get inputs while exploration is still not completed
-				
+
 				// handles type : status data
-				if(client.receiveJSON().get("type").toString().equals("status")) {
-					status = client.receiveJSON().get("data").toString();
+				HashMap<String, String> input = client.receiveJSON();
+				
+				if(input.get("type").equals("status")) {
+					status = input.get("data");
 					if(status != null) {
+						System.out.println(status);
+						
 						if(status.equals("END_EXP")) {
+							//System.out.println("end exp");
 							rtCompleted = true;
 							break;
 						}
-						
-						System.out.println(status.toString());
 					}
 				}
 				// handles type : readings data
-				else if(client.receiveJSON().get("type").toString().equals("reading")) {
-					reading = client.receiveJSON();
+				else if(input.get("type").equals("reading")) {
+					reading = (JSONObject) JSONValue.parse(input.get("data"));
 					
 					// push new position based on readings into stack
 					Robot currentDir = new Robot(curStack.peek());
@@ -63,7 +70,6 @@ public class RTexploration implements Runnable{
 					if (currentDir != null) {
 						curStack.push(currentDir);
 					}
-					
 				}
 				
 			} while (!rtCompleted);
@@ -72,7 +78,6 @@ public class RTexploration implements Runnable{
 			// run getMapDescRealTime() on MapGrid.rtToConfirmObstacle to get MD3
 			// do a new method for RTexecute in dijkstra straight using md3 from getMapDescRealTime()
 			// end of new Dijkstra(map.getMapDesc(), map.getMapDesc2()) send back MainSimulator.shortestRoute to RPI
-			
 
 		} catch (UnknownHostException e) {
 			MainSimulator.rtThreadStarted = false;
@@ -86,14 +91,18 @@ public class RTexploration implements Runnable{
 	public Robot getPos(MapGrid map, Robot rob, HashMap<String, String> reading){
 		
 		// use readings and move robot
-		// set MapGrid.rtToConfirmObstacle as getting readings
+		// update MapGrid.rtToConfirmObstacle as i am receiving readings (+1/ -1)
 		
 		// optional----------------------
 		// update md1 and md2 then get md3
 		// ------------------------------
+
+		
+		rob.setRTSensors(map, reading);
 		
 		
-		String parsedData = reading.get("data");
+		
+		
 		return rob;
 	}
 

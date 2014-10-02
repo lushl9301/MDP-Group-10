@@ -234,6 +234,7 @@ public class Dijkstra {
     	// If reached goal, print the last numOfSteps and end loop
     	if (currentVertexID==257) {
     		MainSimulator.shortestRoute += Integer.toString(numOfSteps);
+    		MainSimulator.shortestRoute += "G";
     		break;
     	}
     	

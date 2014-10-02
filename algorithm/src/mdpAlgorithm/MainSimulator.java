@@ -78,10 +78,12 @@ public class MainSimulator {
 		mapPanel.setPreferredSize(new Dimension(700, 525));
 		
 		final MapGrid map = new MapGrid(); // initialize map
+		map.setName("map");
 		map.setBorder(new EmptyBorder(10, 20, 0, 20) );
 		map.setPreferredSize(new Dimension(700, 525));
 		
 		final MapGrid map2 = new MapGrid(); // initialize real time map
+		map2.setName("map2");
 		map2.setBorder(new EmptyBorder(10, 20, 0, 20) );
 		map2.setPreferredSize(new Dimension(700, 525));
 		map2.grid[1][1].setBackground(Color.magenta);
@@ -366,9 +368,9 @@ public class MainSimulator {
                 	map.setVisible(false);
                 	map2.setVisible(true);
                 	
-                	// instantiate rpi connection
+                	// create robot for real time map
                 	Robot rob2 = new Robot(map2);
-                	
+                	// instantiate rpi connection
                 	if(!rtThreadStarted) {
                 		rtThreadStarted = true;
 	                	rtExplore = new RTexploration(map2, rob2);

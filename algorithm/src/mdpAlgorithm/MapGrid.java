@@ -202,7 +202,6 @@ public class MapGrid extends JPanel {
 			else padEnough = true;
 		}
 		//return strMapDesc; // comment this out if require long string
-
 		return toHex(strMapDesc); // comment either one
 	}
 	
@@ -238,28 +237,27 @@ public class MapGrid extends JPanel {
 	}
 	
 	//For real time
-	public String getMapDescRealTime() {
+	public int[][] getMapDescRealTime() {
+		
+		int[][] strMapDescRealTime = new int[15][20];
 		System.out.println();
-		String strMapDescRealTime = "start of real time";
-		strMapDescRealTime += "\n"; // comment this out if require a long string
+
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {				
 				if(toConfirmObstacle[j][i] >= 4) {
-					strMapDescRealTime += 2;
+					strMapDescRealTime[j][i] = 2;
 				}
 				else if(toConfirmObstacle[j][i] > 0 && toConfirmObstacle[j][i] < 4) {
-					strMapDescRealTime += 1;
+					strMapDescRealTime[j][i] = 1;
 				}
 				else if(toConfirmObstacle[j][i] < 0) {
-					strMapDescRealTime += 1;
+					strMapDescRealTime[j][i] = 1;
 				}
 				else if(toConfirmObstacle[j][i] == 0) {
-					strMapDescRealTime += 0;
+					strMapDescRealTime[j][i] = 0;
 				}
 			}
-			strMapDescRealTime += "\n"; // comment this out if require a long string
 		}
-		strMapDescRealTime += "end of real time";
 		//return toHex(strMapDesc); // comment either one
 		return strMapDescRealTime; // comment this out if require a long string
 	}

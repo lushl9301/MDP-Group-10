@@ -1,6 +1,7 @@
 package mdpAlgorithm;
 
 import java.awt.Color;
+import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 
@@ -91,7 +92,40 @@ public class Robot {
 					map.grid[x+1][y].setBackground(FRONTROBOT);
 				break;		
 		}
-		setSensors(map);
+		if(map.getName().equals("map"))
+			setSensors(map);
+		
+	}
+	
+	public void setRTSensors(MapGrid map, HashMap<String, String> reading){
+		int x = this.getX();
+		int y = this.getY();
+		String orientation = this.getOrientation();
+		
+		// X,Y coordinates
+		int newX = Integer.parseInt(reading.get("X"));
+		int newY = Integer.parseInt(reading.get("Y"));
+		
+		// front sensors
+		int U_F = Integer.parseInt(reading.get("U_F"));
+		int short_LF = Integer.parseInt(reading.get("short_LF"));
+		int short_RF = Integer.parseInt(reading.get("short_RF"));
+		
+		//left sensors
+		int U_L = Integer.parseInt(reading.get("U_L"));
+		int long_BL = Integer.parseInt(reading.get("long_BL"));
+		
+		// right sensors
+		int short_FR = Integer.parseInt(reading.get("short_FR"));
+		int U_R = Integer.parseInt(reading.get("U_R"));
+		
+		// robot orientation
+		String newOrientation = reading.get("direction");
+		
+		
+		
+		
+		
 	}
 	
 	public void setSensors(MapGrid map){
