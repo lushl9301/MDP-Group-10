@@ -62,10 +62,9 @@
     <TextView
         android:id="@+id/tvConnectionStatus"
         android:layout_width="fill_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/gllayout"
-        android:layout_marginTop="8dp"
         android:background="#cccccc"
         android:gravity="center"
         android:maxLines="10"
@@ -81,7 +80,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="64dp"
         android:text="@string/function_1" />
 
     <Button
@@ -90,7 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="152dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="64dp"
         android:text="@string/function_2" />
 
     <Button
@@ -99,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="296dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="64dp"
         android:text="@string/resetMap" />
 
     <ToggleButton
@@ -108,7 +107,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="440dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="64dp"
         android:onClick="toggleMode"
         android:textOff="@string/modeBtn1"
         android:textOn="@string/modeBtn2" />
@@ -119,7 +118,7 @@
         android:layout_height="96dp"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="248dp"
-        android:layout_marginTop="194dp"
+        android:layout_marginTop="174dp"
         android:background="@drawable/round_button"
         android:gravity="center_vertical|center_horizontal"
         android:text="Update"
@@ -131,7 +130,7 @@
         android:layout_height="96dp"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="248dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/triangle_button"
         android:gravity="center_vertical|center_horizontal"
         android:textColor="#fff" />
@@ -142,7 +141,7 @@
         android:layout_height="96dp"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="248dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="280dp"
         android:background="@drawable/triangle_button"
         android:gravity="center_vertical|center_horizontal"
         android:rotation="180"
@@ -154,7 +153,7 @@
         android:layout_height="96dp"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="135dp"
-        android:layout_marginTop="193dp"
+        android:layout_marginTop="173dp"
         android:background="@drawable/triangle_button"
         android:gravity="center_vertical|center_horizontal"
         android:rotation="270"
@@ -166,7 +165,7 @@
         android:layout_height="96dp"
         android:layout_below="@+id/gllayout"
         android:layout_marginLeft="362dp"
-        android:layout_marginTop="193dp"
+        android:layout_marginTop="173dp"
         android:background="@drawable/triangle_button"
         android:gravity="center_vertical|center_horizontal"
         android:rotation="90"
