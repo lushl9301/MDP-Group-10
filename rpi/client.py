@@ -21,6 +21,7 @@ def modeReading():
         json_string = json.dumps(data)
         sock.send(json_string + "\n")
 
+f = open("try.log", "w")
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
@@ -31,10 +32,15 @@ while 1:
     data_type = stdin.readline().strip()
     if data_type == "reading":
         modeReading()
+    elif data_type == "-1":
+        print "EXIT"
+        f.close()
+        break
     else:
         print "input data: "
         data_data = stdin.readline().strip()
         data = {"type": data_type, "data": data_data}
         print ">>>>>>> SENDING >>>>>>>"
         json_string = json.dumps(data)
+        f.write(json.dumps(data, indent=4)+"\n")
         sock.send(json_string + "\n")
