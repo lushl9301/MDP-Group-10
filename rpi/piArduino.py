@@ -55,8 +55,12 @@ class piArduino:
 
     def send(self, json_data):
         command = json_data["data"]
-        self.ser.write(command)
-        print "Send to Arduino: " + command
+        try:
+            self.ser.write(command)
+            print "Send to Arduino: " + command
+        except AttributeError:
+            print "WARNING! Arduino still not connected."
+            pass
 
     def receive(self):
         try:
