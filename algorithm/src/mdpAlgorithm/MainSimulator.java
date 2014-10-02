@@ -464,7 +464,9 @@ public class MainSimulator {
 				int whichCounter = 0;
 				int midCounter = 0;
 				String[] midroute = new String[300];
-				new Dijkstra(map.getMapDesc(), map.getMapDesc2());
+
+				
+				new Dijkstra(map.getMapDesc3(map.getMapDesc(), map.getMapDesc2()));
 				for (int i = 1; i < 16; i++) {
         			for (int j = 1; j < 21; j++) {
         				if(Dijkstra.route[whichCounter]) {

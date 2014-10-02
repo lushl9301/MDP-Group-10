@@ -87,7 +87,7 @@ public class BFSGraphImplementation {
 			
 			// get md3
 			MapGrid m = new MapGrid();
-			int[][] md3 = m.getMapDesc3Testing(md1, md2);
+			int[][] md3 = m.getMapDesc3(md1, md2);
 
 	        boolean flag;
 			boolean[][] vertexCheck= new boolean[15][20];

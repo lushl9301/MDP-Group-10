@@ -12,12 +12,18 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
+
 import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
 
 public class RTexploration implements Runnable{
 	private static final Color OBSTACLE = Color.RED;
 	private static final Color WALL = new Color(160, 80, 70);
 	private static final Color EXPLORED = new Color(0, 128, 255);
+	private static final Color EXPLORE = new Color(146, 208, 80);
+	private static final Color BORDER = new Color(225, 225, 225);
+	private static final Color ROBOT = new Color(153, 204, 255);
 	public Stack<Robot> curStack;
 	public MapGrid map;
 	public Robot rob;
@@ -66,18 +72,72 @@ public class RTexploration implements Runnable{
 					
 					// push new position based on readings into stack
 					Robot currentDir = new Robot(curStack.peek());
-					getPos(map, rob, reading); 
+					getPos(map, rob, reading);
 					if (currentDir != null) {
 						curStack.push(currentDir);
 					}
 				}
 				
+				// need to send explored map to android. send md1
+				
 			} while (!rtCompleted);
 			
 			// after exploration is completed
-			// run getMapDescRealTime() on MapGrid.rtToConfirmObstacle to get MD3
-			// do a new method for RTexecute in dijkstra straight using md3 from getMapDescRealTime()
+			
+			//To get the real-time robot's MD3 with regards to sensor sensing the obs		
+			int[][] mapDesc3 = map.getMapDescRealTime();
+			
+			// print the md3 to check
+//			for(int i = 0; i < 20; i++) {	
+//				for (int j = 0; j< 15; j++) {
+//					System.out.print(mapDesc3[j][i]);
+//				}
+//				System.out.println();
+//			}	
+			
+			
+			// send rpi md3 to send to android
+
+
+			
+			
+			//client.sendJSON("map", mapDesc3);
+			
+			
+			int whichCounter = 0;
+			int midCounter = 0;
+			String[] midroute = new String[300];
+			
+			//run dijkstra using real time md3
+			new Dijkstra(mapDesc3);
+			for (int i = 1; i < 16; i++) {
+    			for (int j = 1; j < 21; j++) {
+    				if(Dijkstra.route[whichCounter]) {
+    					for (int x = 0; x < 3; x++) {
+    	        			for (int y = 0; y < 3; y++) {
+    	        				map.grid[i+x][j+y].setBackground(ROBOT);
+    	        				map.grid[i+x][j+y].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+    	        				
+    	        				if(x == 1 && y == 1) {
+    	        					midroute[midCounter] = (i+x) + "," + (j+y);
+    	        					midCounter++;
+    	        				}
+    	        			}
+    					}
+    				}
+    				whichCounter++;
+    			}
+			}
+			int x;
+			int y;
+			for(int i = 0; i< midCounter; i++) {
+				x = Integer.parseInt(midroute[i].split(",")[0]);
+				y = Integer.parseInt(midroute[i].split(",")[1]);
+				map.grid[x][y].setBackground(EXPLORE);
+			}
+			
 			// end of new Dijkstra(map.getMapDesc(), map.getMapDesc2()) send back MainSimulator.shortestRoute to RPI
+			client.sendJSON("movement", MainSimulator.shortestRoute);
 
 		} catch (UnknownHostException e) {
 			MainSimulator.rtThreadStarted = false;
@@ -97,12 +157,35 @@ public class RTexploration implements Runnable{
 		// update md1 and md2 then get md3
 		// ------------------------------
 
+		// X,Y coordinates
+		int newX = Integer.parseInt(reading.get("X"));
+		int newY = Integer.parseInt(reading.get("Y"));
+		// robot orientation
+		String newOrientation = reading.get("direction");
+		String modNewOrientation;
+		// change NESW to 1234
+		switch(newOrientation) {
+			case "1":
+				modNewOrientation = "N";
+			case "2":
+				modNewOrientation = "E";
+			case "3":
+				modNewOrientation = "S";
+			case "4":
+				modNewOrientation = "W";
+			default:
+				modNewOrientation = "";
+		}
 		
-		rob.setRTSensors(map, reading);
-		
-		
-		
-		
+		// check if orientation is different. if different, rotate.
+		if(!modNewOrientation.equals(rob.getOrientation())) {
+			rob.rotateRobot(reading, map, modNewOrientation);
+		}
+		// if not rotating, means it is moving
+		else  {
+			rob.moveRobot(reading, map, 1);
+		}
+
 		return rob;
 	}
 
