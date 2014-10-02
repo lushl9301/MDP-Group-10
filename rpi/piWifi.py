@@ -40,6 +40,7 @@ class wifiThread (threading.Thread):
                         # code to stop everything
                         if receivedJSON == JSON_STOP:
                             self.mainthread.flushCommandQueue()
+                            print ">>> flushing down command queue >>>"
                         else:
                             self.mainthread.addToQueue(receivedJSON)
                 except IOError, e:
