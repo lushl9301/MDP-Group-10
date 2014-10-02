@@ -45,12 +45,10 @@ class coreThread(threading.Thread):
     def processCommand(self):
         if not self.commandQueue.empty():
             command = self.commandQueue.get()
-
-            # self.lock.acquire()
             self.protocolHandler.decodeCommand(command, self.lock)
-            # self.lock.release()
 
     def run(self):
+        # TODO: return back
         while not self.wifi.isConnected():  # or not self.bt.isConnected():
             continue
 
@@ -60,6 +58,7 @@ class coreThread(threading.Thread):
 
         while 1:
             try:
+                # TODO: return back
                 if self.wifi.isConnected():  # and self.bt.isConnected():
                     self.processCommand()
             except Exception, e:

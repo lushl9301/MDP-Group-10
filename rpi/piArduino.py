@@ -63,6 +63,8 @@ class piArduino:
                 break
             except IndexError:
                 print "Trying to reconnect Arduino.."
+                # TODO: remove
+                break
                 pass
 
     def send(self, json_data):
