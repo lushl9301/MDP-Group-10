@@ -40,25 +40,45 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-//		int testx = 0;
-//		do {
-//			reading.put("X", 9+testx);
-//			reading.put("Y", "7");
-//			
-//			if (testx > 2) reading.put("direction", "2");
-//			else reading.put("direction", "1");
-//			
-//			Robot currentDir = new Robot(curStack.peek());
-//			currentDir = getPos(map, rob, reading);
-//
-//			if (currentDir != null) {
-//				curStack.push(currentDir);
-//			}
-//			else {
-//				currentDir = curStack.pop();
-//			}
-//			testx++;
-//		}while(testx<5);
+		int testx = 0;
+		
+		//front sensors
+		int U_F = 50;
+		int short_LF = 21;
+		int short_RF = 21;
+		//left sensors
+		int U_L = 50;
+		int long_BL = 22;
+
+		// right sensors
+		int short_FR = 21;
+		int U_R = 50;
+		
+		do {
+			reading.put("X", 9+testx);
+			reading.put("Y", "7");
+			reading.put("U_F", U_F);
+			reading.put("short_LF", short_LF);
+			reading.put("short_RF", short_RF);
+			reading.put("U_L", U_L);
+			reading.put("long_BL", long_BL);
+			reading.put("short_FR", short_FR);
+			reading.put("U_R", U_R);			
+			
+			if (testx > 2) reading.put("direction", "2");
+			else reading.put("direction", "1");
+
+			Robot currentDir = new Robot(curStack.peek());
+			currentDir = getPos(map, rob, reading);
+
+			if (currentDir != null) {
+				curStack.push(currentDir);
+			}
+			else {
+				currentDir = curStack.pop();
+			}
+			testx++;
+		}while(testx<8);
 
 		
 		// instantiate connection to rpi
@@ -220,12 +240,12 @@ public class RTexploration implements Runnable{
 		}
 		
 		// add delay if required
-//		try {
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return rob;
 	}
 

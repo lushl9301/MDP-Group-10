@@ -103,7 +103,7 @@ public class Robot {
 	}
 	
 	public void setRTSensors(MapGrid map, JSONObject reading){
-
+		
 		// X,Y coordinates
 		int newX = Integer.valueOf(String.valueOf(reading.get("Y")))-1;
 		int newY = Integer.valueOf(String.valueOf(reading.get("X")))-1;
