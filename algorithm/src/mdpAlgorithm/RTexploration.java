@@ -39,7 +39,21 @@ public class RTexploration implements Runnable{
 		
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
-				
+		JSONObject reading = new JSONObject();
+//		reading.put("X", "9");
+//		reading.put("Y", "7");
+//		reading.put("direction", "2");
+//		
+//		Robot currentDir = new Robot(curStack.peek());
+//		currentDir = getPos(map, rob, reading);
+//
+//		if (currentDir != null) {
+//			curStack.push(currentDir);
+//		}
+//		else {
+//			currentDir = curStack.pop();
+//		}
+		
 		// instantiate connection to rpi
 		PCClient client = new PCClient("192.168.10.10", 8888);
 		try {
@@ -48,14 +62,14 @@ public class RTexploration implements Runnable{
 			//client.readInput();
 
 			String status;
-			HashMap<String, String> reading;
+			//JSONObject reading;
 			do {  // get inputs while exploration is still not completed
 
 				// handles type : status data
-				HashMap<String, String> input = client.receiveJSON();
+				JSONObject input = client.receiveJSON();
 				
-				if(input.get("type").equals("status")) {
-					status = input.get("data");
+				if(String.valueOf(input.get("type")).equals("status")) {
+					status = String.valueOf(input.get("data"));
 					if(status != null) {
 						System.out.println(status);
 						
@@ -67,17 +81,22 @@ public class RTexploration implements Runnable{
 					}
 				}
 				// handles type : readings data
-				else if(input.get("type").equals("reading")) {
-					reading = (JSONObject) JSONValue.parse(input.get("data"));
+				else if(String.valueOf(input.get("type")).equals("reading")) {
+					reading = (JSONObject) input.get("data");
+					System.out.println("entering here");
 					
 					// push new position based on readings into stack
 					Robot currentDir = new Robot(curStack.peek());
-					getPos(map, rob, reading);
+					currentDir = getPos(map, rob, reading);
+
 					if (currentDir != null) {
 						curStack.push(currentDir);
 					}
+					else {
+						currentDir = curStack.pop();
+					}
 				}
-				
+								
 				// need to send explored map to android. send md1
 				client.sendJSON("map", map.getMapDesc());
 				
@@ -152,7 +171,7 @@ public class RTexploration implements Runnable{
 		}
 	}
 	
-	public Robot getPos(MapGrid map, Robot rob, HashMap<String, String> reading){
+	public Robot getPos(MapGrid map, Robot rob, JSONObject reading){
 		
 		// use readings and move robot
 		// update MapGrid.rtToConfirmObstacle as i am receiving readings (+1/ -1)
@@ -160,25 +179,28 @@ public class RTexploration implements Runnable{
 		// optional----------------------
 		// update md1 and md2 then get md3
 		// ------------------------------
-
+		
 		// X,Y coordinates
-		int newX = Integer.parseInt(reading.get("X"));
-		int newY = Integer.parseInt(reading.get("Y"));
+		int newX = Integer.valueOf(String.valueOf(reading.get("Y"))) -1;
+		int newY = Integer.valueOf(String.valueOf(reading.get("X"))) -1;
 		// robot orientation
-		String newOrientation = reading.get("direction");
-		String modNewOrientation;
+		String newOrientation = String.valueOf(reading.get("direction"));
+		String modNewOrientation = "";
+		
 		// change NESW to 1234
 		switch(newOrientation) {
 			case "1":
 				modNewOrientation = "N";
+				break;
 			case "2":
 				modNewOrientation = "E";
+				break;
 			case "3":
 				modNewOrientation = "S";
+				break;
 			case "4":
 				modNewOrientation = "W";
-			default:
-				modNewOrientation = "";
+				break;
 		}
 		
 		// check if orientation is different. if different, rotate.

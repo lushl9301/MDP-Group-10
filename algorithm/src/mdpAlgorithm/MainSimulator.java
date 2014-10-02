@@ -368,10 +368,13 @@ public class MainSimulator {
                 	map.setVisible(false);
                 	map2.setVisible(true);
                 	
-                	// create robot for real time map
-                	Robot rob2 = new Robot(map2);
+                	
                 	// instantiate rpi connection
+                	
                 	if(!rtThreadStarted) {
+                		// create robot for real time map
+                    	Robot rob2 = new Robot(map2);
+                    	
                 		rtThreadStarted = true;
 	                	rtExplore = new RTexploration(map2, rob2);
 	                	rtExploreThread = new Thread(rtExplore);

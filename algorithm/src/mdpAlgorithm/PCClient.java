@@ -45,9 +45,9 @@ class PCClient {
 		
 	}
 
-	public HashMap<String, String> receiveJSON() {
+	public JSONObject receiveJSON() {
 		String jsonString;
-		HashMap<String, String> map = null;
+		JSONObject map = null;
 		
 		 
 		try {

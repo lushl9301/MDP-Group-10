@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import javax.swing.BorderFactory;
 
+import org.json.simple.JSONObject;
+
 public class Robot {
 	private static final Color ROBOT = new Color(153, 204, 255);
 	private static final Color FRONTROBOT = new Color(146, 208, 80);
@@ -53,7 +55,7 @@ public class Robot {
 	}
 	
 	private void initRobot(MapGrid map) {
-		HashMap<String,String> fakeHash = new HashMap<String,String>();
+		JSONObject fakeHash = new JSONObject();
 		setRobotXY(map, 7, 9, "ExploreStart", "N", fakeHash); // 7,9 top left of robot
 		robotX = 7;
 		robotY = 9;
@@ -61,7 +63,7 @@ public class Robot {
 		rCount = 0;
 	}
 	
-	public void setRobotXY(MapGrid map, int x, int y, String text, String orientation, HashMap<String, String> reading) {
+	public void setRobotXY(MapGrid map, int x, int y, String text, String orientation, JSONObject reading) {
 		robotX = x;
 		robotY = y;
 		robotOrientation = orientation;
@@ -74,7 +76,7 @@ public class Robot {
 				}
 			}
 		}
-
+		
 		switch(orientation) {
 			case "N": 
 				if(map.grid[x][y+1].getBackground() != OBSTACLE)
@@ -95,35 +97,38 @@ public class Robot {
 		}
 		if(map.getName().equals("map"))
 			setSensors(map);
-		else if(map.getName().equals("map2"))
-			setRTSensors(map, reading);
+		else if(map.getName().equals("map2") && reading != null) {
+			//setRTSensors(map, reading);
+		}
 	}
 	
-	public void setRTSensors(MapGrid map, HashMap<String, String> reading){
+	public void setRTSensors(MapGrid map, JSONObject reading){
 
+		
 		// X,Y coordinates
-				int newX = Integer.parseInt(reading.get("Y"))-1;
-				int newY = Integer.parseInt(reading.get("X"))-1;
+		
+				int newX = Integer.valueOf(String.valueOf(reading.get("Y")))-1;
+				int newY = Integer.valueOf(String.valueOf(reading.get("X")))-1;
 				
 				// front sensors
-				int U_F = Integer.parseInt(reading.get("U_F"));
-				int short_LF = Integer.parseInt(reading.get("short_LF"));
-				int short_RF = Integer.parseInt(reading.get("short_RF"));
+				int U_F = Integer.valueOf(String.valueOf(reading.get("U_F")));
+				int short_LF = Integer.valueOf(String.valueOf(reading.get("short_LF")));
+				int short_RF = Integer.valueOf(String.valueOf(reading.get("short_RF")));
 				short_LF = short_LF - 10; // -5 for sensor to end of robot, -5 for robot to outermost grid line
 				short_RF = short_RF - 10; // -5 for sensor to end of robot, -5 for robot to outermost grid line
 				
 				//left sensors
-				int U_L = Integer.parseInt(reading.get("U_L"));
-				int long_BL = Integer.parseInt(reading.get("long_BL"));
+				int U_L = Integer.valueOf(String.valueOf(reading.get("U_L")));
+				int long_BL = Integer.valueOf(String.valueOf(reading.get("long_BL")));
 				long_BL = long_BL - 20; // -15 for sensor to end of robot, -5 for robot to outermost grid line
 				
 				// right sensors
-				int short_FR = Integer.parseInt(reading.get("short_FR"));
-				int U_R = Integer.parseInt(reading.get("U_R"));
+				int short_FR = Integer.valueOf(String.valueOf(reading.get("short_FR")));
+				int U_R = Integer.valueOf(String.valueOf(reading.get("U_R")));
 				short_FR = short_FR - 10; // -5 for sensor to end of robot, -5 for robot to outermost grid line
 				
 				// robot orientation
-				String newOrientation = reading.get("direction");
+				String newOrientation = String.valueOf(reading.get("direction"));
 				
 				switch(newOrientation) {
 					case "1":
@@ -906,6 +911,7 @@ public class Robot {
 						}
 						break;
 					}
+
 	}
 	
 	public void setSensors(MapGrid map){
@@ -1343,7 +1349,7 @@ public class Robot {
 
 	}
 	
-	public void moveRobot(HashMap<String,String> reading, MapGrid map, int noOfSteps) {
+	public void moveRobot(JSONObject reading, MapGrid map, int noOfSteps) {
 		int x = this.getX();
 		int y = this.getY();
 		String orientation = this.getOrientation();
@@ -1363,7 +1369,7 @@ public class Robot {
 					break;
 			}
 			if(map.getName().equals("map")) {
-				HashMap<String,String> fakeHash = new HashMap<String,String>();
+				JSONObject fakeHash = new JSONObject();
 				setRobotXY(map, x, y, "Move", orientation, fakeHash);
 			}
 			else {
@@ -1374,9 +1380,9 @@ public class Robot {
 		}
 	}
 	
-	public void rotateRobot(HashMap<String,String> reading, MapGrid map, String turnWhere) {
+	public void rotateRobot(JSONObject reading, MapGrid map, String turnWhere) {
 		if(map.getName().equals("map")) {
-			HashMap<String,String> fakeHash = new HashMap<String,String>();
+			JSONObject fakeHash = new JSONObject();
 			setRobotXY(map, this.getX(), this.getY(), "Rotate", turnWhere, fakeHash);
 		}
 		else {

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Stack;
 
+import org.json.simple.JSONObject;
+
 public class Exploration implements Runnable {
 	private static final Color OBSTACLE = Color.RED;
 	private static final Color WALL = new Color(160, 80, 70);
@@ -24,7 +26,7 @@ public class Exploration implements Runnable {
 	private boolean traversing = false;
 	private String previousDirection = "";
 	public boolean completed;
-	private HashMap<String,String> fakeHash = new HashMap<String,String>();
+	private JSONObject fakeHash = new JSONObject();
 	
 	public Exploration(MapGrid map, Robot rob, int sleeptime, double percentage) {
 		this.rob = rob;
