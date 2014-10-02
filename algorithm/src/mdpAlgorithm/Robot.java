@@ -91,7 +91,17 @@ public class Robot {
 					map.grid[x+1][y].setBackground(FRONTROBOT);
 				break;		
 		}
-		setSensors(map);
+		if(map.getName().equals("map"))
+			setSensors(map);
+		else if(map.getName().equals("map2"))
+			setRTSensors(map);
+	}
+	
+	public void setRTSensors(MapGrid map){
+		int x = this.getX();
+		int y = this.getY();
+		String orientation = this.getOrientation();
+
 	}
 	
 	public void setSensors(MapGrid map){

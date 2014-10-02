@@ -58,7 +58,7 @@ class PCClient {
 			
 			// TODO: might have queue of JSON here
 				map = (JSONObject) JSONValue.parse(jsonString);
-				//System.out.println("Received: "+ map.toString());
+				System.out.println("Received: "+ map.toString());
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
