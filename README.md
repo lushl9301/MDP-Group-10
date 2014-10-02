@@ -64,8 +64,8 @@
 ```
 {
 	type: "command" / "movement"
-	data (command)	: "S" (initiate robot) / "E" (exploration) / "P" (shortest path) / "R" (remote-control) / "G" (stop)
-	data (movement)	: "LRL4RRL"
+	data (command)	: "S" (initiate robot) / "E" (exploration) / "P" (shortest path) / "R" (remote-control)
+	data (movement)	: "LRL4RRL" / "G" (stop)
 }
 ```
 ####Sent from RPi
