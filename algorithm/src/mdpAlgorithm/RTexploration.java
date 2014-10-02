@@ -55,8 +55,8 @@ public class RTexploration implements Runnable{
 		int U_R = 50;
 		
 		do {
-			reading.put("X", 10+testx);
-			reading.put("Y", "8");
+			reading.put("X", 10);
+			reading.put("Y", 8+testx);
 			reading.put("U_F", U_F);
 			reading.put("short_LF", short_LF);
 			reading.put("short_RF", short_RF);
@@ -64,10 +64,15 @@ public class RTexploration implements Runnable{
 			reading.put("long_BL", long_BL);
 			reading.put("short_FR", short_FR);
 			reading.put("U_R", U_R);			
+			reading.put("direction", "1");
+//			if (testx > 2) {
+//				reading.put("direction", "2");
+//			}
+//			else {
+//				reading.put("direction", "1");
+//			}
 			
-			if (testx > 2) reading.put("direction", "2");
-			else reading.put("direction", "1");
-
+			
 			Robot currentDir = new Robot(curStack.peek());
 			currentDir = getPos(map, rob, reading);
 
@@ -78,7 +83,7 @@ public class RTexploration implements Runnable{
 				currentDir = curStack.pop();
 			}
 			testx++;
-		}while(testx<5);
+		}while(testx<1);
 
 		
 		// instantiate connection to rpi
