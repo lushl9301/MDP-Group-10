@@ -123,6 +123,7 @@ public class Exploration implements Runnable {
 		}
 		
 		//To print the real-time robot's MD3 with regards to sensor sensing the obs		
+		// print in map descriptor style
 		int[][] mapDesc4 = map.getMapDescRealTime();
 		for(int i = 0; i < 20; i++) {	
 			for (int j = 0; j< 15; j++) {
@@ -130,6 +131,16 @@ public class Exploration implements Runnable {
 			}
 			System.out.println();
 		}
+		
+		// print in map style
+//		String stringMd3 = "";
+//		for (int j = 0; j< 15; j++) {
+//			for(int i = 0; i < 20; i++) {	
+//				stringMd3 += mapDesc3[j][i];
+//			}
+//			stringMd3 += "\n";
+//		}
+//		System.out.print(stringMd3);
 		
 	}
 	

@@ -79,6 +79,7 @@ public class RTexploration implements Runnable{
 				}
 				
 				// need to send explored map to android. send md1
+				client.sendJSON("map", map.getMapDesc());
 				
 			} while (!rtCompleted);
 			
@@ -95,15 +96,18 @@ public class RTexploration implements Runnable{
 //				System.out.println();
 //			}	
 			
+			// convert to string
+			String stringMd3 = ""; 
+			for (int j = 0; j< 15; j++) {
+				for(int i = 0; i < 20; i++) {	
+					stringMd3 += mapDesc3[j][i];
+				}
+				//stringMd3 += "\n";
+			}
 			
 			// send rpi md3 to send to android
+			client.sendJSON("map", stringMd3);
 
-
-			
-			
-			//client.sendJSON("map", mapDesc3);
-			
-			
 			int whichCounter = 0;
 			int midCounter = 0;
 			String[] midroute = new String[300];
