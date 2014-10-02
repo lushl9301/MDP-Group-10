@@ -15,7 +15,7 @@ def modeReading():
         data_y = stdin.readline().strip()
         print "input direction: "
         data_direction = stdin.readline().strip()
-        data_data = {"x": data_x, "y": data_y, "direction": data_direction}
+        data_data = {"X": data_x, "Y": data_y, "direction": data_direction}
         data = {"type": "reading", "data": data_data}
         print ">>>>>>> SENDING >>>>>>>"
         json_string = json.dumps(data)
