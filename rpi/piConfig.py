@@ -1,6 +1,5 @@
 # imports
 import json
-import errno
 
 # CONSTANTS #
 
@@ -15,8 +14,8 @@ ST_END_PATH = "END_PATH"
 ST_END_REMOTE = "END_RMT"
 
 # json
-JSON_START = {"type": "START", "data": "S"}
-JSON_STOP = {"type": "STOP", "data": "G"}  # currently not used by rpi
+JSON_START = {"type": "command", "data": "S"}
+JSON_STOP = {"type": "movement", "data": "G"}  # currently not used by rpi
 
 # network
 WIFI_IP = "192.168.10.10"
