@@ -37,12 +37,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/func_1" 
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="125dp"
         android:layout_marginLeft="100dp"
      />
 
     <EditText
-        android:id="@+id/fun_1_text"
+        android:id="@+id/fun_1a_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/func_1"
@@ -51,15 +51,35 @@
         android:layout_marginLeft="150dp"
         android:ems="15"
         android:inputType="text" />
+    
+    <EditText
+        android:id="@+id/fun_1b_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fun_1a_text"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="250dp"
+        android:ems="15"
+        android:inputType="text" />
 
     <EditText
-        android:id="@+id/fun_2_text"
+        android:id="@+id/fun_2a_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/func_2"
-        android:layout_below="@+id/fun_1_text"
-        android:layout_marginTop="30dp"
+        android:layout_below="@+id/fun_1b_text"
+        android:layout_marginTop="40dp"
         android:layout_marginLeft="150dp"
+        android:ems="15"
+        android:inputType="text" />
+     <EditText
+        android:id="@+id/fun_2b_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        android:layout_below="@+id/fun_2a_text"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="250dp"
         android:ems="15"
         android:inputType="text" />
 
@@ -102,7 +122,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="100dp"
-        android:layout_below="@+id/func_2"
+        android:layout_below="@+id/fun_2b_text"
         android:onClick="save"
         android:text="@string/saveBtn" />
 
@@ -112,7 +132,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginLeft="120dp"
-        android:layout_below="@+id/func_2"
+        android:layout_below="@+id/fun_2b_text"
         android:layout_toRightOf="@+id/save_btn"
         android:onClick="load"
         android:text="@string/loadBtn" />

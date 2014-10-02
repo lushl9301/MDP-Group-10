@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 	
 	//Shared Preferences
 	public static final String DEFAULT="N/A";
-	String f1, f2;
+	String f1, f2, f1b,f2b;
 
 	// Message types sent from the Bluetooth Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
@@ -175,14 +175,18 @@ public class MainActivity extends Activity {
 		f1Button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				sendMessage(f1);
+				//sendMessage(f1);
+				//sendMessage(f1b);
+				sendMessage(JsonObj.sendJson(f1, f1b));
 			}		
 		});
 		
 		f2Button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				sendMessage(f2);
+				//sendMessage(f2);
+				//sendMessage(f2b);
+				sendMessage(JsonObj.sendJson(f2, f2b));
 			}		
 		});
     	exploreButton.setOnClickListener(new OnClickListener(){
@@ -255,6 +259,25 @@ public class MainActivity extends Activity {
 				map.resetMap(); //to reset map
 			}
     	});
+
+    	gv.setOnTouchListener(new OnSwipeTouchListener(this) {
+    	    public void onSwipeTop() {
+			map.moveForwardMap();
+    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+    	    }
+    	    public void onSwipeRight() {
+			map.turnRightMap();
+    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+    	    }
+    	    public void onSwipeLeft() {
+				map.turnLeftMap();
+    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+    	    }
+    	    public void onSwipeBottom() {
+			map.moveDownMap();
+    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+    	    }
+    	});
 		
 	}
 
@@ -305,7 +328,9 @@ public class MainActivity extends Activity {
 		SharedPreferences sp = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 		f1 = sp.getString("Function1", DEFAULT);
 		f2 = sp.getString("Function2", DEFAULT);
-		if(f1.equals(DEFAULT) || f2.equals(DEFAULT)){
+		f1b = sp.getString("Function1b", DEFAULT);
+		f2b = sp.getString("Function2b", DEFAULT);
+		if(f1.equals(DEFAULT) || f2.equals(DEFAULT)||f1b.equals(DEFAULT) || f2b.equals(DEFAULT)){
 			Toast.makeText(this, "No Function Data Found", Toast.LENGTH_SHORT).show();
 		}else{
 			Toast.makeText(this, "Function Loaded", Toast.LENGTH_SHORT).show();
@@ -437,11 +462,11 @@ public class MainActivity extends Activity {
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				//JsonObj.recJson(readMessage);				
-				JsonObj.amdString(readMessage);
+				JsonObj.recJson(readMessage);				
+				//JsonObj.amdString(readMessage);
 				map.getRobot().setPosition(JsonObj.position);
 				map.plotObsAuto(JsonObj.array2D);
-				Log.i("Tag", ""+JsonObj.dir);
+				//Log.i("Tag", ""+JsonObj.dir);
 				map.getRobot().setDirection(JsonObj.dir);
 				if (JsonObj.dir==3)
 				{
@@ -460,6 +485,12 @@ public class MainActivity extends Activity {
 					map.setWest(JsonObj.position);
 				}
 				
+				if (JsonObj.words.equals("END_EXP")|| JsonObj.words.equals("END_PATH")){
+					startButton.setChecked(false);
+					timeSwapBuff += timeInMilliseconds;
+			    	customHandler.removeCallbacks(updateTimerThread);
+			    	timeSwapBuff = 0;
+				}
 				
 				setStatus(getString(R.string.title_connected_to,
 						mConnectedDeviceName) + readMessage);
@@ -630,7 +661,7 @@ public class MainActivity extends Activity {
 	    	timerVal.setVisibility(View.VISIBLE);
 	    	startButton.setVisibility(View.VISIBLE);
 	    	
-	    	sendMessage(JsonObj.sendJson("command", "G"));
+	    	sendMessage(JsonObj.sendJson("movement", "G"));
 	    	
 	    } else {
 	    	//manual mode
@@ -655,9 +686,8 @@ public class MainActivity extends Activity {
 	    boolean on = ((ToggleButton) view).isChecked();
 	    
 	    if (on) {
-	    	//do something to end run?
-	    	// end timer
-	    	timer = new Timer();
+	    	
+	    	//timer = new Timer();
 	    	
 	    	//end timer
 	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
@@ -691,12 +721,12 @@ public class MainActivity extends Activity {
 	    } else {
 	    	//get something to say it is explore/shortest path
 	    	//then when start is pressed then start the activity
-	    	sendMessage(JsonObj.sendJson("command", "G"));
+	    	sendMessage(JsonObj.sendJson("movement", "G"));
 	    	timeSwapBuff += timeInMilliseconds;
 	    	customHandler.removeCallbacks(updateTimerThread);
 	    	timeSwapBuff = 0;
-	    	timer.cancel();
-			timer.purge();
+	    	//timer.cancel();
+			//timer.purge();
 	    }
 	}
 	
