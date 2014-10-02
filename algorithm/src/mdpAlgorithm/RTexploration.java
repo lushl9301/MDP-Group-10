@@ -98,25 +98,7 @@ public class RTexploration implements Runnable{
 		// ------------------------------
 
 		
-		// X,Y coordinates
-		int newX = Integer.parseInt(reading.get("X"));
-		int newY = Integer.parseInt(reading.get("Y"));
-		
-		// front sensors
-		int U_F = Integer.parseInt(reading.get("U_F"));
-		int short_LF = Integer.parseInt(reading.get("short_LF"));
-		int short_RF = Integer.parseInt(reading.get("short_RF"));
-		
-		//left sensors
-		int U_L = Integer.parseInt(reading.get("U_L"));
-		int long_BL = Integer.parseInt(reading.get("long_BL"));
-		
-		// right sensors
-		int short_FR = Integer.parseInt(reading.get("short_FR"));
-		int U_R = Integer.parseInt(reading.get("U_R"));
-		
-		// robot orientation
-		String orientation = reading.get("direction");
+		rob.setRTSensors(map, reading);
 		
 		
 		
