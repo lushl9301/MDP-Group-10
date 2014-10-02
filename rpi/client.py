@@ -18,6 +18,7 @@ def modeReading():
         data_data = {"X": data_x, "Y": data_y, "direction": data_direction}
         data = {"type": "reading", "data": data_data}
         print ">>>>>>> SENDING >>>>>>>"
+        f.write(json.dumps(data, indent=4)+"\n")
         json_string = json.dumps(data)
         sock.send(json_string + "\n")
 
