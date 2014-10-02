@@ -19,12 +19,21 @@ class arduinoThread(threading.Thread):
             self.mainthread = mainThread
 
         def send(self, json_data):
+            if self.piArduino is None:
+                print "Cannot send data to robot. Robot is gone"
+                return
             self.piArduino.send(json_data)
 
         def sendStart(self):
+            if self.piArduino is None:
+                print "Cannot send START to robot. Robot is gone"
+                return
             self.piArduino.send(JSON_START)
 
         def sendStop(self):
+            if self.piArduino is None:
+                print "Cannot send STOP to robot. Robot is gone"
+                return
             self.piArduino.send(JSON_STOP)
 
         def run(self):
@@ -42,6 +51,9 @@ class arduinoThread(threading.Thread):
 
 
 class piArduino:
+
+    sensorLog = None
+
     def __init__(self):
         while 1:
             try:
@@ -56,6 +68,8 @@ class piArduino:
     def send(self, json_data):
         command = json_data["data"]
         try:
+            if command == "E":
+                self.sensorLog = open("sensor.log", "w")
             self.ser.write(command)
             print "Send to Arduino: " + command
         except AttributeError:
@@ -67,12 +81,14 @@ class piArduino:
             json_string = self.ser.readline().strip()
             try:
                 json_data = json.loads(json_string)
-                print "[ From Arduino receive: " + str(json_data) + " ]"
+                if (json_data["type"] == "reading"):
+                    logJSON(json_data, self.sensorLog)
+                elif (json_data["data"] == "END_EXP"):
+                    self.sensorLog.close()
+                print "ROBOT:\n" + json.dumps(json_data, indent=4) + "\n"
                 return json_data
             except ValueError:
-                # print "ERROR: decoding JSON from arduino. " + e.message
                 print "From robot: " + json_string
                 pass
-        except SerialException:
-            print "Disconnected from Arduino"
+        except (serial.SerialException, AttributeError):
             pass
