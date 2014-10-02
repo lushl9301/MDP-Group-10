@@ -28,6 +28,7 @@ public class RTexploration implements Runnable{
 	public MapGrid map;
 	public Robot rob;
 	public boolean rtCompleted;
+	private JSONObject fakeHash = new JSONObject();
 	
 	public RTexploration(MapGrid map, Robot rob) {
 		this.rob = rob;
@@ -40,20 +41,20 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-		int testx = 0;
+		int testx = -1;
 		
 		//front sensors
 		int U_F = 50;
-		int short_LF = 21;
-		int short_RF = 21;
+		int short_LF = 60;
+		int short_RF = 60;
 		//left sensors
 		int U_L = 50;
-		int long_BL = 22;
+		int long_BL = 80;
 
 		// right sensors
-		int short_FR = 21;
+		int short_FR = 60;
 		int U_R = 50;
-		
+
 		do {
 			reading.put("X", 10);
 			reading.put("Y", 8+testx);
@@ -71,8 +72,7 @@ public class RTexploration implements Runnable{
 //			else {
 //				reading.put("direction", "1");
 //			}
-			
-			
+
 			Robot currentDir = new Robot(curStack.peek());
 			currentDir = getPos(map, rob, reading);
 
@@ -82,8 +82,9 @@ public class RTexploration implements Runnable{
 			else {
 				currentDir = curStack.pop();
 			}
-			testx++;
-		}while(testx<1);
+			testx--;
+			System.out.println(rob.getX() +", "+rob.getY());
+		}while(testx>-3);
 
 		
 		// instantiate connection to rpi
@@ -201,6 +202,18 @@ public class RTexploration implements Runnable{
 			MainSimulator.rtThreadStarted = false;
 			System.err.println("Cannot establish connection. "+e.getMessage());
 		}
+	}
+	
+	public Robot firstDelay(MapGrid map, Robot rob, int sleeptime, JSONObject reading) {
+		map.mapDescriptor1 = new int[15][20];
+		rob.moveRobot(reading, map, 0);
+		try {
+			Thread.sleep(sleeptime);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rob;
 	}
 	
 	public Robot getPos(MapGrid map, Robot rob, JSONObject reading){
