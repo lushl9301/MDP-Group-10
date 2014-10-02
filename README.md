@@ -36,12 +36,16 @@
     - [ ] ...
 
 ####Algo & Simulator team
-- [ ] B1. Arena exploration simulator
-- [ ] B2. Fastest path computation simulator
-    - [ ] Algorithm
-    - [ ] ...
-- [ ] B3. Generate map descriptor
-- [ ] B4. Time and coverage-limited exploration simulation
+- [x] B1. Arena exploration simulator
+- [x] B2. Time and coverage-limited exploration simulation
+- [x] B3. Load map generator
+- [x] B4. Generate map descriptor
+    - [x] hexString MD1 & MD2
+    - [x] MD3 checkObstacle for simulator
+    - [x] MD3 checkObstacle for real-time robot
+- [x] B5. Fastest path computation simulator
+    - [x] Djikstra (BFS)
+    - [x] String path to pass on to RPi
 - [ ] B5. Extension beyond the basics
 
 ####Android Team
