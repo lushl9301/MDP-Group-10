@@ -65,6 +65,7 @@
         android:layout_height="60dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/gllayout"
+        android:layout_marginTop="0dp"
         android:background="#cccccc"
         android:gravity="center"
         android:maxLines="10"
