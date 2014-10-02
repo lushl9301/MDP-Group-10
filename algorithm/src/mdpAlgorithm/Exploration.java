@@ -106,28 +106,29 @@ public class Exploration implements Runnable {
 			if (completed) rob.rotateRobot(map, "E");
 		} while(!pathTravelled.isEmpty() && !completed);
 		
-		
-		
+		// To print the hex values of the MD1 & MD2
 		System.out.println(map.getMapDesc());
 		System.out.println(map.getMapDesc2());
 		System.out.println();
 
-		/* To print the simulator's MD3
-		 * 
+		//To print the simulator's MD3
 		int[][] mapDesc3 = map.getMapDesc3Testing(map.getMapDesc(), map.getMapDesc2());
 		for(int i = 0; i < 20; i++) {	
 			for (int j = 0; j< 15; j++) {
-
 				System.out.print(mapDesc3[j][i]);
 			}
 			System.out.println();
 		}
-		*/
 		
-		/* To print the real-time robot's MD3 with regards to sensor sensing the obs
-		 * 
-		System.out.println(map.getMapDescRealTime());
-		*/
+		//To print the real-time robot's MD3 with regards to sensor sensing the obs		
+		int[][] mapDesc4 = map.getMapDescRealTime();
+		for(int i = 0; i < 20; i++) {	
+			for (int j = 0; j< 15; j++) {
+				System.out.print(mapDesc4[j][i]);
+			}
+			System.out.println();
+		}	
+		
 	}
 	
 	public void checkCompleted(MapGrid map, double percentage) {
@@ -207,8 +208,6 @@ public class Exploration implements Runnable {
 			distanceToWestObs = 1;
 		}
 		
-		
-		
 		// Check whether there is an obstacle 3 grids away on south (SOUTH)
 		if (map.grid[x+5][y].getBackground() == OBSTACLE || map.grid[x+5][y+1].getBackground() == OBSTACLE || map.grid[x+5][y+2].getBackground() == OBSTACLE) {
 			distanceToSouthObs = 3;
@@ -219,9 +218,7 @@ public class Exploration implements Runnable {
 		if (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE) {
 			distanceToSouthObs = 1;
 		}
-		
-		
-		
+
 		// Check whether there is an obstacle 3 grids away on right	(EAST)
 		if (map.grid[x][y+5].getBackground() == OBSTACLE || map.grid[x+1][y+5].getBackground() == OBSTACLE || map.grid[x+2][y+5].getBackground() == OBSTACLE) {
 			distanceToEastObs = 3;
@@ -234,7 +231,6 @@ public class Exploration implements Runnable {
 		}
 		
 			
-		
 		if (distanceToNorthObs>=distanceToSouthObs && distanceToNorthObs>=distanceToWestObs && distanceToNorthObs>=distanceToEastObs){
 			rob.rotateRobot(map, "N"); 
 			previousDirection = "N";
