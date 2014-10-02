@@ -75,11 +75,11 @@ class piBT:
         print "Accepted BT connection from ", self.client_info
 
         # instantiate file buffer for receival
-        if self.conn is not None:
+        if self.client_sock is not None:
             self.buff = self.client_sock.makefile("r")
 
     def receive(self):
-        if self.conn is None:
+        if self.client_sock is None:
             return
         return receiveJSON(self.buff, "BT")
 

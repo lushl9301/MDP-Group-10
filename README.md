@@ -13,9 +13,9 @@
     - [ ] PC Java connection testing
     - [ ] dropped connection from PC testing
     - [ ] dropped connection from Android testing
-    - [ ] no initial connection from Arduino testing
+    - [X] no initial connection from Arduino testing
     - FLOW TESTING
-    - [ ] remote control testing
+    - [X] remote control testing
     - [ ] exploration testing
     - [ ] shortest path testing
 
@@ -64,8 +64,8 @@
 ```
 {
 	type: "command" / "movement"
-	data (command)	: "S" (initiate robot) / "E" (exploration) / "P" (shortest path) / "R" (remote-control) / "G" (stop)
-	data (movement)	: "LRL4RRL"
+	data (command)	: "S" (initiate robot) / "E" (exploration) / "P" (shortest path) / "R" (remote-control)
+	data (movement)	: "LRL4RRL" / "G" (stop)
 }
 ```
 ####Sent from RPi

@@ -14,8 +14,8 @@ ST_END_PATH = "END_PATH"
 ST_END_REMOTE = "END_RMT"
 
 # json
-JSON_START = {"type": "START", "data": "S"}
-JSON_STOP = {"type": "STOP", "data": "G"}  # currently not used by rpi
+JSON_START = {"type": "command", "data": "S"}
+JSON_STOP = {"type": "movement", "data": "G"}  # currently not used by rpi
 
 # network
 WIFI_IP = "192.168.10.10"
@@ -30,12 +30,16 @@ SEMAPHORE_BUF = 3
 
 
 def receiveJSON(buff, senderName):
-        json_string = buff.readline().strip()
+        json_string = buff.readline()
+        if json_string is None:
+            return None
         try:
-            json_data = json.loads(json_string)
+            json_data = json.loads(json_string.strip())
             print "JSON from " + senderName + ": " + str(json_string)
             return json_data
         except ValueError:
+            if json_string is None:
+                raise IOError()
             print "string from " + senderName + ": " + str(json_string)
             pass
 

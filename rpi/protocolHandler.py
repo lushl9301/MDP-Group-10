@@ -15,39 +15,51 @@ class protocolHandler:
                    "status": self.sendStatus,
                    "movement": self.doMovement
                    }
-        try:
-            if options.get(json_data["type"]):
-                return options[json_data["type"]](json_data, lock)
-            else:
-                print "ERROR: invalid JSON type key"
-        except Exception:
-            print "Invalid JSON"
-            pass
+        if options.get(json_data["type"]):
+            return options[json_data["type"]](json_data, lock)
+        else:
+            print "ERROR: invalid JSON type key"
 
     def sendCommand(self, json_data, lock):
         if json_data["data"] == CMD_START_EXP:
+            # start robot
             lock.acquire()
             self.robot.sendStart()
             lock.release()
+
+            # inform PC
+            lock.acquire()
+            self.pc.send(json_data)
+            lock.release()
+
+            # begin exp
             lock.acquire()
             self.robot.send(json_data)
             lock.release()
             print "..starting exploration.."
         elif json_data["data"] == CMD_START_PATH:
+            # start robot
             lock.acquire()
             self.robot.sendStart()
             lock.release()
-            lock.acquire()
-            self.robot.send(json_data)
+
+            # inform PC
             lock.acquire()
             self.pc.send(json_data)
             lock.release()
+
+            # begin shortest path
+            lock.acquire()
+            self.robot.send(json_data)
             lock.release()
             print "..starting shortest path.."
         elif json_data["data"] == CMD_START_REMOTE:
+            # start robot
             lock.acquire()
             self.robot.sendStart()
             lock.release()
+
+            # begin remote control
             lock.acquire()
             self.robot.send(json_data)
             lock.release()
@@ -57,10 +69,11 @@ class protocolHandler:
     def sendReading(self, json_data, lock):
         lock.acquire()
         self.pc.send(json_data)
+        lock.release()
         print "..sending robot data to PC.."
+
         lock.acquire()
         self.android.send(json_data)
-        lock.release()
         lock.release()
         print "..sending robot data to Android.."
 
@@ -75,11 +88,16 @@ class protocolHandler:
             lock.acquire()
             self.pc.send(json_data)
             lock.release()
+
             lock.acquire()
             self.android.send(json_data)
             lock.release()
             print "..sending end exploration.."
         elif json_data["data"] == ST_END_PATH:
+            lock.acquire()
+            self.pc.send(json_data)
+            lock.release()
+
             lock.acquire()
             self.android.send(json_data)
             lock.release()
