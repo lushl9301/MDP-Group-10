@@ -44,6 +44,9 @@ def receiveJSON(buff, senderName):
             pass
 
 
+def logJSON(json_data, file):
+    file.write(json.dumps(json_data, indent=4)+"\n")
+
 
 # unused methods
 
@@ -57,7 +60,6 @@ def receiveJSON(buff, senderName):
 #             data += buff
 #             if buff == "}":  # detects the end of a JSON in buffer
 #                 completeJSON = True
-#         # TODO: add catch block if decoding fails
 #         json_data = json.loads(data)
 #         print "Receive From Wifi: " + str(data)
 #         return json_data
@@ -74,7 +76,6 @@ def receiveJSON(buff, senderName):
 #             data += buff
 #             if buff == '}':  # detects the end of a JSON in buffer
 #                 completeJSON = True
-#         # TODO: add catch block if decoding fails
 #         json_data = json.loads(data)
 #         if completeJSON:
 #             print "Received From Bluetooth: " + str(data)
