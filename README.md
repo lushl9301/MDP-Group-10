@@ -47,9 +47,9 @@
 ####Android Team
 - [x] C1. The Android application (AA) is able to transmit and receive text strings over the Bluetooth serial communication link.
 - [x] C2. Functional graphical user interface (GUI) that is able to initiate the scanning, selection and connection with a Bluetooth device.
-- [ ] C3. Functional GUI that provides interactive control of the robot movement via the Bluetooth link
+- [x] C3. Functional GUI that provides interactive control of the robot movement via the Bluetooth link
 - [x] C4. Functional GUI that indicates the current status of the robot
-- [ ] C5. 2D display of the maze environment and the robot’s location
+- [x] C5. 2D display of the maze environment and the robot’s location
 - [x] C6. Functional GUI that provides the selection of Manual or Auto updating of graphical display of the maze environment
 - [x] C7. Functional GUI that provides two buttons that supports persistent user reconfigurable string commands to the robot
 - [x] C8. Robust connectivity with Bluetooth device
