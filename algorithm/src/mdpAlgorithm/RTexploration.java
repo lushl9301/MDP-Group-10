@@ -55,8 +55,8 @@ public class RTexploration implements Runnable{
 		int U_R = 50;
 		
 		do {
-			reading.put("X", 9+testx);
-			reading.put("Y", "7");
+			reading.put("X", 10+testx);
+			reading.put("Y", "8");
 			reading.put("U_F", U_F);
 			reading.put("short_LF", short_LF);
 			reading.put("short_RF", short_RF);
@@ -78,7 +78,7 @@ public class RTexploration implements Runnable{
 				currentDir = curStack.pop();
 			}
 			testx++;
-		}while(testx<8);
+		}while(testx<5);
 
 		
 		// instantiate connection to rpi
@@ -208,8 +208,8 @@ public class RTexploration implements Runnable{
 		// ------------------------------
 		
 		// X,Y coordinates
-		int newX = Integer.valueOf(String.valueOf(reading.get("Y"))) -1;
-		int newY = Integer.valueOf(String.valueOf(reading.get("X"))) -1;
+//		int newX = Integer.valueOf(String.valueOf(reading.get("Y"))) -1;
+//		int newY = Integer.valueOf(String.valueOf(reading.get("X"))) -1;
 		// robot orientation
 		String newOrientation = String.valueOf(reading.get("direction"));
 		String modNewOrientation = "";
