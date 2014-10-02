@@ -40,19 +40,26 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-//		reading.put("X", "9");
-//		reading.put("Y", "7");
-//		reading.put("direction", "2");
-//		
-//		Robot currentDir = new Robot(curStack.peek());
-//		currentDir = getPos(map, rob, reading);
+//		int testx = 0;
+//		do {
+//			reading.put("X", 9+testx);
+//			reading.put("Y", "7");
+//			
+//			if (testx > 2) reading.put("direction", "2");
+//			else reading.put("direction", "1");
+//			
+//			Robot currentDir = new Robot(curStack.peek());
+//			currentDir = getPos(map, rob, reading);
 //
-//		if (currentDir != null) {
-//			curStack.push(currentDir);
-//		}
-//		else {
-//			currentDir = curStack.pop();
-//		}
+//			if (currentDir != null) {
+//				curStack.push(currentDir);
+//			}
+//			else {
+//				currentDir = curStack.pop();
+//			}
+//			testx++;
+//		}while(testx<5);
+
 		
 		// instantiate connection to rpi
 		PCClient client = new PCClient("192.168.10.10", 8888);
@@ -211,7 +218,14 @@ public class RTexploration implements Runnable{
 		else  {
 			rob.moveRobot(reading, map, 1);
 		}
-
+		
+		// add delay if required
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return rob;
 	}
 
