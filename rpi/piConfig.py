@@ -38,7 +38,7 @@ def receiveJSON(buff, senderName):
             print "JSON from " + senderName + ": " + str(json_string)
             return json_data
         except ValueError:
-            if json_string is None:
+            if len(json_string) <= 0:
                 raise IOError()
             print "string from " + senderName + ": " + str(json_string)
             pass
