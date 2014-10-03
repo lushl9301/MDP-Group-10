@@ -48,8 +48,7 @@ class coreThread(threading.Thread):
             self.protocolHandler.decodeCommand(command, self.lock)
 
     def run(self):
-        # TODO: return back
-        while not self.wifi.isConnected():  # or not self.bt.isConnected():
+        while not self.wifi.isConnected() or not self.bt.isConnected():
             continue
 
         print "==========================="
@@ -58,8 +57,7 @@ class coreThread(threading.Thread):
 
         while 1:
             try:
-                # TODO: return back
-                if self.wifi.isConnected():  # and self.bt.isConnected():
+                if self.wifi.isConnected() and self.bt.isConnected():
                     self.processCommand()
             except Exception, e:
                 print "Unable to decode JSON: " + e.message
