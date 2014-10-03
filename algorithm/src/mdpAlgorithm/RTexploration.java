@@ -111,6 +111,56 @@ public class RTexploration implements Runnable{
 		}while(testx>-5);
 		
 		
+		do {
+			//short_LF -= 10;
+			
+			reading.put("X", 10+testx);
+			reading.put("Y", 8);
+			reading.put("direction", "2");
+			reading.put("U_F", U_F);
+			reading.put("short_LF", short_LF);
+			reading.put("short_RF", short_RF);
+			reading.put("U_L", U_L);
+			reading.put("long_BL", long_BL);
+			reading.put("short_FR", short_FR);
+			reading.put("U_R", U_R);			
+			
+//			if (testx < -2) {
+//				reading.put("direction", "2");
+//			}
+//			else {
+//				reading.put("direction", "1");
+//			}
+			
+			
+			Robot currentDir = new Robot(curStack.peek());
+			currentDir = getPos(map, rob, reading);
+
+			if (currentDir != null) {
+				curStack.push(currentDir);
+			}
+			else {
+				currentDir = curStack.pop();
+			}
+			testx++;
+			
+			for (int j = 0; j< 15; j++) {
+				for(int i = 0; i < 20; i++) {
+					if(map.toConfirmObstacle[j][i]>= 0)
+						System.out.print("[ "+map.toConfirmObstacle[j][i]+"]");
+					else
+						System.out.print("["+map.toConfirmObstacle[j][i]+"]");
+				}
+				System.out.println();
+			}
+			System.out.println();
+			short_LF -= 10;
+			//System.out.println(rob.getX() +", "+rob.getY());
+		}while(testx<6);
+		
+		
+		*/
+		/*
 		System.out.println("asdasdasd");
 		int[][] testtest = map.getMapDescRealTime();
 		for(int i = 0; i < 20; i++) {	
@@ -174,6 +224,17 @@ public class RTexploration implements Runnable{
 				// need to send explored map to android. send md1
 				client.sendJSON("map", map.getMapDesc());
 				
+				for (int j = 0; j< 15; j++) {
+					for(int i = 0; i < 20; i++) {
+						if(map.toConfirmObstacle[j][i]>= 0)
+							System.out.print("[ "+map.toConfirmObstacle[j][i]+"]");
+						else
+							System.out.print("["+map.toConfirmObstacle[j][i]+"]");
+					}
+					System.out.println();
+				}
+				System.out.println();
+				
 			} while (!rtCompleted);
 			
 			// after exploration is completed
@@ -182,10 +243,12 @@ public class RTexploration implements Runnable{
 			int[][] mapDesc3 = map.getMapDescRealTime();
 			
 			// set confirmed obstacles on the grid
-			for(int i = 1; i < 21; i++) {	
-				for (int j = 1; j< 16; j++) {
-					if(mapDesc3[j][i] == 2)
-						map.grid[j][i].setBackground(OBSTACLE);
+			for(int i = 0; i < 20; i++) {	
+				for (int j = 1; j< 15; j++) {
+					if(mapDesc3[j][i] == 2) {
+						map.grid[j+1][i+1].setBackground(OBSTACLE);
+						System.out.print(mapDesc3[j][i]);
+					}
 				}
 				System.out.println();
 			}
@@ -321,12 +384,12 @@ public class RTexploration implements Runnable{
 		}
 		
 		// add delay if required
-		try {
-			Thread.sleep(700);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(700);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return rob;
 	}
 
