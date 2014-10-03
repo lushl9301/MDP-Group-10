@@ -100,22 +100,31 @@ public class MapGrid extends JPanel {
 	}
 	
 	public void setMapDesc(int x, int y) {
-		mapDescriptor1[x-1][y-1] = 1;
-		mapDescriptor2[x-1][y-1] = "0";
-		toConfirmObstacle[x-1][y-1]--;
-		setMapDescLabel(x, y);
+		try {
+			mapDescriptor1[x-1][y-1] = 1;
+			mapDescriptor2[x-1][y-1] = "0";
+			toConfirmObstacle[x-1][y-1]--;
+			setMapDescLabel(x, y);
+		}
+		catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("tried to color wrong grid");
+		}
 	}
 	
 	
 	public void setMapDescObstacles(int x, int y) {
-		System.out.println("At X,Y: "+(x-1)+","+(y-1)+" "+toConfirmObstacle[x-1][y-1]);
-		mapDescriptor1[x-1][y-1] = 1;
-		mapDescriptor2[x-1][y-1] = "1";
-		toConfirmObstacle[x-1][y-1]++;
-		setMapDescLabelObstacles(x, y);
-		System.out.println("At X,Y: "+(x-1)+","+(y-1)+" "+toConfirmObstacle[x-1][y-1]);
+		try {
+			//System.out.println("At X,Y: "+(x-1)+","+(y-1)+" "+toConfirmObstacle[x-1][y-1]);
+			mapDescriptor1[x-1][y-1] = 1;
+			mapDescriptor2[x-1][y-1] = "1";
+			toConfirmObstacle[x-1][y-1]++;
+			setMapDescLabelObstacles(x, y);
+			//System.out.println("At X,Y: "+(x-1)+","+(y-1)+" "+toConfirmObstacle[x-1][y-1]);
+		}
+		catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("tried to color wrong grid");
+		}
 	}
-	
 	
 	public void setMapDescLabel(int x, int y) {
 		if(md1) {

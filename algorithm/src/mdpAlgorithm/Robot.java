@@ -1640,7 +1640,6 @@ public class Robot {
 				}
 				break;
 			}
-
 	}
 	
 	public void setSensors(MapGrid map){
