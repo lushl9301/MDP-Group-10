@@ -39,7 +39,7 @@ public class MapGrid extends JPanel {
 	// =========== method 2 for map descriptor ===========
 	int[][] mapDescriptor1 = new int[15][20];
 	String[][] mapDescriptor2 = new String[15][20];
-	int[][] toConfirmObstacle = new int[15][20];
+	public int[][] toConfirmObstacle = new int[15][20];
 
 	//	mapDescriptor1[14][0] = 1; // this represents grid (15,1)
 	//	mapDescriptor1[0][19] = 1; // this represents grid (1,20)
@@ -108,10 +108,12 @@ public class MapGrid extends JPanel {
 	
 	
 	public void setMapDescObstacles(int x, int y) {
+		System.out.println("At X,Y: "+(x-1)+","+(y-1)+" "+toConfirmObstacle[x-1][y-1]);
 		mapDescriptor1[x-1][y-1] = 1;
 		mapDescriptor2[x-1][y-1] = "1";
 		toConfirmObstacle[x-1][y-1]++;
 		setMapDescLabelObstacles(x, y);
+		System.out.println("At X,Y: "+(x-1)+","+(y-1)+" "+toConfirmObstacle[x-1][y-1]);
 	}
 	
 	

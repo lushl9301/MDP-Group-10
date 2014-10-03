@@ -98,7 +98,7 @@ public class Robot {
 		if(map.getName().equals("map"))
 			setSensors(map);
 		else if(map.getName().equals("map2") && reading.get("X") != null) {
-			//setRTSensors(map, reading);
+			setRTSensors(map, reading);
 		}
 	}
 	
@@ -137,7 +137,6 @@ public class Robot {
 					if (short_LF <= 10) { // 1st grid
 						if(!map.grid[newX-1][newY].getBackground().equals(WALL)) {
 						confirmObstacle(map, newX-1, newY);
-						map.setMapDesc(newX-1, newY);
 						}
 						else break;
 					}
@@ -146,7 +145,6 @@ public class Robot {
 						map.grid[newX-1][newY].setBackground(SENSOR);
 						map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY);
-						map.setMapDesc(newX-2, newY);
 					}
 					else if (short_LF > 20 && short_LF <= 30) { // 3rd grid
 						confirmObstacle(map, newX-3, newY);
@@ -156,7 +154,6 @@ public class Robot {
 						map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY);
 						map.setMapDesc(newX-2, newY);
-						map.setMapDesc(newX-3, newY);
 					}
 					else {
 						if(map.grid[newX-1][newY].getBackground().equals(WALL)) {
@@ -240,14 +237,12 @@ public class Robot {
 				else {
 					if (short_RF <= 10) { // 1st grid
 						confirmObstacle(map, newX-1, newY+2);
-						map.setMapDesc(newX-1, newY+2);
 					}
 					else if (short_RF > 10 && short_RF <= 20) { // 2nd grid
 						confirmObstacle(map, newX-2, newY+2);
 						map.grid[newX-1][newY+2].setBackground(SENSOR);
 						map.grid[newX-1][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY+2);
-						map.setMapDesc(newX-2, newY+2);
 					}
 					else if (short_RF > 20 && short_RF <= 30) { // 3rd grid
 						confirmObstacle(map, newX-3, newY+2);
@@ -257,7 +252,6 @@ public class Robot {
 						map.grid[newX-2][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY+2);
 						map.setMapDesc(newX-2, newY+2);
-						map.setMapDesc(newX-3, newY+2);
 					}
 					else {
 						if(map.grid[newX-1][newY+2].getBackground().equals(WALL)) {
@@ -295,14 +289,12 @@ public class Robot {
 				else {
 					if (long_BL <= 10) { // 1st grid
 						confirmObstacle(map, newX+2, newY-1);
-						map.setMapDesc(newX+2, newY-1);
 					}
 					else if (long_BL > 10 && long_BL <= 20) { // 2nd grid
 						confirmObstacle(map, newX+2, newY-2);
 						map.grid[newX+2][newY-1].setBackground(SENSOR);
 						map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+2, newY-1);
-						map.setMapDesc(newX+2, newY-2);
 					}
 					else if (long_BL > 20 && long_BL <= 30) { // 3rd grid
 						confirmObstacle(map, newX+2, newY-3);
@@ -312,7 +304,6 @@ public class Robot {
 						map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+2, newY-1);
 						map.setMapDesc(newX+2, newY-2);
-						map.setMapDesc(newX+2, newY-3);
 					}
 					else if (long_BL > 30 && long_BL <= 40) { // 4th grid
 						confirmObstacle(map, newX+2, newY-4);
@@ -325,7 +316,6 @@ public class Robot {
 						map.setMapDesc(newX+2, newY-1);
 						map.setMapDesc(newX+2, newY-2);
 						map.setMapDesc(newX+2, newY-3);
-						map.setMapDesc(newX+2, newY-4);
 					}
 					else if (long_BL > 40 && long_BL <= 50) { // 5th grid
 						confirmObstacle(map, newX+2, newY-5);
@@ -341,7 +331,6 @@ public class Robot {
 						map.setMapDesc(newX+2, newY-2);
 						map.setMapDesc(newX+2, newY-3);
 						map.setMapDesc(newX+2, newY-4);
-						map.setMapDesc(newX+2, newY-5);
 					}
 					else {
 						if(map.grid[newX+2][newY-1].getBackground().equals(WALL)) {
@@ -410,14 +399,12 @@ public class Robot {
 				else {
 					if (U_L <= 10) { // 1st grid
 						confirmObstacle(map, newX+1, newY-1);
-						map.setMapDesc(newX+1, newY-1);
 					}
 					else if (U_L > 10 && U_L <= 20) { // 2nd grid
 						confirmObstacle(map, newX+1, newY-2);
 						map.grid[newX+1][newY-1].setBackground(SENSOR);
 						map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+1, newY-1);
-						map.setMapDesc(newX+1, newY-2);
 					}
 					else {
 						if(map.grid[newX+1][newY-1].getBackground().equals(WALL)) {
@@ -444,14 +431,12 @@ public class Robot {
 				else {
 					if (short_FR <= 10) { // 1st grid
 						confirmObstacle(map, newX, newY+3);
-						map.setMapDesc(newX, newY+3);
 					}
 					else if (short_FR > 10 && short_FR <= 20) { // 2nd grid
 						confirmObstacle(map, newX, newY+4);
 						map.grid[newX][newY+3].setBackground(SENSOR);
 						map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX, newY+3);
-						map.setMapDesc(newX, newY+4);
 					}
 					else if (short_FR > 20 && short_FR <= 30) { // 3rd grid
 						confirmObstacle(map, newX, newY+5);
@@ -461,7 +446,6 @@ public class Robot {
 						map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX, newY+3);
 						map.setMapDesc(newX, newY+4);
-						map.setMapDesc(newX, newY+5);
 					}
 					else {
 						if(map.grid[newX][newY+3].getBackground().equals(WALL)) {
@@ -499,14 +483,12 @@ public class Robot {
 				else {
 					if (U_R <= 10) { // 1st grid
 						confirmObstacle(map, newX+1, newY+3);
-						map.setMapDesc(newX+1, newY+3);
 					}
 					else if (U_R > 10 && U_R <= 20) { // 2nd grid
 						confirmObstacle(map, newX+1, newY+4);
 						map.grid[newX+1][newY+3].setBackground(SENSOR);
 						map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+1, newY+3);
-						map.setMapDesc(newX+1, newY+4);
 					}
 					else {
 						if(map.grid[newX+1][newY+3].getBackground().equals(WALL)) {
@@ -536,13 +518,11 @@ public class Robot {
 				else {
 					if (short_LF <= 10) { // 1st grid
 						confirmObstacle(map, newX, newY+3);
-						map.setMapDesc(newX, newY+3);
 					}
 					else if (short_LF > 10 && short_LF <= 20) { // 2nd grid
 						confirmObstacle(map, newX, newY+4);
 						map.grid[newX][newY+3].setBackground(SENSOR);
 						map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-						map.setMapDesc(newX, newY+4);
 						map.setMapDesc(newX, newY+4);
 					}
 					else if (short_LF > 20 && short_LF <= 30) { // 3rd grid
@@ -553,7 +533,6 @@ public class Robot {
 						map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX, newY+3);
 						map.setMapDesc(newX, newY+4);
-						map.setMapDesc(newX, newY+5);
 					}
 					else {
 						if(map.grid[newX][newY+3].getBackground().equals(WALL)) {
@@ -598,7 +577,6 @@ public class Robot {
 				else {
 					if (U_F <= 5) { // 1st grid
 						confirmObstacle(map, newX+1, newY+3);
-						map.setMapDesc(newX+1, newY+3);
 					}
 					else { // if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 						if(map.grid[newX+1][newY+3].getBackground().equals(WALL)) {
@@ -636,14 +614,12 @@ public class Robot {
 				else {
 					if (short_RF <= 10) { // 1st grid
 						confirmObstacle(map, newX+2, newY+3);
-						map.setMapDesc(newX+2, newY+3);
 					}
 					else if (short_RF > 10 && short_RF <= 20) { // 2nd grid
 						confirmObstacle(map, newX+2, newY+4);
 						map.grid[newX+2][newY+3].setBackground(SENSOR);
 						map.grid[newX+2][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+2, newY+3);
-						map.setMapDesc(newX+2, newY+4);
 					}
 					else if (short_RF > 20 && short_RF <= 30) { // 3rd grid
 						confirmObstacle(map, newX+2, newY+5);
@@ -653,7 +629,6 @@ public class Robot {
 						map.grid[newX+2][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+2, newY+3);
 						map.setMapDesc(newX+2, newY+4);
-						map.setMapDesc(newX+2, newY+5);
 					}
 					else {
 						if(map.grid[newX+2][newY+3].getBackground().equals(WALL)) {
@@ -691,14 +666,12 @@ public class Robot {
 				else {
 					if (long_BL <= 10) { // 1st grid
 						confirmObstacle(map, newX-1, newY);
-						map.setMapDesc(newX-1, newY);
 					}
 					else if (long_BL > 10 && long_BL <= 20) { // 2nd grid
 						confirmObstacle(map, newX-2, newY);
 						map.grid[newX-1][newY].setBackground(SENSOR);
 						map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY);
-						map.setMapDesc(newX-2, newY);
 					}
 					else if (long_BL > 20 && long_BL <= 30) { // 3rd grid
 						confirmObstacle(map, newX-3, newY);
@@ -708,7 +681,6 @@ public class Robot {
 						map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY);
 						map.setMapDesc(newX-2, newY);
-						map.setMapDesc(newX-3, newY);
 					}
 					else if (long_BL > 30 && long_BL <= 40) { // 4th grid
 						confirmObstacle(map, newX-4, newY);
@@ -721,7 +693,6 @@ public class Robot {
 						map.setMapDesc(newX-1, newY);
 						map.setMapDesc(newX-2, newY);
 						map.setMapDesc(newX-3, newY);
-						map.setMapDesc(newX-4, newY);
 					}
 					else if (long_BL > 40 && long_BL <= 50) { // 5th grid
 						confirmObstacle(map, newX-5, newY);
@@ -737,7 +708,6 @@ public class Robot {
 						map.setMapDesc(newX-2, newY);
 						map.setMapDesc(newX-3, newY);
 						map.setMapDesc(newX-4, newY);
-						map.setMapDesc(newX-5, newY);
 					}
 					else {
 						if(map.grid[newX-1][newY].getBackground().equals(WALL)) {
@@ -807,14 +777,12 @@ public class Robot {
 				else {
 					if (U_L <= 10) { // 1st grid
 						confirmObstacle(map, newX-1, newY+1);
-						map.setMapDesc(newX-1, newY+1);
 					}
 					else if (U_L > 10 && U_L <= 20) { // 2nd grid
 						confirmObstacle(map, newX-2, newY+1);
 						map.grid[newX-1][newY+1].setBackground(SENSOR);
 						map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY+1);
-						map.setMapDesc(newX-2, newY+1);
 					}
 					else {
 						if(map.grid[newX-1][newY+1].getBackground().equals(WALL)) {
@@ -841,14 +809,12 @@ public class Robot {
 				else {
 					if (short_FR <= 10) { // 1st grid
 						confirmObstacle(map, newX+3, newY+2);
-						map.setMapDesc(newX+3, newY+2);
 					}
 					else if (short_FR > 10 && short_FR <= 20) { // 2nd grid
 						confirmObstacle(map, newX+4, newY+2);
 						map.grid[newX+3][newY+2].setBackground(SENSOR);
 						map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY+2);
-						map.setMapDesc(newX+4, newY+2);
 					}
 					else if (short_FR > 20 && short_FR <= 30) { // 3rd grid
 						confirmObstacle(map, newX+5, newY);
@@ -858,7 +824,6 @@ public class Robot {
 						map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY+2);
 						map.setMapDesc(newX+4, newY+2);
-						map.setMapDesc(newX+5, newY+2);
 					}
 					else {
 						if(map.grid[newX+3][newY+2].getBackground().equals(WALL)) {
@@ -896,14 +861,12 @@ public class Robot {
 				else {
 					if (U_R <= 10) { // 1st grid
 						confirmObstacle(map, newX+3, newY+1);
-						map.setMapDesc(newX+3, newY+1);
 					}
 					else if (U_R > 10 && U_R <= 20) { // 2nd grid
 						confirmObstacle(map, newX+4, newY+1);
 						map.grid[newX+3][newY+1].setBackground(SENSOR);
 						map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY+1);
-						map.setMapDesc(newX+4, newY+1);
 					}
 					else {
 						if(map.grid[newX+3][newY+2].getBackground().equals(WALL)) {
@@ -932,14 +895,12 @@ public class Robot {
 				else {
 					if (short_LF <= 10) { // 1st grid
 						confirmObstacle(map, newX+3, newY+2);
-						map.setMapDesc(newX+3, newY+2);
 					}
 					else if (short_LF > 10 && short_LF <= 20) { // 2nd grid
 						confirmObstacle(map, newX+4, newY+2);
 						map.grid[newX+3][newY+2].setBackground(SENSOR);
 						map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY+2);
-						map.setMapDesc(newX+4, newY+2);
 					}
 					else if (short_LF > 20 && short_LF <= 30) { // 3rd grid
 						confirmObstacle(map, newX+5, newY+2);
@@ -949,7 +910,6 @@ public class Robot {
 						map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY+2);
 						map.setMapDesc(newX+4, newY+2);
-						map.setMapDesc(newX+5, newY+2);
 					}
 					else {
 						if(map.grid[newX+3][newY+2].getBackground().equals(WALL)) {
@@ -994,7 +954,6 @@ public class Robot {
 				else {
 					if (U_F <= 5) { // 1st grid
 						confirmObstacle(map, newX+3, newY+1);
-						map.setMapDesc(newX+3, newY+1);
 					}
 					else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 						if(map.grid[newX+3][newY+1].getBackground().equals(WALL)) {
@@ -1032,14 +991,12 @@ public class Robot {
 				else {
 					if (short_RF <= 10) { // 1st grid
 						confirmObstacle(map, newX+3, newY);
-						map.setMapDesc(newX+3, newY);
 					}
 					else if (short_RF > 10 && short_RF <= 20) { // 2nd grid
 						confirmObstacle(map, newX+4, newY);
 						map.grid[newX+3][newY].setBackground(SENSOR);
 						map.grid[newX+3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY);
-						map.setMapDesc(newX+4, newY);
 					}
 					else if (short_RF > 20 && short_RF <= 30) { // 3rd grid
 						confirmObstacle(map, newX+5, newY);
@@ -1049,7 +1006,6 @@ public class Robot {
 						map.grid[newX+4][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY);
 						map.setMapDesc(newX+4, newY);
-						map.setMapDesc(newX+5, newY);
 					}
 					else {
 						if(map.grid[newX+3][newY].getBackground().equals(WALL)) {
@@ -1087,14 +1043,12 @@ public class Robot {
 				else {
 					if (long_BL <= 10) { // 1st grid
 						confirmObstacle(map, newX, newY+3);
-						map.setMapDesc(newX, newY+3);
 					}
 					else if (long_BL > 10 && long_BL <= 20) { // 2nd grid
 						confirmObstacle(map, newX, newY+4);
 						map.grid[newX][newY+3].setBackground(SENSOR);
 						map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX, newY+3);
-						map.setMapDesc(newX, newY+4);
 					}
 					else if (long_BL > 20 && long_BL <= 30) { // 3rd grid
 						confirmObstacle(map, newX, newY+5);
@@ -1104,7 +1058,6 @@ public class Robot {
 						map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX, newY+3);
 						map.setMapDesc(newX, newY+4);
-						map.setMapDesc(newX, newY+5);
 					}
 					else if (long_BL > 30 && long_BL <= 40) { // 4th grid
 						confirmObstacle(map, newX+2, newY+6);
@@ -1117,7 +1070,6 @@ public class Robot {
 						map.setMapDesc(newX, newY+3);
 						map.setMapDesc(newX, newY+4);
 						map.setMapDesc(newX, newY+5);
-						map.setMapDesc(newX, newY+6);
 					}
 					else if (long_BL > 40 && long_BL <= 50) { // 5th grid
 						confirmObstacle(map, newX, newY+7);
@@ -1133,7 +1085,6 @@ public class Robot {
 						map.setMapDesc(newX, newY+4);
 						map.setMapDesc(newX, newY+5);
 						map.setMapDesc(newX, newY+6);
-						map.setMapDesc(newX, newY+7);
 					}
 					else {
 						if(map.grid[newX][newY+3].getBackground().equals(WALL)) {
@@ -1202,14 +1153,12 @@ public class Robot {
 				else {
 					if (U_L <= 10) { // 1st grid
 						confirmObstacle(map, newX+1, newY+3);
-						map.setMapDesc(newX+1, newY+3);
 					}
 					else if (U_L > 10 && U_L <= 20) { // 2nd grid
 						confirmObstacle(map, newX+1, newY+4);
 						map.grid[newX+1][newY+3].setBackground(SENSOR);
 						map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+1, newY+3);
-						map.setMapDesc(newX+1, newY+4);
 					}
 					else {
 						if(map.grid[newX+1][newY+3].getBackground().equals(WALL)) {
@@ -1236,14 +1185,12 @@ public class Robot {
 				else {
 					if (short_FR <= 10) { // 1st grid
 						confirmObstacle(map, newX+2, newY-1);
-						map.setMapDesc(newX+2, newY-1);
 					}
 					else if (short_FR > 10 && short_FR <= 20) { // 2nd grid
 						confirmObstacle(map, newX+2, newY-2);
 						map.grid[newX+2][newY-1].setBackground(SENSOR);
 						map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+2, newY-1);
-						map.setMapDesc(newX+2, newY-2);
 					}
 					else if (short_FR > 20 && short_FR <= 30) { // 3rd grid
 						confirmObstacle(map, newX+2, newY-3);
@@ -1253,7 +1200,6 @@ public class Robot {
 						map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+2, newY-1);
 						map.setMapDesc(newX+2, newY-2);
-						map.setMapDesc(newX+2, newY-3);
 					}
 					else {
 						if(map.grid[newX+2][newY-1].getBackground().equals(WALL)) {
@@ -1291,14 +1237,12 @@ public class Robot {
 				else {
 					if (U_R <= 10) { // 1st grid
 						confirmObstacle(map, newX+1, newY-1);
-						map.setMapDesc(newX+1, newY-1);
 					}
 					else if (U_R > 10 && U_R <= 20) { // 2nd grid
 						confirmObstacle(map, newX+1, newY-2);
 						map.grid[newX+1][newY-1].setBackground(SENSOR);
 						map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+1, newY-1);
-						map.setMapDesc(newX+1, newY-2);
 					}
 					else {
 						if(map.grid[newX+1][newY-1].getBackground().equals(WALL)) {
@@ -1328,14 +1272,12 @@ public class Robot {
 				else {
 					if (short_LF <= 10) { // 1st grid
 						confirmObstacle(map, newX+2, newY-1);
-						map.setMapDesc(newX+2, newY-1);
 					}
 					else if (short_LF > 10 && short_LF <= 20) { // 2nd grid
 						confirmObstacle(map, newX+2, newY-2);
 						map.grid[newX+2][newY-1].setBackground(SENSOR);
 						map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+2, newY-1);
-						map.setMapDesc(newX+2, newY-2);
 					}
 					else if (short_LF > 20 && short_LF <= 30) { // 3rd grid
 						confirmObstacle(map, newX+2, newY-3);
@@ -1345,7 +1287,6 @@ public class Robot {
 						map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+2, newY-1);
 						map.setMapDesc(newX+2, newY-2);
-						map.setMapDesc(newX+2, newY-3);
 					}
 					else {
 						if(map.grid[newX+2][newY-1].getBackground().equals(WALL)) {
@@ -1390,7 +1331,6 @@ public class Robot {
 				else {
 					if (U_F <= 5) { // 1st grid
 						confirmObstacle(map, newX+1, newY-1);
-						map.setMapDesc(newX+1, newY-1);
 					}
 					else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 						if(map.grid[newX+1][newY-1].getBackground().equals(WALL)) {
@@ -1428,14 +1368,12 @@ public class Robot {
 				else {
 					if (short_RF <= 10) { // 1st grid
 						confirmObstacle(map, newX, newY-1);
-						map.setMapDesc(newX, newY-1);
 					}
 					else if (short_RF > 10 && short_RF <= 20) { // 2nd grid
 						confirmObstacle(map, newX, newY-2);
 						map.grid[newX][newY-1].setBackground(SENSOR);
 						map.grid[newX][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX, newY-1);
-						map.setMapDesc(newX, newY-2);
 					}
 					else if (short_RF > 20 && short_RF <= 30) { // 3rd grid
 						confirmObstacle(map, newX, newY-3);
@@ -1445,7 +1383,6 @@ public class Robot {
 						map.grid[newX][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX, newY-1);
 						map.setMapDesc(newX, newY-2);
-						map.setMapDesc(newX, newY-3);
 					}
 					else {
 						if(map.grid[newX][newY-1].getBackground().equals(WALL)) {
@@ -1481,14 +1418,12 @@ public class Robot {
 				else {
 					if (short_LF <= 10) { // 1st grid
 						confirmObstacle(map, newX+3, newY+2);
-						map.setMapDesc(newX+3, newY+2);
 					}
 					else if (short_LF > 10 && short_LF <= 20) { // 2nd grid
 						confirmObstacle(map, newX+4, newY+2);
 						map.grid[newX+3][newY+2].setBackground(SENSOR);
 						map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY+2);
-						map.setMapDesc(newX+4, newY+2);
 					}
 					else if (short_LF > 20 && short_LF <= 30) { // 3rd grid
 						confirmObstacle(map, newX+5, newY+2);
@@ -1498,7 +1433,6 @@ public class Robot {
 						map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY+2);
 						map.setMapDesc(newX+4, newY+2);
-						map.setMapDesc(newX+5, newY+2);
 					}
 					else if (long_BL > 30 && long_BL <= 40) { // 4th grid
 						confirmObstacle(map, newX+6, newY+2);
@@ -1511,7 +1445,6 @@ public class Robot {
 						map.setMapDesc(newX+3, newY+2);
 						map.setMapDesc(newX+4, newY+2);
 						map.setMapDesc(newX+5, newY+2);
-						map.setMapDesc(newX+6, newY+2);
 					}
 					else if (long_BL > 40 && long_BL <= 50) { // 5th grid
 						confirmObstacle(map, newX+7, newY+2);
@@ -1527,7 +1460,6 @@ public class Robot {
 						map.setMapDesc(newX+4, newY+2);
 						map.setMapDesc(newX+5, newY+2);
 						map.setMapDesc(newX+6, newY+2);
-						map.setMapDesc(newX+7, newY+2);
 					}
 					else {
 						if(map.grid[newX+3][newY+2].getBackground().equals(WALL)) {
@@ -1596,14 +1528,12 @@ public class Robot {
 				else {
 					if (U_L <= 10) { // 1st grid
 						confirmObstacle(map, newX+3, newY+1);
-						map.setMapDesc(newX+3, newY+1);
 					}
 					else if (U_L > 10 && U_L <= 20) { // 2nd grid
 						confirmObstacle(map, newX+4, newY+1);
 						map.grid[newX+3][newY+1].setBackground(SENSOR);
 						map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX+3, newY+1);
-						map.setMapDesc(newX+4, newY+1);
 					}
 					else {
 						if(map.grid[newX+3][newY+1].getBackground().equals(WALL)) {
@@ -1630,14 +1560,12 @@ public class Robot {
 				else {
 					if (short_FR <= 10) { // 1st grid
 						confirmObstacle(map, newX-1, newY);
-						map.setMapDesc(newX-1, newY);
 					}
 					else if (short_FR > 10 && short_FR <= 20) { // 2nd grid
 						confirmObstacle(map, newX-2, newY);
 						map.grid[newX-1][newY].setBackground(SENSOR);
 						map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY);
-						map.setMapDesc(newX-2, newY);
 					}
 					else if (short_FR > 20 && short_FR <= 30) { // 3rd grid
 						confirmObstacle(map, newX-3, newY);
@@ -1647,7 +1575,6 @@ public class Robot {
 						map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY);
 						map.setMapDesc(newX-2, newY);
-						map.setMapDesc(newX-3, newY);
 					}
 					else {
 						if(map.grid[newX-1][newY].getBackground().equals(WALL)) {
@@ -1685,14 +1612,12 @@ public class Robot {
 				else {
 					if (U_R <= 10) { // 1st grid
 						confirmObstacle(map, newX-1, newY+1);
-						map.setMapDesc(newX-1, newY+1);
 					}
 					else if (U_R > 10 && U_R <= 20) { // 2nd grid
 						confirmObstacle(map, newX-2, newY+1);
 						map.grid[newX-1][newY+1].setBackground(SENSOR);
 						map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 						map.setMapDesc(newX-1, newY+1);
-						map.setMapDesc(newX-2, newY+1);
 					}
 					else {
 						if(map.grid[newX-1][newY+1].getBackground().equals(WALL)) {
@@ -2248,6 +2173,7 @@ public class Robot {
 		if(map.getName().equals("map")) {
 			map.grid[x][y].setBackground(CONFIRMOBSTACLE);
 		}
+
 		map.setMapDescObstacles(x, y);
 		
 	}
