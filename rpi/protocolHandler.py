@@ -13,7 +13,8 @@ class protocolHandler:
                    "reading": self.sendReading,
                    "map": self.sendMap,
                    "status": self.sendStatus,
-                   "movement": self.doMovement
+                   "movement": self.doMovement,
+                   "path": self.doPath
                    }
         if options.get(json_data["type"]):
             return options[json_data["type"]](json_data, lock)
@@ -114,3 +115,8 @@ class protocolHandler:
         self.robot.send(json_data)
         lock.release()
         print "..sending robot movement.."
+
+    def doPath(self, json_data, lock):
+        lock.acquire()
+        self.arduino.send(json_data)
+        lock.release()
