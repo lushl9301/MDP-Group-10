@@ -1,6 +1,5 @@
 package com.mdp.aero;
 
-import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -132,15 +131,6 @@ public class MapGenerator {
         		resetThis = (TextView)gv.getChildAt(i);
         		resetThis.setBackgroundColor(Color.parseColor("#686868")); //arena colour
         		
-        		/*if (i ==0 || i ==1||i ==2 || 
-        				i ==20||i ==21 || i ==22||
-        				i ==40||i ==41 || i ==42||
-        				i ==257 || i ==258||i ==259 || 
-        				i ==277||i ==278 || i ==279||
-        				i ==297||i ==298 || i ==299)
-        		{
-        			resetThis.setBackgroundColor(Color.parseColor("#FF0000"));
-        		}*/
         		i++;
         	}
 		} 
@@ -533,9 +523,12 @@ public class MapGenerator {
 		for (int row=0; row<15; row++){
         	for (int col=0; col<20; col++){
         		testThis = (TextView)gv.getChildAt(i);
-        		if(dummy[row][col]==1){
+        		if(dummy[row][col]==2){
         			testThis.setBackgroundColor(Color.parseColor("#000000")); //arena colour
         			
+        		}
+        		else if(dummy[row][col]==1){
+        			testThis.setBackgroundColor(Color.parseColor("#7fb2e5"));
         		}
         		else{
         			testThis.setBackgroundColor(Color.parseColor("#686868"));
@@ -552,11 +545,8 @@ public class MapGenerator {
 	
 	public void colourRobot(TextView topLeft, TextView topRight, TextView bottomLeft, TextView bottomRight,TextView topMid, TextView bottomMid){
 		topLeft.setBackgroundColor(Color.GREEN);
-		//topMid.setBackgroundColor(Color.GREEN);
         topRight.setBackgroundColor(Color.GREEN);
-        //bottomLeft.setBackgroundColor(Color.BLUE);
         bottomMid.setBackgroundColor(Color.BLUE);
-        //bottomRight.setBackgroundColor(Color.BLUE);
 	}
 
 	public void clearMapColourRobot(TextView topLeft, TextView topRight, TextView bottomLeft, TextView bottomRight,TextView midLeft, TextView midRight, TextView topMid, TextView bottomMid,TextView midMid){

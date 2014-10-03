@@ -1,6 +1,7 @@
 package com.mdp.aero;
 
 import org.json.*;
+import java.math.BigInteger;
 
 import android.util.Log;
 
@@ -14,11 +15,11 @@ public class JsonObj {
 	static int x_tail;
 	static int [][] position = new int[3][3]; 
 	static int dir =0;
-	static Robot r;
 	public static String words = "";
+	public static String fromRPI = "";
 	public JsonObj(){
 		//JObj = new JSONObject();
-		r = new Robot();
+		//r = new Robot();
 	}
 	
 	public static String sendJson(String type, String data){
@@ -39,7 +40,7 @@ public class JsonObj {
 	public static void recJson(String msg){
 		try {
 			JSONObject jsonObj = new JSONObject(msg);
-				
+			fromRPI = jsonObj.getString("data");
 				if(jsonObj.getString("type").equals("reading")){
 					JSONObject data = jsonObj.getJSONObject("data");
 					int x = data.getInt("X");
@@ -64,24 +65,37 @@ public class JsonObj {
 					
 				}
 				else if(jsonObj.getString("type").equals("map")){
-					//String[] splited = msg.split("\\s+");
-					int[][] array = new int[15][20];
-					JSONArray data = jsonObj.getJSONArray("data");
+					String hex = jsonObj.getString("data");
+					String decode = toBinary(hex);
+					int p = 0;
+					String[] splited = new String[305];
+					for (String sp: decode.split("")){
+						splited[p]=sp;
+						
+						p++;
+					}
+					Log.i("abc", splited[0]);
+					//String[] splited = decode.split("\\d");
+					
+					/*int[][] array = new int[15][20];
+					//JSONArray data = jsonObj.getJSONArray("data");
 					for (int y=0; y<15;y++){
 						for (int z=0; z<20;z++){
 							array[y][z]=data.getInt(z);
 							//should have error
-						}
-					}
-					for(int i=0; i<15;i++)
-						   for(int j=0;j<20;j++)
-						   {
-						       array2D[i][j] = array[i][j];
-						   }
-					}
+						}*/
+				int q = 0;	
+				for(int i=0; i<20;i++){
+					   for(int j=0;j<15;j++)
+					   {
+						   //Log.i("SP", "j:"+j+"i:"+i+"t:"+splited[(q)]);
+					       array2D[j][i] = Integer.parseInt(splited[(q)+3]);
+					       q++;
+					   }
+				}
 				
-				
-				
+					Log.i("a", decode);
+				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				//continue;
@@ -89,6 +103,9 @@ public class JsonObj {
 			}
 			
 		
+	}
+	public static String toBinary(String hex) {
+		return new BigInteger("1" + hex, 16).toString(2).substring(1);
 	}
 	public static void amdString(String msg){
 		//for AMD tool

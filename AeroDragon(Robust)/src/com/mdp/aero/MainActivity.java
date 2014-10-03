@@ -27,6 +27,10 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,20 +49,33 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import org.json.*;
 
 /**
  * This is the main Activity that displays the current chat session.
  */
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener{
 	// Debugging
 	private static final String TAG = "Aero Dragon";
 	private static final boolean D = true;
 	
+	// Tilt Sensing
+	private SensorManager mSensorManager;
+	private Sensor mAccelerometer;
+	private Sensor mMagnetometer;
+
+	private float[] mLastAccelerometer = new float[3];
+	private float[] mLastMagnetometer = new float[3];
+	private boolean mLastAccelerometerSet = false;
+	private boolean mLastMagnetometerSet = false;
+
+	private float[] mR = new float[9];
+	private float[] mOrientation = new float[3];
+
+	private long lastUpdate;
 	
 	//Shared Preferences
 	public static final String DEFAULT="N/A";
-	String f1, f2, f1b,f2b;
+	String f1, f2, f1b,f2b,tilt,disp;
 
 	// Message types sent from the Bluetooth Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
@@ -261,25 +278,36 @@ public class MainActivity extends Activity {
     	});
 
     	gv.setOnTouchListener(new OnSwipeTouchListener(this) {
-    	    public void onSwipeTop() {
-			map.moveForwardMap();
-    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
-    	    }
-    	    public void onSwipeRight() {
-			map.turnRightMap();
-    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
-    	    }
-    	    public void onSwipeLeft() {
+			public void onSwipeTop() {
+				map.moveForwardMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+			}
+
+			public void onSwipeRight() {
+				map.turnRightMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+			}
+
+			public void onSwipeLeft() {
 				map.turnLeftMap();
-    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
-    	    }
-    	    public void onSwipeBottom() {
-			map.moveDownMap();
-    	    	sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
-    	    }
-    	});
-		
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+			}
+
+			public void onSwipeBottom() {
+				map.moveDownMap();
+				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
+			}
+		});
+
+		mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+		mAccelerometer = mSensorManager
+				.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+		mMagnetometer = mSensorManager
+				.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+		lastUpdate = System.currentTimeMillis();
+
 	}
+
 
 	@Override
 	public void onStart() {
@@ -320,6 +348,13 @@ public class MainActivity extends Activity {
 		}
 		
 		load();
+		
+		mLastAccelerometerSet = false;
+		mLastMagnetometerSet = false;
+		mSensorManager.registerListener(this, mAccelerometer,
+				SensorManager.SENSOR_DELAY_FASTEST);
+		mSensorManager.registerListener(this, mMagnetometer,
+				SensorManager.SENSOR_DELAY_FASTEST);
 			
 	}
 	
@@ -361,6 +396,7 @@ public class MainActivity extends Activity {
 		if (D)
 			Log.e(TAG, "- ON PAUSE -");
 		invalidateOptionsMenu();
+		mSensorManager.unregisterListener(this);
 	}
 
 	@Override
@@ -463,10 +499,9 @@ public class MainActivity extends Activity {
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
 				JsonObj.recJson(readMessage);				
-				//JsonObj.amdString(readMessage);
 				map.getRobot().setPosition(JsonObj.position);
 				map.plotObsAuto(JsonObj.array2D);
-				//Log.i("Tag", ""+JsonObj.dir);
+				Log.i("Tag", ""+JsonObj.array2D[0]);
 				map.getRobot().setDirection(JsonObj.dir);
 				if (JsonObj.dir==3)
 				{
@@ -700,7 +735,7 @@ public class MainActivity extends Activity {
 		    	}
 		    	else if(autoAct ==2 ){
 		    		sendMessage(JsonObj.sendJson("command", "P"));
-		    		//sendMessage("Let's find the Shortest Path!");
+		    		sendMessage(JsonObj.sendJson("path", JsonObj.fromRPI));
 		    		startTime = SystemClock.uptimeMillis();
 		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
@@ -763,4 +798,69 @@ public class MainActivity extends Activity {
 		}
 
 }
+public void onAccuracyChanged(Sensor sensor, int accuracy) {
+	}
+
+	public void onSensorChanged(SensorEvent event) {
+
+		SharedPreferences sp = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+		tilt = sp.getString("tilting", DEFAULT);
+		
+		long actualTime = event.timestamp;
+		
+//		if (event.sensor == mAccelerometer) {
+//			System.arraycopy(event.values, 0, mLastAccelerometer, 0,
+//					event.values.length);
+//			mLastAccelerometerSet = true;
+//		} else if (event.sensor == mMagnetometer) {
+//			System.arraycopy(event.values, 0, mLastMagnetometer, 0,
+//					event.values.length);
+//			mLastMagnetometerSet = true;
+//		}
+//		if (mLastAccelerometerSet && mLastMagnetometerSet) {
+//			SensorManager.getRotationMatrix(mR, null, mLastAccelerometer,
+//					mLastMagnetometer);
+//			SensorManager.getOrientation(mR, mOrientation);
+//			Log.i("OrientationTestActivity", String.format(
+//					"Orientation: %f, %f, %f", mOrientation[0],
+//					mOrientation[1], mOrientation[2]));
+//		}
+
+		if (btManager.getState() == BluetoothManager.STATE_CONNECTED && tilt.equals("On")) {
+			
+
+				if (((actualTime - lastUpdate) > 1000000000)) {
+					float x = event.values[0];
+					float y = event.values[1];
+						if (Math.abs(x) > Math.abs(y)) {
+							if (x < 2) {
+								map.turnRightMap();
+								Log.i(TAG, "RIGHT");
+
+							}
+							if (x > 2) {
+								map.turnLeftMap();
+								Log.i(TAG, "LEFT");
+							}
+						} else {
+							if (y < 2) {
+								map.moveForwardMap();
+								Log.i(TAG, "UP");
+							}
+							if (y > 2) {
+								map.moveDownMap();
+								Log.i(TAG, "DOWN");
+							}
+						}
+					
+					lastUpdate = actualTime;
+					sendMessage(JsonObj.sendJson("movement",
+							MapGenerator.rotate));
+				}
+			
+		} else {
+			return;
+		}
+
+	}
 }
