@@ -67,9 +67,10 @@
 ####Received by RPi
 ```
 {
-	type: "command" / "movement"
+	type: "command" / "movement" / "path"
 	data (command)	: "S" (initiate robot) / "E" (exploration) / "P" (shortest path) / "R" (remote-control)
-	data (movement)	: "LRL4RRL" / "G" (stop)
+	data (movement)	: "L" / "R" / "1" / "G" (stop)
+    data (path)     : "LR1" / "G" (stop)
 }
 ```
 ####Sent from RPi
@@ -156,11 +157,12 @@ while (!Serial.available() || Serial.read() != 'P'); //Shortest Path
 * Exploration End:
     * Arduino -> (status exploration end) -> RPi -> (status exploration end) -> Android & PC 
     * PC -> (map matrix) -> RPi -> (map matrix) -> Android
+    * PC -> (shortest path as path) -> RPi -> (shortest path as path) -> Android
 
 ###Shortest Path
 * Shortest Path Start:
-    * Android -> (command to start shortest path) -> RPi -> (command to start shortest path) -> Arduino & PC
-    * PC -> (shortest path movement) -> RPi -> (shortest path movement) -> Arduino
+    * Android -> (command to start shortest path) -> RPi -> (command to start shortest path) -> Arduino
+    * Android -> (shortest path as movement) -> RPi -> (shortest path as movement) -> Arduino
 
 * Shortest Path:
     * Arduino -> (direction, coordinate) -> RPi -> (direction, coordinate) -> Android
@@ -169,5 +171,12 @@ while (!Serial.available() || Serial.read() != 'P'); //Shortest Path
     * Arduino -> (status shortest path end) -> RPi -> (status shortest path end) -> Android 
 
 ###Free Movement:
+* Free Movement Start:
+    * Android -> (command to start remote) -> RPi -> (command to start remote) -> Arduino
+
 * Free Movement:
     * Android -> (movement command) -> RPi -> (movement command) -> Arduino
+
+* Free Movement End:
+    * Android -> (command to stop robot) -> RPi -> (command to stop robot) -> Arduino
+
