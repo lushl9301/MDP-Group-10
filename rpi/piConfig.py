@@ -46,37 +46,3 @@ def receiveJSON(buff, senderName):
 
 def logJSON(json_data, file):
     file.write(json.dumps(json_data, indent=4)+"\n")
-
-
-# unused methods
-
-# def receive(self):
-#         if self.conn is None:
-#             return
-#         data = ""
-#         completeJSON = False
-#         while not completeJSON:
-#             buff = self.conn.recv(1)  # receive the data per char
-#             data += buff
-#             if buff == "}":  # detects the end of a JSON in buffer
-#                 completeJSON = True
-#         json_data = json.loads(data)
-#         print "Receive From Wifi: " + str(data)
-#         return json_data
-
-# def receive(self):
-#         if self.client_sock is None:
-#             return
-#         # try:
-#         data = ''
-#         completeJSON = False
-#         while not completeJSON:
-#             # receive the data per char
-#             buff = self.client_sock.recv(1)
-#             data += buff
-#             if buff == '}':  # detects the end of a JSON in buffer
-#                 completeJSON = True
-#         json_data = json.loads(data)
-#         if completeJSON:
-#             print "Received From Bluetooth: " + str(data)
-#             return json_data
