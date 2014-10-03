@@ -98,7 +98,7 @@ public class Robot {
 		if(map.getName().equals("map"))
 			setSensors(map);
 		else if(map.getName().equals("map2") && reading.get("X") != null) {
-			setRTSensors(map, reading);
+			//setRTSensors(map, reading);
 		}
 	}
 	
