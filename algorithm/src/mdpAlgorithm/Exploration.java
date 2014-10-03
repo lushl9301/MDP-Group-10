@@ -1,7 +1,10 @@
 package mdpAlgorithm;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.Stack;
+
+import org.json.simple.JSONObject;
 
 public class Exploration implements Runnable {
 	private static final Color OBSTACLE = Color.RED;
@@ -23,6 +26,7 @@ public class Exploration implements Runnable {
 	private boolean traversing = false;
 	private String previousDirection = "";
 	public boolean completed;
+	private JSONObject fakeHash = new JSONObject();
 	
 	public Exploration(MapGrid map, Robot rob, int sleeptime, double percentage) {
 		this.rob = rob;
@@ -103,7 +107,7 @@ public class Exploration implements Runnable {
 				currentPos = pathTravelled.pop();
 			}
 			checkCompleted(map, percentage);
-			if (completed) rob.rotateRobot(map, "E");
+			if (completed) rob.rotateRobot(fakeHash, map, "E");
 		} while(!pathTravelled.isEmpty() && !completed);
 		
 		// To print the hex values of the MD1 & MD2
@@ -112,7 +116,7 @@ public class Exploration implements Runnable {
 		System.out.println();
 
 		//To print the simulator's MD3
-		int[][] mapDesc3 = map.getMapDesc3Testing(map.getMapDesc(), map.getMapDesc2());
+		int[][] mapDesc3 = map.getMapDesc3(map.getMapDesc(), map.getMapDesc2());
 		for(int i = 0; i < 20; i++) {	
 			for (int j = 0; j< 15; j++) {
 				System.out.print(mapDesc3[j][i]);
@@ -121,13 +125,24 @@ public class Exploration implements Runnable {
 		}
 		
 		//To print the real-time robot's MD3 with regards to sensor sensing the obs		
+		// print in map descriptor style
 		int[][] mapDesc4 = map.getMapDescRealTime();
 		for(int i = 0; i < 20; i++) {	
 			for (int j = 0; j< 15; j++) {
 				System.out.print(mapDesc4[j][i]);
 			}
 			System.out.println();
-		}	
+		}
+		
+		// print in map style
+//		String stringMd3 = "";
+//		for (int j = 0; j< 15; j++) {
+//			for(int i = 0; i < 20; i++) {	
+//				stringMd3 += mapDesc3[j][i];
+//			}
+//			stringMd3 += "\n";
+//		}
+//		System.out.print(stringMd3);
 		
 	}
 	
@@ -145,7 +160,7 @@ public class Exploration implements Runnable {
 	
 	public Robot firstDelay(MapGrid map, Robot rob, int sleeptime) {
 		map.mapDescriptor1 = new int[15][20];
-		rob.moveRobot(map, 0);
+		rob.moveRobot(fakeHash, map, 0);
 		try {
 			Thread.sleep(sleeptime);
 		} catch (InterruptedException e) {
@@ -159,16 +174,16 @@ public class Exploration implements Runnable {
 		// This method is a fake method to simulate the robot turning 360 degrees to check the distance from all sides
 		switch (rob.getOrientation()) {
 			case "N":
-				rob.rotateRobot(map, "W");
+				rob.rotateRobot(fakeHash, map, "W");
 				break;
 			case "W":
-				rob.rotateRobot(map, "S");
+				rob.rotateRobot(fakeHash, map, "S");
 				break;
 			case "S":
-				rob.rotateRobot(map, "E");
+				rob.rotateRobot(fakeHash, map, "E");
 				break;
 			case "E":
-				rob.rotateRobot(map, "N");
+				rob.rotateRobot(fakeHash, map, "N");
 				break;
 		}
 		try {
@@ -232,22 +247,22 @@ public class Exploration implements Runnable {
 		
 			
 		if (distanceToNorthObs>=distanceToSouthObs && distanceToNorthObs>=distanceToWestObs && distanceToNorthObs>=distanceToEastObs){
-			rob.rotateRobot(map, "N"); 
+			rob.rotateRobot(fakeHash, map, "N"); 
 			previousDirection = "N";
 		}
 		else { 
 			if (distanceToWestObs>distanceToNorthObs && distanceToWestObs>=distanceToSouthObs && distanceToWestObs>=distanceToEastObs){
-				rob.rotateRobot(map, "W");
+				rob.rotateRobot(fakeHash, map, "W");
 				previousDirection = "W";
 			}
 			else {
 				if (distanceToSouthObs>distanceToNorthObs && distanceToSouthObs>distanceToWestObs && distanceToSouthObs>=distanceToEastObs){
-					rob.rotateRobot(map, "S");
+					rob.rotateRobot(fakeHash, map, "S");
 					previousDirection = "S";
 				}
 				else { 
 					if (distanceToEastObs>distanceToSouthObs && distanceToEastObs>distanceToWestObs && distanceToEastObs>distanceToNorthObs){
-					rob.rotateRobot(map, "E");
+					rob.rotateRobot(fakeHash, map, "E");
 					previousDirection = "E";
 				}
 					
@@ -303,7 +318,7 @@ public class Exploration implements Runnable {
 		    		y = rob.getY();
 		    		   		
 					if ((!blockGoingUp) && (map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
-						rob.moveRobot(map, 1);
+						rob.moveRobot(fakeHash, map, 1);
 					}
 					else if ((!blockGoingUp) && (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
 			    		
@@ -371,19 +386,19 @@ public class Exploration implements Runnable {
 							
 							//Head where
 							if (LeftSideDistance >= RightSideDistance) {
-								rob.rotateRobot(map, "W");
+								rob.rotateRobot(fakeHash, map, "W");
 								break;
 							}
 							else {
-								rob.rotateRobot(map, "E");
+								rob.rotateRobot(fakeHash, map, "E");
 								break;
 							}
 						}
 						
-						else rob.rotateRobot(map, previousDirection);
+						else rob.rotateRobot(fakeHash, map, previousDirection);
 					}
 					else if (blockGoingUp) {
-						rob.rotateRobot(map, "W");
+						rob.rotateRobot(fakeHash, map, "W");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
@@ -394,7 +409,7 @@ public class Exploration implements Runnable {
 		    		y = rob.getY();
 
 					if ((!blockGoingDown) && (map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
-						rob.moveRobot(map, 1);
+						rob.moveRobot(fakeHash, map, 1);
 					}
 					else if ((!blockGoingDown) && (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
 		    		
@@ -460,16 +475,16 @@ public class Exploration implements Runnable {
 				    		
 							//Head where
 							if (LeftSideDistance >= RightSideDistance) {
-								rob.rotateRobot(map, "W");
+								rob.rotateRobot(fakeHash, map, "W");
 							}
 							else {
-								rob.rotateRobot(map, "E");
+								rob.rotateRobot(fakeHash, map, "E");
 							}
 						}
-						else rob.rotateRobot(map, previousDirection);
+						else rob.rotateRobot(fakeHash, map, previousDirection);
 					}
 					else if (blockGoingDown) {
-						rob.rotateRobot(map, "E");
+						rob.rotateRobot(fakeHash, map, "E");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
@@ -481,7 +496,7 @@ public class Exploration implements Runnable {
 		    		y = rob.getY();
 					
 					if ((!blockGoingRight) && (map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
-						rob.moveRobot(map, 1);
+						rob.moveRobot(fakeHash, map, 1);
 					}
 					else if ((!blockGoingRight) && (map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
 			    		
@@ -533,16 +548,16 @@ public class Exploration implements Runnable {
 				    		
 				    		// Move where
 							if (UpSideDistance >= DownSideDistance) {
-								rob.rotateRobot(map, "N");
+								rob.rotateRobot(fakeHash, map, "N");
 							}
 							else {
-								rob.rotateRobot(map, "S");
+								rob.rotateRobot(fakeHash, map, "S");
 							}
 						}
-						else rob.rotateRobot(map, previousDirection);
+						else rob.rotateRobot(fakeHash, map, previousDirection);
 					}
 					else if (blockGoingRight) {
-						rob.rotateRobot(map, "N");
+						rob.rotateRobot(fakeHash, map, "N");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
@@ -554,7 +569,7 @@ public class Exploration implements Runnable {
 		    		y = rob.getY();
 					
 					if ((!blockGoingLeft) && (map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
-						rob.moveRobot(map, 1);
+						rob.moveRobot(fakeHash, map, 1);
 					}
 					else if ((!blockGoingLeft) && (map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
 						
@@ -606,17 +621,17 @@ public class Exploration implements Runnable {
 							
 				    		// Move where
 							if (UpSideDistance >= DownSideDistance) {
-								rob.rotateRobot(map, "N");
+								rob.rotateRobot(fakeHash, map, "N");
 							}
 							else {
-								rob.rotateRobot(map, "S");
+								rob.rotateRobot(fakeHash, map, "S");
 							}
 						}
-						else rob.rotateRobot(map, previousDirection);
+						else rob.rotateRobot(fakeHash, map, previousDirection);
 					}
 					
 					else if (blockGoingLeft) {
-						rob.rotateRobot(map, "S");
+						rob.rotateRobot(fakeHash, map, "S");
 					}
 					x = rob.getX();
 		    		y = rob.getY();
@@ -653,15 +668,15 @@ public class Exploration implements Runnable {
 			case "N": 
 				// If robot reaches TOP RIGHT corner wall
 				if (blockGoingUp && blockGoingRight) {
-					rob.rotateRobot(map, "W");
+					rob.rotateRobot(fakeHash, map, "W");
 				}
 				// If robot reaches TOP WALL but somewhere in the middle
 				else if (blockGoingUp && !blockGoingLeft) {
-					rob.rotateRobot(map, "W");
+					rob.rotateRobot(fakeHash, map, "W");
 				}
 				// Going NORTH on the RIGHT WALL, but in front of robot got obstacle, then traverse obs
 				else if (blockGoingRight && (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
-					rob.rotateRobot(map, "W");
+					rob.rotateRobot(fakeHash, map, "W");
 					traversing = true;
 					
 					do {
@@ -670,11 +685,11 @@ public class Exploration implements Runnable {
 				}		
 				
 				else if (blockGoingRight && (map.grid[x-1][y].getBackground() != OBSTACLE || map.grid[x-1][y+1].getBackground() != OBSTACLE || map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
-					rob.moveRobot(map, 1);
-					rob.rotateRobot(map, "N");
+					rob.moveRobot(fakeHash, map, 1);
+					rob.rotateRobot(fakeHash, map, "N");
 				}
 				else {
-					rob.rotateRobot(map, "N");
+					rob.rotateRobot(fakeHash, map, "N");
 				}
 				x = rob.getX();
 	    		y = rob.getY();
@@ -684,15 +699,15 @@ public class Exploration implements Runnable {
 			case "S":
 				// If robot reaches BOTTOM LEFT corner wall
 				if (blockGoingDown && blockGoingLeft) {
-					rob.rotateRobot(map, "E");
+					rob.rotateRobot(fakeHash, map, "E");
 				}
 				// If robot reaches BOTTOM WALL but somewhere in the middle
 				else if (blockGoingDown && !blockGoingRight) {
-					rob.rotateRobot(map, "E");
+					rob.rotateRobot(fakeHash, map, "E");
 				}
 				// Going SOUTH on the LEFT WALL, but in front of robot got obstacle, then traverse obs
 				else if (blockGoingLeft && (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
-					rob.rotateRobot(map, "E");
+					rob.rotateRobot(fakeHash, map, "E");
 					traversing = true;
 					
 					do {
@@ -701,11 +716,11 @@ public class Exploration implements Runnable {
 					
 				}		
 				else if (blockGoingLeft && (map.grid[x+3][y].getBackground() != OBSTACLE || map.grid[x+3][y+1].getBackground() != OBSTACLE || map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
-					rob.moveRobot(map, 1);
-					rob.rotateRobot(map, "S");
+					rob.moveRobot(fakeHash, map, 1);
+					rob.rotateRobot(fakeHash, map, "S");
 				}
 				else {
-					rob.rotateRobot(map, "S");
+					rob.rotateRobot(fakeHash, map, "S");
 				}
 				x = rob.getX();
 	    		y = rob.getY();
@@ -714,15 +729,15 @@ public class Exploration implements Runnable {
 			case "E":
 				// If robot reaches BOTTOM RIGHT corner wall
 				if (blockGoingRight && blockGoingDown ) {
-					rob.rotateRobot(map, "N");
+					rob.rotateRobot(fakeHash, map, "N");
 				}
 				// If robot reaches RIGHT WALL but somewhere in the middle
 				else if (blockGoingRight && !blockGoingUp ) {
-					rob.rotateRobot(map, "N");
+					rob.rotateRobot(fakeHash, map, "N");
 				}
 				// Going EAST on the BOTTOM WALL, but in front of robot got obstacle, then traverse obs	
 				else if (blockGoingDown && (map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
-					rob.rotateRobot(map, "N");
+					rob.rotateRobot(fakeHash, map, "N");
 					traversing = true;
 					
 					do {
@@ -734,11 +749,11 @@ public class Exploration implements Runnable {
 				
 				
 				else if (blockGoingDown && (map.grid[x][y+3].getBackground() != OBSTACLE || map.grid[x+1][y+3].getBackground() != OBSTACLE || map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
-					rob.moveRobot(map, 1);
-					rob.rotateRobot(map, "E");
+					rob.moveRobot(fakeHash, map, 1);
+					rob.rotateRobot(fakeHash, map, "E");
 				}
 				else {
-					rob.rotateRobot(map, "E");
+					rob.rotateRobot(fakeHash, map, "E");
 				}
 				x = rob.getX();
 	    		y = rob.getY();
@@ -747,15 +762,15 @@ public class Exploration implements Runnable {
 			case "W":
 				// If robot reaches TOP LEFT corner wall
 				if (blockGoingLeft && blockGoingUp) {
-					rob.rotateRobot(map, "S");
+					rob.rotateRobot(fakeHash, map, "S");
 				}
 				// If robot reaches LEFT WALL but somewhere in the middle
 				else if (blockGoingLeft && !blockGoingDown) {
-					rob.rotateRobot(map, "S");
+					rob.rotateRobot(fakeHash, map, "S");
 				}
 				// Going WEST on the TOP WALL, but in front of robot got obstacle, then traverse obs				
 				else if (blockGoingUp && (map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
-					rob.rotateRobot(map, "S");
+					rob.rotateRobot(fakeHash, map, "S");
 					traversing = true;
 					
 					do {
@@ -766,11 +781,11 @@ public class Exploration implements Runnable {
 				
 				// going west but infront got no obstacle
 				else if (blockGoingUp && (map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
-					rob.moveRobot(map, 1);
+					rob.moveRobot(fakeHash, map, 1);
 				}
 				
 				else {
-					rob.rotateRobot(map, "W");
+					rob.rotateRobot(fakeHash, map, "W");
 				}
 				x = rob.getX();
 	    		y = rob.getY();
@@ -813,23 +828,23 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "E");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "E");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
 					else if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "W");
+						rob.rotateRobot(fakeHash, map, "W");
 					}
 				}
 				
 				else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
 					if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
 						if ((map.grid[x-1][y].getBackground().equals(WALL)|| map.grid[x-1][y+1].getBackground().equals(WALL) || map.grid[x-1][y+2].getBackground().equals(WALL))) {
-							rob.rotateRobot(map, "W");
+							rob.rotateRobot(fakeHash, map, "W");
 						}
 						else {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}			
 					}
 					else if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)) {					
@@ -837,8 +852,8 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "E");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "E");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
@@ -850,19 +865,19 @@ public class Exploration implements Runnable {
 			case "W":				
 				if (y-1 > 1) {
 					if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE) )
-						rob.rotateRobot(map, "S");
+						rob.rotateRobot(fakeHash, map, "S");
 					
 					if (!blockGoingUp) {
 						if (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE) {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 						else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)){
 							if (map.grid[x-1][y+2].getBackground() != OBSTACLE) {
 								rob.setRCount(3);
 							}
 							if (rob.getRCount()==3) {
-								rob.rotateRobot(map, "N");
-								rob.moveRobot(map, 1);
+								rob.rotateRobot(fakeHash, map, "N");
+								rob.moveRobot(fakeHash, map, 1);
 								rob.setRCount(0);
 							}	
 						}
@@ -870,27 +885,27 @@ public class Exploration implements Runnable {
 					
 					else if (blockGoingUp) {
 						if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
-							rob.rotateRobot(map, "S");
+							rob.rotateRobot(fakeHash, map, "S");
 						}
 						else if ((map.grid[x][y-1].getBackground() != OBSTACLE) && (map.grid[x+1][y-1].getBackground() != OBSTACLE) && (map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 				}
 				else if(y-1 == 1) {
 					if (map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE) {
-						rob.moveRobot(map, 1);
+						rob.moveRobot(fakeHash, map, 1);
 					}
 					else if ((map.grid[x-1][y].getBackground().equals(WALL) || map.grid[x-1][y+1].getBackground().equals(WALL) || map.grid[x-1][y+2].getBackground().equals(WALL))) {
-						rob.rotateRobot(map, "W");
+						rob.rotateRobot(fakeHash, map, "W");
 					}
 					else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)){
 						if (map.grid[x-1][y+2].getBackground() != OBSTACLE) {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "N");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "N");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
@@ -902,8 +917,8 @@ public class Exploration implements Runnable {
 								rob.setRCount(3);
 							}
 							if (rob.getRCount()==3) {
-								rob.rotateRobot(map, "N");
-								rob.moveRobot(map, 1);
+								rob.rotateRobot(fakeHash, map, "N");
+								rob.moveRobot(fakeHash, map, 1);
 								rob.setRCount(0);
 							}	
 						}	
@@ -914,11 +929,11 @@ public class Exploration implements Runnable {
 							return rob;
 						}
 						else if ((map.grid[x][y-1].getBackground().equals(WALL) || map.grid[x+1][y-1].getBackground().equals(WALL) || map.grid[x+2][y-1].getBackground().equals(WALL))) {
-							rob.rotateRobot(map, "W");
+							rob.rotateRobot(fakeHash, map, "W");
 						}
 						else if ((map.grid[x][y-1].getBackground() != OBSTACLE) && (map.grid[x+1][y-1].getBackground() != OBSTACLE) && (map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
-							rob.moveRobot(map, 1);
-							rob.rotateRobot(map, "W");
+							rob.moveRobot(fakeHash, map, 1);
+							rob.rotateRobot(fakeHash, map, "W");
 						}
 					}
 					
@@ -929,7 +944,7 @@ public class Exploration implements Runnable {
 				}
 				
 				if (reachedWall == true) {
-					rob.rotateRobot(map, "W");
+					rob.rotateRobot(fakeHash, map, "W");
 					traversing = false;
 					break;
 				}
@@ -939,23 +954,23 @@ public class Exploration implements Runnable {
 			case "S":
 				if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
 					//if ((map.grid[x][y-1].getBackground() != OBSTACLE) && (map.grid[x+1][y-1].getBackground() != OBSTACLE) && (map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
-					//	rob.rotateRobot(map, "W");
+					//	rob.rotateRobot(fakeHash, map, "W");
 					//}
 					if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE) || (map.grid[x+3][y-1].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "E");
+						rob.rotateRobot(fakeHash, map, "E");
 					}
 					if (map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "W");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "W");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}
 					
 				}
 				else if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE) ) {
-					rob.moveRobot(map, 1);
+					rob.moveRobot(fakeHash, map, 1);
 				}
 			
 				else if ((map.grid[x][y-1].getBackground() != OBSTACLE) && (map.grid[x+1][y-1].getBackground() != OBSTACLE) && (map.grid[x+2][y-1].getBackground() != OBSTACLE) ) {
@@ -963,14 +978,14 @@ public class Exploration implements Runnable {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "W");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "W");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}		
 					
 				}
 				else {
-					rob.rotateRobot(map, "W");
+					rob.rotateRobot(fakeHash, map, "W");
 				}
 				break;
 				
@@ -979,18 +994,18 @@ public class Exploration implements Runnable {
 	    		y = rob.getY();
 				if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)){
 					if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)){
-						rob.rotateRobot(map, "N");
+						rob.rotateRobot(fakeHash, map, "N");
 					}
 					else if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)){
 						if (map.grid[x+3][y].getBackground() == OBSTACLE){
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 							
 							if (map.grid[x+3][y].getBackground() != OBSTACLE) {
 								rob.setRCount(3);
 							}
 						}
 						else if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)){
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 				}
@@ -1001,13 +1016,13 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "S");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "S");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
 					else {
-						rob.rotateRobot(map, "N");
+						rob.rotateRobot(fakeHash, map, "N");
 					}	
 					
 				}
@@ -1017,15 +1032,15 @@ public class Exploration implements Runnable {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "S");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "S");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}			
 						
 				}
 
 				else if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)){
-					rob.rotateRobot(map, "S");
+					rob.rotateRobot(fakeHash, map, "S");
 				}
 				
 				break;
@@ -1066,23 +1081,23 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "W");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "W");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
 					else if (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE) {
-						rob.rotateRobot(map, "E");
+						rob.rotateRobot(fakeHash, map, "E");
 					}
 				}
 				
 				else if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
 					if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
 						if ((map.grid[x+3][y].getBackground().equals(WALL) || map.grid[x+3][y+1].getBackground().equals(WALL) || map.grid[x+3][y+2].getBackground().equals(WALL))) {
-							rob.rotateRobot(map, "E");
+							rob.rotateRobot(fakeHash, map, "E");
 						}
 						else {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}	
 					}
 					else if ((map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
@@ -1090,8 +1105,8 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "W");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "W");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}	
@@ -1103,20 +1118,20 @@ public class Exploration implements Runnable {
 			case "E":	
 				if (y+1 < 18) {
 					if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "N");
+						rob.rotateRobot(fakeHash, map, "N");
 					}
 					
 					if (!blockGoingDown) {
 						if (map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE) {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 						else if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)){
 							if (map.grid[x+3][y].getBackground() != OBSTACLE) {
 								rob.setRCount(3);
 							}
 							if (rob.getRCount()==3) {
-								rob.rotateRobot(map, "S");
-								rob.moveRobot(map, 1);
+								rob.rotateRobot(fakeHash, map, "S");
+								rob.moveRobot(fakeHash, map, 1);
 								rob.setRCount(0);
 							}	
 						}
@@ -1124,27 +1139,27 @@ public class Exploration implements Runnable {
 					
 					else if (blockGoingDown) {
 						if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
-							rob.rotateRobot(map, "N");
+							rob.rotateRobot(fakeHash, map, "N");
 						}
 						else if ((map.grid[x][y+3].getBackground() != OBSTACLE) && (map.grid[x+1][y+3].getBackground() != OBSTACLE) && (map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 				}
 				else if(y+1 == 18) {
 					if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
-						rob.moveRobot(map, 1);
+						rob.moveRobot(fakeHash, map, 1);
 					}
 					else if ((map.grid[x+3][y].getBackground().equals(WALL) || map.grid[x+3][y+1].getBackground().equals(WALL) || map.grid[x+3][y+2].getBackground().equals(WALL))) {
-						rob.rotateRobot(map, "E");
+						rob.rotateRobot(fakeHash, map, "E");
 					}
 					else if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)){
 						if (map.grid[x+3][y].getBackground() != OBSTACLE) {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "S");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "S");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
@@ -1156,8 +1171,8 @@ public class Exploration implements Runnable {
 								rob.setRCount(3);
 							}
 							if (rob.getRCount()==3) {
-								rob.rotateRobot(map, "S");
-								rob.moveRobot(map, 1);
+								rob.rotateRobot(fakeHash, map, "S");
+								rob.moveRobot(fakeHash, map, 1);
 								rob.setRCount(0);
 							}	
 						}
@@ -1167,11 +1182,11 @@ public class Exploration implements Runnable {
 							return rob;
 						}
 						else if ((map.grid[x][y+3].getBackground().equals(WALL)) || (map.grid[x+1][y+3].getBackground().equals(WALL)) || (map.grid[x+2][y+3].getBackground().equals(WALL))) {
-							rob.rotateRobot(map, "E");
+							rob.rotateRobot(fakeHash, map, "E");
 						}
 						else if ((map.grid[x][y+3].getBackground() != OBSTACLE) && (map.grid[x+1][y+3].getBackground() != OBSTACLE) && (map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
-							rob.moveRobot(map, 1);
-							rob.rotateRobot(map, "E");
+							rob.moveRobot(fakeHash, map, 1);
+							rob.rotateRobot(fakeHash, map, "E");
 						}
 					}
 					
@@ -1182,7 +1197,7 @@ public class Exploration implements Runnable {
 				}
 				
 				if (reachedWall == true) {
-					rob.rotateRobot(map, "E");
+					rob.rotateRobot(fakeHash, map, "E");
 					traversing = false;
 					break;
 				}
@@ -1192,23 +1207,23 @@ public class Exploration implements Runnable {
 			case "N":				
 				if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
 					//if ((map.grid[x][y+3].getBackground() != OBSTACLE) && (map.grid[x+1][y+3].getBackground() != OBSTACLE) && (map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
-					//	rob.rotateRobot(map, "E");
+					//	rob.rotateRobot(fakeHash, map, "E");
 					//}
 					if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE) || (map.grid[x+3][y-1].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "W");
+						rob.rotateRobot(fakeHash, map, "W");
 					}
 					if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE) ) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "E");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "E");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}	
 					
 				}
 				else if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE) ) {
-					rob.moveRobot(map, 1);
+					rob.moveRobot(fakeHash, map, 1);
 				}
 			
 				else if ((map.grid[x][y+3].getBackground() != OBSTACLE) && (map.grid[x+1][y+3].getBackground() != OBSTACLE) && (map.grid[x+2][y+3].getBackground() != OBSTACLE) ) {
@@ -1216,14 +1231,14 @@ public class Exploration implements Runnable {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "E");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "E");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}		
 					
 				}
 				else {
-					rob.rotateRobot(map, "E");
+					rob.rotateRobot(fakeHash, map, "E");
 				}
 				
 				break;
@@ -1231,17 +1246,17 @@ public class Exploration implements Runnable {
 			case "W":			
 				if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)){
 					if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)){
-						rob.rotateRobot(map, "S");
+						rob.rotateRobot(fakeHash, map, "S");
 					}
 					else if ((map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)){
 						if (map.grid[x-1][y+2].getBackground() == OBSTACLE){
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 							if (map.grid[x-1][y+2].getBackground() != OBSTACLE) {
 								rob.setRCount(3);
 							}
 						}
 						else if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)){
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 					
@@ -1253,13 +1268,13 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "N");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "N");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
 					else {
-						rob.rotateRobot(map, "S");
+						rob.rotateRobot(fakeHash, map, "S");
 					}	
 				}
 				
@@ -1268,15 +1283,15 @@ public class Exploration implements Runnable {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "N");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "N");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}			
 						
 				}
 
 				else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)){
-					rob.rotateRobot(map, "N");
+					rob.rotateRobot(fakeHash, map, "N");
 				}
 
 				break;
@@ -1317,23 +1332,23 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "N");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "N");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
 					else if (map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE) {
-						rob.rotateRobot(map, "S");
+						rob.rotateRobot(fakeHash, map, "S");
 					}
 				}
 				
 				else if ((map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)) {
 					if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
 						if ((map.grid[x][y-1].getBackground().equals(WALL) || map.grid[x+1][y-1].getBackground().equals(WALL) || map.grid[x+2][y-1].getBackground().equals(WALL))) {
-							rob.rotateRobot(map, "S");
+							rob.rotateRobot(fakeHash, map, "S");
 						}
 						else {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}	
 					}
 					else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
@@ -1341,8 +1356,8 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "N");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "N");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
@@ -1354,20 +1369,20 @@ public class Exploration implements Runnable {
 			case "S":	
 				if (x+1 < 13) {
 					if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "E");
+						rob.rotateRobot(fakeHash, map, "E");
 					}
 					
 					if (!blockGoingLeft) {
 						if (map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE) {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 						else if ((map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)){
 							if (map.grid[x][y-1].getBackground() != OBSTACLE) {
 								rob.setRCount(3);
 							}
 							if (rob.getRCount()==3) {
-								rob.rotateRobot(map, "W");
-								rob.moveRobot(map, 1);
+								rob.rotateRobot(fakeHash, map, "W");
+								rob.moveRobot(fakeHash, map, 1);
 								rob.setRCount(0);
 							}	
 						}
@@ -1375,30 +1390,30 @@ public class Exploration implements Runnable {
 					
 					else if (blockGoingLeft) {
 						if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
-							rob.rotateRobot(map, "E");
+							rob.rotateRobot(fakeHash, map, "E");
 						}
 						else if ((map.grid[x+3][y].getBackground() != OBSTACLE) && (map.grid[x+3][y+1].getBackground() != OBSTACLE) && (map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 				}
 				else if(x+1 == 13) {
 					if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "E");
+						rob.rotateRobot(fakeHash, map, "E");
 					}
 					if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE || map.grid[x+3][y-1].getBackground() == OBSTACLE)) {
-						rob.moveRobot(map, 1);
+						rob.moveRobot(fakeHash, map, 1);
 					}
 					else if ((map.grid[x][y-1].getBackground().equals(WALL) || map.grid[x+1][y-1].getBackground().equals(WALL) || map.grid[x+2][y-1].getBackground().equals(WALL))) {
-						rob.rotateRobot(map, "S");
+						rob.rotateRobot(fakeHash, map, "S");
 					}
 					else if ((map.grid[x][y-1].getBackground() != OBSTACLE && map.grid[x+1][y-1].getBackground() != OBSTACLE && map.grid[x+2][y-1].getBackground() != OBSTACLE)){
 						if (map.grid[x][y-1].getBackground() != OBSTACLE) {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "W");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "W");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
@@ -1410,13 +1425,13 @@ public class Exploration implements Runnable {
 								rob.setRCount(3);
 							}
 							if (rob.getRCount()==3) {
-								rob.rotateRobot(map, "W");
-								rob.moveRobot(map, 1);
+								rob.rotateRobot(fakeHash, map, "W");
+								rob.moveRobot(fakeHash, map, 1);
 								rob.setRCount(0);
 							}	
 						}
 						else if (blockGoingDown){
-							rob.rotateRobot(map, "S");
+							rob.rotateRobot(fakeHash, map, "S");
 							traversing = false;
 							break;
 						}
@@ -1426,11 +1441,11 @@ public class Exploration implements Runnable {
 							return rob;
 						}
 						else if ((map.grid[x+3][y].getBackground().equals(WALL)) || (map.grid[x+3][y+1].getBackground().equals(WALL)) || (map.grid[x+3][y+2].getBackground().equals(WALL))) {
-							rob.rotateRobot(map, "S");
+							rob.rotateRobot(fakeHash, map, "S");
 						}
 						else if ((map.grid[x+3][y].getBackground() != OBSTACLE) && (map.grid[x+3][y+1].getBackground() != OBSTACLE) && (map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
-							rob.moveRobot(map, 1);
-							rob.rotateRobot(map, "S");
+							rob.moveRobot(fakeHash, map, 1);
+							rob.rotateRobot(fakeHash, map, "S");
 						}
 					}
 					
@@ -1441,7 +1456,7 @@ public class Exploration implements Runnable {
 				}
 				
 				if (reachedWall == true) {
-					rob.rotateRobot(map, "S");
+					rob.rotateRobot(fakeHash, map, "S");
 					traversing = false;
 					break;
 				}
@@ -1451,20 +1466,20 @@ public class Exploration implements Runnable {
 			case "E":		
 				if ((map.grid[x][y+3].getBackground() == OBSTACLE) || (map.grid[x+1][y+3].getBackground() == OBSTACLE) || (map.grid[x+2][y+3].getBackground() == OBSTACLE)) {
 					if (((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE) || (map.grid[x+3][y+3].getBackground() == OBSTACLE))) {
-						rob.rotateRobot(map, "N");
+						rob.rotateRobot(fakeHash, map, "N");
 					}
 					if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE) ) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "S");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "S");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}	
 					
 				}
 				else if ((map.grid[x+3][y].getBackground() == OBSTACLE) || (map.grid[x+3][y+1].getBackground() == OBSTACLE) || (map.grid[x+3][y+2].getBackground() == OBSTACLE) ) {
-					rob.moveRobot(map, 1);
+					rob.moveRobot(fakeHash, map, 1);
 				}
 				
 				else if ((map.grid[x+3][y].getBackground() != OBSTACLE) && (map.grid[x+3][y+1].getBackground() != OBSTACLE) && (map.grid[x+3][y+2].getBackground() != OBSTACLE) ) {
@@ -1472,14 +1487,14 @@ public class Exploration implements Runnable {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "S");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "S");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}		
 				}
 				
 				else {
-					rob.rotateRobot(map, "S");
+					rob.rotateRobot(fakeHash, map, "S");
 				}
 				break;
 				
@@ -1488,17 +1503,17 @@ public class Exploration implements Runnable {
 	    		y = rob.getY();	    		
 				if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)){
 					if ((map.grid[x-1][y].getBackground() == OBSTACLE || map.grid[x-1][y+1].getBackground() == OBSTACLE || map.grid[x-1][y+2].getBackground() == OBSTACLE)){
-						rob.rotateRobot(map, "W");
+						rob.rotateRobot(fakeHash, map, "W");
 					}
 					else if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE)){
 						if (map.grid[x+2][y+3].getBackground() == OBSTACLE){
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 							if (map.grid[x+2][y+3].getBackground() != OBSTACLE) {
 								rob.setRCount(3);
 							}
 						}
 						else if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE)){
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 				}
@@ -1509,13 +1524,13 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "E");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "E");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
 					else {
-						rob.rotateRobot(map, "W");
+						rob.rotateRobot(fakeHash, map, "W");
 					}		
 				}
 				
@@ -1524,8 +1539,8 @@ public class Exploration implements Runnable {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "E");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "E");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}			
 				}
@@ -1567,23 +1582,23 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "S");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "S");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
 					else if (map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE) {
-						rob.rotateRobot(map, "N");
+						rob.rotateRobot(fakeHash, map, "N");
 					}
 				}
 				
 				else if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)) {
 					if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)) {
 						if ((map.grid[x][y+3].getBackground().equals(WALL) || map.grid[x+1][y+3].getBackground().equals(WALL) || map.grid[x+2][y+3].getBackground().equals(WALL))) {
-							rob.rotateRobot(map, "N");
+							rob.rotateRobot(fakeHash, map, "N");
 						}
 						else {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 					else if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)) {
@@ -1591,8 +1606,8 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "S");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "S");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
@@ -1603,20 +1618,20 @@ public class Exploration implements Runnable {
 			case "N":	
 				if (x-1 > 1) {
 					if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "W");
+						rob.rotateRobot(fakeHash, map, "W");
 					}
 					
 					if (!blockGoingRight) {
 						if (map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE) {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 						else if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)){
 							if (map.grid[x+2][y+3].getBackground() != OBSTACLE) {
 								rob.setRCount(3);
 							}
 							if (rob.getRCount()==3) {
-								rob.rotateRobot(map, "E");
-								rob.moveRobot(map, 1);
+								rob.rotateRobot(fakeHash, map, "E");
+								rob.moveRobot(fakeHash, map, 1);
 								rob.setRCount(0);
 							}	
 						}
@@ -1624,30 +1639,30 @@ public class Exploration implements Runnable {
 					
 					else if (blockGoingRight) {
 						if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
-							rob.rotateRobot(map, "W");
+							rob.rotateRobot(fakeHash, map, "W");
 						}
 						else if ((map.grid[x-1][y].getBackground() != OBSTACLE) && (map.grid[x-1][y+1].getBackground() != OBSTACLE) && (map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 				}
 				else if(x-1 == 1) {
 					if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "W");
+						rob.rotateRobot(fakeHash, map, "W");
 					}
 					if ((map.grid[x][y+3].getBackground() == OBSTACLE || map.grid[x+1][y+3].getBackground() == OBSTACLE || map.grid[x+2][y+3].getBackground() == OBSTACLE || map.grid[x-1][y+3].getBackground() == OBSTACLE)) {
-						rob.moveRobot(map, 1);
+						rob.moveRobot(fakeHash, map, 1);
 					}
 					else if ((map.grid[x][y+3].getBackground().equals(WALL) || map.grid[x+1][y+3].getBackground().equals(WALL) || map.grid[x+2][y+3].getBackground().equals(WALL))) {
-						rob.rotateRobot(map, "N");
+						rob.rotateRobot(fakeHash, map, "N");
 					}
 					else if ((map.grid[x][y+3].getBackground() != OBSTACLE && map.grid[x+1][y+3].getBackground() != OBSTACLE && map.grid[x+2][y+3].getBackground() != OBSTACLE)){
 						if (map.grid[x+2][y+3].getBackground() != OBSTACLE) {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "E");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "E");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
@@ -1659,14 +1674,14 @@ public class Exploration implements Runnable {
 								rob.setRCount(3);
 							}
 							if (rob.getRCount()==3) {
-								rob.rotateRobot(map, "E");
-								rob.moveRobot(map, 1);
+								rob.rotateRobot(fakeHash, map, "E");
+								rob.moveRobot(fakeHash, map, 1);
 								rob.setRCount(0);
 							}	
 						}
 
 						else if (blockGoingUp){
-							rob.rotateRobot(map, "N");
+							rob.rotateRobot(fakeHash, map, "N");
 							traversing = false;
 							break;
 						}
@@ -1676,11 +1691,11 @@ public class Exploration implements Runnable {
 							return rob;
 						}
 						else if ((map.grid[x-1][y].getBackground().equals(WALL)) || (map.grid[x-1][y+1].getBackground().equals(WALL)) || (map.grid[x-1][y+2].getBackground().equals(WALL))) {
-							rob.rotateRobot(map, "N");
+							rob.rotateRobot(fakeHash, map, "N");
 						}
 						else if ((map.grid[x-1][y].getBackground() != OBSTACLE) && (map.grid[x-1][y+1].getBackground() != OBSTACLE) && (map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
-							rob.moveRobot(map, 1);
-							rob.rotateRobot(map, "N");
+							rob.moveRobot(fakeHash, map, 1);
+							rob.rotateRobot(fakeHash, map, "N");
 						}
 					}
 					
@@ -1691,7 +1706,7 @@ public class Exploration implements Runnable {
 				}
 				
 				if (reachedWall == true) {
-					rob.rotateRobot(map, "N");
+					rob.rotateRobot(fakeHash, map, "N");
 					traversing = false;
 					break;
 				}
@@ -1701,37 +1716,37 @@ public class Exploration implements Runnable {
 			case "W":				
 				if ((map.grid[x][y-1].getBackground() == OBSTACLE) || (map.grid[x+1][y-1].getBackground() == OBSTACLE) || (map.grid[x+2][y-1].getBackground() == OBSTACLE)) {
 					//if ((map.grid[x-1][y].getBackground() != OBSTACLE) && (map.grid[x-1][y+1].getBackground() != OBSTACLE) && (map.grid[x-1][y+2].getBackground() != OBSTACLE)) {
-					//	rob.rotateRobot(map, "N");
+					//	rob.rotateRobot(fakeHash, map, "N");
 					//}
 					if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE) || (map.grid[x-1][y-1].getBackground() == OBSTACLE)) {
-						rob.rotateRobot(map, "S");
+						rob.rotateRobot(fakeHash, map, "S");
 					}
 					if ((map.grid[x-1][y].getBackground() != OBSTACLE && map.grid[x-1][y+1].getBackground() != OBSTACLE && map.grid[x-1][y+2].getBackground() != OBSTACLE) ) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "N");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "N");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}	
 					
 				}
 				else if ((map.grid[x-1][y].getBackground() == OBSTACLE) || (map.grid[x-1][y+1].getBackground() == OBSTACLE) || (map.grid[x-1][y+2].getBackground() == OBSTACLE) ) {
-					rob.moveRobot(map, 1);
+					rob.moveRobot(fakeHash, map, 1);
 				}
 				else if ((map.grid[x-1][y].getBackground() != OBSTACLE) && (map.grid[x-1][y+1].getBackground() != OBSTACLE) && (map.grid[x-1][y+2].getBackground() != OBSTACLE) ) {
 					if (map.grid[x-1][y+2].getBackground() != OBSTACLE) {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "N");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "N");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}	
 				}
 				
 				else {
-					rob.rotateRobot(map, "N");
+					rob.rotateRobot(fakeHash, map, "N");
 				}
 				break;
 				
@@ -1740,17 +1755,17 @@ public class Exploration implements Runnable {
 	    		y = rob.getY();	    		
 				if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)){
 					if ((map.grid[x+3][y].getBackground() == OBSTACLE || map.grid[x+3][y+1].getBackground() == OBSTACLE || map.grid[x+3][y+2].getBackground() == OBSTACLE)){
-						rob.rotateRobot(map, "E");
+						rob.rotateRobot(fakeHash, map, "E");
 					}
 					if ((map.grid[x+3][y].getBackground() != OBSTACLE && map.grid[x+3][y+1].getBackground() != OBSTACLE && map.grid[x+3][y+2].getBackground() != OBSTACLE)){
 						if (map.grid[x][y-1].getBackground() == OBSTACLE){
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 							if (map.grid[x][y-1].getBackground() != OBSTACLE) {
 								rob.setRCount(3);
 							}
 						}
 						else if ((map.grid[x][y-1].getBackground() == OBSTACLE || map.grid[x+1][y-1].getBackground() == OBSTACLE || map.grid[x+2][y-1].getBackground() == OBSTACLE)){
-							rob.moveRobot(map, 1);
+							rob.moveRobot(fakeHash, map, 1);
 						}
 					}
 					
@@ -1762,13 +1777,13 @@ public class Exploration implements Runnable {
 							rob.setRCount(3);
 						}
 						if (rob.getRCount()==3) {
-							rob.rotateRobot(map, "W");
-							rob.moveRobot(map, 1);
+							rob.rotateRobot(fakeHash, map, "W");
+							rob.moveRobot(fakeHash, map, 1);
 							rob.setRCount(0);
 						}	
 					}
 					else {
-						rob.rotateRobot(map, "E");
+						rob.rotateRobot(fakeHash, map, "E");
 					}	
 					
 				}
@@ -1778,8 +1793,8 @@ public class Exploration implements Runnable {
 						rob.setRCount(3);
 					}
 					if (rob.getRCount()==3) {
-						rob.rotateRobot(map, "W");
-						rob.moveRobot(map, 1);
+						rob.rotateRobot(fakeHash, map, "W");
+						rob.moveRobot(fakeHash, map, 1);
 						rob.setRCount(0);
 					}	
 				}			

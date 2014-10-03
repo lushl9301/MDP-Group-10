@@ -368,10 +368,13 @@ public class MainSimulator {
                 	map.setVisible(false);
                 	map2.setVisible(true);
                 	
-                	// create robot for real time map
-                	Robot rob2 = new Robot(map2);
+                	
                 	// instantiate rpi connection
+                	
                 	if(!rtThreadStarted) {
+                		// create robot for real time map
+                    	Robot rob2 = new Robot(map2);
+                    	
                 		rtThreadStarted = true;
 	                	rtExplore = new RTexploration(map2, rob2);
 	                	rtExploreThread = new Thread(rtExplore);
@@ -464,7 +467,9 @@ public class MainSimulator {
 				int whichCounter = 0;
 				int midCounter = 0;
 				String[] midroute = new String[300];
-				new Dijkstra(map.getMapDesc(), map.getMapDesc2());
+
+				
+				new Dijkstra(map.getMapDesc3(map.getMapDesc(), map.getMapDesc2()));
 				for (int i = 1; i < 16; i++) {
         			for (int j = 1; j < 21; j++) {
         				if(Dijkstra.route[whichCounter]) {

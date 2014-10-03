@@ -40,7 +40,6 @@ public class MapGrid extends JPanel {
 	int[][] mapDescriptor1 = new int[15][20];
 	String[][] mapDescriptor2 = new String[15][20];
 	int[][] toConfirmObstacle = new int[15][20];
-	public int[][] rtToConfirmObstacle = new int[15][20];
 
 	//	mapDescriptor1[14][0] = 1; // this represents grid (15,1)
 	//	mapDescriptor1[0][19] = 1; // this represents grid (1,20)
@@ -205,7 +204,7 @@ public class MapGrid extends JPanel {
 		return toHex(strMapDesc); // comment either one
 	}
 	
-	public int[][] getMapDesc3Testing(String md1, String md2) {
+	public int[][] getMapDesc3(String md1, String md2) {
 		int[][] mapDescriptor3 = new int[15][20];
 		
 		String newMd1 = toBinary(md1);

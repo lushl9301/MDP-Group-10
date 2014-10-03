@@ -9,11 +9,32 @@ public class Dijkstra {
 	private static List<DijEdge> edges;
 	public static boolean[] route = new boolean[300];
 	
-	public Dijkstra (String md1, String md2) {
-		execute(md1, md2);
+	public Dijkstra (int[][] md3) {
+		execute(md3);
 	}
 	
-	public static void execute(String md1, String md2) {
+	public static void execute(int[][] md3) {
+		
+
+		// hard code test values
+		//String md1 = "fff87ff0ffe1ffc3ff87fff0ffe1ffc3ff87ff0ffe1ffc3ff87ff0ffe1ffc3ff87ff0ffe1fff";
+		//String md2= "00200400801003f07e00400801002004008010020041082104208410";
+		
+		// get md3
+//		MapGrid m = new MapGrid();
+//		int[][] md3 = m.getMapDesc3(md1, md2);
+		
+		// print the map
+//		for(int i = 0; i < 20; i++) {
+//			for (int j = 0; j< 15; j++) {
+//				System.out.print(md3[j][i]);
+//			}
+//			System.out.println();
+//		}
+		
+		//print a space
+		System.out.println();
+		
 		// initialise the 300 nodes
 		nodes = new ArrayList<DijVertex>();
 		edges = new ArrayList<DijEdge>();
@@ -28,24 +49,6 @@ public class Dijkstra {
 			//System.out.println();
 		}
 
-		// hard code test values
-		//String md1 = "fff87ff0ffe1ffc3ff87fff0ffe1ffc3ff87ff0ffe1ffc3ff87ff0ffe1ffc3ff87ff0ffe1fff";
-		//String md2= "00200400801003f07e00400801002004008010020041082104208410";
-		
-		// get md3
-		MapGrid m = new MapGrid();
-		int[][] md3 = m.getMapDesc3Testing(md1, md2);
-		
-		// print the map
-//		for(int i = 0; i < 20; i++) {
-//			for (int j = 0; j< 15; j++) {
-//				System.out.print(md3[j][i]);
-//			}
-//			System.out.println();
-//		}
-		
-		//print a space
-		System.out.println();
 		
 		// process map and add edges for Dijkstra calculation
 		//setting true and false for 3x3 availability

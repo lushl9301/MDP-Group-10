@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 public class Configuration extends Activity {
 	
-	EditText func_1_text;
-	EditText func_2_text;
+	EditText func_1a_text;
+	EditText func_2a_text;
+	EditText func_1b_text;
+	EditText func_2b_text;
 	Button twoD;
 	Button threeD;
 	Button twoFiveD;
@@ -60,8 +62,10 @@ public class Configuration extends Activity {
 			}	
 		});
 		
-		func_1_text = (EditText) findViewById(R.id.fun_1_text);
-		func_2_text = (EditText) findViewById(R.id.fun_2_text);
+		func_1a_text = (EditText) findViewById(R.id.fun_1a_text);
+		func_2a_text = (EditText) findViewById(R.id.fun_2a_text);
+		func_1b_text = (EditText) findViewById(R.id.fun_1b_text);
+		func_2b_text = (EditText) findViewById(R.id.fun_2b_text);
 		load(findViewById(R.id.load_btn));
 	}
 	
@@ -72,8 +76,10 @@ public class Configuration extends Activity {
 		
 		editSP.putString("dispType", choice);
 		
-		editSP.putString("Function1", func_1_text.getText().toString());
-		editSP.putString("Function2", func_2_text.getText().toString());
+		editSP.putString("Function1", func_1a_text.getText().toString());
+		editSP.putString("Function2", func_2a_text.getText().toString());
+		editSP.putString("Function1b", func_1b_text.getText().toString());
+		editSP.putString("Function2b", func_2b_text.getText().toString());
 		
 		editSP.commit();
 		
@@ -107,13 +113,17 @@ public class Configuration extends Activity {
 		
 		String f1 = sp.getString("Function1", DEFAULT);
 		String f2 = sp.getString("Function2", DEFAULT);
-		if(f1.equals(DEFAULT) || f2.equals(DEFAULT)){
+		String f1b = sp.getString("Function1b", DEFAULT);
+		String f2b = sp.getString("Function2b", DEFAULT);
+		if(f1.equals(DEFAULT) || f2.equals(DEFAULT)|| f1b.equals(DEFAULT) || f2b.equals(DEFAULT) ){
 			Toast.makeText(this, "No Function Data Found", Toast.LENGTH_SHORT).show();
 		}else{
 			Toast.makeText(this, "Function Loaded", Toast.LENGTH_SHORT).show();
 			//setting the string
-			func_1_text.setText(f1);
-			func_2_text.setText(f2);
+			func_1a_text.setText(f1);
+			func_2a_text.setText(f2);
+			func_1b_text.setText(f1b);
+			func_2b_text.setText(f2b);
 		}
 	
 	}
