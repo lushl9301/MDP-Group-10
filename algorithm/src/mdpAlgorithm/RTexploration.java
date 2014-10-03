@@ -37,11 +37,18 @@ public class RTexploration implements Runnable{
 	
 	@Override
 	public void run() {
+//		for (int j = 0; j< 15; j++) {
+//			for(int i = 0; i < 20; i++) {
+//				System.out.print(map.toConfirmObstacle[j][i]);
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
 		
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-		int testx = -1;
+		int testx = 0;
 		
 		//front sensors
 		int U_F = 50;
@@ -58,6 +65,7 @@ public class RTexploration implements Runnable{
 		do {
 			reading.put("X", 10);
 			reading.put("Y", 8+testx);
+			reading.put("direction", "1");
 			reading.put("U_F", U_F);
 			reading.put("short_LF", short_LF);
 			reading.put("short_RF", short_RF);
@@ -65,8 +73,8 @@ public class RTexploration implements Runnable{
 			reading.put("long_BL", long_BL);
 			reading.put("short_FR", short_FR);
 			reading.put("U_R", U_R);			
-			reading.put("direction", "1");
-//			if (testx > 2) {
+			
+//			if (testx < -2) {
 //				reading.put("direction", "2");
 //			}
 //			else {
@@ -83,7 +91,18 @@ public class RTexploration implements Runnable{
 				currentDir = curStack.pop();
 			}
 			testx--;
-			System.out.println(rob.getX() +", "+rob.getY());
+			
+//			for (int j = 0; j< 15; j++) {
+//				for(int i = 0; i < 20; i++) {
+//					if(map.toConfirmObstacle[j][i]>= 0)
+//						System.out.print("[ "+map.toConfirmObstacle[j][i]+"]");
+//					else
+//						System.out.print("["+map.toConfirmObstacle[j][i]+"]");
+//				}
+//				System.out.println();
+//			}
+//			System.out.println();
+			//System.out.println(rob.getX() +", "+rob.getY());
 		}while(testx>-3);
 
 		
@@ -157,6 +176,7 @@ public class RTexploration implements Runnable{
 				//stringMd3 += "\n";
 			}
 			
+			
 			// send rpi md3 to send to android
 			client.sendJSON("map", stringMd3);
 
@@ -226,12 +246,12 @@ public class RTexploration implements Runnable{
 		// ------------------------------
 		
 		// X,Y coordinates
-//		int newX = Integer.valueOf(String.valueOf(reading.get("Y"))) -1;
-//		int newY = Integer.valueOf(String.valueOf(reading.get("X"))) -1;
+		int newX = Integer.valueOf(String.valueOf(reading.get("Y"))) -1;
+		int newY = Integer.valueOf(String.valueOf(reading.get("X"))) -1;
 		// robot orientation
 		String newOrientation = String.valueOf(reading.get("direction"));
 		String modNewOrientation = "";
-		
+
 		// change NESW to 1234
 		switch(newOrientation) {
 			case "1":
@@ -248,22 +268,30 @@ public class RTexploration implements Runnable{
 				break;
 		}
 		
+		System.out.println("Virtual robot: "+ newX + "," + newY + " Facing: "+ modNewOrientation);
+		System.out.println("Current robot: "+ rob.getX() + "," + rob.getY() + " Facing: "+ rob.getOrientation());
+		
 		// check if orientation is different. if different, rotate.
 		if(!modNewOrientation.equals(rob.getOrientation())) {
+			System.out.println("TURN");
 			rob.rotateRobot(reading, map, modNewOrientation);
 		}
 		// if not rotating, means it is moving
-		else  {
-			rob.moveRobot(reading, map, 1);
+		else if(newX != rob.getX() || newY != rob.getY()) {
+			System.out.println("MOVED");
+			//rob.moveRobot(reading, map, 1);
+			rob.setRobotXY(map, newX, newY, "Move", modNewOrientation, reading);
+			rob.setExplored(map);
+			
 		}
 		
 		// add delay if required
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(300);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return rob;
 	}
 
