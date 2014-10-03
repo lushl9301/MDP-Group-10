@@ -6,15 +6,19 @@ import java.io.InputStreamReader;
 import java.io.BufferedWriter;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.json.simple.*;
 
 class PCClient {
 
 	private String hostname;
 	private int port;
-	Socket socketClient;
+	private Socket socketClient;
+	private BufferedReader reader;
+	private PrintWriter writer;
 
 	public PCClient(String hostname, int port){
 		this.hostname = hostname;
@@ -25,6 +29,8 @@ class PCClient {
 		System.out.println("Attempting connection %");
 		socketClient = new Socket(hostname, port);
 		System.out.println("Connection established");
+		reader = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+		writer = new PrintWriter(socketClient.getOutputStream(), true);
 	}
 
 	public void sendJSON(String type, String data) {
@@ -32,17 +38,10 @@ class PCClient {
 		map.put("type", type);
 		map.put("data", data);
 		String jsonString = JSONValue.toJSONString(map);
-
 		 
-		try {
-			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
-			writer.write(jsonString);
-			writer.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		writer.write(jsonString+"\n");
+		writer.flush();
+		System.out.println("Sent JSON to Network");
 	}
 
 	public JSONObject receiveJSON() {
@@ -51,7 +50,7 @@ class PCClient {
 		
 		 
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
+			
 			jsonString = reader.readLine();
 			// TODO: not sure if can read until end of brace only
 			if (jsonString != null) {
@@ -85,6 +84,16 @@ class PCClient {
 			} catch (IOException e) {
 				System.out.println("IO error");		
 			}
+		}
+	}
+	
+	public void close(){
+		writer.close();
+		try {
+			reader.close();
+			socketClient.close();
+		} catch (IOException e) {
+			System.out.println("Can't close network");
 		}
 	}
 
