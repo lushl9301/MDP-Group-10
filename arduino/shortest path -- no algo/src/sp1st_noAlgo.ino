@@ -40,7 +40,7 @@ using namespace ArduinoJson::Generator;
 #define RisingEdgePerTurn_200 388 //for speed 200 382
 #define RisingEdgePerGrid_300 269 // need testing
 #define RisingEdgePerGrid_400 290
-#define stepToStraighten 4 //every 3 step make a auto adjust 3 OCT
+#define stepToStraighten 3 //every 3 step make a auto adjust 3 OCT
 #define speedModeSpeed 300
 #define autoAlignmentSpeed 55
 
@@ -138,73 +138,28 @@ void loop() {
     //explorationFLow();
 
     waitForCommand();
+    JsonObject<2> toRPi1;
 
     switch (getChar()) {
         case 'E':
-            // while(1){
-            //     currentX = 10;
-            //     currentY = 8;
-            //     sensorReading();
-            //     delay(500);
-            // }
             explorationFLow();
             break;
         case 'P':
-            bridesheadRevisited();
-            break;  
-        case 'R':
-            remote();
+            turn(1);
+            goalX = 20;
+            goalY = 15;
+            exploration();
+            Serial.println("I reach GOAL");
+            arriving(1);
+
+            toRPi1["type"] = "status";
+            toRPi1["data"] = "END_PATH";
+            Serial.print(toRPi1);
             break;
         default:
             // error
             break;
     }
-}
-
-void demo() {
-    /*drifting
-    md.init();
-    while (1) {
-        md.setSpeeds(330, -100);
-        delay(2500);
-        md.setSpeeds(200, 200);
-        delay(2000);
-        md.setSpeeds(-100, 330);
-        delay(2500);
-        md.setSpeeds(200,200);
-        delay(2000);
-    }
-    */
-    // int i = 4;
-    // while(i) {
-    //     --i;
-    //     goAhead(10);
-    //     turn(1);
-    //     turn(1);
-    //     goAhead(10);
-    //     delay(500);
-    // }
-    // delay(5000);
-    // Serial.println("Start");
-    // while (1) {
-    //     sensorReading();
-    //     delay(500);
-    // }
-    // delay(5000);
-
-    // RisingEdgePerTurn_200 /= 2;
-    // RisingEdgePerTurn_200 -= 10;
-    // i = 8;
-    // while (i--) {
-    //     turn(1);
-    //     delay(200);
-    // }
-    // RisingEdgePerTurn_200 = 395 * 4 + 35;
-    // i = 3;
-    // while (i--) {
-    //     turn(1);
-    //     delay(400);
-    // }
 }
 
 void explorationFLow() {
@@ -220,23 +175,10 @@ void explorationFLow() {
     Serial.println("I reach START");
     arriving(0);
 
-    turn(1);
-    goalX = 20;
-    goalY = 15;
-    exploration();
-    Serial.println("I reach GOAL");
-    arriving(1);
-
-    turn(1);
-    goalX = 1;
-    goalY = 1;
-    exploration();
-    arriving(0);
-
     JsonObject<2> toRPi;
     toRPi["type"] = "status";
     toRPi["data"] = "END_EXP";
-    Serial.println(toRPi);
+    Serial.print(toRPi);
 }
 
 void sensorReading() {
@@ -290,22 +232,6 @@ void thinkForAWhile() {
     toRPi["data"] = talk_Json;
 
     Serial.println(toRPi);
-
-    //root.prettyPrintTo(Serial);
-
-    // Serial.println("==========================");
-    // Serial.println("X" + String(currentX));
-    // Serial.println("Y" + String(currentY));
-    // Serial.println("UF " + String(u_F_dis));
-    // Serial.println("IRLF " + String(ir_lf_dis));
-    // Serial.println("IRRF " + String(ir_rf_dis));
-
-    // Serial.println("UL " + String(u_L_dis));
-    // Serial.println("IRL " + String(ir_l_dis));
-
-    // Serial.println("UR " + String(u_R_dis));
-    // Serial.println("IRR " + String(ir_r_dis));
-    // Serial.println("___________________________");
 
 }
 
@@ -375,13 +301,13 @@ bool able2Straighten() {
     return (abs(ir_rf_dis - ir_lf_dis) < 100);
 }
 
-int shortSensorToCM(int ir_dis) {
-    int result = 6787 / (ir_dis - 3) - 4;
+int shortSensorToCM(int ir_rf_dis) {
+    int result = 6787 / (analogRead(ir_rf_dis) - 3) - 4;
     return result;
 }
 
-int longSensorToCM(int ir_dis) {
-    int result = 16667 / (ir_dis + 15) - 10;
+int longSensorToCM(int ir_l_dis) {
+    int result = 16667 / (analogRead(ir_l_dis) + 15) - 10;
     return result;
 }
 
@@ -513,45 +439,6 @@ bool findWall() {
     return false;
 }
 
-void bridesheadRevisited() {
-    //follow instruction
-    //
-    //turn(1); //right
-    //turn(-1); //left
-    //goAhead(l);
-    currentX = 1;
-    currentY = 1;
-    getFRInstructions();
-    JsonObject<2> toRPi;
-    toRPi["type"] = "status";
-    toRPi["data"] = "END_PATH";
-    Serial.print(toRPi);
-}
-
-void remote() {
-    char instrChar;
-    int grids;
-
-    while (1) {
-        if (isDigit(instrChar = getChar())) {
-            grids = instrChar - '0';
-            goAhead(grids);
-        }
-        if (instrChar == 'R') {
-            turn(1);
-        } else if (instrChar == 'L') {
-            turn(-1);
-        } else if (instrChar == 'G') {
-            break;
-        }
-    }
-
-    JsonObject<2> toRPi;
-    toRPi["type"] = "status";
-    toRPi["data"] = "END_RMT";
-    Serial.print(toRPi);
-}
-
 void arriving(int endPoint) {
     //when near the end point
     //do nice stop
@@ -597,34 +484,6 @@ char getChar() {
     while (!Serial.available());
     return Serial.read();
 }
-
-void getFRInstructions() {
-    //get shortest path from RPi
-    //then move
-
-    char instrChar;
-    int grids = 0;
-    while (1) {
-        
-        while (isDigit(instrChar = getChar())) {
-            grids = grids * 10 + instrChar - '0';
-            Serial.println(grids);
-        }
-        if (grids != 0) {
-            goAhead(grids);
-            grids = 0;
-        }
-        if (instrChar == 'R') {
-            turn(1);
-        } else if (instrChar == 'L') {
-            turn(-1);
-        } else if (instrChar == 'G') {
-            arriving(1);
-            break;
-        }
-    }
-}
-
 
 /**************************************************************/
 /***************************movement***************************/

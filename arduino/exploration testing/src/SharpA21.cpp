@@ -17,7 +17,7 @@ void SharpA21::init(int inputPin) {
 int SharpA21::getDis() {
     int _results[7], _temp;
     for (int k = 0; k < 7; k++) {
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 5; i++) {
             _inputs[_head] = analogRead(_inputPin);
             --_head;
             if (_head < 0) {
