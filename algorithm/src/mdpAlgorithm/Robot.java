@@ -136,9 +136,8 @@ public class Robot {
 				else {
 					if (short_LF <= 10) { // 1st grid
 						if(!map.grid[newX-1][newY].getBackground().equals(WALL)) {
-						confirmObstacle(map, newX-1, newY);
+							confirmObstacle(map, newX-1, newY);
 						}
-						else break;
 					}
 					else if (short_LF > 10 && short_LF <= 20) { // 2nd grid
 						confirmObstacle(map, newX-2, newY);
@@ -198,7 +197,6 @@ public class Robot {
 				else {
 					if (U_F <= 5) { // 1st grid
 						confirmObstacle(map, newX-1, newY+1);
-						map.setMapDesc(newX-1, newY+1);
 					}
 					else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 						if(map.grid[newX-1][newY+1].getBackground().equals(WALL)) {
