@@ -89,7 +89,7 @@ class piArduino:
                     self.sensorLog.close()
                 print "ROBOT:\n" + json.dumps(json_data, indent=4) + "\n"
                 return json_data
-            except ValueError:
+            except (ValueError, TypeError):
                 print "From robot: " + json_string
                 pass
         except (serial.SerialException, AttributeError):

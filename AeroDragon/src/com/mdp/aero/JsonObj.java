@@ -15,7 +15,7 @@ public class JsonObj {
 	static int [][] position = new int[3][3]; 
 	static int dir =0;
 	static Robot r;
-	public static String words;
+	public static String words = "";
 	public JsonObj(){
 		//JObj = new JSONObject();
 		r = new Robot();
@@ -38,7 +38,7 @@ public class JsonObj {
 	
 	public static void recJson(String msg){
 		try {
-			JSONObject jsonObj = new JSONObject("{\"type\": \"map\",\"data\": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0]}");
+			JSONObject jsonObj = new JSONObject(msg);
 				
 				if(jsonObj.getString("type").equals("reading")){
 					JSONObject data = jsonObj.getJSONObject("data");
@@ -46,55 +46,49 @@ public class JsonObj {
 					int y = data.getInt("Y");
 					dir = data.getInt("direction");
 					
-					position[0][0] = ((y*20)-20+(x-1));
-					position[0][1] = ((y*20)-20+(x-1))+1;
-					position[0][2] = ((y*20)-20+(x-1))+2;
-					position[1][0] = ((y*20)-20+(x-1))+20;
-					position[1][1] = ((y*20)-20+(x-1))+21;
-					position[1][2] = ((y*20)-20+(x-1))+22;
-					position[2][0] = ((y*20)-20+(x-1))+40;
-					position[2][1] = ((y*20)-20+(x-1))+41;
-					position[2][2] = ((y*20)-20+(x-1))+42;
+					position[0][0] = ((y*20)-20+(x-1))-21;
+					position[0][1] = ((y*20)-20+(x-1))-20;
+					position[0][2] = ((y*20)-20+(x-1))-19;
+					position[1][0] = ((y*20)-20+(x-1))-1;
+					position[1][1] = ((y*20)-20+(x-1));
+					position[1][2] = ((y*20)-20+(x-1))+1;
+					position[2][0] = ((y*20)-20+(x-1))+19;
+					position[2][1] = ((y*20)-20+(x-1))+20;
+					position[2][2] = ((y*20)-20+(x-1))+21;
 					
 					
 				}
 				else if(jsonObj.getString("type").equals("status")){
 					
-					if(jsonObj.getString("data").equals("END_EXP")){
-						//stop timer?
-						//MainActivity.
-					}
-					else if(jsonObj.getString("data").equals("END_PATH")){
-						//Log.i("Tag", jsonObj.getString("data"));
-						//stop timer?
-					}
+					words = jsonObj.getString("data");
+					
 				}
 				else if(jsonObj.getString("type").equals("map")){
-					
-					int[] array = new int[300];
+					//String[] splited = msg.split("\\s+");
+					int[][] array = new int[15][20];
 					JSONArray data = jsonObj.getJSONArray("data");
-					for (int z=0; z<data.length();z++){
-						array[z]=data.getInt(z);
+					for (int y=0; y<15;y++){
+						for (int z=0; z<20;z++){
+							array[y][z]=data.getInt(z);
+							//should have error
+						}
 					}
 					for(int i=0; i<15;i++)
 						   for(int j=0;j<20;j++)
 						   {
-						       array2D[i][j] = array[(j%20+i*20)];
+						       array2D[i][j] = array[i][j];
 						   }
-				}
+					}
+				
+				
 				
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
+				//continue;
 				e.printStackTrace();
 			}
 			
 		
-	}
-	public static String amdS(String msg){
-		//for AMD tool
-		
-				return msg;
-				
 	}
 	public static void amdString(String msg){
 		//for AMD tool

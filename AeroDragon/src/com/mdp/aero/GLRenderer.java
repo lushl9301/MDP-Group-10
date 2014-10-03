@@ -160,7 +160,7 @@ public class GLRenderer implements Renderer {
 				{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}
 					
 			};
-		
+
 		SetupSquare();
 		
 		// Set the clear color to black
@@ -189,55 +189,14 @@ public class GLRenderer implements Renderer {
 //					100f, 100f, 0.0f,
 //		           };
 		
-//		vertices = new float[] {
-//				50.0f, 100.0f, 0.0f,
-//		        100.0f,100.0f,0.0f,
-//		        100.0f,50.0f,0.0f,
-//		        50.0f,50.0f,0.0f };
-//		
-		vertices = new float[15*4*3];
+		vertices = new float[] {
+				50.0f, 100.0f, 0.0f,
+		        100.0f,100.0f,0.0f,
+		        100.0f,50.0f,0.0f,
+		        50.0f,50.0f,0.0f };
 		
-		// Create the vertex data
-        for(int i=0;i<15;i++)
-        {
-            int offset_x = 10;
-            int offset_y = 10;
-             
-            // Create the 2D parts of our 3D vertices, others are default 0.0f
-            vertices[(i*12) + 0] = offset_x;
-            vertices[(i*12) + 1] = offset_y;
-            vertices[(i*12) + 2] = 0f;
-            vertices[(i*12) + 3] = offset_x;
-            vertices[(i*12) + 4] = offset_y;
-            vertices[(i*12) + 5] = 0f;
-            vertices[(i*12) + 6] = offset_x;
-            vertices[(i*12) + 7] = offset_y;
-            vertices[(i*12) + 8] = 0f;
-            vertices[(i*12) + 9] = offset_x;
-            vertices[(i*12) + 10] = offset_y;
-            vertices[(i*12) + 11] = 0f;
-        }
-		
-		//indices = new short[] {0, 1, 2, 2, 3, 0}; // The order of vertexrendering.
-		indices = new short[15*6]; 
-        int last = 0;
-        for(int i=0;i<15;i++)
-        {
-            // We need to set the new indices for the new quad
-            indices[(i*6) + 0] = (short) (last + 0);
-            indices[(i*6) + 1] = (short) (last + 1);
-            indices[(i*6) + 2] = (short) (last + 2);
-            indices[(i*6) + 3] = (short) (last + 0);
-            indices[(i*6) + 4] = (short) (last + 2);
-            indices[(i*6) + 5] = (short) (last + 3);
-             
-            // Our indices are connected to the vertices so we need to keep them
-            // in the correct order.
-            // normal quad = 0,1,2,0,2,3 so the next one will be 4,5,6,4,6,7
-            last = last + 4;
-        }
-		
-		
+		indices = new short[] {0, 1, 2, 2, 3, 0}; // The order of vertexrendering.
+
 		// The vertex buffer.
 		ByteBuffer bb = ByteBuffer.allocateDirect(vertices.length * 4);
 		bb.order(ByteOrder.nativeOrder());
