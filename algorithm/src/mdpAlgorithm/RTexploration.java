@@ -48,49 +48,49 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-		int testx = 0;
-		
-		//front sensors
-		int U_F = 50;
-		int short_LF = 60;
-		int short_RF = 60;
-		//left sensors
-		int U_L = 50;
-		int long_BL = 80;
-
-		// right sensors
-		int short_FR = 60;
-		int U_R = 50;
-
-		do {
-			reading.put("X", 10);
-			reading.put("Y", 8+testx);
-			reading.put("direction", "1");
-			reading.put("U_F", U_F);
-			reading.put("short_LF", short_LF);
-			reading.put("short_RF", short_RF);
-			reading.put("U_L", U_L);
-			reading.put("long_BL", long_BL);
-			reading.put("short_FR", short_FR);
-			reading.put("U_R", U_R);			
-			
-//			if (testx < -2) {
-//				reading.put("direction", "2");
+//		int testx = 0;
+//		
+//		//front sensors
+//		int U_F = 50;
+//		int short_LF = 60;
+//		int short_RF = 60;
+//		//left sensors
+//		int U_L = 50;
+//		int long_BL = 80;
+//
+//		// right sensors
+//		int short_FR = 60;
+//		int U_R = 50;
+//
+//		do {
+//			reading.put("X", 10);
+//			reading.put("Y", 8+testx);
+//			reading.put("direction", "1");
+//			reading.put("U_F", U_F);
+//			reading.put("short_LF", short_LF);
+//			reading.put("short_RF", short_RF);
+//			reading.put("U_L", U_L);
+//			reading.put("long_BL", long_BL);
+//			reading.put("short_FR", short_FR);
+//			reading.put("U_R", U_R);			
+//			
+////			if (testx < -2) {
+////				reading.put("direction", "2");
+////			}
+////			else {
+////				reading.put("direction", "1");
+////			}
+//			
+//			Robot currentDir = new Robot(curStack.peek());
+//			currentDir = getPos(map, rob, reading);
+//
+//			if (currentDir != null) {
+//				curStack.push(currentDir);
 //			}
 //			else {
-//				reading.put("direction", "1");
+//				currentDir = curStack.pop();
 //			}
-
-			Robot currentDir = new Robot(curStack.peek());
-			currentDir = getPos(map, rob, reading);
-
-			if (currentDir != null) {
-				curStack.push(currentDir);
-			}
-			else {
-				currentDir = curStack.pop();
-			}
-			testx--;
+//			testx--;
 			
 //			for (int j = 0; j< 15; j++) {
 //				for(int i = 0; i < 20; i++) {
@@ -102,8 +102,8 @@ public class RTexploration implements Runnable{
 //				System.out.println();
 //			}
 //			System.out.println();
-			//System.out.println(rob.getX() +", "+rob.getY());
-		}while(testx>-3);
+//			//System.out.println(rob.getX() +", "+rob.getY());
+//		}while(testx>-7);
 
 		
 		// instantiate connection to rpi
@@ -112,7 +112,9 @@ public class RTexploration implements Runnable{
 			client.connect();
 			// if successful, try to send data
 			//client.readInput();
-
+			
+			//client.sendJSON("map", map.getMapDesc());
+			
 			String status;
 			//JSONObject reading;
 			do {  // get inputs while exploration is still not completed
@@ -221,6 +223,8 @@ public class RTexploration implements Runnable{
 		} catch (IOException e) {
 			MainSimulator.rtThreadStarted = false;
 			System.err.println("Cannot establish connection. "+e.getMessage());
+		} finally {
+			client.close();
 		}
 	}
 	
@@ -286,12 +290,12 @@ public class RTexploration implements Runnable{
 		}
 		
 		// add delay if required
-//		try {
-//			Thread.sleep(300);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return rob;
 	}
 
