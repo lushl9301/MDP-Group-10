@@ -1706,7 +1706,10 @@ public class Robot {
 	}
 	
 	public void confirmObstacle(MapGrid map, int x, int y) {
-		map.grid[x][y].setBackground(CONFIRMOBSTACLE);
+		
+		if(map.getName().equals("map")) {
+			map.grid[x][y].setBackground(CONFIRMOBSTACLE);
+		}
 		map.setMapDescObstacles(x, y);
 		
 	}

@@ -37,54 +37,72 @@ public class RTexploration implements Runnable{
 	
 	@Override
 	public void run() {
+//		for (int j = 0; j< 15; j++) {
+//			for(int i = 0; i < 20; i++) {
+//				System.out.print(map.toConfirmObstacle[j][i]);
+//			}
+//			System.out.println();
+//		}
+//		System.out.println();
 		
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-		int testx = -1;
-		
-		//front sensors
-		int U_F = 50;
-		int short_LF = 60;
-		int short_RF = 60;
-		//left sensors
-		int U_L = 50;
-		int long_BL = 80;
-
-		// right sensors
-		int short_FR = 60;
-		int U_R = 50;
-
-		do {
-			reading.put("X", 10);
-			reading.put("Y", 8+testx);
-			reading.put("U_F", U_F);
-			reading.put("short_LF", short_LF);
-			reading.put("short_RF", short_RF);
-			reading.put("U_L", U_L);
-			reading.put("long_BL", long_BL);
-			reading.put("short_FR", short_FR);
-			reading.put("U_R", U_R);			
-			reading.put("direction", "1");
-//			if (testx > 2) {
-//				reading.put("direction", "2");
+//		int testx = -1;
+//		
+//		//front sensors
+//		int U_F = 50;
+//		int short_LF = 60;
+//		int short_RF = 60;
+//		//left sensors
+//		int U_L = 50;
+//		int long_BL = 80;
+//
+//		// right sensors
+//		int short_FR = 60;
+//		int U_R = 50;
+//
+//		do {
+//			reading.put("X", 10);
+//			reading.put("Y", 8+testx);
+//			reading.put("U_F", U_F);
+//			reading.put("short_LF", short_LF);
+//			reading.put("short_RF", short_RF);
+//			reading.put("U_L", U_L);
+//			reading.put("long_BL", long_BL);
+//			reading.put("short_FR", short_FR);
+//			reading.put("U_R", U_R);			
+//			reading.put("direction", "1");
+////			if (testx < -2) {
+////				reading.put("direction", "2");
+////			}
+////			else {
+////				reading.put("direction", "1");
+////			}
+//
+//			Robot currentDir = new Robot(curStack.peek());
+//			currentDir = getPos(map, rob, reading);
+//
+//			if (currentDir != null) {
+//				curStack.push(currentDir);
 //			}
 //			else {
-//				reading.put("direction", "1");
+//				currentDir = curStack.pop();
 //			}
-
-			Robot currentDir = new Robot(curStack.peek());
-			currentDir = getPos(map, rob, reading);
-
-			if (currentDir != null) {
-				curStack.push(currentDir);
-			}
-			else {
-				currentDir = curStack.pop();
-			}
-			testx--;
-			System.out.println(rob.getX() +", "+rob.getY());
-		}while(testx>-3);
+//			testx--;
+//			
+//			for (int j = 0; j< 15; j++) {
+//				for(int i = 0; i < 20; i++) {
+//					if(map.toConfirmObstacle[j][i]>= 0)
+//						System.out.print("[ "+map.toConfirmObstacle[j][i]+"]");
+//					else
+//						System.out.print("["+map.toConfirmObstacle[j][i]+"]");
+//				}
+//				System.out.println();
+//			}
+//			System.out.println();
+//			//System.out.println(rob.getX() +", "+rob.getY());
+//		}while(testx>-3);
 
 		
 		// instantiate connection to rpi
