@@ -50,8 +50,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import org.json.*;
-
 /**
  * This is the main Activity that displays the current chat session.
  */
@@ -72,12 +70,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 	private float[] mR = new float[9];
 	private float[] mOrientation = new float[3];
-	
+
 	private long lastUpdate;
 
 	// Shared Preferences
 	public static final String DEFAULT = "N/A";
-	String f1, f2, f1b, f2b;
+	String f1, f2, f1b, f2b, disp, tilt;
 
 	// Message types sent from the Bluetooth Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
@@ -361,6 +359,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 		f2 = sp.getString("Function2", DEFAULT);
 		f1b = sp.getString("Function1b", DEFAULT);
 		f2b = sp.getString("Function2b", DEFAULT);
+		disp = sp.getString("dispType", DEFAULT);
+		if (disp.equals(DEFAULT)) {
+			disp = "2d";
+		}
 		if (f1.equals(DEFAULT) || f2.equals(DEFAULT) || f1b.equals(DEFAULT)
 				|| f2b.equals(DEFAULT)) {
 			Toast.makeText(this, "No Function Data Found", Toast.LENGTH_SHORT)
@@ -785,11 +787,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 	public void onSensorChanged(SensorEvent event) {
 
+		SharedPreferences sp = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+		tilt = sp.getString("tilting", DEFAULT);
+		
 		long actualTime = event.timestamp;
-		// only allow one update every 1000ms.
-		if ((actualTime - lastUpdate) > 10000000) {
-			lastUpdate = actualTime;
-			
+
+		if (btManager.getState() == BluetoothManager.STATE_CONNECTED && tilt.equals("On")) {
 			if (event.sensor == mAccelerometer) {
 				System.arraycopy(event.values, 0, mLastAccelerometer, 0,
 						event.values.length);
@@ -807,42 +810,41 @@ public class MainActivity extends Activity implements SensorEventListener {
 						"Orientation: %f, %f, %f", mOrientation[0],
 						mOrientation[1], mOrientation[2]));
 			}
+			
 
-			if (btManager.getState() == BluetoothManager.STATE_CONNECTED) {
-				float x = event.values[0];
-				float y = event.values[1];
-				float z = event.values[2];
-				if (Math.abs(x) > Math.abs(y)) {
-					if (x < 2) {
-						map.turnRightMap();
-						sendMessage(JsonObj.sendJson("movement",
-								MapGenerator.rotate));
-						Log.i(TAG, "RIGHT");
+				if (((actualTime - lastUpdate) > 1000000000)) {
+					float x = event.values[0];
+					float y = event.values[1];
+					float z = event.values[2];
+						if (Math.abs(x) > Math.abs(y)) {
+							if (x < 8) {
+								map.turnRightMap();
+								Log.i(TAG, "RIGHT");
 
-					}
-					if (x > 2) {
-						map.turnLeftMap();
-						sendMessage(JsonObj.sendJson("movement",
-								MapGenerator.rotate));
-						Log.i(TAG, "LEFT");
-					}
-				} else {
-					if (y < 2) {
-						map.moveForwardMap();
-						sendMessage(JsonObj.sendJson("movement",
-								MapGenerator.rotate));
-						Log.i(TAG, "UP");
-					}
-					if (y > 2) {
-						map.moveDownMap();
-						sendMessage(JsonObj.sendJson("movement",
-								MapGenerator.rotate));
-						Log.i(TAG, "DOWN");
-					}
+							}
+							if (x > 5) {
+								map.turnLeftMap();
+								Log.i(TAG, "LEFT");
+							}
+						} else {
+							if (y < 5) {
+								map.moveForwardMap();
+								Log.i(TAG, "UP");
+							}
+							if (y > 5) {
+								map.moveDownMap();
+								Log.i(TAG, "DOWN");
+							}
+						}
+					
+					lastUpdate = actualTime;
+					sendMessage(JsonObj.sendJson("movement",
+							MapGenerator.rotate));
 				}
-			}
-		}else{
+			
+		} else {
 			return;
 		}
+
 	}
 }
