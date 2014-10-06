@@ -45,6 +45,7 @@ public class MainSimulator {
 	private static final Color ROBOT = new Color(153, 204, 255);
 	private static final Color FRONTROBOT = new Color(146, 208, 80);
 	private static Timer t;
+	public static Timer t2;
 	private static Thread exploreThread;
 	private static Thread rtExploreThread;
 	private static Exploration explore;
@@ -69,7 +70,7 @@ public class MainSimulator {
 		GridCell newCell;
 		frame = new JFrame();
 		frame.setTitle("Group 10 - Maze Simulator");
-		frame.setSize(new Dimension(950, 600)); // length by breadth (950x600) 950x700
+		frame.setSize(new Dimension(950, 630)); // length by breadth (950x630) 950x700
 
 		Container contentPanel = frame.getContentPane(); // initialize content panel
 		
@@ -79,14 +80,15 @@ public class MainSimulator {
 		
 		final MapGrid map = new MapGrid(); // initialize map
 		map.setName("map");
-		map.setBorder(new EmptyBorder(10, 20, 0, 20) );
+		map.setBorder(new EmptyBorder(25, 20, 0, 20) );
 		map.setPreferredSize(new Dimension(700, 525));
 		
 		final MapGrid map2 = new MapGrid(); // initialize real time map
 		map2.setName("map2");
-		map2.setBorder(new EmptyBorder(10, 20, 0, 20) );
+		map2.setBorder(new EmptyBorder(25, 20, 0, 20) );
 		map2.setPreferredSize(new Dimension(700, 525));
-		map2.grid[1][1].setBackground(Color.magenta);
+		map2.grid[0][0].setLabel("Real");
+		map2.grid[0][1].setLabel("Time");
 		map2.setVisible(false);
 		
 		JPanel buttonPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
@@ -101,13 +103,32 @@ public class MainSimulator {
 		c.gridwidth = 2;
 		c.gridx = 0;
 		c.gridy = 0;
+
+		JPanel timerPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
+		GridBagConstraints timerPanelC = new GridBagConstraints();
+		timerPanelC.ipady = 10;
+		timerPanelC.ipadx = 60;
+		timerPanelC.fill = GridBagConstraints.HORIZONTAL;
+		timerPanelC.gridx = 0;
+		timerPanelC.gridy = 0;
+		timerPanelC.gridwidth = 2;
 		
-        final JLabel timerLabel = new JLabel("06:00", JLabel.CENTER); 
+		final JLabel timerLabel = new JLabel("06:00", JLabel.CENTER); 
  		timerLabel.setFont(timerLabel.getFont().deriveFont(50.0f));
 		Color color = new Color(211,211,211);
 		timerLabel.setBackground(color);
 		timerLabel.setOpaque(true);
-		buttonPanel.add(timerLabel, c);
+		
+		final JLabel timerLabel2 = new JLabel("06:00", JLabel.CENTER); 
+		timerLabel2.setFont(timerLabel2.getFont().deriveFont(50.0f));
+		color = new Color(211,211,211);
+		timerLabel2.setBackground(color);
+		timerLabel2.setOpaque(true);
+		timerLabel2.setVisible(false);
+		timerPanel.add(timerLabel ,timerPanelC);
+		timerPanel.add(timerLabel2 ,timerPanelC);
+		
+		buttonPanel.add(timerPanel, c);
 		
 		c.gridx = 0;
 		c.gridy = 1;
@@ -367,11 +388,39 @@ public class MainSimulator {
                 	//show Real time map
                 	map.setVisible(false);
                 	map2.setVisible(true);
-                	
+                	timerLabel.setVisible(false);
+                	timerLabel2.setVisible(true);
                 	
                 	// instantiate rpi connection
                 	
                 	if(!rtThreadStarted) {
+                		map2.toConfirmObstacle = new int[15][20];
+                		
+                		//initialise timer
+                		timerLabel2.setText(timeField.getText());
+        				t2 = new Timer(1000, new ActionListener() {
+
+        		 			private long time = (Integer.parseInt(timeField.getText().split(":")[0]) * 60000) + (Integer.parseInt(timeField.getText().split(":")[1])*1000) - 1000;
+        		 			private String sPadding, mPadding;
+        		 			
+        		 		    public void actionPerformed(ActionEvent e) {
+        		 		    						
+        		 		        if (time >= 0 && rtExploreThread.isAlive()) {
+        		 		        	long s = ((time / 1000) % 60);
+        		 		            long m = (((time / 1000) / 60) % 60);
+        		 		            
+        		 		            if (s < 10) sPadding = "0";
+        		 		            else sPadding = "";
+        		 		            if (m < 10) mPadding = "0";
+        		 		            else mPadding = "";
+        		 		            
+        		 		            timerLabel2.setText(mPadding + m + ":"+ sPadding + s);
+        		 		            time -= 1000;
+        		 		            
+        		 		        }
+        		 		    }
+        		 		});
+                		
                 		// create robot for real time map
                     	Robot rob2 = new Robot(map2);
                     	
@@ -387,6 +436,8 @@ public class MainSimulator {
                 	//hide real time map
                 	map.setVisible(true);
                 	map2.setVisible(false);
+                	timerLabel.setVisible(true);
+                	timerLabel2.setVisible(false);
                 }
             }
         };
@@ -514,13 +565,12 @@ public class MainSimulator {
 		md3.setVisible(false);
 		buttonPanel.add(md3, c);
 
-		
 		JPanel legendPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
 		GridBagConstraints legendC = new GridBagConstraints();
 		legendC.fill = GridBagConstraints.HORIZONTAL;
 		legendC.gridx = 0;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,30,0,0);
+		legendC.insets = new Insets(10,30,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(STARTGOAL);
@@ -528,13 +578,13 @@ public class MainSimulator {
 		
 		legendC.gridx = 1;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,0,0,0);
+		legendC.insets = new Insets(10,0,0,0);
 		JLabel startlabel = new JLabel("Start/Goal");
 		legendPanel.add(startlabel, legendC);
 		
 		legendC.gridx = 2;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,32,0,0);
+		legendC.insets = new Insets(10,32,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(EXPLORE, 3));
 		newCell.setPreferredSize(new Dimension(12, 12));
@@ -543,13 +593,13 @@ public class MainSimulator {
 		
 		legendC.gridx = 3;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,2,0,0);
+		legendC.insets = new Insets(10,2,0,0);
 		JLabel exploreStart = new JLabel("Exploration Start");
 		legendPanel.add(exploreStart, legendC);
 		
 		legendC.gridx = 4;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,32,0,0);
+		legendC.insets = new Insets(10,32,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(OBSTACLE);
@@ -557,13 +607,13 @@ public class MainSimulator {
 		
 		legendC.gridx = 5;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,0,0,0);
+		legendC.insets = new Insets(10,0,0,0);
 		JLabel unconfirmObs = new JLabel("Unconfirmed Obstacle");
 		legendPanel.add(unconfirmObs, legendC);
 		
 		legendC.gridx = 6;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,32,0,0);
+		legendC.insets = new Insets(10,32,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(CONFIRMOBSTACLE);
@@ -571,13 +621,13 @@ public class MainSimulator {
 		
 		legendC.gridx = 7;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,0,0,0);
+		legendC.insets = new Insets(10,0,0,0);
 		JLabel confirmObs = new JLabel("Confirmed Obstacle");
 		legendPanel.add(confirmObs, legendC);
 		
 		legendC.gridx = 8;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,32,0,0);
+		legendC.insets = new Insets(10,32,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(EXPLORED);
@@ -585,7 +635,7 @@ public class MainSimulator {
 		
 		legendC.gridx = 9;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(0,0,0,0);
+		legendC.insets = new Insets(10,0,0,0);
 		JLabel explored = new JLabel("Explored");
 		legendPanel.add(explored, legendC);
 		
