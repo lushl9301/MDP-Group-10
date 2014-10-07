@@ -25,31 +25,32 @@ public class Robot {
 	
 	// Edit below for sensor reading grids
 	
-	private static final int short_LF_Grid1 = 11; // Grid 1 is an obs if the value is below 11
-	private static final int short_LF_Grid2 = 20; // Grid 2 is an obs if the value is btw 11 and 20
-	private static final int short_LF_Grid3 = 33; // Grid 3 is an obs if the value is btw 20 and 33
+	private static final int short_LF_Grid1 = 13; // Grid 1 is an obs if the value is below 11
+	private static final int short_LF_Grid2 = 22; // Grid 2 is an obs if the value is btw 11 and 20
+	private static final int short_LF_Grid3 = 35; // Grid 3 is an obs if the value is btw 20 and 33
 	
-	private static final int short_RF_Grid1 = 11;
-	private static final int short_RF_Grid2 = 20;
-	private static final int short_RF_Grid3 = 33;
+	private static final int short_RF_Grid1 = 13;
+	private static final int short_RF_Grid2 = 22;
+	private static final int short_RF_Grid3 = 35;
 	
-	private static final int long_BL_Grid1 = 20;
-	private static final int long_BL_Grid2 = 30;
-	private static final int long_BL_Grid3 = 40;
-	private static final int long_BL_Grid4 = 50;
-	private static final int long_BL_Grid5 = 58;
+	private static final int long_BL_Grid1 = 22;
+	private static final int long_BL_Grid2 = 31;
+	private static final int long_BL_Grid3 = 41;
+	private static final int long_BL_Grid4 = 51;
+	private static final int long_BL_Grid5 = 59;
 	
-	private static final int short_FR_Grid1 = 11;
-	private static final int short_FR_Grid2 = 24;
-	private static final int short_FR_Grid3 = 42;
+	private static final int short_FR_Grid1 = 13;
+	private static final int short_FR_Grid2 = 25;
+	private static final int short_FR_Grid3 = 44;
 	
-	private static final int U_F_Grid1 = 5;
+	private static final int U_F_Grid1 = 7;
+	private static final int U_F_Grid2 = 17;
 	
-	private static final int U_L_Grid1 = 11;
-	private static final int U_L_Grid2 = 22;
+	private static final int U_L_Grid1 = 7;
+	private static final int U_L_Grid2 = 17;
 	
-	private static final int U_R_Grid1 = 11;
-	private static final int U_R_Grid2 = 22;
+	private static final int U_R_Grid1 = 7;
+	private static final int U_R_Grid2 = 17;
 	
 	
 	public Robot (MapGrid map) {
@@ -232,6 +233,12 @@ public class Robot {
 					else {
 						if (U_F <= U_F_Grid1) { // 1st grid
 							confirmObstacle(map, newX-1, newY+1);
+						}
+						else if (U_F > U_F_Grid1 && U_F <= U_F_Grid2) { // 2nd grid
+							confirmObstacle(map, newX-2, newY+1);
+							map.grid[newX-1][newY+1].setBackground(SENSOR);
+							map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(newX-1, newY+1);
 						}
 						else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 							if(map.grid[newX-1][newY+1].getBackground().equals(WALL)) {
@@ -648,6 +655,12 @@ public class Robot {
 						if (U_F <= U_F_Grid1) { // 1st grid
 							confirmObstacle(map, newX+1, newY+3);
 						}
+						else if (U_F > U_F_Grid1 && U_F <= U_F_Grid2) { // 2nd grid
+							confirmObstacle(map, newX+1, newY+4);
+							map.grid[newX+1][newY+3].setBackground(SENSOR);
+							map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(newX+1, newY+3);
+						}
 						else { // if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 							if(map.grid[newX+1][newY+3].getBackground().equals(WALL)) {
 								
@@ -1061,6 +1074,12 @@ public class Robot {
 						if (U_F <= U_F_Grid1) { // 1st grid
 							confirmObstacle(map, newX+3, newY+1);
 						}
+						else if (U_F > U_F_Grid1 && U_F <= U_F_Grid2) { // 2nd grid
+							confirmObstacle(map, newX+4, newY+1);
+							map.grid[newX+3][newY+1].setBackground(SENSOR);
+							map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(newX+3, newY+1);
+						}
 						else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 							if(map.grid[newX+3][newY+1].getBackground().equals(WALL)) {
 								
@@ -1473,6 +1492,12 @@ public class Robot {
 					else {
 						if (U_F <= U_F_Grid1) { // 1st grid
 							confirmObstacle(map, newX+1, newY-1);
+						}
+						else if (U_F > U_F_Grid1 && U_F <= U_F_Grid2) { // 2nd grid
+							confirmObstacle(map, newX+1, newY-2);
+							map.grid[newX+1][newY-1].setBackground(SENSOR);
+							map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
+							map.setMapDesc(newX+1, newY-1);
 						}
 						else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 							if(map.grid[newX+1][newY-1].getBackground().equals(WALL)) {
