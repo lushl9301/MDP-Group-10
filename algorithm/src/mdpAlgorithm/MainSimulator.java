@@ -70,7 +70,7 @@ public class MainSimulator {
 		GridCell newCell;
 		frame = new JFrame();
 		frame.setTitle("Group 10 - Maze Simulator");
-		frame.setSize(new Dimension(950, 630)); // length by breadth (950x630) 950x700
+		frame.setSize(new Dimension(950, 605)); // length by breadth (950x605) 950x700
 
 		Container contentPanel = frame.getContentPane(); // initialize content panel
 		
@@ -80,12 +80,12 @@ public class MainSimulator {
 		
 		final MapGrid map = new MapGrid(); // initialize map
 		map.setName("map");
-		map.setBorder(new EmptyBorder(25, 20, 0, 20) );
+		map.setBorder(new EmptyBorder(15, 20, 0, 20) );
 		map.setPreferredSize(new Dimension(700, 525));
 		
 		final MapGrid map2 = new MapGrid(); // initialize real time map
 		map2.setName("map2");
-		map2.setBorder(new EmptyBorder(25, 20, 0, 20) );
+		map2.setBorder(new EmptyBorder(15, 20, 0, 20) );
 		map2.setPreferredSize(new Dimension(700, 525));
 		map2.grid[0][0].setLabel("Real");
 		map2.grid[0][1].setLabel("Time");
@@ -276,9 +276,11 @@ public class MainSimulator {
 	            if(md1.isSelected()) {
 	            	md2.setEnabled(false);
 	            	map.setMD(1, true);
+	            	map2.setMD(1, true);
 	            }
 	            else {
 	            	md2.setEnabled(true);
+	            	map2.setMD(1, false);
 	            	map.setMD(1, false);
 	            	
 	            }
@@ -293,10 +295,12 @@ public class MainSimulator {
 	            if(md2.isSelected()) {
 	            	md1.setEnabled(false);
 	            	map.setMD(2, true);
+	            	map2.setMD(2, true);
 	            }
 	            else {
 	            	md1.setEnabled(true);
 	            	map.setMD(2, false);
+	            	map2.setMD(2, false);
 	            }
 	          }
         });
@@ -376,6 +380,7 @@ public class MainSimulator {
 		
 		c.gridx = 1;
 		c.gridy = 9;
+		//c.ipady = 35;
 		realTime.setPreferredSize(new Dimension(43,realTime.getPreferredSize().height));
 		realTime.setMargin(new Insets(0,0,0,0));
 		realTime.setFont(realTime.getFont().deriveFont(11.0f));
@@ -515,37 +520,41 @@ public class MainSimulator {
 		solveMap.setEnabled(false);
 		solveMap.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
-				int whichCounter = 0;
-				int midCounter = 0;
-				String[] midroute = new String[300];
-
-				
-				new Dijkstra(map.getMapDesc3(map.getMapDesc(), map.getMapDesc2()));
-				for (int i = 1; i < 16; i++) {
-        			for (int j = 1; j < 21; j++) {
-        				if(Dijkstra.route[whichCounter]) {
-        					for (int x = 0; x < 3; x++) {
-        	        			for (int y = 0; y < 3; y++) {
-        	        				map.grid[i+x][j+y].setBackground(ROBOT);
-        	        				map.grid[i+x][j+y].setBorder(BorderFactory.createLineBorder(BORDER, 1));
-        	        				
-        	        				if(x == 1 && y == 1) {
-        	        					midroute[midCounter] = (i+x) + "," + (j+y);
-        	        					midCounter++;
-        	        				}
-        	        			}
-        					}
-        				}
-        				whichCounter++;
-        			}
-				}
-				int x;
-				int y;
-				for(int i = 0; i< midCounter; i++) {
-					x = Integer.parseInt(midroute[i].split(",")[0]);
-					y = Integer.parseInt(midroute[i].split(",")[1]);
-					map.grid[x][y].setBackground(EXPLORE);
-				}
+				ButtonModel solveMapModel = solveMap.getModel();
+                boolean enabled = solveMapModel.isEnabled();
+                if(enabled) {
+                
+					int whichCounter = 0;
+					int midCounter = 0;
+					String[] midroute = new String[300];
+	
+					new Dijkstra(map.getMapDesc3(map.getMapDesc(), map.getMapDesc2()));
+					for (int i = 1; i < 16; i++) {
+	        			for (int j = 1; j < 21; j++) {
+	        				if(Dijkstra.route[whichCounter]) {
+	        					for (int x = 0; x < 3; x++) {
+	        	        			for (int y = 0; y < 3; y++) {
+	        	        				map.grid[i+x][j+y].setBackground(ROBOT);
+	        	        				map.grid[i+x][j+y].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+	        	        				
+	        	        				if(x == 1 && y == 1) {
+	        	        					midroute[midCounter] = (i+x) + "," + (j+y);
+	        	        					midCounter++;
+	        	        				}
+	        	        			}
+	        					}
+	        				}
+	        				whichCounter++;
+	        			}
+					}
+					int x;
+					int y;
+					for(int i = 0; i< midCounter; i++) {
+						x = Integer.parseInt(midroute[i].split(",")[0]);
+						y = Integer.parseInt(midroute[i].split(",")[1]);
+						map.grid[x][y].setBackground(EXPLORE);
+					}
+                }
 			}
 		});
 
@@ -553,7 +562,7 @@ public class MainSimulator {
 		
 		c.gridx = 0;
 		c.gridy = 12;
-		c.insets = new Insets(0,0,0,0);
+		c.insets = new Insets(-5,0,0,0);
 		md3.addItemListener(new ItemListener() {
 	        public void itemStateChanged(ItemEvent e) {
 	        	if(md3.isSelected()) {
@@ -566,7 +575,7 @@ public class MainSimulator {
 	        	}
 	        }
         });
-		md3.setVisible(true);
+		md3.setVisible(false);
 		buttonPanel.add(md3, c);
 
 		JPanel legendPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		
@@ -574,7 +583,7 @@ public class MainSimulator {
 		legendC.fill = GridBagConstraints.HORIZONTAL;
 		legendC.gridx = 0;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,30,0,0);
+		legendC.insets = new Insets(5,30,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(STARTGOAL);
@@ -582,13 +591,13 @@ public class MainSimulator {
 		
 		legendC.gridx = 1;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,0,0,0);
+		legendC.insets = new Insets(5,0,0,0);
 		JLabel startlabel = new JLabel("Start/Goal");
 		legendPanel.add(startlabel, legendC);
 		
 		legendC.gridx = 2;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,32,0,0);
+		legendC.insets = new Insets(5,32,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(EXPLORE, 3));
 		newCell.setPreferredSize(new Dimension(12, 12));
@@ -597,13 +606,13 @@ public class MainSimulator {
 		
 		legendC.gridx = 3;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,2,0,0);
+		legendC.insets = new Insets(5,2,0,0);
 		JLabel exploreStart = new JLabel("Exploration Start");
 		legendPanel.add(exploreStart, legendC);
 		
 		legendC.gridx = 4;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,32,0,0);
+		legendC.insets = new Insets(5,32,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(OBSTACLE);
@@ -611,13 +620,13 @@ public class MainSimulator {
 		
 		legendC.gridx = 5;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,0,0,0);
+		legendC.insets = new Insets(5,0,0,0);
 		JLabel unconfirmObs = new JLabel("Unconfirmed Obstacle");
 		legendPanel.add(unconfirmObs, legendC);
 		
 		legendC.gridx = 6;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,32,0,0);
+		legendC.insets = new Insets(5,32,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(CONFIRMOBSTACLE);
@@ -625,13 +634,13 @@ public class MainSimulator {
 		
 		legendC.gridx = 7;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,0,0,0);
+		legendC.insets = new Insets(5,0,0,0);
 		JLabel confirmObs = new JLabel("Confirmed Obstacle");
 		legendPanel.add(confirmObs, legendC);
 		
 		legendC.gridx = 8;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,32,0,0);
+		legendC.insets = new Insets(5,32,0,0);
 		newCell = new GridCell(0,0,"");
 		newCell.setBorder(BorderFactory.createLineBorder(BORDER, 1));
 		newCell.setBackground(EXPLORED);
@@ -639,7 +648,7 @@ public class MainSimulator {
 		
 		legendC.gridx = 9;
 		legendC.gridy = 0;
-		legendC.insets = new Insets(10,0,0,0);
+		legendC.insets = new Insets(5,0,0,0);
 		JLabel explored = new JLabel("Explored");
 		legendPanel.add(explored, legendC);
 		

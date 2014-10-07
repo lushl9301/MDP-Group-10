@@ -176,7 +176,7 @@ public class Robot {
 							confirmObstacle(map, newX-2, newY);
 							map.grid[newX-1][newY].setBackground(SENSOR);
 							map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY);
+							map.setMapDesc(false, newX-1, newY);
 						}
 						else if (short_LF > short_LF_Grid2 && short_LF <= short_LF_Grid3) { // 3rd grid
 							confirmObstacle(map, newX-3, newY);
@@ -185,8 +185,8 @@ public class Robot {
 							map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX-2][newY].setBackground(SENSOR);
 							map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY);
-							map.setMapDesc(newX-2, newY);
+							map.setMapDesc(false, newX-1, newY);
+							map.setMapDesc(false, newX-2, newY);
 						}
 						else {
 							if(map.grid[newX-1][newY].getBackground().equals(WALL)) {
@@ -195,15 +195,15 @@ public class Robot {
 							else if (map.grid[newX-2][newY].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY].setBackground(SENSOR);
 								map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
+								map.setMapDesc(false, newX-1, newY);
 							}
 							else if (map.grid[newX-3][newY].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY].setBackground(SENSOR);
 								map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-2][newY].setBackground(SENSOR);
 								map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
-								map.setMapDesc(newX-2, newY);
+								map.setMapDesc(false, newX-1, newY);
+								map.setMapDesc(false, newX-2, newY);
 							}
 							else {
 								map.grid[newX-1][newY].setBackground(SENSOR);
@@ -212,9 +212,9 @@ public class Robot {
 								map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-3][newY].setBackground(SENSOR);
 								map.grid[newX-3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
-								map.setMapDesc(newX-2, newY);
-								map.setMapDesc(newX-3, newY);
+								map.setMapDesc(false, newX-1, newY);
+								map.setMapDesc(false, newX-2, newY);
+								map.setMapDesc(false, newX-3, newY);
 							}
 						}
 					}
@@ -243,7 +243,7 @@ public class Robot {
 							confirmObstacle(map, newX-2, newY+1);
 							map.grid[newX-1][newY+1].setBackground(SENSOR);
 							map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY+1);
+							map.setMapDesc(false, newX-1, newY+1);
 						}
 						else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 							if(map.grid[newX-1][newY+1].getBackground().equals(WALL)) {
@@ -252,15 +252,15 @@ public class Robot {
 							else if (map.grid[newX-2][newY+1].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY+1].setBackground(SENSOR);
 								map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+1);
+								map.setMapDesc(false, newX-1, newY+1);
 							}
 							else if (map.grid[newX-3][newY+1].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY+1].setBackground(SENSOR);
 								map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-2][newY+1].setBackground(SENSOR);
 								map.grid[newX-2][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+1);
-								map.setMapDesc(newX-2, newY+1);
+								map.setMapDesc(false, newX-1, newY+1);
+								map.setMapDesc(false, newX-2, newY+1);
 							}
 							else {
 								map.grid[newX-1][newY+1].setBackground(SENSOR);
@@ -269,9 +269,9 @@ public class Robot {
 								map.grid[newX-2][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-3][newY+1].setBackground(SENSOR);
 								map.grid[newX-3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+1);
-								map.setMapDesc(newX-2, newY+1);
-								map.setMapDesc(newX-3, newY+1);
+								map.setMapDesc(false, newX-1, newY+1);
+								map.setMapDesc(false, newX-2, newY+1);
+								map.setMapDesc(false, newX-3, newY+1);
 							}
 						}
 						
@@ -294,7 +294,7 @@ public class Robot {
 							confirmObstacle(map, newX-2, newY+2);
 							map.grid[newX-1][newY+2].setBackground(SENSOR);
 							map.grid[newX-1][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY+2);
+							map.setMapDesc(false, newX-1, newY+2);
 						}
 						else if (short_RF > short_RF_Grid2 && short_RF <= short_RF_Grid3) { // 3rd grid
 							confirmObstacle(map, newX-3, newY+2);
@@ -303,8 +303,8 @@ public class Robot {
 							map.grid[newX-1][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX-2][newY+2].setBackground(SENSOR);
 							map.grid[newX-2][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY+2);
-							map.setMapDesc(newX-2, newY+2);
+							map.setMapDesc(false, newX-1, newY+2);
+							map.setMapDesc(false, newX-2, newY+2);
 						}
 						else {
 							if(map.grid[newX-1][newY+2].getBackground().equals(WALL)) {
@@ -313,15 +313,15 @@ public class Robot {
 							else if (map.grid[newX-2][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY+2].setBackground(SENSOR);
 								map.grid[newX-1][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+2);
+								map.setMapDesc(false, newX-1, newY+2);
 							}
 							else if (map.grid[newX-3][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY+2].setBackground(SENSOR);
 								map.grid[newX-1][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-2][newY+2].setBackground(SENSOR);
 								map.grid[newX-2][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+2);
-								map.setMapDesc(newX-2, newY+2);
+								map.setMapDesc(false, newX-1, newY+2);
+								map.setMapDesc(false, newX-2, newY+2);
 							}
 							else {
 								map.grid[newX-1][newY+2].setBackground(SENSOR);
@@ -330,9 +330,9 @@ public class Robot {
 								map.grid[newX-2][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-3][newY+2].setBackground(SENSOR);
 								map.grid[newX-3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+2);
-								map.setMapDesc(newX-2, newY+2);
-								map.setMapDesc(newX-3, newY+2);
+								map.setMapDesc(false, newX-1, newY+2);
+								map.setMapDesc(false, newX-2, newY+2);
+								map.setMapDesc(false, newX-3, newY+2);
 							}
 						}
 					}
@@ -352,7 +352,7 @@ public class Robot {
 							confirmObstacle(map, newX+2, newY-2);
 							map.grid[newX+2][newY-1].setBackground(SENSOR);
 							map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY-1);
+							map.setMapDesc(false, newX+2, newY-1);
 						}
 						else if (long_BL > long_BL_Grid2 && long_BL <= long_BL_Grid3) { // 3rd grid
 							confirmObstacle(map, newX+2, newY-3);
@@ -360,8 +360,8 @@ public class Robot {
 							map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+2][newY-2].setBackground(SENSOR);
 							map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY-1);
-							map.setMapDesc(newX+2, newY-2);
+							map.setMapDesc(false, newX+2, newY-1);
+							map.setMapDesc(false, newX+2, newY-2);
 						}
 						else if (long_BL > long_BL_Grid3 && long_BL <= long_BL_Grid4) { // 4th grid
 							confirmObstacle(map, newX+2, newY-4);
@@ -371,9 +371,9 @@ public class Robot {
 							map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+2][newY-3].setBackground(SENSOR);
 							map.grid[newX+2][newY-3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY-1);
-							map.setMapDesc(newX+2, newY-2);
-							map.setMapDesc(newX+2, newY-3);
+							map.setMapDesc(false, newX+2, newY-1);
+							map.setMapDesc(false, newX+2, newY-2);
+							map.setMapDesc(false, newX+2, newY-3);
 						}
 						else if (long_BL > long_BL_Grid4 && long_BL <= long_BL_Grid5) { // 5th grid
 							confirmObstacle(map, newX+2, newY-5);
@@ -385,10 +385,10 @@ public class Robot {
 							map.grid[newX+2][newY-3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+2][newY-4].setBackground(SENSOR);
 							map.grid[newX+2][newY-4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY-1);
-							map.setMapDesc(newX+2, newY-2);
-							map.setMapDesc(newX+2, newY-3);
-							map.setMapDesc(newX+2, newY-4);
+							map.setMapDesc(false, newX+2, newY-1);
+							map.setMapDesc(false, newX+2, newY-2);
+							map.setMapDesc(false, newX+2, newY-3);
+							map.setMapDesc(false, newX+2, newY-4);
 						}
 						else {
 							if(map.grid[newX+2][newY-1].getBackground().equals(WALL)) {
@@ -397,15 +397,15 @@ public class Robot {
 							else if (map.grid[newX+2][newY-2].getBackground().equals(WALL)){
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
 								map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-1);
 							}
 							else if (map.grid[newX+2][newY-3].getBackground().equals(WALL)){
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
 								map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY-2].setBackground(SENSOR);
 								map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
-								map.setMapDesc(newX+2, newY-2);
+								map.setMapDesc(false, newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-2);
 							}
 							else if (map.grid[newX+2][newY-4].getBackground().equals(WALL)){
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
@@ -414,9 +414,9 @@ public class Robot {
 								map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY-3].setBackground(SENSOR);
 								map.grid[newX+2][newY-3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
-								map.setMapDesc(newX+2, newY-2);
-								map.setMapDesc(newX+2, newY-3);
+								map.setMapDesc(false, newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-2);
+								map.setMapDesc(false, newX+2, newY-3);
 							}
 							else if (map.grid[newX+2][newY-5].getBackground().equals(WALL)){
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
@@ -427,10 +427,10 @@ public class Robot {
 								map.grid[newX+2][newY-3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY-4].setBackground(SENSOR);
 								map.grid[newX+2][newY-4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
-								map.setMapDesc(newX+2, newY-2);
-								map.setMapDesc(newX+2, newY-3);
-								map.setMapDesc(newX+2, newY-4);
+								map.setMapDesc(false, newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-2);
+								map.setMapDesc(false, newX+2, newY-3);
+								map.setMapDesc(false, newX+2, newY-4);
 							}
 							else {
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
@@ -443,11 +443,11 @@ public class Robot {
 								map.grid[newX+2][newY-4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY-5].setBackground(SENSOR);
 								map.grid[newX+2][newY-5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
-								map.setMapDesc(newX+2, newY-2);
-								map.setMapDesc(newX+2, newY-3);
-								map.setMapDesc(newX+2, newY-4);
-								map.setMapDesc(newX+2, newY-5);
+								map.setMapDesc(false, newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-2);
+								map.setMapDesc(false, newX+2, newY-3);
+								map.setMapDesc(false, newX+2, newY-4);
+								map.setMapDesc(false, newX+2, newY-5);
 							}
 						}
 					}
@@ -467,7 +467,7 @@ public class Robot {
 							confirmObstacle(map, newX+1, newY-2);
 							map.grid[newX+1][newY-1].setBackground(SENSOR);
 							map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+1, newY-1);
+							map.setMapDesc(false, newX+1, newY-1);
 						}
 						else {
 							if(map.grid[newX+1][newY-1].getBackground().equals(WALL)) {
@@ -476,15 +476,15 @@ public class Robot {
 							else if (map.grid[newX+1][newY-2].getBackground().equals(WALL)){
 								map.grid[newX+1][newY-1].setBackground(SENSOR);
 								map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY-1);
+								map.setMapDesc(false, newX+1, newY-1);
 							}
 							else {
 								map.grid[newX+1][newY-1].setBackground(SENSOR);
 								map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+1][newY-2].setBackground(SENSOR);
 								map.grid[newX+1][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY-1);
-								map.setMapDesc(newX+1, newY-2);
+								map.setMapDesc(false, newX+1, newY-1);
+								map.setMapDesc(false, newX+1, newY-2);
 							}
 						}
 					}
@@ -504,7 +504,7 @@ public class Robot {
 							confirmObstacle(map, newX, newY+4);
 							map.grid[newX][newY+3].setBackground(SENSOR);
 							map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY+3);
+							map.setMapDesc(false, newX, newY+3);
 						}
 						else if (short_FR > short_FR_Grid2 && short_FR <= short_FR_Grid3) { // 3rd grid
 							confirmObstacle(map, newX, newY+5);
@@ -512,8 +512,8 @@ public class Robot {
 							map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX][newY+4].setBackground(SENSOR);
 							map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY+3);
-							map.setMapDesc(newX, newY+4);
+							map.setMapDesc(false, newX, newY+3);
+							map.setMapDesc(false, newX, newY+4);
 						}
 						else {
 							if(map.grid[newX][newY+3].getBackground().equals(WALL)) {
@@ -522,15 +522,15 @@ public class Robot {
 							else if(map.grid[newX][newY+4].getBackground().equals(WALL)) {
 								map.grid[newX][newY+3].setBackground(SENSOR);
 								map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
+								map.setMapDesc(false, newX, newY+3);
 							}
 							else if(map.grid[newX][newY+5].getBackground().equals(WALL)) {
 								map.grid[newX][newY+3].setBackground(SENSOR);
 								map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY+4].setBackground(SENSOR);
 								map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
-								map.setMapDesc(newX, newY+4);
+								map.setMapDesc(false, newX, newY+3);
+								map.setMapDesc(false, newX, newY+4);
 							}
 							else {
 								map.grid[newX][newY+3].setBackground(SENSOR);
@@ -539,9 +539,9 @@ public class Robot {
 								map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY+5].setBackground(SENSOR);
 								map.grid[newX][newY+5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
-								map.setMapDesc(newX, newY+4);
-								map.setMapDesc(newX, newY+5);
+								map.setMapDesc(false, newX, newY+3);
+								map.setMapDesc(false, newX, newY+4);
+								map.setMapDesc(false, newX, newY+5);
 							}
 						}
 					}
@@ -561,7 +561,7 @@ public class Robot {
 							confirmObstacle(map, newX+1, newY+4);
 							map.grid[newX+1][newY+3].setBackground(SENSOR);
 							map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+1, newY+3);
+							map.setMapDesc(false, newX+1, newY+3);
 						}
 						else {
 							if(map.grid[newX+1][newY+3].getBackground().equals(WALL)) {
@@ -570,15 +570,15 @@ public class Robot {
 							else if(map.grid[newX+1][newY+4].getBackground().equals(WALL)) {
 								map.grid[newX+1][newY+3].setBackground(SENSOR);
 								map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY+3);
+								map.setMapDesc(false, newX+1, newY+3);
 							}
 							else {
 								map.grid[newX+1][newY+3].setBackground(SENSOR);
 								map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+1][newY+4].setBackground(SENSOR);
 								map.grid[newX+1][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY+3);
-								map.setMapDesc(newX+1, newY+4);
+								map.setMapDesc(false, newX+1, newY+3);
+								map.setMapDesc(false, newX+1, newY+4);
 							}
 						}
 					}
@@ -605,7 +605,7 @@ public class Robot {
 							confirmObstacle(map, newX, newY+4);
 							map.grid[newX][newY+3].setBackground(SENSOR);
 							map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY+4);
+							map.setMapDesc(false, newX, newY+4);
 						}
 						else if (short_LF > short_LF_Grid2 && short_LF <= short_LF_Grid3) { // 3rd grid
 							confirmObstacle(map, newX, newY+5);
@@ -614,8 +614,8 @@ public class Robot {
 							map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX][newY+4].setBackground(SENSOR);
 							map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY+3);
-							map.setMapDesc(newX, newY+4);
+							map.setMapDesc(false, newX, newY+3);
+							map.setMapDesc(false, newX, newY+4);
 						}
 						else {
 							if(map.grid[newX][newY+3].getBackground().equals(WALL)) {
@@ -624,15 +624,15 @@ public class Robot {
 							else if(map.grid[newX][newY+4].getBackground().equals(WALL)) {
 								map.grid[newX][newY+3].setBackground(SENSOR);
 								map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
+								map.setMapDesc(false, newX, newY+3);
 							}
 							else if(map.grid[newX][newY+5].getBackground().equals(WALL)) {
 								map.grid[newX][newY+3].setBackground(SENSOR);
 								map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY+4].setBackground(SENSOR);
 								map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
-								map.setMapDesc(newX, newY+4);
+								map.setMapDesc(false, newX, newY+3);
+								map.setMapDesc(false, newX, newY+4);
 							}
 							else {
 								map.grid[newX][newY+3].setBackground(SENSOR);
@@ -641,9 +641,9 @@ public class Robot {
 								map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY+5].setBackground(SENSOR);
 								map.grid[newX][newY+5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
-								map.setMapDesc(newX, newY+4);
-								map.setMapDesc(newX, newY+5);
+								map.setMapDesc(false, newX, newY+3);
+								map.setMapDesc(false, newX, newY+4);
+								map.setMapDesc(false, newX, newY+5);
 							}
 						}
 					}
@@ -672,7 +672,7 @@ public class Robot {
 							confirmObstacle(map, newX+1, newY+4);
 							map.grid[newX+1][newY+3].setBackground(SENSOR);
 							map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+1, newY+3);
+							map.setMapDesc(false, newX+1, newY+3);
 						}
 						else { // if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 							if(map.grid[newX+1][newY+3].getBackground().equals(WALL)) {
@@ -681,15 +681,15 @@ public class Robot {
 							else if(map.grid[newX+1][newY+4].getBackground().equals(WALL)) {
 								map.grid[newX+1][newY+3].setBackground(SENSOR);
 								map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY+3);
+								map.setMapDesc(false, newX+1, newY+3);
 							}
 							else if(map.grid[newX+1][newY+5].getBackground().equals(WALL)) {
 								map.grid[newX+1][newY+3].setBackground(SENSOR);
 								map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+1][newY+4].setBackground(SENSOR);
 								map.grid[newX+1][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY+3);
-								map.setMapDesc(newX+1, newY+4);
+								map.setMapDesc(false, newX+1, newY+3);
+								map.setMapDesc(false, newX+1, newY+4);
 							}
 							else {
 								map.grid[newX+1][newY+3].setBackground(SENSOR);
@@ -698,9 +698,9 @@ public class Robot {
 								map.grid[newX+1][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+1][newY+5].setBackground(SENSOR);
 								map.grid[newX+1][newY+5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY+3);
-								map.setMapDesc(newX+1, newY+4);
-								map.setMapDesc(newX+1, newY+5);
+								map.setMapDesc(false, newX+1, newY+3);
+								map.setMapDesc(false, newX+1, newY+4);
+								map.setMapDesc(false, newX+1, newY+5);
 							}
 						}
 					}
@@ -722,7 +722,7 @@ public class Robot {
 							confirmObstacle(map, newX+2, newY+4);
 							map.grid[newX+2][newY+3].setBackground(SENSOR);
 							map.grid[newX+2][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY+3);
+							map.setMapDesc(false, newX+2, newY+3);
 						}
 						else if (short_RF > short_RF_Grid2 && short_RF <= short_RF_Grid3) { // 3rd grid
 							confirmObstacle(map, newX+2, newY+5);
@@ -731,8 +731,8 @@ public class Robot {
 							map.grid[newX+2][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+2][newY+4].setBackground(SENSOR);
 							map.grid[newX+2][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY+3);
-							map.setMapDesc(newX+2, newY+4);
+							map.setMapDesc(false, newX+2, newY+3);
+							map.setMapDesc(false, newX+2, newY+4);
 						}
 						else {
 							if(map.grid[newX+2][newY+3].getBackground().equals(WALL)) {
@@ -741,15 +741,15 @@ public class Robot {
 							else if(map.grid[newX+2][newY+4].getBackground().equals(WALL)) {
 								map.grid[newX+2][newY+3].setBackground(SENSOR);
 								map.grid[newX+2][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY+3);
+								map.setMapDesc(false, newX+2, newY+3);
 							}
 							else if(map.grid[newX+2][newY+5].getBackground().equals(WALL)) {
 								map.grid[newX+2][newY+3].setBackground(SENSOR);
 								map.grid[newX+2][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY+4].setBackground(SENSOR);
 								map.grid[newX+2][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY+3);
-								map.setMapDesc(newX+2, newY+4);
+								map.setMapDesc(false, newX+2, newY+3);
+								map.setMapDesc(false, newX+2, newY+4);
 							}
 							else {
 								map.grid[newX+2][newY+3].setBackground(SENSOR);
@@ -758,9 +758,9 @@ public class Robot {
 								map.grid[newX+2][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY+5].setBackground(SENSOR);
 								map.grid[newX+2][newY+5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY+3);
-								map.setMapDesc(newX+2, newY+4);
-								map.setMapDesc(newX+2, newY+5);
+								map.setMapDesc(false, newX+2, newY+3);
+								map.setMapDesc(false, newX+2, newY+4);
+								map.setMapDesc(false, newX+2, newY+5);
 							}
 						}
 					}
@@ -780,7 +780,7 @@ public class Robot {
 							confirmObstacle(map, newX-2, newY);
 							map.grid[newX-1][newY].setBackground(SENSOR);
 							map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY);
+							map.setMapDesc(false, newX-1, newY);
 						}
 						else if (long_BL > long_BL_Grid2 && long_BL <= long_BL_Grid3) { // 3rd grid
 							confirmObstacle(map, newX-3, newY);
@@ -788,8 +788,8 @@ public class Robot {
 							map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX-2][newY].setBackground(SENSOR);
 							map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY);
-							map.setMapDesc(newX-2, newY);
+							map.setMapDesc(false, newX-1, newY);
+							map.setMapDesc(false, newX-2, newY);
 						}
 						else if (long_BL > long_BL_Grid3 && long_BL <= long_BL_Grid4) { // 4th grid
 							confirmObstacle(map, newX-4, newY);
@@ -799,9 +799,9 @@ public class Robot {
 							map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX-3][newY].setBackground(SENSOR);
 							map.grid[newX-3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY);
-							map.setMapDesc(newX-2, newY);
-							map.setMapDesc(newX-3, newY);
+							map.setMapDesc(false, newX-1, newY);
+							map.setMapDesc(false, newX-2, newY);
+							map.setMapDesc(false, newX-3, newY);
 						}
 						else if (long_BL > long_BL_Grid4 && long_BL <= long_BL_Grid5) { // 5th grid
 							confirmObstacle(map, newX-5, newY);
@@ -813,10 +813,10 @@ public class Robot {
 							map.grid[newX-3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX-4][newY].setBackground(SENSOR);
 							map.grid[newX-4][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY);
-							map.setMapDesc(newX-2, newY);
-							map.setMapDesc(newX-3, newY);
-							map.setMapDesc(newX-4, newY);
+							map.setMapDesc(false, newX-1, newY);
+							map.setMapDesc(false, newX-2, newY);
+							map.setMapDesc(false, newX-3, newY);
+							map.setMapDesc(false, newX-4, newY);
 						}
 						else {
 							if(map.grid[newX-1][newY].getBackground().equals(WALL)) {
@@ -825,15 +825,15 @@ public class Robot {
 							else if(map.grid[newX-2][newY].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY].setBackground(SENSOR);
 								map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
+								map.setMapDesc(false, newX-1, newY);
 							}
 							else if(map.grid[newX-3][newY].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY].setBackground(SENSOR);
 								map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-2][newY].setBackground(SENSOR);
 								map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
-								map.setMapDesc(newX-2, newY);
+								map.setMapDesc(false, newX-1, newY);
+								map.setMapDesc(false, newX-2, newY);
 							}
 							else if(map.grid[newX-4][newY].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY].setBackground(SENSOR);
@@ -842,9 +842,9 @@ public class Robot {
 								map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-3][newY].setBackground(SENSOR);
 								map.grid[newX-3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
-								map.setMapDesc(newX-2, newY);
-								map.setMapDesc(newX-3, newY);
+								map.setMapDesc(false, newX-1, newY);
+								map.setMapDesc(false, newX-2, newY);
+								map.setMapDesc(false, newX-3, newY);
 							}
 							else if(map.grid[newX-5][newY].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY].setBackground(SENSOR);
@@ -855,10 +855,10 @@ public class Robot {
 								map.grid[newX-3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-4][newY].setBackground(SENSOR);
 								map.grid[newX-4][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
-								map.setMapDesc(newX-2, newY);
-								map.setMapDesc(newX-3, newY);
-								map.setMapDesc(newX-4, newY);
+								map.setMapDesc(false, newX-1, newY);
+								map.setMapDesc(false, newX-2, newY);
+								map.setMapDesc(false, newX-3, newY);
+								map.setMapDesc(false, newX-4, newY);
 							}
 							else {
 								map.grid[newX-1][newY].setBackground(SENSOR);
@@ -871,11 +871,11 @@ public class Robot {
 								map.grid[newX-4][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-5][newY].setBackground(SENSOR);
 								map.grid[newX-5][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
-								map.setMapDesc(newX-2, newY);
-								map.setMapDesc(newX-3, newY);
-								map.setMapDesc(newX-4, newY);
-								map.setMapDesc(newX-5, newY);
+								map.setMapDesc(false, newX-1, newY);
+								map.setMapDesc(false, newX-2, newY);
+								map.setMapDesc(false, newX-3, newY);
+								map.setMapDesc(false, newX-4, newY);
+								map.setMapDesc(false, newX-5, newY);
 							}
 						}
 	
@@ -896,7 +896,7 @@ public class Robot {
 							confirmObstacle(map, newX-2, newY+1);
 							map.grid[newX-1][newY+1].setBackground(SENSOR);
 							map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY+1);
+							map.setMapDesc(false, newX-1, newY+1);
 						}
 						else {
 							if(map.grid[newX-1][newY+1].getBackground().equals(WALL)) {
@@ -905,15 +905,15 @@ public class Robot {
 							else if(map.grid[newX-2][newY+1].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY+1].setBackground(SENSOR);
 								map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+1);
+								map.setMapDesc(false, newX-1, newY+1);
 							}
 							else {
 								map.grid[newX-1][newY+1].setBackground(SENSOR);
 								map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-2][newY+1].setBackground(SENSOR);
 								map.grid[newX-2][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+1);
-								map.setMapDesc(newX-2, newY+1);
+								map.setMapDesc(false, newX-1, newY+1);
+								map.setMapDesc(false, newX-2, newY+1);
 							}
 						}
 					}
@@ -933,7 +933,7 @@ public class Robot {
 							confirmObstacle(map, newX+4, newY+2);
 							map.grid[newX+3][newY+2].setBackground(SENSOR);
 							map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+2);
+							map.setMapDesc(false, newX+3, newY+2);
 						}
 						else if (short_FR > short_FR_Grid2 && short_FR <= short_FR_Grid3) { // 3rd grid
 							confirmObstacle(map, newX+5, newY);
@@ -941,8 +941,8 @@ public class Robot {
 							map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+4][newY+2].setBackground(SENSOR);
 							map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+2);
-							map.setMapDesc(newX+4, newY+2);
+							map.setMapDesc(false, newX+3, newY+2);
+							map.setMapDesc(false, newX+4, newY+2);
 						}
 						else {
 							if(map.grid[newX+3][newY+2].getBackground().equals(WALL)) {
@@ -951,15 +951,15 @@ public class Robot {
 							else if(map.grid[newX+4][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
 								map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
 							}
 							else if(map.grid[newX+5][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
 								map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+4][newY+2].setBackground(SENSOR);
 								map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
-								map.setMapDesc(newX+4, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
+								map.setMapDesc(false, newX+4, newY+2);
 							}
 							else {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
@@ -968,9 +968,9 @@ public class Robot {
 								map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+5][newY+2].setBackground(SENSOR);
 								map.grid[newX+5][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
-								map.setMapDesc(newX+4, newY+2);
-								map.setMapDesc(newX+5, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
+								map.setMapDesc(false, newX+4, newY+2);
+								map.setMapDesc(false, newX+5, newY+2);
 							}
 						}
 					}
@@ -990,7 +990,7 @@ public class Robot {
 							confirmObstacle(map, newX+4, newY+1);
 							map.grid[newX+3][newY+1].setBackground(SENSOR);
 							map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+1);
+							map.setMapDesc(false, newX+3, newY+1);
 						}
 						else {
 							if(map.grid[newX+3][newY+2].getBackground().equals(WALL)) {
@@ -999,15 +999,15 @@ public class Robot {
 							else if(map.grid[newX+4][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
 								map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
 							}
 							else {
 								map.grid[newX+3][newY+1].setBackground(SENSOR);
 								map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+4][newY+1].setBackground(SENSOR);
 								map.grid[newX+4][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+1);
-								map.setMapDesc(newX+4, newY+1);
+								map.setMapDesc(false, newX+3, newY+1);
+								map.setMapDesc(false, newX+4, newY+1);
 							}
 						}
 					}
@@ -1032,7 +1032,7 @@ public class Robot {
 							confirmObstacle(map, newX+4, newY+2);
 							map.grid[newX+3][newY+2].setBackground(SENSOR);
 							map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+2);
+							map.setMapDesc(false, newX+3, newY+2);
 						}
 						else if (short_LF > short_LF_Grid2 && short_LF <= short_LF_Grid3) { // 3rd grid
 							confirmObstacle(map, newX+5, newY+2);
@@ -1041,8 +1041,8 @@ public class Robot {
 							map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+4][newY+2].setBackground(SENSOR);
 							map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+2);
-							map.setMapDesc(newX+4, newY+2);
+							map.setMapDesc(false, newX+3, newY+2);
+							map.setMapDesc(false, newX+4, newY+2);
 						}
 						else {
 							if(map.grid[newX+3][newY+2].getBackground().equals(WALL)) {
@@ -1051,15 +1051,15 @@ public class Robot {
 							else if (map.grid[newX+4][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
 								map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
 							}
 							else if (map.grid[newX+5][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
 								map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+4][newY+2].setBackground(SENSOR);
 								map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
-								map.setMapDesc(newX+4, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
+								map.setMapDesc(false, newX+4, newY+2);
 							}
 							else {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
@@ -1068,9 +1068,9 @@ public class Robot {
 								map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+5][newY+2].setBackground(SENSOR);
 								map.grid[newX+5][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
-								map.setMapDesc(newX+4, newY+2);
-								map.setMapDesc(newX+5, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
+								map.setMapDesc(false, newX+4, newY+2);
+								map.setMapDesc(false, newX+5, newY+2);
 							}
 						}
 					}
@@ -1099,7 +1099,7 @@ public class Robot {
 							confirmObstacle(map, newX+4, newY+1);
 							map.grid[newX+3][newY+1].setBackground(SENSOR);
 							map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+1);
+							map.setMapDesc(false, newX+3, newY+1);
 						}
 						else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 							if(map.grid[newX+3][newY+1].getBackground().equals(WALL)) {
@@ -1108,15 +1108,15 @@ public class Robot {
 							else if (map.grid[newX+4][newY+1].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+1].setBackground(SENSOR);
 								map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+1);
+								map.setMapDesc(false, newX+3, newY+1);
 							}
 							else if (map.grid[newX+5][newY+1].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+1].setBackground(SENSOR);
 								map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+4][newY+1].setBackground(SENSOR);
 								map.grid[newX+4][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+1);
-								map.setMapDesc(newX+4, newY+1);
+								map.setMapDesc(false, newX+3, newY+1);
+								map.setMapDesc(false, newX+4, newY+1);
 							}
 							else {
 								map.grid[newX+3][newY+1].setBackground(SENSOR);
@@ -1125,9 +1125,9 @@ public class Robot {
 								map.grid[newX+4][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+5][newY+1].setBackground(SENSOR);
 								map.grid[newX+5][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+1);
-								map.setMapDesc(newX+4, newY+1);
-								map.setMapDesc(newX+5, newY+1);
+								map.setMapDesc(false, newX+3, newY+1);
+								map.setMapDesc(false, newX+4, newY+1);
+								map.setMapDesc(false, newX+5, newY+1);
 							}
 						}
 					}
@@ -1149,7 +1149,7 @@ public class Robot {
 							confirmObstacle(map, newX+4, newY);
 							map.grid[newX+3][newY].setBackground(SENSOR);
 							map.grid[newX+3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY);
+							map.setMapDesc(false, newX+3, newY);
 						}
 						else if (short_RF > short_RF_Grid2 && short_RF <= short_RF_Grid3) { // 3rd grid
 							confirmObstacle(map, newX+5, newY);
@@ -1158,8 +1158,8 @@ public class Robot {
 							map.grid[newX+3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+4][newY].setBackground(SENSOR);
 							map.grid[newX+4][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY);
-							map.setMapDesc(newX+4, newY);
+							map.setMapDesc(false, newX+3, newY);
+							map.setMapDesc(false, newX+4, newY);
 						}
 						else {
 							if(map.grid[newX+3][newY].getBackground().equals(WALL)) {
@@ -1168,15 +1168,15 @@ public class Robot {
 							else if (map.grid[newX+4][newY].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY].setBackground(SENSOR);
 								map.grid[newX+3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY);
+								map.setMapDesc(false, newX+3, newY);
 							}
 							else if (map.grid[newX+5][newY].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY].setBackground(SENSOR);
 								map.grid[newX+3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+4][newY].setBackground(SENSOR);
 								map.grid[newX+4][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY);
-								map.setMapDesc(newX+4, newY);
+								map.setMapDesc(false, newX+3, newY);
+								map.setMapDesc(false, newX+4, newY);
 							}
 							else {
 								map.grid[newX+3][newY].setBackground(SENSOR);
@@ -1185,9 +1185,9 @@ public class Robot {
 								map.grid[newX+4][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+5][newY].setBackground(SENSOR);
 								map.grid[newX+5][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY);
-								map.setMapDesc(newX+4, newY);
-								map.setMapDesc(newX+5, newY);
+								map.setMapDesc(false, newX+3, newY);
+								map.setMapDesc(false, newX+4, newY);
+								map.setMapDesc(false, newX+5, newY);
 							}
 						}
 					}
@@ -1207,7 +1207,7 @@ public class Robot {
 							confirmObstacle(map, newX, newY+4);
 							map.grid[newX][newY+3].setBackground(SENSOR);
 							map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY+3);
+							map.setMapDesc(false, newX, newY+3);
 						}
 						else if (long_BL > long_BL_Grid2 && long_BL <= long_BL_Grid3) { // 3rd grid
 							confirmObstacle(map, newX, newY+5);
@@ -1215,8 +1215,8 @@ public class Robot {
 							map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX][newY+4].setBackground(SENSOR);
 							map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY+3);
-							map.setMapDesc(newX, newY+4);
+							map.setMapDesc(false, newX, newY+3);
+							map.setMapDesc(false, newX, newY+4);
 						}
 						else if (long_BL > long_BL_Grid3 && long_BL <= long_BL_Grid4) { // 4th grid
 							confirmObstacle(map, newX+2, newY+6);
@@ -1226,9 +1226,9 @@ public class Robot {
 							map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX][newY+5].setBackground(SENSOR);
 							map.grid[newX][newY+5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY+3);
-							map.setMapDesc(newX, newY+4);
-							map.setMapDesc(newX, newY+5);
+							map.setMapDesc(false, newX, newY+3);
+							map.setMapDesc(false, newX, newY+4);
+							map.setMapDesc(false, newX, newY+5);
 						}
 						else if (long_BL > long_BL_Grid4 && long_BL <= long_BL_Grid5) { // 5th grid
 							confirmObstacle(map, newX, newY+7);
@@ -1240,10 +1240,10 @@ public class Robot {
 							map.grid[newX][newY+5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX][newY+6].setBackground(SENSOR);
 							map.grid[newX][newY+6].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY+3);
-							map.setMapDesc(newX, newY+4);
-							map.setMapDesc(newX, newY+5);
-							map.setMapDesc(newX, newY+6);
+							map.setMapDesc(false, newX, newY+3);
+							map.setMapDesc(false, newX, newY+4);
+							map.setMapDesc(false, newX, newY+5);
+							map.setMapDesc(false, newX, newY+6);
 						}
 						else {
 							if(map.grid[newX][newY+3].getBackground().equals(WALL)) {
@@ -1252,15 +1252,15 @@ public class Robot {
 							else if(map.grid[newX][newY+4].getBackground().equals(WALL)) {
 								map.grid[newX][newY+3].setBackground(SENSOR);
 								map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
+								map.setMapDesc(false, newX, newY+3);
 							}
 							else if(map.grid[newX][newY+5].getBackground().equals(WALL)) {
 								map.grid[newX][newY+3].setBackground(SENSOR);
 								map.grid[newX][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY+4].setBackground(SENSOR);
 								map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
-								map.setMapDesc(newX, newY+4);
+								map.setMapDesc(false, newX, newY+3);
+								map.setMapDesc(false, newX, newY+4);
 							}
 							else if(map.grid[newX][newY+6].getBackground().equals(WALL)) {
 								map.grid[newX][newY+3].setBackground(SENSOR);
@@ -1269,9 +1269,9 @@ public class Robot {
 								map.grid[newX][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY+5].setBackground(SENSOR);
 								map.grid[newX][newY+5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
-								map.setMapDesc(newX, newY+4);
-								map.setMapDesc(newX, newY+5);
+								map.setMapDesc(false, newX, newY+3);
+								map.setMapDesc(false, newX, newY+4);
+								map.setMapDesc(false, newX, newY+5);
 							}
 							else if(map.grid[newX][newY+7].getBackground().equals(WALL)) {
 								map.grid[newX][newY+3].setBackground(SENSOR);
@@ -1282,10 +1282,10 @@ public class Robot {
 								map.grid[newX][newY+5].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY+6].setBackground(SENSOR);
 								map.grid[newX][newY+6].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
-								map.setMapDesc(newX, newY+4);
-								map.setMapDesc(newX, newY+5);
-								map.setMapDesc(newX, newY+6);
+								map.setMapDesc(false, newX, newY+3);
+								map.setMapDesc(false, newX, newY+4);
+								map.setMapDesc(false, newX, newY+5);
+								map.setMapDesc(false, newX, newY+6);
 							}
 							else {
 								map.grid[newX][newY+3].setBackground(SENSOR);
@@ -1298,11 +1298,11 @@ public class Robot {
 								map.grid[newX][newY+6].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY+7].setBackground(SENSOR);
 								map.grid[newX][newY+7].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY+3);
-								map.setMapDesc(newX, newY+4);
-								map.setMapDesc(newX, newY+5);
-								map.setMapDesc(newX, newY+6);
-								map.setMapDesc(newX, newY+7);
+								map.setMapDesc(false, newX, newY+3);
+								map.setMapDesc(false, newX, newY+4);
+								map.setMapDesc(false, newX, newY+5);
+								map.setMapDesc(false, newX, newY+6);
+								map.setMapDesc(false, newX, newY+7);
 							}
 						}
 					}
@@ -1322,7 +1322,7 @@ public class Robot {
 							confirmObstacle(map, newX+1, newY+4);
 							map.grid[newX+1][newY+3].setBackground(SENSOR);
 							map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+1, newY+3);
+							map.setMapDesc(false, newX+1, newY+3);
 						}
 						else {
 							if(map.grid[newX+1][newY+3].getBackground().equals(WALL)) {
@@ -1331,15 +1331,15 @@ public class Robot {
 							else if(map.grid[newX+1][newY+4].getBackground().equals(WALL)) {
 								map.grid[newX+1][newY+3].setBackground(SENSOR);
 								map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY+3);
+								map.setMapDesc(false, newX+1, newY+3);
 							}
 							else {
 								map.grid[newX+1][newY+3].setBackground(SENSOR);
 								map.grid[newX+1][newY+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+1][newY+4].setBackground(SENSOR);
 								map.grid[newX+1][newY+4].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY+3);
-								map.setMapDesc(newX+1, newY+4);
+								map.setMapDesc(false, newX+1, newY+3);
+								map.setMapDesc(false, newX+1, newY+4);
 							}
 						}
 					}
@@ -1359,7 +1359,7 @@ public class Robot {
 							confirmObstacle(map, newX+2, newY-2);
 							map.grid[newX+2][newY-1].setBackground(SENSOR);
 							map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY-1);
+							map.setMapDesc(false, newX+2, newY-1);
 						}
 						else if (short_FR > short_FR_Grid2 && short_FR <= short_FR_Grid3) { // 3rd grid
 							confirmObstacle(map, newX+2, newY-3);
@@ -1367,8 +1367,8 @@ public class Robot {
 							map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+2][newY-2].setBackground(SENSOR);
 							map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY-1);
-							map.setMapDesc(newX+2, newY-2);
+							map.setMapDesc(false, newX+2, newY-1);
+							map.setMapDesc(false, newX+2, newY-2);
 						}
 						else {
 							if(map.grid[newX+2][newY-1].getBackground().equals(WALL)) {
@@ -1377,15 +1377,15 @@ public class Robot {
 							else if(map.grid[newX+2][newY-2].getBackground().equals(WALL)) {
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
 								map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-1);
 							}
 							else if(map.grid[newX+2][newY-2].getBackground().equals(WALL)) {
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
 								map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY-2].setBackground(SENSOR);
 								map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
-								map.setMapDesc(newX+2, newY-2);
+								map.setMapDesc(false, newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-2);
 							}
 							else {
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
@@ -1394,9 +1394,9 @@ public class Robot {
 								map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY-3].setBackground(SENSOR);
 								map.grid[newX+2][newY-3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
-								map.setMapDesc(newX+2, newY-2);
-								map.setMapDesc(newX+2, newY-3);
+								map.setMapDesc(false, newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-2);
+								map.setMapDesc(false, newX+2, newY-3);
 							}
 						}
 					}
@@ -1416,7 +1416,7 @@ public class Robot {
 							confirmObstacle(map, newX+1, newY-2);
 							map.grid[newX+1][newY-1].setBackground(SENSOR);
 							map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+1, newY-1);
+							map.setMapDesc(false, newX+1, newY-1);
 						}
 						else {
 							if(map.grid[newX+1][newY-1].getBackground().equals(WALL)) {
@@ -1425,15 +1425,15 @@ public class Robot {
 							else if(map.grid[newX+1][newY-2].getBackground().equals(WALL)) {
 								map.grid[newX+1][newY-1].setBackground(SENSOR);
 								map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY-1);
+								map.setMapDesc(false, newX+1, newY-1);
 							}
 							else {
 								map.grid[newX+1][newY-1].setBackground(SENSOR);
 								map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+1][newY-2].setBackground(SENSOR);
 								map.grid[newX+1][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY-1);
-								map.setMapDesc(newX+1, newY-2);
+								map.setMapDesc(false, newX+1, newY-1);
+								map.setMapDesc(false, newX+1, newY-2);
 							}
 						}
 					}
@@ -1459,7 +1459,7 @@ public class Robot {
 							confirmObstacle(map, newX+2, newY-2);
 							map.grid[newX+2][newY-1].setBackground(SENSOR);
 							map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY-1);
+							map.setMapDesc(false, newX+2, newY-1);
 						}
 						else if (short_LF > short_LF_Grid2 && short_LF <= short_LF_Grid3) { // 3rd grid
 							confirmObstacle(map, newX+2, newY-3);
@@ -1468,8 +1468,8 @@ public class Robot {
 							map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+2][newY-2].setBackground(SENSOR);
 							map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+2, newY-1);
-							map.setMapDesc(newX+2, newY-2);
+							map.setMapDesc(false, newX+2, newY-1);
+							map.setMapDesc(false, newX+2, newY-2);
 						}
 						else {
 							if(map.grid[newX+2][newY-1].getBackground().equals(WALL)) {
@@ -1478,15 +1478,15 @@ public class Robot {
 							else if (map.grid[newX+2][newY-2].getBackground().equals(WALL)){
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
 								map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-1);
 							}
 							else if (map.grid[newX+2][newY-3].getBackground().equals(WALL)){
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
 								map.grid[newX+2][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY-2].setBackground(SENSOR);
 								map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
-								map.setMapDesc(newX+2, newY-2);
+								map.setMapDesc(false, newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-2);
 							}
 							else {
 								map.grid[newX+2][newY-1].setBackground(SENSOR);
@@ -1495,9 +1495,9 @@ public class Robot {
 								map.grid[newX+2][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+2][newY-3].setBackground(SENSOR);
 								map.grid[newX+2][newY-3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+2, newY-1);
-								map.setMapDesc(newX+2, newY-2);
-								map.setMapDesc(newX+2, newY-3);
+								map.setMapDesc(false, newX+2, newY-1);
+								map.setMapDesc(false, newX+2, newY-2);
+								map.setMapDesc(false, newX+2, newY-3);
 							}
 						}
 					}
@@ -1526,7 +1526,7 @@ public class Robot {
 							confirmObstacle(map, newX+1, newY-2);
 							map.grid[newX+1][newY-1].setBackground(SENSOR);
 							map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+1, newY-1);
+							map.setMapDesc(false, newX+1, newY-1);
 						}
 						else { //if (U_F > 40 && U_F <= 70) { // 3 grids no obstacle
 							if(map.grid[newX+1][newY-1].getBackground().equals(WALL)) {
@@ -1535,15 +1535,15 @@ public class Robot {
 							else if (map.grid[newX+1][newY-2].getBackground().equals(WALL)){
 								map.grid[newX+1][newY-1].setBackground(SENSOR);
 								map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY-1);
+								map.setMapDesc(false, newX+1, newY-1);
 							}
 							else if (map.grid[newX+1][newY-3].getBackground().equals(WALL)){
 								map.grid[newX+1][newY-1].setBackground(SENSOR);
 								map.grid[newX+1][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+1][newY-2].setBackground(SENSOR);
 								map.grid[newX+1][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY-1);
-								map.setMapDesc(newX+1, newY-2);
+								map.setMapDesc(false, newX+1, newY-1);
+								map.setMapDesc(false, newX+1, newY-2);
 							}
 							else {
 								map.grid[newX+1][newY-1].setBackground(SENSOR);
@@ -1552,9 +1552,9 @@ public class Robot {
 								map.grid[newX+1][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+1][newY-3].setBackground(SENSOR);
 								map.grid[newX+1][newY-3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+1, newY-1);
-								map.setMapDesc(newX+1, newY-2);
-								map.setMapDesc(newX+1, newY-3);
+								map.setMapDesc(false, newX+1, newY-1);
+								map.setMapDesc(false, newX+1, newY-2);
+								map.setMapDesc(false, newX+1, newY-3);
 							}
 						}
 					}
@@ -1576,7 +1576,7 @@ public class Robot {
 							confirmObstacle(map, newX, newY-2);
 							map.grid[newX][newY-1].setBackground(SENSOR);
 							map.grid[newX][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY-1);
+							map.setMapDesc(false, newX, newY-1);
 						}
 						else if (short_RF > short_RF_Grid2 && short_RF <= short_RF_Grid3) { // 3rd grid
 							confirmObstacle(map, newX, newY-3);
@@ -1585,8 +1585,8 @@ public class Robot {
 							map.grid[newX][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX][newY-2].setBackground(SENSOR);
 							map.grid[newX][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY-1);
-							map.setMapDesc(newX, newY-2);
+							map.setMapDesc(false, newX, newY-1);
+							map.setMapDesc(false, newX, newY-2);
 						}
 						else {
 							if(map.grid[newX][newY-1].getBackground().equals(WALL)) {
@@ -1595,15 +1595,15 @@ public class Robot {
 							else if (map.grid[newX][newY-2].getBackground().equals(WALL)){
 								map.grid[newX][newY-1].setBackground(SENSOR);
 								map.grid[newX][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY-1);
+								map.setMapDesc(false, newX, newY-1);
 							}
 							else if (map.grid[newX][newY-3].getBackground().equals(WALL)){
 								map.grid[newX][newY-1].setBackground(SENSOR);
 								map.grid[newX][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX][newY-2].setBackground(SENSOR);
 								map.grid[newX][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX, newY-1);
-								map.setMapDesc(newX, newY-2);
+								map.setMapDesc(false, newX, newY-1);
+								map.setMapDesc(false, newX, newY-2);
 							}
 							map.grid[newX][newY-1].setBackground(SENSOR);
 							map.grid[newX][newY-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
@@ -1611,9 +1611,9 @@ public class Robot {
 							map.grid[newX][newY-2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX][newY-3].setBackground(SENSOR);
 							map.grid[newX][newY-3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX, newY-1);
-							map.setMapDesc(newX, newY-2);
-							map.setMapDesc(newX, newY-3);
+							map.setMapDesc(false, newX, newY-1);
+							map.setMapDesc(false, newX, newY-2);
+							map.setMapDesc(false, newX, newY-3);
 						}
 					}
 				}
@@ -1632,7 +1632,7 @@ public class Robot {
 							confirmObstacle(map, newX+4, newY+2);
 							map.grid[newX+3][newY+2].setBackground(SENSOR);
 							map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+2);
+							map.setMapDesc(false, newX+3, newY+2);
 						}
 						else if (long_BL > long_BL_Grid2 && long_BL <= long_BL_Grid3) { // 3rd grid
 							confirmObstacle(map, newX+5, newY+2);
@@ -1640,8 +1640,8 @@ public class Robot {
 							map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+4][newY+2].setBackground(SENSOR);
 							map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+2);
-							map.setMapDesc(newX+4, newY+2);
+							map.setMapDesc(false, newX+3, newY+2);
+							map.setMapDesc(false, newX+4, newY+2);
 						}
 						else if (long_BL > long_BL_Grid3 && long_BL <= long_BL_Grid4) { // 4th grid
 							confirmObstacle(map, newX+6, newY+2);
@@ -1651,9 +1651,9 @@ public class Robot {
 							map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+5][newY+2].setBackground(SENSOR);
 							map.grid[newX+5][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+2);
-							map.setMapDesc(newX+4, newY+2);
-							map.setMapDesc(newX+5, newY+2);
+							map.setMapDesc(false, newX+3, newY+2);
+							map.setMapDesc(false, newX+4, newY+2);
+							map.setMapDesc(false, newX+5, newY+2);
 						}
 						else if (long_BL > long_BL_Grid4 && long_BL <= long_BL_Grid5) { // 5th grid
 							confirmObstacle(map, newX+7, newY+2);
@@ -1665,10 +1665,10 @@ public class Robot {
 							map.grid[newX+5][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX+6][newY+2].setBackground(SENSOR);
 							map.grid[newX+6][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+2);
-							map.setMapDesc(newX+4, newY+2);
-							map.setMapDesc(newX+5, newY+2);
-							map.setMapDesc(newX+6, newY+2);
+							map.setMapDesc(false, newX+3, newY+2);
+							map.setMapDesc(false, newX+4, newY+2);
+							map.setMapDesc(false, newX+5, newY+2);
+							map.setMapDesc(false, newX+6, newY+2);
 						}
 						else {
 							if(map.grid[newX+3][newY+2].getBackground().equals(WALL)) {
@@ -1677,15 +1677,15 @@ public class Robot {
 							else if(map.grid[newX+4][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
 								map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
 							}
 							else if(map.grid[newX+5][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
 								map.grid[newX+3][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+4][newY+2].setBackground(SENSOR);
 								map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
-								map.setMapDesc(newX+4, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
+								map.setMapDesc(false, newX+4, newY+2);
 							}
 							else if(map.grid[newX+6][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
@@ -1694,9 +1694,9 @@ public class Robot {
 								map.grid[newX+4][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+5][newY+2].setBackground(SENSOR);
 								map.grid[newX+5][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
-								map.setMapDesc(newX+4, newY+2);
-								map.setMapDesc(newX+5, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
+								map.setMapDesc(false, newX+4, newY+2);
+								map.setMapDesc(false, newX+5, newY+2);
 							}
 							else if(map.grid[newX+7][newY+2].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
@@ -1707,10 +1707,10 @@ public class Robot {
 								map.grid[newX+5][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+6][newY+2].setBackground(SENSOR);
 								map.grid[newX+6][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
-								map.setMapDesc(newX+4, newY+2);
-								map.setMapDesc(newX+5, newY+2);
-								map.setMapDesc(newX+6, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
+								map.setMapDesc(false, newX+4, newY+2);
+								map.setMapDesc(false, newX+5, newY+2);
+								map.setMapDesc(false, newX+6, newY+2);
 							}
 							else {
 								map.grid[newX+3][newY+2].setBackground(SENSOR);
@@ -1723,11 +1723,11 @@ public class Robot {
 								map.grid[newX+6][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+7][newY+2].setBackground(SENSOR);
 								map.grid[newX+7][newY+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+2);
-								map.setMapDesc(newX+4, newY+2);
-								map.setMapDesc(newX+5, newY+2);
-								map.setMapDesc(newX+6, newY+2);
-								map.setMapDesc(newX+7, newY+2);
+								map.setMapDesc(false, newX+3, newY+2);
+								map.setMapDesc(false, newX+4, newY+2);
+								map.setMapDesc(false, newX+5, newY+2);
+								map.setMapDesc(false, newX+6, newY+2);
+								map.setMapDesc(false, newX+7, newY+2);
 							}
 						}
 					}		
@@ -1747,7 +1747,7 @@ public class Robot {
 							confirmObstacle(map, newX+4, newY+1);
 							map.grid[newX+3][newY+1].setBackground(SENSOR);
 							map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX+3, newY+1);
+							map.setMapDesc(false, newX+3, newY+1);
 						}
 						else {
 							if(map.grid[newX+3][newY+1].getBackground().equals(WALL)) {
@@ -1756,15 +1756,15 @@ public class Robot {
 							else if(map.grid[newX+4][newY+1].getBackground().equals(WALL)) {
 								map.grid[newX+3][newY+1].setBackground(SENSOR);
 								map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+1);
+								map.setMapDesc(false, newX+3, newY+1);
 							}
 							else {
 								map.grid[newX+3][newY+1].setBackground(SENSOR);
 								map.grid[newX+3][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX+4][newY+1].setBackground(SENSOR);
 								map.grid[newX+4][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX+3, newY+1);
-								map.setMapDesc(newX+4, newY+1);
+								map.setMapDesc(false, newX+3, newY+1);
+								map.setMapDesc(false, newX+4, newY+1);
 							}
 						}
 					}
@@ -1784,7 +1784,7 @@ public class Robot {
 							confirmObstacle(map, newX-2, newY);
 							map.grid[newX-1][newY].setBackground(SENSOR);
 							map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY);
+							map.setMapDesc(false, newX-1, newY);
 						}
 						else if (short_FR > short_FR_Grid2 && short_FR <= short_FR_Grid3) { // 3rd grid
 							confirmObstacle(map, newX-3, newY);
@@ -1792,8 +1792,8 @@ public class Robot {
 							map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 							map.grid[newX-2][newY].setBackground(SENSOR);
 							map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY);
-							map.setMapDesc(newX-2, newY);
+							map.setMapDesc(false, newX-1, newY);
+							map.setMapDesc(false, newX-2, newY);
 						}
 						else {
 							if(map.grid[newX-1][newY].getBackground().equals(WALL)) {
@@ -1802,15 +1802,15 @@ public class Robot {
 							else if(map.grid[newX-2][newY].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY].setBackground(SENSOR);
 								map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
+								map.setMapDesc(false, newX-1, newY);
 							}
 							else if(map.grid[newX-3][newY].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY].setBackground(SENSOR);
 								map.grid[newX-1][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-2][newY].setBackground(SENSOR);
 								map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
-								map.setMapDesc(newX-2, newY);
+								map.setMapDesc(false, newX-1, newY);
+								map.setMapDesc(false, newX-2, newY);
 							}
 							else {
 								map.grid[newX-1][newY].setBackground(SENSOR);
@@ -1819,9 +1819,9 @@ public class Robot {
 								map.grid[newX-2][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-3][newY].setBackground(SENSOR);
 								map.grid[newX-3][newY].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY);
-								map.setMapDesc(newX-2, newY);
-								map.setMapDesc(newX-3, newY);
+								map.setMapDesc(false, newX-1, newY);
+								map.setMapDesc(false, newX-2, newY);
+								map.setMapDesc(false, newX-3, newY);
 							}
 						}
 					}
@@ -1841,7 +1841,7 @@ public class Robot {
 							confirmObstacle(map, newX-2, newY+1);
 							map.grid[newX-1][newY+1].setBackground(SENSOR);
 							map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(newX-1, newY+1);
+							map.setMapDesc(false, newX-1, newY+1);
 						}
 						else {
 							if(map.grid[newX-1][newY+1].getBackground().equals(WALL)) {
@@ -1850,15 +1850,15 @@ public class Robot {
 							else if(map.grid[newX-2][newY+1].getBackground().equals(WALL)) {
 								map.grid[newX-1][newY+1].setBackground(SENSOR);
 								map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+1);
+								map.setMapDesc(false, newX-1, newY+1);
 							}
 							else {
 								map.grid[newX-1][newY+1].setBackground(SENSOR);
 								map.grid[newX-1][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 								map.grid[newX-2][newY+1].setBackground(SENSOR);
 								map.grid[newX-2][newY+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-								map.setMapDesc(newX-1, newY+1);
-								map.setMapDesc(newX-2, newY+1);
+								map.setMapDesc(false, newX-1, newY+1);
+								map.setMapDesc(false, newX-2, newY+1);
 							}
 						}
 					}
@@ -1888,7 +1888,7 @@ public class Robot {
 						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x-i, y);
+							map.setMapDesc(false, x-i, y);
 						}
 					}
 				}
@@ -1903,7 +1903,7 @@ public class Robot {
 						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x-i, y+1);
+							map.setMapDesc(false, x-i, y+1);
 						}
 					}
 				}
@@ -1918,7 +1918,7 @@ public class Robot {
 						else if(!map.grid[x-i][y+2].getBackground().equals(WALL)) {
 							map.grid[x-i][y+2].setBackground(SENSOR);
 							map.grid[x-i][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x-i, y+2);
+							map.setMapDesc(false, x-i, y+2);
 						}
 					}
 				}
@@ -1933,7 +1933,7 @@ public class Robot {
 						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+2, y-i);
+							map.setMapDesc(false, x+2, y-i);
 						}
 					}
 				}
@@ -1948,7 +1948,7 @@ public class Robot {
 						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+1, y-i);
+							map.setMapDesc(false, x+1, y-i);
 						}
 					}
 				}
@@ -1963,7 +1963,7 @@ public class Robot {
 						else if(!map.grid[x][y+2+i].getBackground().equals(WALL)) {
 							map.grid[x][y+2+i].setBackground(SENSOR);
 							map.grid[x][y+2+i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x, y+2+i);
+							map.setMapDesc(false, x, y+2+i);
 						}
 					}
 				}
@@ -1978,7 +1978,7 @@ public class Robot {
 						else if(!map.grid[x+1][y+2+i].getBackground().equals(WALL)) {
 							map.grid[x+1][y+2+i].setBackground(SENSOR);
 							map.grid[x+1][y+2+i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+1, y+2+i);
+							map.setMapDesc(false, x+1, y+2+i);
 						}
 					}
 				}
@@ -1995,7 +1995,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y].setBackground(SENSOR);
 							map.grid[x+i+2][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+i+2, y);
+							map.setMapDesc(false, x+i+2, y);
 						}
 					}
 				}
@@ -2010,7 +2010,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y+1].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+1].setBackground(SENSOR);
 							map.grid[x+i+2][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+i+2, y+1);
+							map.setMapDesc(false, x+i+2, y+1);
 						}
 					}
 				}
@@ -2025,7 +2025,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y+2].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+2].setBackground(SENSOR);
 							map.grid[x+i+2][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+i+2, y+2);
+							map.setMapDesc(false, x+i+2, y+2);
 						}
 					}
 				}
@@ -2040,7 +2040,7 @@ public class Robot {
 						else if(!map.grid[x][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x][y+i+2].setBackground(SENSOR);
 							map.grid[x][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x, y+i+2);
+							map.setMapDesc(false, x, y+i+2);
 						}
 					}
 				}
@@ -2055,7 +2055,7 @@ public class Robot {
 						else if(!map.grid[x+1][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x+1][y+i+2].setBackground(SENSOR);
 							map.grid[x+1][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+1, y+i+2);
+							map.setMapDesc(false, x+1, y+i+2);
 						}
 					}
 				}
@@ -2070,7 +2070,7 @@ public class Robot {
 						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+2, y-i);
+							map.setMapDesc(false, x+2, y-i);
 						}
 					}
 				}
@@ -2085,7 +2085,7 @@ public class Robot {
 						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+1, y-i);
+							map.setMapDesc(false, x+1, y-i);
 						}
 					}
 				}
@@ -2101,7 +2101,7 @@ public class Robot {
 						else if(!map.grid[x][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x][y+i+2].setBackground(SENSOR);
 							map.grid[x][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x, y+i+2);
+							map.setMapDesc(false, x, y+i+2);
 						}
 					}
 				}
@@ -2116,7 +2116,7 @@ public class Robot {
 						else if(!map.grid[x+1][y+i+2].getBackground().equals(WALL)) {
 							map.grid[x+1][y+i+2].setBackground(SENSOR);
 							map.grid[x+1][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+1, y+i+2);
+							map.setMapDesc(false, x+1, y+i+2);
 						}
 					}
 				}
@@ -2131,7 +2131,7 @@ public class Robot {
 						else if(!map.grid[x+2][y+i+2].getBackground().equals(WALL)){
 							map.grid[x+2][y+i+2].setBackground(SENSOR);
 							map.grid[x+2][y+i+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+2, y+i+2);
+							map.setMapDesc(false, x+2, y+i+2);
 						}
 					}
 				}
@@ -2146,7 +2146,7 @@ public class Robot {
 						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x-i, y);
+							map.setMapDesc(false, x-i, y);
 						}
 					}
 				}
@@ -2161,7 +2161,7 @@ public class Robot {
 						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x-i, y+1);
+							map.setMapDesc(false, x-i, y+1);
 						}
 					}
 				}
@@ -2176,7 +2176,7 @@ public class Robot {
 						else if(!map.grid[x+2+i][y+1].getBackground().equals(WALL)) {
 							map.grid[x+2+i][y+1].setBackground(SENSOR);
 							map.grid[x+2+i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+2+i, y+1);
+							map.setMapDesc(false, x+2+i, y+1);
 						}
 					}
 				}
@@ -2191,7 +2191,7 @@ public class Robot {
 						else if(!map.grid[x+2+i][y+2].getBackground().equals(WALL)) {
 							map.grid[x+2+i][y+2].setBackground(SENSOR);
 							map.grid[x+2+i][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+2+i, y+2);
+							map.setMapDesc(false, x+2+i, y+2);
 						}
 					}
 				}
@@ -2207,7 +2207,7 @@ public class Robot {
 						else if(!map.grid[x][y-i].getBackground().equals(WALL)) {
 							map.grid[x][y-i].setBackground(SENSOR);
 							map.grid[x][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x, y-i);
+							map.setMapDesc(false, x, y-i);
 						}
 					}
 				}
@@ -2222,7 +2222,7 @@ public class Robot {
 						else if(!map.grid[x+1][y-i].getBackground().equals(WALL)) {
 							map.grid[x+1][y-i].setBackground(SENSOR);
 							map.grid[x+1][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+1, y-i);
+							map.setMapDesc(false, x+1, y-i);
 						}
 					}
 				}
@@ -2237,7 +2237,7 @@ public class Robot {
 						else if(!map.grid[x+2][y-i].getBackground().equals(WALL)) {
 							map.grid[x+2][y-i].setBackground(SENSOR);
 							map.grid[x+2][y-i].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+2, y-i);
+							map.setMapDesc(false, x+2, y-i);
 						}
 					}
 				}
@@ -2252,7 +2252,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y+2].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+2].setBackground(SENSOR);
 							map.grid[x+i+2][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+i+2, y+2);
+							map.setMapDesc(false, x+i+2, y+2);
 						}
 					}
 				}
@@ -2267,7 +2267,7 @@ public class Robot {
 						else if(!map.grid[x+i+2][y+1].getBackground().equals(WALL)) {
 							map.grid[x+i+2][y+1].setBackground(SENSOR);
 							map.grid[x+i+2][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x+i+2, y+1);
+							map.setMapDesc(false, x+i+2, y+1);
 						}
 					}
 				}
@@ -2282,7 +2282,7 @@ public class Robot {
 						else if(!map.grid[x-i][y].getBackground().equals(WALL)){
 							map.grid[x-i][y].setBackground(SENSOR);
 							map.grid[x-i][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x-i, y);
+							map.setMapDesc(false, x-i, y);
 						}
 					}
 				}
@@ -2297,7 +2297,7 @@ public class Robot {
 						else if(!map.grid[x-i][y+1].getBackground().equals(WALL)) {
 							map.grid[x-i][y+1].setBackground(SENSOR);
 							map.grid[x-i][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-							map.setMapDesc(x-i, y+1);
+							map.setMapDesc(false, x-i, y+1);
 						}
 					}
 				}
@@ -2402,8 +2402,14 @@ public class Robot {
 			map.grid[x][y].setBackground(CONFIRMOBSTACLE);
 		}
 		
+		try {
+			map.setMapDescObstacles(x, y);
+			map.grid[x][y].setBackground(Color.red);
+		}
+		catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("No such obstacle");
+		}
 		
-		map.setMapDescObstacles(x, y);
 		
 	}
 	
@@ -2420,9 +2426,9 @@ public class Robot {
 					map.grid[x+3][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+3][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+3][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-					map.setMapDesc(x+3, y);
-					map.setMapDesc(x+3, y+1);
-					map.setMapDesc(x+3, y+2);
+					map.setMapDesc(true, x+3, y);
+					map.setMapDesc(true, x+3, y+1);
+					map.setMapDesc(true, x+3, y+2);
 				}
 				break;
 			case "S":
@@ -2433,9 +2439,9 @@ public class Robot {
 					map.grid[x-1][y].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x-1][y+1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x-1][y+2].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-					map.setMapDesc(x-1, y);
-					map.setMapDesc(x-1, y+1);
-					map.setMapDesc(x-1, y+2);
+					map.setMapDesc(true, x-1, y);
+					map.setMapDesc(true, x-1, y+1);
+					map.setMapDesc(true, x-1, y+2);
 				}
 				break;
 			case "E":
@@ -2446,9 +2452,9 @@ public class Robot {
 					map.grid[x][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+1][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+2][y-1].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-					map.setMapDesc(x, y-1);
-					map.setMapDesc(x+1, y-1);
-					map.setMapDesc(x+2, y-1);
+					map.setMapDesc(true, x, y-1);
+					map.setMapDesc(true, x+1, y-1);
+					map.setMapDesc(true, x+2, y-1);
 				}
 				break;
 			case "W":
@@ -2459,9 +2465,9 @@ public class Robot {
 					map.grid[x][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+1][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
 					map.grid[x+2][y+3].setBorder(BorderFactory.createLineBorder(GRIDBORDER, 1));
-					map.setMapDesc(x, y+3);
-					map.setMapDesc(x+1, y+3);
-					map.setMapDesc(x+2, y+3);
+					map.setMapDesc(true, x, y+3);
+					map.setMapDesc(true, x+1, y+3);
+					map.setMapDesc(true, x+2, y+3);
 				}
 				break;
 		}	

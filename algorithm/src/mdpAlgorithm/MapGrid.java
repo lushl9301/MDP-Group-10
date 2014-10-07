@@ -17,7 +17,7 @@ public class MapGrid extends JPanel {
 	private static final Color WALL = new Color(160, 80, 70);
 	public boolean md1 = false;
 	public boolean md2 = false;
-	public boolean md3 = false;
+	public boolean md3 = true;
 	
 	GridCell[][] grid = new GridCell[MAP_ROW][MAP_COL];
 
@@ -99,29 +99,23 @@ public class MapGrid extends JPanel {
 		}
 	}
 	
-	public void setMapDesc(int x, int y) {
-//		try {
+	public void setMapDesc(boolean explored,int x, int y) {
 			mapDescriptor1[x-1][y-1] = 1;
 			mapDescriptor2[x-1][y-1] = "0";
-			toConfirmObstacle[x-1][y-1]--;
+			if(!explored) {
+				toConfirmObstacle[x-1][y-1]--;
+			}
+			else if(explored) {
+				toConfirmObstacle[x-1][y-1] = toConfirmObstacle[x-1][y-1]-10;
+			}
 			setMapDescLabel(x, y);
-//		}
-//		catch(ArrayIndexOutOfBoundsException e) {
-//			System.out.println("tried to color wrong grid");
-//		}
 	}
-	
-	
+
 	public void setMapDescObstacles(int x, int y) {
-//		try {
 			mapDescriptor1[x-1][y-1] = 1;
 			mapDescriptor2[x-1][y-1] = "1";
 			toConfirmObstacle[x-1][y-1]++;
 			setMapDescLabelObstacles(x, y);
-//		}
-//		catch(ArrayIndexOutOfBoundsException e) {
-//			System.out.println("tried to color wrong grid");
-//		}
 	}
 	
 	public void setMapDescLabel(int x, int y) {
