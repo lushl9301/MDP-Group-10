@@ -510,7 +510,7 @@ public class MainSimulator {
 		
 		c.gridx = 0;
 		c.gridy = 11;
-		c.ipady = 45;
+		c.ipady = 35;
 		c.insets = new Insets(20,0,0,0);
 		solveMap.setEnabled(false);
 		solveMap.addMouseListener(new MouseAdapter() {
@@ -553,16 +553,20 @@ public class MainSimulator {
 		
 		c.gridx = 0;
 		c.gridy = 12;
+		c.insets = new Insets(0,0,0,0);
 		md3.addItemListener(new ItemListener() {
 	        public void itemStateChanged(ItemEvent e) {
 	        	if(md3.isSelected()) {
 	        		map.setMD(3, true);
+	        		map2.setMD(3, true);
 	        	}
-	        	else
+	        	else {
 	        		map.setMD(3, false);
+	        		map2.setMD(3, false);
+	        	}
 	        }
         });
-		md3.setVisible(false);
+		md3.setVisible(true);
 		buttonPanel.add(md3, c);
 
 		JPanel legendPanel = new JPanel(new GridBagLayout()); // initialize panel for all buttons		

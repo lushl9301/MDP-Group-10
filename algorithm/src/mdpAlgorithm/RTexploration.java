@@ -28,6 +28,7 @@ public class RTexploration implements Runnable{
 	public MapGrid map;
 	public Robot rob;
 	public boolean rtCompleted;
+	public boolean completeLeaderboard;
 	private JSONObject fakeHash = new JSONObject();
 	
 	public RTexploration(MapGrid map, Robot rob) {
@@ -48,7 +49,6 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-
 /*
 		int testx = 0;
 		
@@ -107,8 +107,7 @@ public class RTexploration implements Runnable{
 			//System.out.println(rob.getX() +", "+rob.getY());
 		}while(testx>-5);
 
- 		*/
-		
+		*/
 		
 //		int texty=0;
 //		do {
@@ -172,7 +171,7 @@ public class RTexploration implements Runnable{
 						System.out.println(status);
 						
 						if(status.equals("END_EXP")) {
-							//System.out.println("end exp");
+							System.out.println("end exp");
 							rtCompleted = true;
 							break;
 						}
@@ -283,7 +282,27 @@ public class RTexploration implements Runnable{
 			
 			// end of new Dijkstra(map.getMapDesc(), map.getMapDesc2()) send back MainSimulator.shortestRoute to RPI
 			client.sendJSON("path", MainSimulator.shortestRoute);
+			
+			do {  // get inputs while leaderboard is still not completed
 
+				// handles type : status data
+				JSONObject input = client.receiveJSON();
+				
+				if(String.valueOf(input.get("type")).equals("status")) {
+					status = String.valueOf(input.get("data"));
+					if(status != null) {
+						System.out.println(status);
+						
+						if(status.equals("END_LEADERBOARD")) {
+							System.out.println("END_LEADERBOARD");
+							completeLeaderboard = true;
+							break;
+						}
+					}
+				}
+				
+			}while (!completeLeaderboard);
+			
 		} catch (UnknownHostException e) {
 			MainSimulator.rtThreadStarted = false;
 			System.err.println("Unknown Host");
