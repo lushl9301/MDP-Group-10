@@ -246,12 +246,14 @@ public class MapGrid extends JPanel {
 
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {				
-				if(toConfirmObstacle[j][i] >= 2) {
+				if(toConfirmObstacle[j][i] > 0) {
 					strMapDescRealTime[j][i] = 2;
 				}
+				/*
 				else if(toConfirmObstacle[j][i] > 0 && toConfirmObstacle[j][i] < 2) {
 					strMapDescRealTime[j][i] = 1;
 				}
+				*/
 				else if(toConfirmObstacle[j][i] < 0) {
 					strMapDescRealTime[j][i] = 1;
 				}
