@@ -49,7 +49,8 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-/*
+		
+		/*
 		int testx = 0;
 		
 		//front sensors
@@ -105,7 +106,7 @@ public class RTexploration implements Runnable{
 			short_LF -= 10;
 			
 			//System.out.println(rob.getX() +", "+rob.getY());
-		}while(testx<7);
+		}while(testx<6);
 
 		System.out.println("md1: "+map.getMapDesc());
 		System.out.println("md2: "+map.getMapDesc2());
@@ -127,8 +128,27 @@ public class RTexploration implements Runnable{
 			}
 			System.out.println();
 		}
-		*/
 
+		int[][] aaaa = map.getMapDescRealTime();
+		for(int i = 0; i < 20; i++) {
+			for (int j = 0; j< 15; j++) {
+				
+				//reset the color on original map
+				//clean the map in case of wrong obstacles plotted
+				if(map.grid[j+1][i+1].getBackground().equals(OBSTACLE)){
+					map.grid[j+1][i+1].setBackground(EXPLORED);
+				}
+				
+				// set the confirmed obstacles
+				if(aaaa[j][i] == 2) {
+					map.grid[j+1][i+1].setBackground(OBSTACLE);
+				}
+				System.out.print(aaaa[j][i]); // prints the md3 in the grid form
+			}
+			System.out.println();
+		}
+		*/
+		
 		// instantiate connection to rpi
 		PCClient client = new PCClient("192.168.10.10", 8888);
 		try {
@@ -194,6 +214,9 @@ public class RTexploration implements Runnable{
 					System.out.println();
 				}
 				
+				// repaint the walls
+				map.initWalls();
+				
 			} while (!rtCompleted);
 			
 			// after exploration is completed
@@ -211,8 +234,16 @@ public class RTexploration implements Runnable{
 			
 			// set confirmed obstacles on the grid
 			System.out.println("this is final md3");
-			for(int i = 0; i < 20; i++) {	
-				for (int j = 1; j< 15; j++) {
+			for(int i = 0; i < 20; i++) {
+				for (int j = 0; j< 15; j++) {
+					
+					//reset the color on original map
+					//clean the map in case of wrong obstacles plotted
+					if(map.grid[j+1][i+1].getBackground().equals(OBSTACLE)){
+						map.grid[j+1][i+1].setBackground(EXPLORED);
+					}
+					
+					// set the confirmed obstacles
 					if(mapDesc3[j][i] == 2) {
 						map.grid[j+1][i+1].setBackground(OBSTACLE);
 					}
@@ -302,18 +333,6 @@ public class RTexploration implements Runnable{
 		}
 	}
 	
-	public Robot firstDelay(MapGrid map, Robot rob, int sleeptime, JSONObject reading) {
-		map.mapDescriptor1 = new int[15][20];
-		rob.moveRobot(reading, map, 0);
-		try {
-			Thread.sleep(sleeptime);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return rob;
-	}
-	
 	public Robot getPos(MapGrid map, Robot rob, JSONObject reading){
 		
 		// use readings and move robot
@@ -363,12 +382,12 @@ public class RTexploration implements Runnable{
 		}
 		
 		// add delay if required
-//		try {
-//			Thread.sleep(700);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			Thread.sleep(700);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return rob;
 	}
 
