@@ -808,46 +808,46 @@ public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		
 		long actualTime = event.timestamp;
 		
-//		if (event.sensor == mAccelerometer) {
-//			System.arraycopy(event.values, 0, mLastAccelerometer, 0,
-//					event.values.length);
-//			mLastAccelerometerSet = true;
-//		} else if (event.sensor == mMagnetometer) {
-//			System.arraycopy(event.values, 0, mLastMagnetometer, 0,
-//					event.values.length);
-//			mLastMagnetometerSet = true;
-//		}
-//		if (mLastAccelerometerSet && mLastMagnetometerSet) {
-//			SensorManager.getRotationMatrix(mR, null, mLastAccelerometer,
-//					mLastMagnetometer);
-//			SensorManager.getOrientation(mR, mOrientation);
-//			Log.i("OrientationTestActivity", String.format(
-//					"Orientation: %f, %f, %f", mOrientation[0],
-//					mOrientation[1], mOrientation[2]));
-//		}
+		if (event.sensor == mAccelerometer) {
+			System.arraycopy(event.values, 0, mLastAccelerometer, 0,
+					event.values.length);
+			mLastAccelerometerSet = true;
+		} else if (event.sensor == mMagnetometer) {
+			System.arraycopy(event.values, 0, mLastMagnetometer, 0,
+					event.values.length);
+			mLastMagnetometerSet = true;
+		}
+		if (mLastAccelerometerSet && mLastMagnetometerSet) {
+			SensorManager.getRotationMatrix(mR, null, mLastAccelerometer,
+					mLastMagnetometer);
+			SensorManager.getOrientation(mR, mOrientation);
+			Log.i("OrientationTestActivity", String.format(
+					"Orientation: %f, %f, %f", mOrientation[0],
+					mOrientation[1], mOrientation[2]));
+		}
 
 		if (btManager.getState() == BluetoothManager.STATE_CONNECTED && tilt.equals("On")) {
 			
 
 				if (((actualTime - lastUpdate) > 1000000000)) {
-					float x = event.values[0];
-					float y = event.values[1];
+					float x = mOrientation[2];
+					float y = mOrientation[1];
 						if (Math.abs(x) > Math.abs(y)) {
-							if (x < 2) {
+							if (x > 1.5 ) {
 								map.turnRightMap();
 								Log.i(TAG, "RIGHT");
 
 							}
-							if (x > 2) {
+							if (x < -1.5) {
 								map.turnLeftMap();
 								Log.i(TAG, "LEFT");
 							}
 						} else {
-							if (y < 2) {
+							if (y > 1) {
 								map.moveForwardMap();
 								Log.i(TAG, "UP");
 							}
-							if (y > 2) {
+							if (y < -1) {
 								map.moveDownMap();
 								Log.i(TAG, "DOWN");
 							}

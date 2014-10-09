@@ -64,37 +64,63 @@ public class JsonObj {
 					words = jsonObj.getString("data");
 					
 				}
+				else if(jsonObj.getString("type").equals("path")){
+					
+					Log.i("path", fromRPI);
+					
+				}
 				else if(jsonObj.getString("type").equals("map")){
 					String hex = jsonObj.getString("data");
-					String decode = toBinary(hex);
-					int p = 0;
-					String[] splited = new String[305];
-					for (String sp: decode.split("")){
-						splited[p]=sp;
+					boolean isHex = hex.matches("[0-9A-F]+");
+					//FOR MD1 ONLY
+					if (isHex == true){
+						String decode = toBinary(hex);
+						int p = 0;
+						String[] splited = new String[305];
+						for (String sp: decode.split("")){
+							splited[p]=sp;
+							
+							p++;
+						}
+						int q = 0;	
+						for(int i=0; i<20;i++){
+							   for(int j=0;j<15;j++)
+							   {
+								   //Log.i("SP", "j:"+j+"i:"+i+"t:"+splited[(q)]);
+							       array2D[j][i] = Integer.parseInt(splited[(q)+3]);
+							       q++;
+							   }
+						}
 						
-						p++;
+							
 					}
-					Log.i("abc", splited[0]);
+					else{
+						String[] split_b = new String[300];
+						int l = 0;
+						for (String sp: hex.split("")){
+							split_b[l]=sp;
+							
+							l++;
+						}
+						for(int i=0; i<15;i++)
+							   for(int j=0;j<20;j++)
+							   {
+							       array2D[i][j] = Integer.parseInt(split_b[(j%20+i*20)]);
+							   }
+						
+					}
+					//Log.i("abc", splited[0]);
 					//String[] splited = decode.split("\\d");
 					
 					/*int[][] array = new int[15][20];
+					 * String[] splited = msg.split("\\s+");
 					//JSONArray data = jsonObj.getJSONArray("data");
 					for (int y=0; y<15;y++){
 						for (int z=0; z<20;z++){
 							array[y][z]=data.getInt(z);
 							//should have error
 						}*/
-				int q = 0;	
-				for(int i=0; i<20;i++){
-					   for(int j=0;j<15;j++)
-					   {
-						   //Log.i("SP", "j:"+j+"i:"+i+"t:"+splited[(q)]);
-					       array2D[j][i] = Integer.parseInt(splited[(q)+3]);
-					       q++;
-					   }
-				}
 				
-					Log.i("a", decode);
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
