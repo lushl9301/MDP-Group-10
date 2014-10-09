@@ -49,8 +49,7 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-		
-		/*
+/*
 		int testx = 0;
 		
 		//front sensors
@@ -104,7 +103,7 @@ public class RTexploration implements Runnable{
 			}
 			System.out.println();
 			short_LF -= 10;
-			
+			short_RF -= 10;
 			//System.out.println(rob.getX() +", "+rob.getY());
 		}while(testx<6);
 
@@ -113,23 +112,22 @@ public class RTexploration implements Runnable{
 		
 		int[][] test1 = map.getMapDesc3(map.getMapDesc(), map.getMapDesc2());
 		for(int i = 0; i < 20; i++) {	
-			for (int j = 1; j< 15; j++) {
+			for (int j = 0; j< 15; j++) {
 				System.out.print(test1[j][i]);
 			}
 			System.out.println();
 		}
 		
-		System.out.println("======");
+		System.out.println("md3 real time");
 		
 		int[][] test = map.getMapDescRealTime();
 		for(int i = 0; i < 20; i++) {	
-			for (int j = 1; j< 15; j++) {
+			for (int j = 0; j< 15; j++) {
 				System.out.print(test[j][i]);
 			}
 			System.out.println();
 		}
 
-		int[][] aaaa = map.getMapDescRealTime();
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
 				
@@ -137,18 +135,28 @@ public class RTexploration implements Runnable{
 				//clean the map in case of wrong obstacles plotted
 				if(map.grid[j+1][i+1].getBackground().equals(OBSTACLE)){
 					map.grid[j+1][i+1].setBackground(EXPLORED);
-				}
+				}	
 				
 				// set the confirmed obstacles
-				if(aaaa[j][i] == 2) {
+				if(test[j][i] == 2) {
 					map.grid[j+1][i+1].setBackground(OBSTACLE);
 				}
-				System.out.print(aaaa[j][i]); // prints the md3 in the grid form
 			}
-			System.out.println();
 		}
-		*/
+
+		// convert to string - using our map grid view
+		String testtest = ""; 
+		for (int j = 0; j< 15; j++) {
+			for(int i = 0; i < 20; i++) {	
+				testtest += test[j][i];
+			}
+			testtest += "\n";
+		}
+		System.out.print(testtest);
+					
+		System.out.println("this is new md2: "+ map.getRTMapDesc2(map.getMapDesc(), test));
 		
+		*/
 		// instantiate connection to rpi
 		PCClient client = new PCClient("192.168.10.10", 8888);
 		try {
@@ -226,14 +234,18 @@ public class RTexploration implements Runnable{
 			
 			//To get the real-time robot's MD3 with regards to sensor sensing the obs
 			
-			// prints md2
-			System.out.println("this is final md2"+map.getMapDesc2());
-			
 			// get md3 from toconfirmobstacles
 			int[][] mapDesc3 = map.getMapDescRealTime();
+
+			//prints final md1
+			System.out.println("Final md1: "+map.getMapDesc());
+			
+			// prints md2
+			//System.out.println("this is final md2"+map.getMapDesc2());
+			System.out.println("Final md2: "+ map.getRTMapDesc2(map.getMapDesc(), mapDesc3));
 			
 			// set confirmed obstacles on the grid
-			System.out.println("this is final md3");
+			System.out.println("Final md3:");
 			for(int i = 0; i < 20; i++) {
 				for (int j = 0; j< 15; j++) {
 					
@@ -258,11 +270,12 @@ public class RTexploration implements Runnable{
 				for(int i = 0; i < 20; i++) {	
 					stringMd3 += mapDesc3[j][i];
 				}
-				//stringMd3 += "\n";
+				stringMd3 += "\n";
 			}
 
+			
 			// send rpi md3 to send to android
-			System.out.println("sent md3 to android: "+stringMd3);
+			System.out.println("Final md3 in string format to android: "+stringMd3);
 			client.sendJSON("map", stringMd3);
 
 			int whichCounter = 0;
@@ -382,12 +395,12 @@ public class RTexploration implements Runnable{
 		}
 		
 		// add delay if required
-		try {
-			Thread.sleep(700);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			Thread.sleep(700);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return rob;
 	}
 

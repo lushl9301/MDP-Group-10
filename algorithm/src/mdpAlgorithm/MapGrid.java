@@ -207,6 +207,45 @@ public class MapGrid extends JPanel {
 		return toHex(strMapDesc); // comment either one
 	}
 	
+	public String getRTMapDesc2(String md1, int[][] md3) {
+		// to-do:
+		// use md1 and md3 to generate md2
+		String newMd1 = toBinary(md1);
+		// process md1
+		newMd1 = newMd1.substring(2, newMd1.length()-2);	
+		String[] md1Array = toStringArr(newMd1);
+				
+		String strMapDesc = "";
+		int strLength = 0;
+		boolean padEnough = false;
+		
+		int md1Counter = 1;
+		
+		for(int i = 0; i < 20; i++) {
+			for (int j = 0; j< 15; j++) {
+				
+				if(md1Array[md1Counter].equals("1")) {
+					if(md3[j][i] == 2)
+						strMapDesc += "1";
+					else
+						strMapDesc += "0";
+					strLength++;
+				}
+				md1Counter++;
+			}
+		}
+		
+		while (!padEnough) {
+			if(strLength % 8 != 0) {
+				strMapDesc += "0";
+				strLength++;
+			}
+			else padEnough = true;
+		}
+		
+		return toHex(strMapDesc); // comment either one
+	}
+	
 	public int[][] getMapDesc3(String md1, String md2) {
 		int[][] mapDescriptor3 = new int[15][20];
 		
@@ -242,7 +281,7 @@ public class MapGrid extends JPanel {
 	public int[][] getMapDescRealTime() {
 		
 		int[][] strMapDescRealTime = new int[15][20];
-		System.out.println();
+		//System.out.println();
 
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {				
