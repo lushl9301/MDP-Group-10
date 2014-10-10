@@ -53,11 +53,11 @@ import android.widget.ToggleButton;
 /**
  * This is the main Activity that displays the current chat session.
  */
-public class MainActivity extends Activity implements SensorEventListener {
+public class MainActivity extends Activity implements SensorEventListener{
 	// Debugging
 	private static final String TAG = "Aero Dragon";
 	private static final boolean D = true;
-
+	
 	// Tilt Sensing
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
@@ -72,10 +72,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private float[] mOrientation = new float[3];
 
 	private long lastUpdate;
-
-	// Shared Preferences
-	public static final String DEFAULT = "N/A";
-	String f1, f2, f1b, f2b, disp, tilt;
+	
+	//Shared Preferences
+	public static final String DEFAULT="N/A";
+	String f1, f2, f1b,f2b,tilt,disp;
 
 	// Message types sent from the Bluetooth Handler
 	public static final int MESSAGE_STATE_CHANGE = 1;
@@ -95,8 +95,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 	// Layout Views
 	private ListView mConversationView;
 	private TextView tvConnectionStatus;
-
-	// Buttons
+	
+	//Buttons
 	private Button resetButton;
 	private Button f1Button;
 	private Button f2Button;
@@ -109,15 +109,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private Button exploreButton;
 	private Button shortButton;
 	private ToggleButton startButton;
-
-	// for stopwatch
+	
+	//for stopwatch
 	private TextView timerVal;
 	private long startTime = 0L;
 	long timeInMilliseconds = 0L;
 	long timeSwapBuff = 0L;
 	long updatedTime = 0L;
 	private Handler customHandler = new Handler();
-
+	
 	Timer timer = new Timer();
 
 	// Name of the connected device
@@ -130,14 +130,15 @@ public class MainActivity extends Activity implements SensorEventListener {
 	private BluetoothAdapter ba = null;
 	// Member object for the services
 	private BluetoothManager btManager = null;
-
-	// for status on sending
+	
+	//for status on sending
 	String sentMsg = "No Action.";
 	int autoAct = 0;
-
+	
 	MapGenerator map;
-
+	
 	public static JsonObj JsonO;
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -159,15 +160,16 @@ public class MainActivity extends Activity implements SensorEventListener {
 			finish();
 			return;
 		}
-
-		GridLayout gv = (GridLayout) findViewById(R.id.grid2);
-		Log.i("tag", "here3");
-		map = new MapGenerator(gv, this);
-		Log.i("tag", "here4");
-
-		tvConnectionStatus = (TextView) findViewById(R.id.tvConnectionStatus);
+	    
+		
+		GridLayout gv = (GridLayout)findViewById(R.id.grid2);
+		Log.i("tag","here3");
+		map = new MapGenerator(gv,this);
+		Log.i("tag","here4");
+		
+		tvConnectionStatus = (TextView)findViewById(R.id.tvConnectionStatus);
 		tvConnectionStatus.setMovementMethod(new ScrollingMovementMethod());
-
+		
 		f1Button = (Button) findViewById(R.id.f1Button);
 		f2Button = (Button) findViewById(R.id.f2Button);
 		resetButton = (Button) findViewById(R.id.resetButton);
@@ -181,97 +183,101 @@ public class MainActivity extends Activity implements SensorEventListener {
 		shortButton = (Button) findViewById(R.id.shortBtn);
 		timerVal = (TextView) findViewById(R.id.timer);
 		startButton = (ToggleButton) findViewById(R.id.startBtn);
-
+		
+		
+		
+		
 		load();
-		// setting onClick listeners
-		f1Button.setOnClickListener(new OnClickListener() {
+		//setting onClick listeners
+		f1Button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				// sendMessage(f1);
-				// sendMessage(f1b);
+				//sendMessage(f1);
+				//sendMessage(f1b);
 				sendMessage(JsonObj.sendJson(f1, f1b));
-			}
+			}		
 		});
-
-		f2Button.setOnClickListener(new OnClickListener() {
+		
+		f2Button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				// sendMessage(f2);
-				// sendMessage(f2b);
+				//sendMessage(f2);
+				//sendMessage(f2b);
 				sendMessage(JsonObj.sendJson(f2, f2b));
-			}
+			}		
 		});
-		exploreButton.setOnClickListener(new OnClickListener() {
+    	exploreButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				autoAct = 1;
-
+				
+				
 			}
-		});
-		shortButton.setOnClickListener(new OnClickListener() {
+    	});
+    	shortButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				autoAct = 2;
-
+				
 			}
-		});
-		leftButton.setOnClickListener(new OnClickListener() {
+    	});
+    	leftButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// sendMessage("a");
-
+				//sendMessage("a");
+				
 				map.turnLeftMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
-		});
-		rightButton.setOnClickListener(new OnClickListener() {
+    	});
+    	rightButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// sendMessage("d");
+				//sendMessage("d");
 				map.turnRightMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
-		});
-		upButton.setOnClickListener(new OnClickListener() {
+    	});
+    	upButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// sendMessage("w");
+				//sendMessage("w");
 				map.moveForwardMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
-		});
-		downButton.setOnClickListener(new OnClickListener() {
+    	});
+    	downButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-				// sendMessage("s");
+				//sendMessage("s");
 				map.moveDownMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
-		});
-		roundButton.setOnClickListener(new OnClickListener() {
+    	});
+    	roundButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
-
-				sendMessage("GRID");
+				
+				//sendMessage("GRID");
 			}
-		});
-		resetButton.setOnClickListener(new OnClickListener() {
+    	});
+    	resetButton.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				sendMessage("Map Reset");
-				map.resetMap(); // to reset map
+				map.resetMap(); //to reset map
 			}
-		});
+    	});
 
-		gv.setOnTouchListener(new OnSwipeTouchListener(this) {
+    	gv.setOnTouchListener(new OnSwipeTouchListener(this) {
 			public void onSwipeTop() {
 				map.moveForwardMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
@@ -301,6 +307,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		lastUpdate = System.currentTimeMillis();
 
 	}
+
 
 	@Override
 	public void onStart() {
@@ -339,39 +346,33 @@ public class MainActivity extends Activity implements SensorEventListener {
 				btManager.start();
 			}
 		}
-
+		
 		load();
-
+		
 		mLastAccelerometerSet = false;
 		mLastMagnetometerSet = false;
 		mSensorManager.registerListener(this, mAccelerometer,
-				SensorManager.SENSOR_DELAY_NORMAL);
+				SensorManager.SENSOR_DELAY_FASTEST);
 		mSensorManager.registerListener(this, mMagnetometer,
-				SensorManager.SENSOR_DELAY_NORMAL);
-
+				SensorManager.SENSOR_DELAY_FASTEST);
+			
 	}
-
-	// to load shared preferences
-	public void load() {
-		SharedPreferences sp = getSharedPreferences("MyData",
-				Context.MODE_PRIVATE);
+	
+	//to load shared preferences
+	public void load(){
+		SharedPreferences sp = getSharedPreferences("MyData", Context.MODE_PRIVATE);
 		f1 = sp.getString("Function1", DEFAULT);
 		f2 = sp.getString("Function2", DEFAULT);
 		f1b = sp.getString("Function1b", DEFAULT);
 		f2b = sp.getString("Function2b", DEFAULT);
-		disp = sp.getString("dispType", DEFAULT);
-		if (disp.equals(DEFAULT)) {
-			disp = "2d";
-		}
-		if (f1.equals(DEFAULT) || f2.equals(DEFAULT) || f1b.equals(DEFAULT)
-				|| f2b.equals(DEFAULT)) {
-			Toast.makeText(this, "No Function Data Found", Toast.LENGTH_SHORT)
-					.show();
-		} else {
+		if(f1.equals(DEFAULT) || f2.equals(DEFAULT)||f1b.equals(DEFAULT) || f2b.equals(DEFAULT)){
+			Toast.makeText(this, "No Function Data Found", Toast.LENGTH_SHORT).show();
+		}else{
 			Toast.makeText(this, "Function Loaded", Toast.LENGTH_SHORT).show();
 		}
-
+	
 	}
+	
 
 	private void setupChat() {
 		Log.d(TAG, "setupChat()");
@@ -415,7 +416,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 			Log.e(TAG, "--- ON DESTROY ---");
 	}
 
-	// turn on and discover bluetooth
+	//turn on and discover bluetooth
 	private void ensureDiscoverable() {
 		if (D)
 			Log.d(TAG, "ensure discoverable");
@@ -428,7 +429,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 
-	// send message to AMD
+	//send message to AMD
 	private void sendMessage(String message) {
 		// Check that we're actually connected before trying anything
 		if (btManager.getState() != BluetoothManager.STATE_CONNECTED) {
@@ -446,7 +447,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 
-	// set connection and action status
+	//set connection and action status
 	private final void setStatus(int resId) {
 		invalidateOptionsMenu();
 		tvConnectionStatus.setText(resId);
@@ -488,42 +489,45 @@ public class MainActivity extends Activity implements SensorEventListener {
 				break;
 			case MESSAGE_WRITE:
 				byte[] writeBuf = (byte[]) msg.obj;
-				// construct a string from the buffer
-				String writeMessage = new String(writeBuf);
-				// mConversationArrayAdapter.add("Me:  " + writeMessage);
 				break;
-
+				
 			case MESSAGE_READ:
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				JsonObj.recJson(readMessage);
-				// JsonObj.amdString(readMessage);
+				JsonObj.recJson(readMessage);				
 				map.getRobot().setPosition(JsonObj.position);
 				map.plotObsAuto(JsonObj.array2D);
-				// Log.i("Tag", ""+JsonObj.dir);
+				Log.i("Tag", ""+JsonObj.array2D[0]);
 				map.getRobot().setDirection(JsonObj.dir);
-				if (JsonObj.dir == 3) {
+				if (JsonObj.dir==3)
+				{
 					map.setSouth(JsonObj.position);
-				} else if (JsonObj.dir == 1) {
+				}
+				else if (JsonObj.dir==1)
+				{
 					map.setNorth(JsonObj.position);
-				} else if (JsonObj.dir == 2) {
+				}
+				else if (JsonObj.dir==2)
+				{
 					map.setEast(JsonObj.position);
-				} else if (JsonObj.dir == 4) {
+				}
+				else if (JsonObj.dir==4)
+				{
 					map.setWest(JsonObj.position);
 				}
-
-				if (JsonObj.words.equals("END_EXP")
-						|| JsonObj.words.equals("END_PATH")) {
+				
+				if (JsonObj.words.equals("END_EXP")|| JsonObj.words.equals("END_PATH")){
 					startButton.setChecked(false);
 					timeSwapBuff += timeInMilliseconds;
-					customHandler.removeCallbacks(updateTimerThread);
-					timeSwapBuff = 0;
+			    	customHandler.removeCallbacks(updateTimerThread);
+			    	timeSwapBuff = 0;
 				}
-
+				
 				setStatus(getString(R.string.title_connected_to,
 						mConnectedDeviceName) + readMessage);
-
+				
+				
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
@@ -541,6 +545,7 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	};
 
+	
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (D)
 			Log.d(TAG, "onActivityResult " + resultCode);
@@ -566,6 +571,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		}
 	}
 
+	
+	
 	private void connectDevice(Intent data) {
 		// Get the device MAC address
 		String address = data.getExtras().getString(
@@ -576,6 +583,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 		btManager.connect(device);
 	}
 
+	
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -583,171 +592,178 @@ public class MainActivity extends Activity implements SensorEventListener {
 		return true;
 	}
 
-	// selecting things on action bar
+	
+	//selecting things on action bar
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		invalidateOptionsMenu();
 		Intent serverIntent = null;
 		switch (item.getItemId()) {
 		case R.id.on_toggle:
-			// BT is on, so switch off
-			if (ba.isEnabled()) {
+			//BT is on, so switch off
+			if(ba.isEnabled()){
 				ba.disable();
-			} else {
-				Toast.makeText(getApplicationContext(),
-						R.string.bt_already_off, Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.bt_already_off, Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		case R.id.off_toggle:
-			// BT is off, so switch on
-			if (!ba.isEnabled()) {
+			//BT is off, so switch on
+			if(!ba.isEnabled()){
 				ensureDiscoverable();
-			} else {
-				Toast.makeText(getApplicationContext(), R.string.bt_already_on,
-						Toast.LENGTH_SHORT).show();
+			}else{
+				Toast.makeText(getApplicationContext(), R.string.bt_already_on, Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		case R.id.search_toggle:
-			if (ba.isEnabled() && btManager.getState() == 3) {
-				// if connected to device, disconnect
+			if(ba.isEnabled() && btManager.getState()==3){
+				//if connected to device, disconnect
 				btManager.stop();
-			} else {
-				Toast.makeText(getApplicationContext(), R.string.not_connected,
-						Toast.LENGTH_SHORT).show();
+			}
+			else{
+				Toast.makeText(getApplicationContext(), R.string.not_connected, Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		case R.id.dc_toggle:
-			if (ba.isEnabled() && btManager.getState() != 3) {
+			if(ba.isEnabled() && btManager.getState()!=3){
 				// Launch the DeviceListActivity to see devices and do scan
 				serverIntent = new Intent(this, DeviceListActivity.class);
 				startActivityForResult(serverIntent, REQUEST_CONNECT_DEVICE);
-			} else {
-				Toast.makeText(getApplicationContext(),
-						R.string.bt_not_enabled, Toast.LENGTH_SHORT).show();
+			}
+			else{
+				Toast.makeText(getApplicationContext(), R.string.bt_not_enabled, Toast.LENGTH_SHORT).show();
 			}
 			return true;
 		case R.id.configure:
 			// for config of string
 			serverIntent = new Intent(MainActivity.this, Configuration.class);
-			startActivity(serverIntent);
+	        startActivity(serverIntent);
 			return true;
 		}
 		return false;
 	}
-
-	// to refresh action bar
+	
+	
+	
+	//to refresh action bar
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
+	public boolean onPrepareOptionsMenu (Menu menu){
 		MenuItem switchOn = menu.findItem(R.id.on_toggle);
 		MenuItem switchOff = menu.findItem(R.id.off_toggle);
 		MenuItem con_dev = menu.findItem(R.id.search_toggle);
 		MenuItem dis_dev = menu.findItem(R.id.dc_toggle);
-		if (ba.isEnabled()) {
-			switchOn.setVisible(true);
-			switchOff.setVisible(false);
-		} else {
-			switchOn.setVisible(false);
-			switchOff.setVisible(true);
-		}
-
-		if (ba.isEnabled() && btManager.getState() == btManager.STATE_CONNECTED) {
+		if(ba.isEnabled()){
+            switchOn.setVisible(true);
+            switchOff.setVisible(false);
+        }
+        else{
+        	switchOn.setVisible(false);
+            switchOff.setVisible(true);
+        }
+		
+		if(ba.isEnabled() && btManager.getState()== BluetoothManager.STATE_CONNECTED){
 			con_dev.setVisible(true);
-			dis_dev.setVisible(false);
-		} else {
-			con_dev.setVisible(false);
-			dis_dev.setVisible(true);
-		}
-
-		return super.onPrepareOptionsMenu(menu);
+            dis_dev.setVisible(false);
+        }
+        else{
+        	con_dev.setVisible(false);
+            dis_dev.setVisible(true);
+        }
+		
+		
+        return super.onPrepareOptionsMenu(menu);
 	}
-
-	// MODE BUTTON FUNCTION
+	
+	
+	//MODE BUTTON FUNCTION
 	public void toggleMode(View view) {
-		// Is the toggle on?
-		boolean on = ((ToggleButton) view).isChecked();
-
-		if (on) {
-			// auto mode
-			roundButton.setVisibility(View.INVISIBLE);
-			upButton.setVisibility(View.INVISIBLE);
-			downButton.setVisibility(View.INVISIBLE);
-			leftButton.setVisibility(View.INVISIBLE);
-			rightButton.setVisibility(View.INVISIBLE);
-
-			exploreButton.setVisibility(View.VISIBLE);
-			shortButton.setVisibility(View.VISIBLE);
-			timerVal.setVisibility(View.VISIBLE);
-			startButton.setVisibility(View.VISIBLE);
-
-			sendMessage(JsonObj.sendJson("movement", "G"));
-
-		} else {
-			// manual mode
-			roundButton.setVisibility(View.VISIBLE);
-			upButton.setVisibility(View.VISIBLE);
-			downButton.setVisibility(View.VISIBLE);
-			leftButton.setVisibility(View.VISIBLE);
-			rightButton.setVisibility(View.VISIBLE);
-
-			exploreButton.setVisibility(View.INVISIBLE);
-			shortButton.setVisibility(View.INVISIBLE);
-			timerVal.setVisibility(View.INVISIBLE);
-			startButton.setVisibility(View.INVISIBLE);
-			sendMessage(JsonObj.sendJson("command", "R"));
-		}
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    
+	    if (on) {
+	    	//auto mode
+	    	roundButton.setVisibility(View.INVISIBLE);
+	    	upButton.setVisibility(View.INVISIBLE);
+	    	downButton.setVisibility(View.INVISIBLE);
+	    	leftButton.setVisibility(View.INVISIBLE);
+	    	rightButton.setVisibility(View.INVISIBLE);
+	    	
+	    	exploreButton.setVisibility(View.VISIBLE);
+	    	shortButton.setVisibility(View.VISIBLE);
+	    	timerVal.setVisibility(View.VISIBLE);
+	    	startButton.setVisibility(View.VISIBLE);
+	    	
+	    	sendMessage(JsonObj.sendJson("movement", "G"));
+	    	
+	    } else {
+	    	//manual mode
+	    	roundButton.setVisibility(View.VISIBLE);
+	    	upButton.setVisibility(View.VISIBLE);
+	    	downButton.setVisibility(View.VISIBLE);
+	    	leftButton.setVisibility(View.VISIBLE);
+	    	rightButton.setVisibility(View.VISIBLE);
+	    	
+	    	exploreButton.setVisibility(View.INVISIBLE);
+	    	shortButton.setVisibility(View.INVISIBLE);
+	    	timerVal.setVisibility(View.INVISIBLE);
+	    	startButton.setVisibility(View.INVISIBLE);
+	    	sendMessage(JsonObj.sendJson("command", "R"));
+	    }
 	}
-
-	// START BUTTON FUNCTION
+	
+	
+	//START BUTTON FUNCTION
 	public void toggleStart(View view) {
-		// Is the toggle on?
-		boolean on = ((ToggleButton) view).isChecked();
-
-		if (on) {
-
-			// timer = new Timer();
-
-			// end timer
-			if (btManager.getState() == BluetoothManager.STATE_CONNECTED) {
-				if (autoAct == 1) {
-					sendMessage(JsonObj.sendJson("command", "E"));
-					// sendMessage("Let's Explore!");
-					startTime = SystemClock.uptimeMillis();
-					// timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL
-					// ONLY
-					customHandler.postDelayed(updateTimerThread, 0);
-				} else if (autoAct == 2) {
-					sendMessage(JsonObj.sendJson("command", "P"));
-					// sendMessage("Let's find the Shortest Path!");
-					startTime = SystemClock.uptimeMillis();
-					// timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL
-					// ONLY
-					customHandler.postDelayed(updateTimerThread, 0);
-				} else {
-					startButton.setChecked(false);
-					Toast.makeText(this, R.string.no_action, Toast.LENGTH_SHORT)
-							.show();
-				}
-			} else {
-				startButton.setChecked(false);
-				Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT)
-						.show();
-			}
-
-			autoAct = 0;
-
-		} else {
-			// get something to say it is explore/shortest path
-			// then when start is pressed then start the activity
-			sendMessage(JsonObj.sendJson("movement", "G"));
-			timeSwapBuff += timeInMilliseconds;
-			customHandler.removeCallbacks(updateTimerThread);
-			timeSwapBuff = 0;
-			// timer.cancel();
-			// timer.purge();
-		}
+	    // Is the toggle on?
+	    boolean on = ((ToggleButton) view).isChecked();
+	    
+	    if (on) {
+	    	
+	    	//timer = new Timer();
+	    	
+	    	//end timer
+	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
+	    		if(autoAct == 1){
+	    			sendMessage(JsonObj.sendJson("command", "E"));
+		    		//sendMessage("Let's Explore!");
+		    		startTime = SystemClock.uptimeMillis();
+		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
+			    	customHandler.postDelayed(updateTimerThread, 0);
+		    	}
+		    	else if(autoAct ==2 ){
+		    		sendMessage(JsonObj.sendJson("command", "P"));
+		    		sendMessage(JsonObj.sendJson("path", JsonObj.fromRPI));
+		    		startTime = SystemClock.uptimeMillis();
+		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
+			    	customHandler.postDelayed(updateTimerThread, 0);
+		    	}
+		    	else{
+		    		startButton.setChecked(false);
+		    		Toast.makeText(this, R.string.no_action, Toast.LENGTH_SHORT).show();
+		    	}
+	    	}
+	    	else{
+	    		startButton.setChecked(false);
+	    		Toast.makeText(this, R.string.not_connected, Toast.LENGTH_SHORT).show();
+	    	}
+	    	
+	    	
+	    	autoAct = 0;
+	    	
+	    } else {
+	    	//get something to say it is explore/shortest path
+	    	//then when start is pressed then start the activity
+	    	sendMessage(JsonObj.sendJson("movement", "G"));
+	    	timeSwapBuff += timeInMilliseconds;
+	    	customHandler.removeCallbacks(updateTimerThread);
+	    	timeSwapBuff = 0;
+	    	//timer.cancel();
+			//timer.purge();
+	    }
 	}
-
-	// STOPWATCH FUNCTION
+	
+	
+	//STOPWATCH FUNCTION
 	private Runnable updateTimerThread = new Runnable() {
 
 		public void run() {
@@ -760,29 +776,26 @@ public class MainActivity extends Activity implements SensorEventListener {
 			int mins = secs / 60;
 			secs = secs % 60;
 			int milliseconds = (int) (updatedTime % 1000);
-			timerVal.setText("" + mins + ":" + String.format("%02d", secs)
-					+ ":" + String.format("%03d", milliseconds));
+			timerVal.setText("" + mins + ":"
+					+ String.format("%02d", secs) + ":"
+					+ String.format("%03d", milliseconds));
 			customHandler.postDelayed(this, 0);
 		}
 
 	};
-
-	/*
-	 * private void updateMap(int oldDir, int[][] oldPos) {
-	 * 
-	 * 
-	 * //map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
-	 * 
-	 * }
-	 */
-	public class askGrid extends TimerTask {
+	/*private void updateMap(int oldDir, int[][] oldPos) {
+		
+		
+			//map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
+		
+	}*/
+	public class ask extends TimerTask {
 		public void run() {
-			sendMessage("GRID");
+			//sendMessage("");
 		}
 
-	}
-
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
+}
+public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
 
 	public void onSensorChanged(SensorEvent event) {
@@ -791,47 +804,47 @@ public class MainActivity extends Activity implements SensorEventListener {
 		tilt = sp.getString("tilting", DEFAULT);
 		
 		long actualTime = event.timestamp;
+		
+		if (event.sensor == mAccelerometer) {
+			System.arraycopy(event.values, 0, mLastAccelerometer, 0,
+					event.values.length);
+			mLastAccelerometerSet = true;
+		} else if (event.sensor == mMagnetometer) {
+			System.arraycopy(event.values, 0, mLastMagnetometer, 0,
+					event.values.length);
+			mLastMagnetometerSet = true;
+		}
+		if (mLastAccelerometerSet && mLastMagnetometerSet) {
+			SensorManager.getRotationMatrix(mR, null, mLastAccelerometer,
+					mLastMagnetometer);
+			SensorManager.getOrientation(mR, mOrientation);
+//			Log.i("OrientationTestActivity", String.format(
+//					"Orientation: %f, %f, %f", mOrientation[0],
+//					mOrientation[1], mOrientation[2]));
+		}
 
-		if (btManager.getState() == BluetoothManager.STATE_CONNECTED && tilt.equals("On")) {
-			if (event.sensor == mAccelerometer) {
-				System.arraycopy(event.values, 0, mLastAccelerometer, 0,
-						event.values.length);
-				mLastAccelerometerSet = true;
-			} else if (event.sensor == mMagnetometer) {
-				System.arraycopy(event.values, 0, mLastMagnetometer, 0,
-						event.values.length);
-				mLastMagnetometerSet = true;
-			}
-			if (mLastAccelerometerSet && mLastMagnetometerSet) {
-				SensorManager.getRotationMatrix(mR, null, mLastAccelerometer,
-						mLastMagnetometer);
-				SensorManager.getOrientation(mR, mOrientation);
-				Log.i("OrientationTestActivity", String.format(
-						"Orientation: %f, %f, %f", mOrientation[0],
-						mOrientation[1], mOrientation[2]));
-			}
+		if (tilt.equals("On")) {
 			
 
 				if (((actualTime - lastUpdate) > 1000000000)) {
-					float x = event.values[0];
-					float y = event.values[1];
-					float z = event.values[2];
+					float x = mOrientation[2];
+					float y = mOrientation[1];
 						if (Math.abs(x) > Math.abs(y)) {
-							if (x < 8) {
+							if (x > 1.5 ) {
 								map.turnRightMap();
 								Log.i(TAG, "RIGHT");
 
 							}
-							if (x > 5) {
+							if (x < -1.5) {
 								map.turnLeftMap();
 								Log.i(TAG, "LEFT");
 							}
 						} else {
-							if (y < 5) {
+							if (y > 1) {
 								map.moveForwardMap();
 								Log.i(TAG, "UP");
 							}
-							if (y > 5) {
+							if (y < -1) {
 								map.moveDownMap();
 								Log.i(TAG, "DOWN");
 							}

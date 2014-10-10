@@ -19,7 +19,6 @@ package com.mdp.aero;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Method;
 import java.util.UUID;
 
 import android.bluetooth.BluetoothAdapter;
@@ -44,7 +43,7 @@ public class BluetoothManager {
 	private static final boolean D = true;
 
 	// Name for the SDP record when creating server socket
-	private static final String NAME = "BluetoothChat";
+	private static final String NAME = "AeroDragons";
 
 	// Unique UUID for this application
 	private static final UUID MY_UUID = UUID
@@ -61,6 +60,8 @@ public class BluetoothManager {
 	private ConnectThread mConnectThread;
 	private ConnectedThread mConnectedThread;
 	private int mState;
+	private BluetoothDevice myDevice;
+	boolean deviceConnection;
 
 	// Constants that indicate the current connection state
 	public static final int STATE_NONE = 0; // we're doing nothing
@@ -143,6 +144,7 @@ public class BluetoothManager {
 	 *            The BluetoothDevice to connect
 	 */
 	public synchronized void connect(BluetoothDevice device) {
+		myDevice = device;
 		if (D)
 			Log.d(TAG, "connect to: " + device);
 
@@ -200,14 +202,15 @@ public class BluetoothManager {
 		// Start the thread to manage the connection and perform transmissions
 		mConnectedThread = new ConnectedThread(socket, socketType);
 		mConnectedThread.start();
-
+		
+		deviceConnection=true;
 		// Send the name of the connected device back to the UI Activity
 		Message msg = mHandler.obtainMessage(MainActivity.MESSAGE_DEVICE_NAME);
 		Bundle bundle = new Bundle();
 		bundle.putString(MainActivity.DEVICE_NAME, device.getName());
 		msg.setData(bundle);
 		mHandler.sendMessage(msg);
-
+		
 		setState(STATE_CONNECTED);
 	}
 
@@ -280,9 +283,39 @@ public class BluetoothManager {
 		bundle.putString(MainActivity.TOAST, "Device connection was lost");
 		msg.setData(bundle);
 		mHandler.sendMessage(msg);
-
+		deviceConnection=false;
+		setState(STATE_LISTEN);
 		// Start the service over to restart listening mode
 		BluetoothManager.this.start();
+		//Timer to reconnect broken bluetooth linked device 
+		Thread thread = new Thread()
+		   {
+
+		     public void run() {
+		    	 Log.i("tag1", "Connection Lost Reached here");
+		    	 int count1 = 0;
+		    	 while (true){
+		                	
+					if (deviceConnection) {
+		                Log.i("tag", "Break");
+		    	        break;
+		             }
+		            count1=count1+1;
+		                Log.i("Count: ", Integer.toString(count1));
+		                try
+		                {
+		                  Log.i("tag1", "connection lost Reached");
+		                    	connect(myDevice);
+		                        Thread.sleep(7000); // 20 second
+		                } catch (Exception e)
+		                    {
+		                        e.printStackTrace();
+		                }
+		                   
+		        }
+		      }
+		 };
+		 thread.start();
 	}
 
 	/**
@@ -300,8 +333,7 @@ public class BluetoothManager {
 
 			// Create a new listening server socket
 			try {
-				tmp = mAdapter
-						.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
+				tmp = mAdapter.listenUsingRfcommWithServiceRecord(NAME, MY_UUID);
 			} catch (IOException e) {
 				Log.e(TAG, "Socket Type: " + mSocketType + "listen() failed", e);
 			}
@@ -363,8 +395,7 @@ public class BluetoothManager {
 			try {
 				mmServerSocket.close();
 			} catch (IOException e) {
-				Log.e(TAG, "Socket Type" + mSocketType
-						+ "close() of server failed", e);
+				Log.e(TAG, "Socket Type" + mSocketType + "close() of server failed", e);
 			}
 		}
 	}
@@ -382,7 +413,6 @@ public class BluetoothManager {
 		public ConnectThread(BluetoothDevice device) {
 			mmDevice = device;
 			BluetoothSocket tmp = null;
-			Method m = null;
 			// Get a BluetoothSocket for a connection with the
 			// given BluetoothDevice
 			try {
@@ -430,8 +460,7 @@ public class BluetoothManager {
 			try {
 				mmSocket.close();
 			} catch (IOException e) {
-				Log.e(TAG, "close() of connect " + mSocketType
-						+ " socket failed", e);
+				Log.e(TAG, "close() of connect " + mSocketType + " socket failed", e);
 			}
 		}
 	}
@@ -450,11 +479,11 @@ public class BluetoothManager {
 			mmSocket = socket;
 			InputStream tmpIn = null;
 			OutputStream tmpOut = null;
+
 			// Get the BluetoothSocket input and output streams
 			try {
 				tmpIn = socket.getInputStream();
 				tmpOut = socket.getOutputStream();
-
 			} catch (IOException e) {
 				Log.e(TAG, "temp sockets not created", e);
 			}
@@ -482,6 +511,7 @@ public class BluetoothManager {
 					connectionLost();
 					// Start the service over to restart listening mode
 					BluetoothManager.this.start();
+
 					break;
 				}
 			}
@@ -498,8 +528,7 @@ public class BluetoothManager {
 				mmOutStream.write(buffer);
 
 				// Share the sent message back to the UI Activity
-				mHandler.obtainMessage(MainActivity.MESSAGE_WRITE, -1, -1,
-						buffer).sendToTarget();
+				mHandler.obtainMessage(MainActivity.MESSAGE_WRITE, -1, -1,buffer).sendToTarget();
 				setState(STATE_SEND);
 				setState(STATE_CONNECTED);
 			} catch (IOException e) {
@@ -515,4 +544,5 @@ public class BluetoothManager {
 			}
 		}
 	}
+	
 }
