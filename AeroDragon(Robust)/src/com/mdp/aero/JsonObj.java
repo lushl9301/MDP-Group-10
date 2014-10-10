@@ -71,9 +71,9 @@ public class JsonObj {
 				}
 				else if(jsonObj.getString("type").equals("map")){
 					String hex = jsonObj.getString("data");
-					boolean isHex = hex.matches("[0-9A-F]+");
+					//boolean isHex = hex.matches("[0-9A-F]+");
 					//FOR MD1 ONLY
-					if (isHex == true){
+					//if (isHex == true){
 						String decode = toBinary(hex);
 						int p = 0;
 						String[] splited = new String[305];
@@ -93,9 +93,9 @@ public class JsonObj {
 						}
 						
 							
-					}
-					else{
-						String[] split_b = new String[300];
+					//}
+					/*else{
+						String[] split_b = new String[301];
 						int l = 0;
 						for (String sp: hex.split("")){
 							split_b[l]=sp;
@@ -105,10 +105,10 @@ public class JsonObj {
 						for(int i=0; i<15;i++)
 							   for(int j=0;j<20;j++)
 							   {
-							       array2D[i][j] = Integer.parseInt(split_b[(j%20+i*20)]);
+							       array2D[i][j] = Integer.parseInt(split_b[(j%20+i*20)+1]);
 							   }
 						
-					}
+					}*/
 					//Log.i("abc", splited[0]);
 					//String[] splited = decode.split("\\d");
 					
@@ -133,7 +133,7 @@ public class JsonObj {
 	public static String toBinary(String hex) {
 		return new BigInteger("1" + hex, 16).toString(2).substring(1);
 	}
-	public static void amdString(String msg){
+	/*public static void amdString(String msg){
 		//for AMD tool
 				
 				words = msg;
@@ -185,5 +185,5 @@ public class JsonObj {
 
 				//JObjr = new JSONObject() ;
 				
-	}
+	}*/
 }

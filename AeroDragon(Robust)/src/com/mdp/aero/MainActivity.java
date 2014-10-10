@@ -265,7 +265,7 @@ public class MainActivity extends Activity implements SensorEventListener{
 			@Override
 			public void onClick(View v) {
 				
-				sendMessage("GRID");
+				//sendMessage("GRID");
 			}
     	});
     	resetButton.setOnClickListener(new OnClickListener(){
@@ -792,9 +792,9 @@ public class MainActivity extends Activity implements SensorEventListener{
 			//map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
 		
 	}*/
-	public class askGrid extends TimerTask {
+	public class ask extends TimerTask {
 		public void run() {
-			sendMessage("GRID");
+			//sendMessage("");
 		}
 
 }
@@ -821,12 +821,12 @@ public void onAccuracyChanged(Sensor sensor, int accuracy) {
 			SensorManager.getRotationMatrix(mR, null, mLastAccelerometer,
 					mLastMagnetometer);
 			SensorManager.getOrientation(mR, mOrientation);
-			Log.i("OrientationTestActivity", String.format(
-					"Orientation: %f, %f, %f", mOrientation[0],
-					mOrientation[1], mOrientation[2]));
+//			Log.i("OrientationTestActivity", String.format(
+//					"Orientation: %f, %f, %f", mOrientation[0],
+//					mOrientation[1], mOrientation[2]));
 		}
 
-		if (btManager.getState() == BluetoothManager.STATE_CONNECTED && tilt.equals("On")) {
+		if (tilt.equals("On")) {
 			
 
 				if (((actualTime - lastUpdate) > 1000000000)) {
