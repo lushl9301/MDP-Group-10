@@ -71,13 +71,16 @@ public class JsonObj {
 				}
 				else if(jsonObj.getString("type").equals("map")){
 					String hex = jsonObj.getString("data");
-					//boolean isHex = hex.matches("[0-9A-F]+");
-					//FOR MD1 ONLY
-					//if (isHex == true){
-						String decode = toBinary(hex);
+					String firstLetter = hex.substring(0, 1);
+					Log.i("huh", ""+firstLetter);
+					if (firstLetter.equals("E"))
+					{
+						
+						String decode = toBinary(hex.substring(1));
 						int p = 0;
-						String[] splited = new String[305];
+						String[] splited = new String[307];
 						for (String sp: decode.split("")){
+							
 							splited[p]=sp;
 							
 							p++;
@@ -86,40 +89,34 @@ public class JsonObj {
 						for(int i=0; i<20;i++){
 							   for(int j=0;j<15;j++)
 							   {
-								   //Log.i("SP", "j:"+j+"i:"+i+"t:"+splited[(q)]);
+								  
 							       array2D[j][i] = Integer.parseInt(splited[(q)+3]);
 							       q++;
+							       
 							   }
 						}
 						
-							
-					//}
-					/*else{
-						String[] split_b = new String[301];
+					}
+					else if (firstLetter.equals("S")){
+						String decodeS = hex.substring(1);
+						String[] split_b = new String[302];
+						Log.i("huh", ""+decodeS);
 						int l = 0;
-						for (String sp: hex.split("")){
+						for (String sp: decodeS.split("")){
 							split_b[l]=sp;
 							
 							l++;
 						}
-						for(int i=0; i<15;i++)
-							   for(int j=0;j<20;j++)
+						int k = 0;	
+						for(int i=0; i<20;i++){
+							   for(int j=0;j<15;j++)
 							   {
-							       array2D[i][j] = Integer.parseInt(split_b[(j%20+i*20)+1]);
+								  
+							       array2D[j][i] = Integer.parseInt(split_b[(k)+1]);
+							       k++;
 							   }
-						
-					}*/
-					//Log.i("abc", splited[0]);
-					//String[] splited = decode.split("\\d");
-					
-					/*int[][] array = new int[15][20];
-					 * String[] splited = msg.split("\\s+");
-					//JSONArray data = jsonObj.getJSONArray("data");
-					for (int y=0; y<15;y++){
-						for (int z=0; z<20;z++){
-							array[y][z]=data.getInt(z);
-							//should have error
-						}*/
+						}
+					}
 				
 				}
 			} catch (JSONException e) {
