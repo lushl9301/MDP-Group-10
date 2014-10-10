@@ -308,15 +308,20 @@ public class MapGrid extends JPanel {
 	
 	public String toHex(String bin){
 		//System.out.println(bin);
-		BigInteger b = new BigInteger(bin, 2);
-		String hexNum = b.toString(16);
-		
-		int binaryLength = bin.length() * 2;
-		int hexLength = hexNum.length() * 8;
-		if(binaryLength - hexLength > 0) {
-			for(int i = 0; i < ((binaryLength - hexLength)/8); i++) {
-				hexNum = "0"+hexNum;
+		String hexNum ="";
+		try {
+			BigInteger b = new BigInteger(bin, 2);
+			hexNum = b.toString(16);
+			
+			int binaryLength = bin.length() * 2;
+			int hexLength = hexNum.length() * 8;
+			if(binaryLength - hexLength > 0) {
+				for(int i = 0; i < ((binaryLength - hexLength)/8); i++) {
+					hexNum = "0"+hexNum;
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("string is empty");
 		}
 		return hexNum;
 	}

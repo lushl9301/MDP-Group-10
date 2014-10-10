@@ -204,27 +204,27 @@ public class RTexploration implements Runnable{
 					else {
 						currentDir = curStack.pop();
 					}
-				}
+				
 								
-				// need to send explored map to android. send md1
-				client.sendJSON("map", map.getMapDesc());
-				// check the md1 that is sent
-				System.out.println(map.getMapDesc());
-				
-				// print the md3 to check
-				for (int j = 0; j< 15; j++) {
-					for(int i = 0; i < 20; i++) {
-						if(map.toConfirmObstacle[j][i]>= 0)
-							System.out.print("[+"+map.toConfirmObstacle[j][i]+"]");
-						else
-							System.out.print("["+map.toConfirmObstacle[j][i]+"]");
+					// need to send explored map to android. send md1
+					client.sendJSON("map", map.getMapDesc());
+					// check the md1 that is sent
+					System.out.println(map.getMapDesc());
+					
+					// print the md3 to check
+					for (int j = 0; j< 15; j++) {
+						for(int i = 0; i < 20; i++) {
+							if(map.toConfirmObstacle[j][i]>= 0)
+								System.out.print("[+"+map.toConfirmObstacle[j][i]+"]");
+							else
+								System.out.print("["+map.toConfirmObstacle[j][i]+"]");
+						}
+						System.out.println();
 					}
-					System.out.println();
+					
+					// repaint the walls
+					map.initWalls();
 				}
-				
-				// repaint the walls
-				map.initWalls();
-				
 			} while (!rtCompleted);
 			
 			// after exploration is completed
@@ -273,7 +273,6 @@ public class RTexploration implements Runnable{
 				stringMd3 += "\n";
 			}
 
-			
 			// send rpi md3 to send to android
 			System.out.println("Final md3 in string format to android: "+stringMd3);
 			client.sendJSON("map", stringMd3);
