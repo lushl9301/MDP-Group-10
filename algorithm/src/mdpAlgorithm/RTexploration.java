@@ -49,7 +49,7 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-/*
+		/*
 		int testx = 0;
 		
 		//front sensors
@@ -59,7 +59,8 @@ public class RTexploration implements Runnable{
 		//left sensors
 		int U_L = 50;
 		int long_BL = 80;
-
+		int short_FL = 40;
+		
 		// right sensors
 		int short_FR = 60;
 		int U_R = 50;
@@ -75,6 +76,7 @@ public class RTexploration implements Runnable{
 			reading.put("direction", "3");
 			reading.put("U_F", U_F);
 			reading.put("short_LF", short_LF);
+			reading.put("short_FL", short_FL);
 			reading.put("short_RF", short_RF);
 			reading.put("U_L", U_L);
 			reading.put("long_BL", long_BL);
@@ -104,9 +106,12 @@ public class RTexploration implements Runnable{
 			System.out.println();
 			short_LF -= 10;
 			short_RF -= 10;
+			
 			//System.out.println(rob.getX() +", "+rob.getY());
 		}while(testx<6);
 
+		
+		
 		System.out.println("md1: "+map.getMapDesc());
 		System.out.println("md2: "+map.getMapDesc2());
 		
@@ -143,11 +148,13 @@ public class RTexploration implements Runnable{
 				}
 			}
 		}
-
+		System.out.println("android md3 string");
 		// convert to string - using our map grid view
+		// send to android
 		String testtest = ""; 
-		for (int j = 0; j< 15; j++) {
-			for(int i = 0; i < 20; i++) {	
+		for(int i = 0; i < 20; i++) {
+			for (int j = 0; j< 15; j++) {
+			
 				testtest += test[j][i];
 			}
 			testtest += "\n";
@@ -155,8 +162,8 @@ public class RTexploration implements Runnable{
 		System.out.print(testtest);
 					
 		System.out.println("this is new md2: "+ map.getRTMapDesc2(map.getMapDesc(), test));
-		
-		*/
+*/
+
 		// instantiate connection to rpi
 		PCClient client = new PCClient("192.168.10.10", 8888);
 		try {
@@ -207,7 +214,7 @@ public class RTexploration implements Runnable{
 				
 								
 					// need to send explored map to android. send md1
-					client.sendJSON("map", map.getMapDesc());
+					client.sendJSON("map", "E"+map.getMapDesc());
 					// check the md1 that is sent
 					System.out.println(map.getMapDesc());
 					
@@ -266,16 +273,16 @@ public class RTexploration implements Runnable{
 
 			// convert to string
 			String stringMd3 = ""; 
-			for (int j = 0; j< 15; j++) {
-				for(int i = 0; i < 20; i++) {	
+			for(int i = 0; i < 20; i++) {
+				for (int j = 0; j< 15; j++) {	
 					stringMd3 += mapDesc3[j][i];
 				}
-				stringMd3 += "\n";
+				//stringMd3 += "\n";
 			}
 
 			// send rpi md3 to send to android
 			System.out.println("Final md3 in string format to android: "+stringMd3);
-			client.sendJSON("map", stringMd3);
+			client.sendJSON("map", "S"+stringMd3);
 
 			int whichCounter = 0;
 			int midCounter = 0;
@@ -400,6 +407,7 @@ public class RTexploration implements Runnable{
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
+		
 		return rob;
 	}
 

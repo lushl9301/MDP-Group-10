@@ -148,7 +148,7 @@ public class Robot {
 		int short_RF = Integer.valueOf(String.valueOf(reading.get("short_RF")));
 		
 		//left sensors
-		int short_FL = Integer.valueOf(String.valueOf(reading.get("short_LF"))); // NEW SENSOR ADDED ON 10.10.2014
+		int short_FL = Integer.valueOf(String.valueOf(reading.get("short_FL"))); // NEW SENSOR ADDED ON 10.10.2014
 		int U_L = Integer.valueOf(String.valueOf(reading.get("U_L")));
 		int long_BL = Integer.valueOf(String.valueOf(reading.get("long_BL")));
 		
@@ -399,6 +399,8 @@ public class Robot {
 				catch(ArrayIndexOutOfBoundsException e) {
 					System.out.println("tried to color wrong grid");
 				}
+				
+				
 				
 				// long sensor - left
 				try {
