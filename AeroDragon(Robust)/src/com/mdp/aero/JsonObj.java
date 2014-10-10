@@ -18,8 +18,6 @@ public class JsonObj {
 	public static String words = "";
 	public static String fromRPI = "";
 	public JsonObj(){
-		//JObj = new JSONObject();
-		//r = new Robot();
 	}
 	
 	public static String sendJson(String type, String data){
@@ -121,7 +119,6 @@ public class JsonObj {
 				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
-				//continue;
 				e.printStackTrace();
 			}
 			
@@ -130,57 +127,5 @@ public class JsonObj {
 	public static String toBinary(String hex) {
 		return new BigInteger("1" + hex, 16).toString(2).substring(1);
 	}
-	/*public static void amdString(String msg){
-		//for AMD tool
-				
-				words = msg;
-				String[] splited = msg.split("\\s+");
-				Log.i("OutPut", splited[0]);
-				x_head = Integer.parseInt(splited[3]);
-				y_head = Integer.parseInt(splited[4]);
-				x_tail = Integer.parseInt(splited[5]);
-				y_tail = Integer.parseInt(splited[6]);
-				
-				if(y_head < y_tail){
-					dir = 3;
-				}
-				else if (y_head > y_tail)
-				{
-					dir = 1;
-				}
-				else if (x_head < x_tail)
-				{
-					dir = 2;
-				}
-				else if (x_head > x_tail)
-				{
-					dir = 4;
-				}
-				position[0][0] = ((y_head*20)-20+(x_head-1));
-				position[0][1] = ((y_head*20)-20+(x_head-1))+1;
-				position[0][2] = ((y_head*20)-20+(x_head-1))+2;
-				position[1][0] = ((y_head*20)-20+(x_head-1))+20;
-				position[1][1] = ((y_head*20)-20+(x_head-1))+21;
-				position[1][2] = ((y_head*20)-20+(x_head-1))+22;
-				position[2][0] = ((y_head*20)-20+(x_head-1))+40;
-				position[2][1] = ((y_head*20)-20+(x_head-1))+41;
-				position[2][2] = ((y_head*20)-20+(x_head-1))+42;
-				//Log.i("tag", Boolean.toString(y_head < y_tail));
-				//r.setPosition(position);
-				
-				int o = 0;
-				//int[][] arrayA = new int[15][20];
-				if (splited[0].equals("GRID"))
-				{
-				for(int i=0; i<15;i++)
-					   for(int j=0;j<20;j++)
-					   {
-					       array2D[i][j] = Integer.parseInt(splited[(j%20+i*20)+7]);
-					   }
-				}
-				//return array2D;
 
-				//JObjr = new JSONObject() ;
-				
-	}*/
 }

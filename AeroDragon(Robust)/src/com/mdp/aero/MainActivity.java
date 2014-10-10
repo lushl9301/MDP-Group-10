@@ -192,8 +192,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 		f1Button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				//sendMessage(f1);
-				//sendMessage(f1b);
 				sendMessage(JsonObj.sendJson(f1, f1b));
 			}		
 		});
@@ -201,8 +199,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 		f2Button.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View v) {
-				//sendMessage(f2);
-				//sendMessage(f2b);
 				sendMessage(JsonObj.sendJson(f2, f2b));
 			}		
 		});
@@ -227,8 +223,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 
 			@Override
 			public void onClick(View v) {
-				//sendMessage("a");
-				
 				map.turnLeftMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
@@ -237,7 +231,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 
 			@Override
 			public void onClick(View v) {
-				//sendMessage("d");
 				map.turnRightMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
@@ -246,7 +239,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 
 			@Override
 			public void onClick(View v) {
-				//sendMessage("w");
 				map.moveForwardMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
@@ -255,7 +247,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 
 			@Override
 			public void onClick(View v) {
-				//sendMessage("s");
 				map.moveDownMap();
 				sendMessage(JsonObj.sendJson("movement", MapGenerator.rotate));
 			}
@@ -265,7 +256,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 			@Override
 			public void onClick(View v) {
 				
-				//sendMessage("GRID");
 			}
     	});
     	resetButton.setOnClickListener(new OnClickListener(){
@@ -728,16 +718,13 @@ public class MainActivity extends Activity implements SensorEventListener{
 	    	if(btManager.getState() == BluetoothManager.STATE_CONNECTED){
 	    		if(autoAct == 1){
 	    			sendMessage(JsonObj.sendJson("command", "E"));
-		    		//sendMessage("Let's Explore!");
 		    		startTime = SystemClock.uptimeMillis();
-		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
 		    	}
 		    	else if(autoAct ==2 ){
 		    		sendMessage(JsonObj.sendJson("command", "P"));
 		    		sendMessage(JsonObj.sendJson("path", JsonObj.fromRPI));
 		    		startTime = SystemClock.uptimeMillis();
-		    		//timer.schedule(new askGrid(), 0, 1000); //FOR AMD TOOL ONLY
 			    	customHandler.postDelayed(updateTimerThread, 0);
 		    	}
 		    	else{
@@ -760,8 +747,6 @@ public class MainActivity extends Activity implements SensorEventListener{
 	    	timeSwapBuff += timeInMilliseconds;
 	    	customHandler.removeCallbacks(updateTimerThread);
 	    	timeSwapBuff = 0;
-	    	//timer.cancel();
-			//timer.purge();
 	    }
 	}
 	
@@ -786,18 +771,9 @@ public class MainActivity extends Activity implements SensorEventListener{
 		}
 
 	};
-	/*private void updateMap(int oldDir, int[][] oldPos) {
-		
-		
-			//map.plotObstacle(TOP_LEFT_SIDE,3, oldDir, oldPos);
-		
-	}*/
-	public class ask extends TimerTask {
-		public void run() {
-			//sendMessage("");
-		}
 
-}
+
+
 public void onAccuracyChanged(Sensor sensor, int accuracy) {
 	}
 
@@ -821,9 +797,6 @@ public void onAccuracyChanged(Sensor sensor, int accuracy) {
 			SensorManager.getRotationMatrix(mR, null, mLastAccelerometer,
 					mLastMagnetometer);
 			SensorManager.getOrientation(mR, mOrientation);
-//			Log.i("OrientationTestActivity", String.format(
-//					"Orientation: %f, %f, %f", mOrientation[0],
-//					mOrientation[1], mOrientation[2]));
 		}
 
 		if (tilt.equals("On")) {
