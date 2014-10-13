@@ -27,25 +27,25 @@ public class Robot {
 	
 	private static final int short_LF_Grid1 = 13; // Grid 1 is an obs if the value is below 13
 	private static final int short_LF_Grid2 = 22; // Grid 2 is an obs if the value is btw 13 and 22
-	private static final int short_LF_Grid3 = 32; // Grid 3 is an obs if the value is btw 22 and 32
+	private static final int short_LF_Grid3 = 34; // Grid 3 is an obs if the value is btw 22 and 32
 	
 	private static final int short_RF_Grid1 = 13;
 	private static final int short_RF_Grid2 = 22;
-	private static final int short_RF_Grid3 = 32;
+	private static final int short_RF_Grid3 = 34;
 	
 	private static final int short_FL_Grid1 = 13; // short sensor - left (NEW SENSOR ADDED ON 10.10.2014)
-	private static final int short_FL_Grid2 = 25; // short sensor - left (NEW SENSOR ADDED ON 10.10.2014)
-	private static final int short_FL_Grid3 = 44; // short sensor - left (NEW SENSOR ADDED ON 10.10.2014)
+	private static final int short_FL_Grid2 = 26; // short sensor - left (NEW SENSOR ADDED ON 10.10.2014)
+	private static final int short_FL_Grid3 = 40; // short sensor - left (NEW SENSOR ADDED ON 10.10.2014)
 	
-	private static final int long_BL_Grid1 = 22;
-	private static final int long_BL_Grid2 = 31;
-	private static final int long_BL_Grid3 = 41;
-	private static final int long_BL_Grid4 = 51;
-	private static final int long_BL_Grid5 = 59;
+	private static final int long_BL_Grid1 = 18;
+	private static final int long_BL_Grid2 = 23;
+	private static final int long_BL_Grid3 = 34;
+	private static final int long_BL_Grid4 = 45;
+	private static final int long_BL_Grid5 = 55;
 	
 	private static final int short_FR_Grid1 = 13;
-	private static final int short_FR_Grid2 = 25;
-	private static final int short_FR_Grid3 = 44;
+	private static final int short_FR_Grid2 = 22;
+	private static final int short_FR_Grid3 = 34;
 	
 	private static final int U_F_Grid1 = 7;
 	private static final int U_F_Grid2 = 17;
