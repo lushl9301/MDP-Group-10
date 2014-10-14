@@ -19,24 +19,6 @@ public class MapGenerator {
 	public MapGenerator(GridLayout gv, Context context){
 		this.gv=gv;
 		this.context=context;
-		/*obstacleArray = new int[][]{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-				{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}
-					
-			};*/
 		Log.i("tag", "before create arena ok");
 		int[][] arena = new int[15][20];
 		Log.i("tag", "before create arena ok");
@@ -69,7 +51,7 @@ public class MapGenerator {
 		
 		Robot r = new Robot();
 		r.setPosition(initial);
-		r.setDirection(r.EAST);//default set to south DO WE WANT TO MAKE THIS A VARIABLE?
+		r.setDirection(r.EAST);//default set to east
 		
 		return r;
 	}
@@ -83,16 +65,7 @@ public class MapGenerator {
         	for (int col=0; col<20; col++){
         		tv = new TextView(this.context);
         		tv.setBackgroundColor(Color.parseColor("#686868")); //arena colour
-        		//tv.setText("."); for the real output
-        		/*if (counter ==0 || counter ==1||counter ==2 || 
-        				counter ==20||counter ==21 || counter ==22||
-        				counter ==40||counter ==41 || counter ==42 ||
-        				counter ==257 || counter ==258||counter ==259 || 
-        				counter ==277||counter ==278 || counter ==279||
-        				counter ==297||counter ==298 || counter ==299)
-        		{
-        			tv.setBackgroundColor(Color.parseColor("#FF0000"));
-        		}*/
+        		
         		tv.setId(counter);
         		tv.setText(Integer.toString(tv.getId()));
         		tv.setGravity(Gravity.CENTER);
@@ -123,8 +96,6 @@ public class MapGenerator {
 	}
 	public void resetMap(){
 		TextView resetThis;
-		//int currentDir = r.getDirection();
-		//int[][] currentPosition = r.getPosition();
 		int i =0;
 		for (int row=0; row<15; row++){
         	for (int col=0; col<20; col++){
@@ -148,7 +119,7 @@ public class MapGenerator {
 		initial[2][2] = 42;
 		
 		r.setPosition(initial);
-		r.setDirection(r.EAST);//default set to south DO WE WANT TO MAKE THIS A VARIABLE?
+		r.setDirection(r.EAST);//default set to east
 		setEast(r.getPosition());
 		  
 	}

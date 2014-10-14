@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -15,7 +16,7 @@ public class Configuration extends Activity {
 	EditText func_2a_text;
 	EditText func_1b_text;
 	EditText func_2b_text;
-
+	Button twoD;
 	ToggleButton tiltBtn;
 	public static final String DEFAULT = "N/A";
 	String tilt = "N/A";
@@ -24,8 +25,10 @@ public class Configuration extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// Set up the window layout
 		setContentView(R.layout.config);
 
+		twoD = (Button) findViewById(R.id.disp2d);
 		tiltBtn = (ToggleButton) findViewById(R.id.tiltButton);
 
 		func_1a_text = (EditText) findViewById(R.id.fun_1a_text);

@@ -100,6 +100,28 @@
         android:layout_marginTop="32dp"
         android:text="@string/disp2" />
 
+    <Button
+        android:id="@+id/disp25d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/disp2d"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/disp25" />
+
+    <Button
+        android:id="@+id/disp3d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/disp25d"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/disp3" />
+
     <ToggleButton
         android:id="@+id/tiltButton"
         android:layout_width="wrap_content"
