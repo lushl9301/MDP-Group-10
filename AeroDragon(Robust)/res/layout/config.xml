@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/dispType"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="35dp"
+        android:text="@string/display"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/tiltMotion"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/dispType"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="35dp"
+        android:text="Tilt Movement"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/func_1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tiltMotion"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/fun_1"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/func_2"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/func_1"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="125dp"
+        android:text="@string/fun_2"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/fun_1a_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/func_1"
+        android:layout_below="@+id/tiltButton"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="25dp"
+        android:ems="15"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/fun_1b_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fun_1a_text"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="30dp"
+        android:ems="15"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/fun_2a_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/func_2"
+        android:layout_below="@+id/fun_1b_text"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="40dp"
+        android:ems="15"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/fun_2b_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fun_2a_text"
+        android:layout_marginLeft="250dp"
+        android:layout_marginTop="50dp"
+        android:ems="15"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/disp2d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dispType"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/disp2" />
+
+    <Button
+        android:id="@+id/disp25d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/disp2d"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/disp25" />
+
+    <Button
+        android:id="@+id/disp3d"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/disp25d"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/disp3" />
+
+    <ToggleButton
+        android:id="@+id/tiltButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tiltMotion"
+        android:layout_below="@+id/disp2d"
+        android:layout_marginLeft="150dp"
+        android:layout_marginTop="15dp"
+        android:onClick="toggleTilt"
+        android:textOff="Off"
+        android:textOn="On" />
+
+    <Button
+        android:id="@+id/save_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fun_2b_text"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="50dp"
+        android:onClick="save"
+        android:text="@string/saveBtn" />
+
+    <Button
+        android:id="@+id/load_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fun_2b_text"
+        android:layout_marginLeft="120dp"
+        android:layout_marginTop="50dp"
+        android:layout_toRightOf="@+id/save_btn"
+        android:onClick="load"
+        android:text="@string/loadBtn" />
+
+</RelativeLayout>
