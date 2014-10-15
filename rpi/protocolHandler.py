@@ -2,6 +2,7 @@ from piConfig import *
 
 
 class protocolHandler:
+
     def __init__(self, wifi, bt, arduino):
         self.pc = wifi
         self.android = bt
@@ -118,5 +119,5 @@ class protocolHandler:
 
     def doPath(self, json_data, lock):
         lock.acquire()
-        self.arduino.send(json_data)
+        self.robot.send(json_data)
         lock.release()
