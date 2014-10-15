@@ -1,6 +1,5 @@
 package com.mdp.aero;
 
-import java.util.ArrayList;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -20,24 +19,6 @@ public class MapGenerator {
 	public MapGenerator(GridLayout gv, Context context){
 		this.gv=gv;
 		this.context=context;
-		/*obstacleArray = new int[][]{
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0},
-				{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-				{0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0}
-					
-			};*/
 		Log.i("tag", "before create arena ok");
 		int[][] arena = new int[15][20];
 		Log.i("tag", "before create arena ok");
@@ -70,7 +51,7 @@ public class MapGenerator {
 		
 		Robot r = new Robot();
 		r.setPosition(initial);
-		r.setDirection(r.EAST);//default set to south DO WE WANT TO MAKE THIS A VARIABLE?
+		r.setDirection(r.EAST);//default set to east
 		
 		return r;
 	}
@@ -84,16 +65,7 @@ public class MapGenerator {
         	for (int col=0; col<20; col++){
         		tv = new TextView(this.context);
         		tv.setBackgroundColor(Color.parseColor("#686868")); //arena colour
-        		//tv.setText("."); for the real output
-        		/*if (counter ==0 || counter ==1||counter ==2 || 
-        				counter ==20||counter ==21 || counter ==22||
-        				counter ==40||counter ==41 || counter ==42 ||
-        				counter ==257 || counter ==258||counter ==259 || 
-        				counter ==277||counter ==278 || counter ==279||
-        				counter ==297||counter ==298 || counter ==299)
-        		{
-        			tv.setBackgroundColor(Color.parseColor("#FF0000"));
-        		}*/
+        		
         		tv.setId(counter);
         		tv.setText(Integer.toString(tv.getId()));
         		tv.setGravity(Gravity.CENTER);
@@ -124,23 +96,12 @@ public class MapGenerator {
 	}
 	public void resetMap(){
 		TextView resetThis;
-		//int currentDir = r.getDirection();
-		//int[][] currentPosition = r.getPosition();
 		int i =0;
 		for (int row=0; row<15; row++){
         	for (int col=0; col<20; col++){
         		resetThis = (TextView)gv.getChildAt(i);
         		resetThis.setBackgroundColor(Color.parseColor("#686868")); //arena colour
         		
-        		/*if (i ==0 || i ==1||i ==2 || 
-        				i ==20||i ==21 || i ==22||
-        				i ==40||i ==41 || i ==42||
-        				i ==257 || i ==258||i ==259 || 
-        				i ==277||i ==278 || i ==279||
-        				i ==297||i ==298 || i ==299)
-        		{
-        			resetThis.setBackgroundColor(Color.parseColor("#FF0000"));
-        		}*/
         		i++;
         	}
 		} 
@@ -158,7 +119,7 @@ public class MapGenerator {
 		initial[2][2] = 42;
 		
 		r.setPosition(initial);
-		r.setDirection(r.EAST);//default set to south DO WE WANT TO MAKE THIS A VARIABLE?
+		r.setDirection(r.EAST);//default set to east
 		setEast(r.getPosition());
 		  
 	}
@@ -533,9 +494,12 @@ public class MapGenerator {
 		for (int row=0; row<15; row++){
         	for (int col=0; col<20; col++){
         		testThis = (TextView)gv.getChildAt(i);
-        		if(dummy[row][col]==1){
+        		if(dummy[row][col]==2){
         			testThis.setBackgroundColor(Color.parseColor("#000000")); //arena colour
         			
+        		}
+        		else if(dummy[row][col]==1){
+        			testThis.setBackgroundColor(Color.parseColor("#7fb2e5"));
         		}
         		else{
         			testThis.setBackgroundColor(Color.parseColor("#686868"));
@@ -552,11 +516,8 @@ public class MapGenerator {
 	
 	public void colourRobot(TextView topLeft, TextView topRight, TextView bottomLeft, TextView bottomRight,TextView topMid, TextView bottomMid){
 		topLeft.setBackgroundColor(Color.GREEN);
-		//topMid.setBackgroundColor(Color.GREEN);
         topRight.setBackgroundColor(Color.GREEN);
-        //bottomLeft.setBackgroundColor(Color.BLUE);
         bottomMid.setBackgroundColor(Color.BLUE);
-        //bottomRight.setBackgroundColor(Color.BLUE);
 	}
 
 	public void clearMapColourRobot(TextView topLeft, TextView topRight, TextView bottomLeft, TextView bottomRight,TextView midLeft, TextView midRight, TextView topMid, TextView bottomMid,TextView midMid){

@@ -57,7 +57,7 @@
 - [x] C6. Functional GUI that provides the selection of Manual or Auto updating of graphical display of the maze environment
 - [x] C7. Functional GUI that provides two buttons that supports persistent user reconfigurable string commands to the robot
 - [x] C8. Robust connectivity with Bluetooth device
-- [ ] C9. Extension beyond the basics
+- [x] C9. Extension beyond the basics
 
 
 ##Communication Format

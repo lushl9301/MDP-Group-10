@@ -92,7 +92,18 @@ public class Dijkstra {
 				md3Counter++;
 			}
 		}
-//		
+		
+		oneDmd3[257] = true;
+		oneDmd3[0] = true;
+		oneDmd3[1] = true;
+		oneDmd3[2] = true;
+		oneDmd3[20] = true;
+		oneDmd3[21] = true;
+		oneDmd3[22] = true;
+		oneDmd3[40] = true;
+		oneDmd3[41] = true;
+		oneDmd3[42] = true;
+		
 //		int testC = 0;
 //		for (int i =0; i<300; i++) {
 //			if(oneDmd3[i])

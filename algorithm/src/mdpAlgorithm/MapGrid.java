@@ -17,7 +17,7 @@ public class MapGrid extends JPanel {
 	private static final Color WALL = new Color(160, 80, 70);
 	public boolean md1 = false;
 	public boolean md2 = false;
-	public boolean md3 = false;
+	public boolean md3 = true;
 	
 	GridCell[][] grid = new GridCell[MAP_ROW][MAP_COL];
 
@@ -39,7 +39,7 @@ public class MapGrid extends JPanel {
 	// =========== method 2 for map descriptor ===========
 	int[][] mapDescriptor1 = new int[15][20];
 	String[][] mapDescriptor2 = new String[15][20];
-	int[][] toConfirmObstacle = new int[15][20];
+	public int[][] toConfirmObstacle = new int[15][20];
 
 	//	mapDescriptor1[14][0] = 1; // this represents grid (15,1)
 	//	mapDescriptor1[0][19] = 1; // this represents grid (1,20)
@@ -99,21 +99,24 @@ public class MapGrid extends JPanel {
 		}
 	}
 	
-	public void setMapDesc(int x, int y) {
-		mapDescriptor1[x-1][y-1] = 1;
-		mapDescriptor2[x-1][y-1] = "0";
-		toConfirmObstacle[x-1][y-1]--;
-		setMapDescLabel(x, y);
+	public void setMapDesc(boolean explored,int x, int y) {
+			mapDescriptor1[x-1][y-1] = 1;
+			mapDescriptor2[x-1][y-1] = "0";
+			if(!explored) {
+				toConfirmObstacle[x-1][y-1]--;
+			}
+			else if(explored) {
+				toConfirmObstacle[x-1][y-1] = toConfirmObstacle[x-1][y-1]-10;
+			}
+			setMapDescLabel(x, y);
 	}
-	
-	
+
 	public void setMapDescObstacles(int x, int y) {
-		mapDescriptor1[x-1][y-1] = 1;
-		mapDescriptor2[x-1][y-1] = "1";
-		toConfirmObstacle[x-1][y-1]++;
-		setMapDescLabelObstacles(x, y);
+			mapDescriptor1[x-1][y-1] = 1;
+			mapDescriptor2[x-1][y-1] = "1";
+			toConfirmObstacle[x-1][y-1]++;
+			setMapDescLabelObstacles(x, y);
 	}
-	
 	
 	public void setMapDescLabel(int x, int y) {
 		if(md1) {
@@ -162,8 +165,8 @@ public class MapGrid extends JPanel {
 	
 	public String getMapDesc() {
 		String strMapDesc = "11";
-		System.out.println("");
-		System.out.println("1 means explored; 0 means unexplored");
+		//System.out.println("");
+		//System.out.println("1 means explored; 0 means unexplored");
 		//strMapDesc += "\n"; // comment this out if require a long string
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
@@ -177,8 +180,8 @@ public class MapGrid extends JPanel {
 	}
 	
 	public String getMapDesc2() {
-		System.out.println("");
-		System.out.println("1 means obstacle; 0 means no obstacle; Unexplored grids not shown");
+		//System.out.println("");
+		//System.out.println("1 means obstacle; 0 means no obstacle; Unexplored grids not shown");
 		String strMapDesc = "";
 		int strLength = 0;
 		boolean padEnough = false;
@@ -201,6 +204,45 @@ public class MapGrid extends JPanel {
 			else padEnough = true;
 		}
 		//return strMapDesc; // comment this out if require long string
+		return toHex(strMapDesc); // comment either one
+	}
+	
+	public String getRTMapDesc2(String md1, int[][] md3) {
+		// to-do:
+		// use md1 and md3 to generate md2
+		String newMd1 = toBinary(md1);
+		// process md1
+		newMd1 = newMd1.substring(2, newMd1.length()-2);	
+		String[] md1Array = toStringArr(newMd1);
+				
+		String strMapDesc = "";
+		int strLength = 0;
+		boolean padEnough = false;
+		
+		int md1Counter = 1;
+		
+		for(int i = 0; i < 20; i++) {
+			for (int j = 0; j< 15; j++) {
+				
+				if(md1Array[md1Counter].equals("1")) {
+					if(md3[j][i] == 2)
+						strMapDesc += "1";
+					else
+						strMapDesc += "0";
+					strLength++;
+				}
+				md1Counter++;
+			}
+		}
+		
+		while (!padEnough) {
+			if(strLength % 8 != 0) {
+				strMapDesc += "0";
+				strLength++;
+			}
+			else padEnough = true;
+		}
+		
 		return toHex(strMapDesc); // comment either one
 	}
 	
@@ -239,16 +281,18 @@ public class MapGrid extends JPanel {
 	public int[][] getMapDescRealTime() {
 		
 		int[][] strMapDescRealTime = new int[15][20];
-		System.out.println();
+		//System.out.println();
 
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {				
-				if(toConfirmObstacle[j][i] >= 4) {
+				if(toConfirmObstacle[j][i] > 0) {
 					strMapDescRealTime[j][i] = 2;
 				}
-				else if(toConfirmObstacle[j][i] > 0 && toConfirmObstacle[j][i] < 4) {
+				/*
+				else if(toConfirmObstacle[j][i] > 0 && toConfirmObstacle[j][i] < 2) {
 					strMapDescRealTime[j][i] = 1;
 				}
+				*/
 				else if(toConfirmObstacle[j][i] < 0) {
 					strMapDescRealTime[j][i] = 1;
 				}
@@ -264,15 +308,20 @@ public class MapGrid extends JPanel {
 	
 	public String toHex(String bin){
 		//System.out.println(bin);
-		BigInteger b = new BigInteger(bin, 2);
-		String hexNum = b.toString(16);
-		
-		int binaryLength = bin.length() * 2;
-		int hexLength = hexNum.length() * 8;
-		if(binaryLength - hexLength > 0) {
-			for(int i = 0; i < ((binaryLength - hexLength)/8); i++) {
-				hexNum = "0"+hexNum;
+		String hexNum ="";
+		try {
+			BigInteger b = new BigInteger(bin, 2);
+			hexNum = b.toString(16);
+			
+			int binaryLength = bin.length() * 2;
+			int hexLength = hexNum.length() * 8;
+			if(binaryLength - hexLength > 0) {
+				for(int i = 0; i < ((binaryLength - hexLength)/8); i++) {
+					hexNum = "0"+hexNum;
+				}
 			}
+		} catch (Exception e) {
+			System.out.println("string is empty");
 		}
 		return hexNum;
 	}
