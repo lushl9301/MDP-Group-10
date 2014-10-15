@@ -216,8 +216,10 @@ public class RTexploration implements Runnable{
 					// need to send explored map to android. send md1
 					client.sendJSON("map", "E"+map.getMapDesc());
 					// check the md1 that is sent
-					System.out.println(map.getMapDesc());
+					System.out.println("md1: "+map.getMapDesc());
+					System.out.println("md2: "+map.getMapDesc2());
 					
+					/*
 					// print the md3 to check
 					for (int j = 0; j< 15; j++) {
 						for(int i = 0; i < 20; i++) {
@@ -228,7 +230,7 @@ public class RTexploration implements Runnable{
 						}
 						System.out.println();
 					}
-					
+					*/
 					// repaint the walls
 					map.initWalls();
 				}

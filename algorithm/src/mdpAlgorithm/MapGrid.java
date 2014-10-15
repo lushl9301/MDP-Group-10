@@ -165,8 +165,8 @@ public class MapGrid extends JPanel {
 	
 	public String getMapDesc() {
 		String strMapDesc = "11";
-		System.out.println("");
-		System.out.println("1 means explored; 0 means unexplored");
+		//System.out.println("");
+		//System.out.println("1 means explored; 0 means unexplored");
 		//strMapDesc += "\n"; // comment this out if require a long string
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
@@ -180,8 +180,8 @@ public class MapGrid extends JPanel {
 	}
 	
 	public String getMapDesc2() {
-		System.out.println("");
-		System.out.println("1 means obstacle; 0 means no obstacle; Unexplored grids not shown");
+		//System.out.println("");
+		//System.out.println("1 means obstacle; 0 means no obstacle; Unexplored grids not shown");
 		String strMapDesc = "";
 		int strLength = 0;
 		boolean padEnough = false;
