@@ -119,5 +119,5 @@ class protocolHandler:
 
     def doPath(self, json_data, lock):
         lock.acquire()
-        self.robot.send(json_data)
+        self.android.send(json_data)
         lock.release()
