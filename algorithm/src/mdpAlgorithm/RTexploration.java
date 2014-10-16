@@ -326,21 +326,21 @@ public class RTexploration implements Runnable{
 				//this will probably never end lol
 
 				// handles type : status data
-				JSONObject input = client.receiveJSON();
+				//JSONObject input = client.receiveJSON();
 				
-				if(String.valueOf(input.get("type")).equals("status")) {
-					status = String.valueOf(input.get("data"));
-					if(status != null) {
-						//System.out.println(status);
+				//if(String.valueOf(input.get("type")).equals("status")) {
+				//	status = String.valueOf(input.get("data"));
+				//	if(status != null) {
+				//		//System.out.println(status);
 						
-						if(status.equals("END_LEADERBOARD")) {
-							System.out.println("END_LEADERBOARD");
-							completeLeaderboard = true;
-							break;
-						}
-					}
-				}
-				
+				//		if(status.equals("END_LEADERBOARD")) {
+				//			System.out.println("END_LEADERBOARD");
+				//			completeLeaderboard = true;
+				//			break;
+				//		}
+				//	}
+				//}
+				System.out.print("");
 			}while (!completeLeaderboard);
 			
 		} catch (UnknownHostException e) {
