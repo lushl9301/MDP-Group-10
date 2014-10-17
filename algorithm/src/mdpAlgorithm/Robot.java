@@ -47,13 +47,13 @@ public class Robot {
 	private static final int short_FR_Grid2 = 25;
 	private static final int short_FR_Grid3 = 42;
 	
-	private static final int U_F_Grid1 = 7;
+	private static final int U_F_Grid1 = 9;
 	private static final int U_F_Grid2 = 17;
 	
-	private static final int U_L_Grid1 = 7;
+	private static final int U_L_Grid1 = 9;
 	private static final int U_L_Grid2 = 19;
 	
-	private static final int U_R_Grid1 = 7;
+	private static final int U_R_Grid1 = 9;
 	private static final int U_R_Grid2 = 19;
 	
 	
