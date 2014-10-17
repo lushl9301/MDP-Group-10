@@ -68,8 +68,8 @@ class piArduino:
     def send(self, json_data):
         command = json_data["data"]
         try:
-            if command == "E":
-                self.sensorLog = open("sensor.log", "w")
+            # if command == "E":
+            #     self.sensorLog = open("sensor.log", "w")
             self.ser.write(command)
             print "Send to Arduino: " + command
         except AttributeError:
@@ -81,10 +81,10 @@ class piArduino:
             json_string = self.ser.readline().strip()
             try:
                 json_data = json.loads(json_string)
-                if (json_data["type"] == "reading"):
-                    logJSON(json_data, self.sensorLog)
-                elif (json_data["data"] == "END_EXP"):
-                    self.sensorLog.close()
+                # if (json_data["type"] == "reading"):
+                #     logJSON(json_data, self.sensorLog)
+                # elif (json_data["data"] == "END_EXP"):
+                #     self.sensorLog.close()
                 print "ROBOT:\n" + json.dumps(json_data, indent=4) + "\n"
                 return json_data
             except (ValueError, TypeError):
