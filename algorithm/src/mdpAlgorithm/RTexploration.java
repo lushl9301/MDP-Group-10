@@ -196,10 +196,7 @@ public class RTexploration implements Runnable{
 				else if(String.valueOf(input.get("type")).equals("reading")) {
 					
 					reading = (JSONObject) input.get("data");
-					
-					// start timer if not started
-					if(!MainSimulator.t2.isRunning())
-						MainSimulator.t2.start();
+
 					
 					// push new position based on readings into stack
 					Robot currentDir = new Robot(curStack.peek());
@@ -355,6 +352,10 @@ public class RTexploration implements Runnable{
 	}
 	
 	public Robot getPos(MapGrid map, Robot rob, JSONObject reading){
+		
+		// start timer if not started
+		if(!MainSimulator.t2.isRunning())
+			MainSimulator.t2.start();
 		
 		// use readings and move robot
 		// update MapGrid.rtToConfirmObstacle as i am receiving readings (+1/ -1)
