@@ -352,65 +352,70 @@ public class RTexploration implements Runnable{
 	}
 	
 	public Robot getPos(MapGrid map, Robot rob, JSONObject reading){
-		
-		// start timer if not started
-		if(!MainSimulator.t2.isRunning())
-			MainSimulator.t2.start();
-		
-		// use readings and move robot
-		// update MapGrid.rtToConfirmObstacle as i am receiving readings (+1/ -1)
-		
-		// optional----------------------
-		// update md1 and md2 then get md3
-		// ------------------------------
-		
-		// X,Y coordinates
-		int newX = Integer.valueOf(String.valueOf(reading.get("Y"))) -1;
-		int newY = Integer.valueOf(String.valueOf(reading.get("X"))) -1;
-		// robot orientation
-		String newOrientation = String.valueOf(reading.get("direction"));
-		String modNewOrientation = "";
-
-		// change NESW to 1234
-		switch(newOrientation) {
-			case "1":
-				modNewOrientation = "N";
-				break;
-			case "2":
-				modNewOrientation = "E";
-				break;
-			case "3":
-				modNewOrientation = "S";
-				break;
-			case "4":
-				modNewOrientation = "W";
-				break;
+		try {
+			// start timer if not started
+			if(!MainSimulator.t2.isRunning())
+				MainSimulator.t2.start();
+			
+			// use readings and move robot
+			// update MapGrid.rtToConfirmObstacle as i am receiving readings (+1/ -1)
+			
+			// optional----------------------
+			// update md1 and md2 then get md3
+			// ------------------------------
+			
+			// X,Y coordinates
+			int newX = Integer.valueOf(String.valueOf(reading.get("Y"))) -1;
+			int newY = Integer.valueOf(String.valueOf(reading.get("X"))) -1;
+			// robot orientation
+			String newOrientation = String.valueOf(reading.get("direction"));
+			String modNewOrientation = "";
+	
+			// change NESW to 1234
+			switch(newOrientation) {
+				case "1":
+					modNewOrientation = "N";
+					break;
+				case "2":
+					modNewOrientation = "E";
+					break;
+				case "3":
+					modNewOrientation = "S";
+					break;
+				case "4":
+					modNewOrientation = "W";
+					break;
+			}
+			
+			System.out.println("Virtual robot: "+ newX + "," + newY + " Facing: "+ modNewOrientation);
+			System.out.println("Current robot: "+ rob.getX() + "," + rob.getY() + " Facing: "+ rob.getOrientation());
+			
+			// check if orientation is different. if different, rotate.
+			if(!modNewOrientation.equals(rob.getOrientation())) {
+				System.out.println("TURN");
+				rob.rotateRobot(reading, map, modNewOrientation);
+			}
+			// if not rotating, means it is moving
+			else if(newX != rob.getX() || newY != rob.getY()) {
+				System.out.println("MOVED");
+				//rob.moveRobot(reading, map, 1);
+				rob.setRobotXY(map, newX, newY, "Move", modNewOrientation, reading);
+				rob.setExplored(map);
+			}
+			
+			// add delay if required
+	//		try {
+	//			Thread.sleep(700);
+	//		} catch (InterruptedException e) {
+	//			// TODO Auto-generated catch block
+	//			e.printStackTrace();
+	//		}
+			
+			
 		}
-		
-		System.out.println("Virtual robot: "+ newX + "," + newY + " Facing: "+ modNewOrientation);
-		System.out.println("Current robot: "+ rob.getX() + "," + rob.getY() + " Facing: "+ rob.getOrientation());
-		
-		// check if orientation is different. if different, rotate.
-		if(!modNewOrientation.equals(rob.getOrientation())) {
-			System.out.println("TURN");
-			rob.rotateRobot(reading, map, modNewOrientation);
+		catch(ArrayIndexOutOfBoundsException e) {
+			System.out.println("explored array out of bounds");
 		}
-		// if not rotating, means it is moving
-		else if(newX != rob.getX() || newY != rob.getY()) {
-			System.out.println("MOVED");
-			//rob.moveRobot(reading, map, 1);
-			rob.setRobotXY(map, newX, newY, "Move", modNewOrientation, reading);
-			rob.setExplored(map);
-		}
-		
-		// add delay if required
-//		try {
-//			Thread.sleep(700);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 		return rob;
 	}
 
