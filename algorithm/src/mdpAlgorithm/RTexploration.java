@@ -30,6 +30,8 @@ public class RTexploration implements Runnable{
 	public boolean rtCompleted;
 	public boolean completeLeaderboard;
 	private JSONObject fakeHash = new JSONObject();
+	public static BluetoothListener bluetoothList;
+	public static PCClient client;
 	
 	public RTexploration(MapGrid map, Robot rob) {
 		this.rob = rob;
@@ -150,7 +152,7 @@ public class RTexploration implements Runnable{
 		}
 		System.out.println("android md3 string");
 		// convert to string - using our map grid view
-		// send to android
+		// f to android
 		String testtest = ""; 
 		for(int i = 0; i < 20; i++) {
 			for (int j = 0; j< 15; j++) {
@@ -165,7 +167,7 @@ public class RTexploration implements Runnable{
 */
 
 		// instantiate connection to rpi
-		PCClient client = new PCClient("192.168.10.10", 8888);
+		client = new PCClient("192.168.10.10", 8888);
 		try {
 			client.connect();
 			// if successful, try to send data
@@ -188,6 +190,26 @@ public class RTexploration implements Runnable{
 						if(status.equals("END_EXP")) {
 							System.out.println("end exp");
 							rtCompleted = true;
+							
+							//send END_EXP to android
+							String data = "END_EXP";
+							Map<String, String> dataToAndroid = new HashMap<String, String>();
+							dataToAndroid.put("type", "status");
+							dataToAndroid.put("data", data);
+							String jsonString = JSONValue.toJSONString(dataToAndroid);
+							
+							Robot endExpAndroid = new Robot(curStack.peek());
+							endExpAndroid = sendAndroid(rob, jsonString);
+
+							if (endExpAndroid != null) {
+								curStack.push(endExpAndroid);
+							}
+							else {
+								endExpAndroid = curStack.pop();
+							}
+							
+							//RTexploration.bluetoothList.write(jsonString.getBytes());
+							
 							break;
 						}
 					}
@@ -196,8 +218,16 @@ public class RTexploration implements Runnable{
 				else if(String.valueOf(input.get("type")).equals("reading")) {
 					
 					reading = (JSONObject) input.get("data");
-
+					// send reading to android
+//					String data2 = JSONValue.toJSONString(reading);
 					
+					/* uncomment this to send map exploration to android
+					JSONObject dataToAndroid2 = new JSONObject();
+					dataToAndroid2.put("type", "reading");
+					dataToAndroid2.put("data", reading);
+					String jsonString2 = JSONValue.toJSONString(dataToAndroid2);
+					RTexploration.bluetoothList.write(jsonString2.getBytes());
+					*/
 					// push new position based on readings into stack
 					Robot currentDir = new Robot(curStack.peek());
 					currentDir = getPos(map, rob, reading);
@@ -211,7 +241,15 @@ public class RTexploration implements Runnable{
 				
 								
 					// need to send explored map to android. send md1
-					client.sendJSON("map", "E"+map.getMapDesc());
+					/*
+					String data = "E"+map.getMapDesc();
+					Map<String, String> dataToAndroid = new HashMap<String, String>();
+					dataToAndroid.put("type", "map");
+					dataToAndroid.put("data", data);
+					String jsonString = JSONValue.toJSONString(dataToAndroid);
+					RTexploration.bluetoothList.write(jsonString.getBytes());
+					//client.sendJSON("map", "E"+map.getMapDesc());
+					*/
 					// check the md1 that is sent
 					System.out.println("md1: "+map.getMapDesc());
 					System.out.println("md2: "+map.getMapDesc2());
@@ -251,7 +289,7 @@ public class RTexploration implements Runnable{
 			System.out.println("Final md2: "+ map.getRTMapDesc2(map.getMapDesc(), mapDesc3));
 			
 			// set confirmed obstacles on the grid
-			System.out.println("Final md3:");
+			//System.out.println("Final md3:");
 			for(int i = 0; i < 20; i++) {
 				for (int j = 0; j< 15; j++) {
 					
@@ -265,9 +303,9 @@ public class RTexploration implements Runnable{
 					if(mapDesc3[j][i] == 2) {
 						map.grid[j+1][i+1].setBackground(OBSTACLE);
 					}
-					System.out.print(mapDesc3[j][i]); // prints the md3 in the grid form
+					//System.out.print(mapDesc3[j][i]); // prints the md3 in the grid form
 				}
-				System.out.println();
+				//System.out.println();
 			}
 
 			// convert to string
@@ -281,7 +319,24 @@ public class RTexploration implements Runnable{
 
 			// send rpi md3 to send to android
 			System.out.println("Final md3 in string format to android: "+stringMd3);
-			client.sendJSON("map", "S"+stringMd3);
+			
+			String data = "S"+stringMd3;
+			Map<String, String> dataToAndroid = new HashMap<String, String>();
+			dataToAndroid.put("type", "map");
+			dataToAndroid.put("data", data);
+			String jsonString = JSONValue.toJSONString(dataToAndroid);
+			
+			Robot md3ToAndroid = new Robot(curStack.peek());
+			md3ToAndroid = sendAndroid(rob, jsonString);
+
+			if (md3ToAndroid != null) {
+				curStack.push(md3ToAndroid);
+			}
+			else {
+				md3ToAndroid = curStack.pop();
+			}
+
+			//client.sendJSON("map", "S"+stringMd3);
 
 			int whichCounter = 0;
 			int midCounter = 0;
@@ -317,7 +372,24 @@ public class RTexploration implements Runnable{
 			
 			// end of new Dijkstra(map.getMapDesc(), map.getMapDesc2()) send back MainSimulator.shortestRoute to RPI
 			System.out.println("fastest path: "+MainSimulator.shortestRoute);
-			client.sendJSON("path", MainSimulator.shortestRoute);
+			
+			String data2 =  MainSimulator.shortestRoute;
+			Map<String, String> dataToAndroid2 = new HashMap<String, String>();
+			dataToAndroid2.put("type", "path");
+			dataToAndroid2.put("data", data2);
+			String jsonString2 = JSONValue.toJSONString(dataToAndroid2);
+	
+			Robot fastestPathToAndroid = new Robot(curStack.peek());
+			fastestPathToAndroid = sendAndroid(rob, jsonString2);
+
+			if (fastestPathToAndroid != null) {
+				curStack.push(fastestPathToAndroid);
+			}
+			else {
+				fastestPathToAndroid = curStack.pop();
+			}
+
+			//client.sendJSON("path", MainSimulator.shortestRoute);
 			
 			do {  // get inputs while leaderboard is still not completed, so android wont be disconnected.
 				//this will probably never end lol
@@ -347,11 +419,35 @@ public class RTexploration implements Runnable{
 			MainSimulator.rtThreadStarted = false;
 			System.err.println("Cannot establish connection. "+e.getMessage());
 		} finally {
-			client.close();
+			try {
+				client.close();
+			}
+			catch (NullPointerException e) {
+				MainSimulator.rtThreadStarted = false;
+				System.err.println("Cannot establish connection. "+e.getMessage());
+			}
 		}
 	}
 	
+	public Robot sendAndroid(Robot rob, String jsonString ) {
+		RTexploration.bluetoothList.write(jsonString.getBytes());
+		try {
+			Thread.sleep(10);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rob;
+	}
+	
 	public Robot getPos(MapGrid map, Robot rob, JSONObject reading){
+		JSONObject dataToAndroid2 = new JSONObject();
+		dataToAndroid2.put("type", "reading");
+		dataToAndroid2.put("data", reading);
+		String jsonString2 = JSONValue.toJSONString(dataToAndroid2);
+		RTexploration.bluetoothList.write(jsonString2.getBytes());
+		System.out.println("send robot position");
+		
 		try {
 			// start timer if not started
 			if(!MainSimulator.t2.isRunning())
@@ -404,14 +500,12 @@ public class RTexploration implements Runnable{
 			}
 			
 			// add delay if required
-	//		try {
-	//			Thread.sleep(700);
-	//		} catch (InterruptedException e) {
-	//			// TODO Auto-generated catch block
-	//			e.printStackTrace();
-	//		}
-			
-			
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		catch(ArrayIndexOutOfBoundsException e) {
 			System.out.println("explored array out of bounds");

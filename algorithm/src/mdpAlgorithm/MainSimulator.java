@@ -18,6 +18,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.BorderFactory;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
@@ -32,6 +35,9 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 public class MainSimulator {
 	private static final Color DEFAULTCELL = Color.LIGHT_GRAY;
@@ -55,6 +61,7 @@ public class MainSimulator {
 	private static boolean rtSelected = false;
 	public static boolean rtThreadStarted = false;
 	public static String shortestRoute = "";
+	
 	public static void main(String[] args) {
 
 		final JButton clearObs;
@@ -72,6 +79,10 @@ public class MainSimulator {
 		frame.setTitle("Group 10 - Maze Simulator");
 		frame.setSize(new Dimension(950, 605)); // length by breadth (950x605) 950x700
 
+		// instantiate bluetooth server
+		BluetoothServer btServer = new BluetoothServer();
+		btServer.start();
+		
 		Container contentPanel = frame.getContentPane(); // initialize content panel
 		
 		JPanel mapPanel = new JPanel();
@@ -136,7 +147,7 @@ public class MainSimulator {
 
 		final ChangeListener addObsListener = new ChangeListener() {
             @Override
-            public void stateChanged(ChangeEvent e) {
+            public void stateChanged(ChangeEvent e) {            	
                 ButtonModel buttonModel = addObs.getModel();
                 boolean selected = buttonModel.isEnabled();
                 
@@ -172,6 +183,18 @@ public class MainSimulator {
 		clearObs = new JButton("Clear Obstacles");
 		clearObs.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
+				
+				
+				Map<String,String> test = new HashMap<String, String>();
+				test.put("direction", "4");
+				test.put("X", "1");
+				test.put("Y", "1");
+	
+					JSONObject dataToAndroid2 = new JSONObject();
+					dataToAndroid2.put("type", "reading");
+					dataToAndroid2.put("data", test);
+					String jsonString2 = JSONValue.toJSONString(dataToAndroid2);
+					RTexploration.bluetoothList.write(jsonString2.getBytes());
 				for (int i = 1; i < 16; i++) {
         			for (int j = 1; j < 21; j++) {
         				map.grid[i][j].setBackground(DEFAULTCELL);
@@ -668,7 +691,7 @@ public class MainSimulator {
         
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-		
+
 		
 	}	
 }

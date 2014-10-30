@@ -95,14 +95,14 @@ public class Dijkstra {
 		
 		oneDmd3[257] = true;
 		oneDmd3[0] = true;
-		oneDmd3[1] = true;
-		oneDmd3[2] = true;
-		oneDmd3[20] = true;
-		oneDmd3[21] = true;
-		oneDmd3[22] = true;
-		oneDmd3[40] = true;
-		oneDmd3[41] = true;
-		oneDmd3[42] = true;
+		//oneDmd3[1] = true;
+		//oneDmd3[2] = true;
+		//oneDmd3[20] = true;
+		//oneDmd3[21] = true;
+		//oneDmd3[22] = true;
+		//oneDmd3[40] = true;
+		//oneDmd3[41] = true;
+		//oneDmd3[42] = true;
 		
 //		int testC = 0;
 //		for (int i =0; i<300; i++) {
@@ -172,7 +172,7 @@ public class Dijkstra {
 		
 		currentVertexID = Integer.parseInt(vertex.getName().split("_")[1]);
     	route[currentVertexID] = true;
-    	System.out.println(currentVertexID+"_"+numOfSteps);
+    	//System.out.println(currentVertexID+"_"+numOfSteps);
     	newStepCounter = currentVertexID - previousVertexID;
     	
     	// If at starting point, there is obstacle in front of robot
@@ -264,8 +264,8 @@ public class Dijkstra {
     	previousVertexID = currentVertexID;
     	
     }
-	System.out.println();
-	System.out.println(MainSimulator.shortestRoute);
+	//System.out.println();
+	//System.out.println(MainSimulator.shortestRoute);
   }
 
   private static void addLane(String laneId, int sourceLocNo, int destLocNo, int duration) {
