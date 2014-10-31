@@ -14,6 +14,7 @@ public:
     void init(int inputPin);
     
     int getDis();
+    int getDisCM();
 
 private:
     int _inputPin;

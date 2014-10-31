@@ -1,15 +1,14 @@
-#ifndef SharpA21_h
-#define SharpA21_h
+#ifndef SharpA02_h
+#define SharpA02_h
 
 #define FilterLength 7
 
-#include "DataSmoothing.h"
 #include "Arduino.h"
 
-class SharpA21 {
+class SharpA02 {
 public:
     
-    SharpA21();
+    SharpA02();
     
     void init(int inputPin);
     
@@ -19,8 +18,6 @@ public:
 private:
     int _inputPin;
     int _inputs[FilterLength];
-    int _head;
-    DataSmoothing _ds;
 };
 
 #endif

@@ -1,3 +1,4 @@
+//jiayou yidingyaochenggong
 #include "avr/io.h"    // hmm
 #include "avr/interrupt.h" //
 
@@ -38,15 +39,19 @@ using namespace ArduinoJson::Generator;
 //#define longIR_F_in A4
 /**********************/
 
-#define RisingEdgePerTurnRight_200 389 //for speed 200 382
-#define RisingEdgePerTurnLeft_200 395
-#define RisingEdgePerGrid_300 272 // need testing
-#define RisingEdgePerGrid_400 290
-#define RisingEdgeForSP 296
-#define stepToStraighten 3 //every 3 step make a auto adjust 3 OCT
+#define RisingEdgePerTurnRight_200 387 // 392
+#define RisingEdgePerTurnLeft_200 392  // 394
+#define RisingEdgePerGrid_300 276
+#define RisingEdgeForSP 295
+//Speed
+#define slowSpeed 200
 #define speedModeSpeed 300
+#define fastRunSpeed 380
 #define adjustDirectionSpeed 50
 #define adjustDistanceSpeed 90
+//auto align frequence
+#define stepToStraighten 4 //every 3 step make a auto adjust 3 OCT
+
 
 #define shortSensorToCM(ir_dis) (6787 / (ir_dis - 3) - 4)
 #define longSensorToCM(ir_dis) (16667 / (ir_dis + 15) - 10)
@@ -55,9 +60,10 @@ using namespace ArduinoJson::Generator;
 volatile int direction;
 volatile int delta;
 volatile int rightMCtr, leftMCtr;
-volatile int speedMode;  //1 for fast(400), 0 for slow(200)
+volatile int MODE;  //2 for fast run; 1 for speedMode(300), 0 for rotation(200)
 
 volatile int grids;
+volatile int currentSpeed;
 
 volatile int counter_for_straighten;
 volatile int empty_space_R;
@@ -132,67 +138,74 @@ void dailyTuning() {
     //     delay(1000);
     // }
 
-    // delay(1000);
-    // i = 13;
-    // while (--i) {
-    //     turn(1);
-    //     delay(200);
-    // }
-
     delay(1000);
     i = 13;
     while (--i) {
-        turn(-1);
+        turn(1);
         delay(200);
     }
+
+    // delay(1000);
+    // i = 13;
+    // while (--i) {
+    //     turn(-1);
+    //     delay(200);
+    // }
 
 }
 
 void sptuning() {
 
-    // turn(-1);
-    // straighten();
-    // turn(-1);
-    // straighten();
-    // turn(1);
-    // turn(1);
+    turn(-1);
+    straighten();
+    turn(1);
+    delay(500);
     int grids = 17;
-    while (grids-- != 0) {
-        goAhead(1);
-        delay(1000);
+    // while (grids-- != 0) {
+    //     goAhead(1);
+    //     delay(1000);
+    // }
+    while (1) {
+        goAhead(11);
+        turn(1);
+        turn(1);
     }
+    // turn(-1);
+    // straighten();
+    // turn(-1);
 }
 
 void turnAndGoTuning() {
     while (1) {
-        turn(-1);
+        turn(1);
         goAhead(1);
     }
 }
 
 void loop() {
-    demo();
     //sptuning();
     //dailyTuning();
     //turnAndGoTuning();
     //delay(1000);
     
     // while (1) {
-    //     pwd = 3;
+    //     pwd = 4;
+    //     parking();
     //     arriving(0);
     //     delay(1000);
     // }
     
-    // explorationFLow();
+    //explorationFLow();
     
     // while (1) {
-    //     //sensorReading();
+    //     sensorReading();
+    //     // delay(300);
+    //     // if (isGoodObstacle()) {
+    //     //     Serial.println("YES");
+    //     // } else {
+    //     //     Serial.println("NO");
+    //     // }
     //     delay(300);
-    //     if (isGoodObstacle()) {
-    //         Serial.println("YES");
-    //     } else {
-    //         Serial.println("NO");
-    //     }
     // }
 
     waitForCommand();
@@ -203,14 +216,6 @@ void loop() {
             break;
         }
         case 'P': {
-            // turn(1);
-            // goalX = 20;
-            // goalY = 15;
-            // exploration();
-            // JsonObject<2> toRPi_t;
-            // toRPi_t["type"] = "status";
-            // toRPi_t["data"] = "END_PATH";
-            // Serial.println(toRPi_t);
             Serial.println("START Shortest Path");
             bridesheadRevisited();
             break; 
@@ -225,91 +230,24 @@ void loop() {
     }
 }
 
-void demo() {
-    // while (1) {
-    //     drift(200, 600, 3);
-    //     drift(200, 600, 3);
-    //     drift(600, 200, 0.3);
-    //     drift(600, 200, 0.3);
-    //     drift(600, 200, 0.3);
-    //     drift(600, 200, 0.3);
-    //     drift(200, 600, 3);
-    //     drift(200, 600, 3);
-    // }
-    // md.init();
-    // while (1) {
-    //     md.setSpeeds(330, -100);
-    //     delay(1300);
-    //     md.setSpeeds(200, 200);
-    //     delay(500);
-    //     md.setSpeeds(-100, 330);
-    //     delay(1300);
-    //     md.setSpeeds(200,200);
-    //     delay(500);
-    // }
-    // 
-    // 
-    md.init();
-    while (1) {
-        md.setSpeeds(330, -100);
-        delay(1800);
-        md.setSpeeds(200, 200);
-        delay(700);
-        md.setSpeeds(-100, 330);
-        delay(1800);
-        md.setSpeeds(200,200);
-        delay(700);
-    }
-    // int i = 4;
-    // while(i) {
-    //     --i;
-    //     goAhead(10);
-    //     turn(1);
-    //     turn(1);
-    //     goAhead(10);
-    //     delay(500);
-    // }
-    // delay(5000);
-    // Serial.println("Start");
-    // while (1) {
-    //     sensorReading();
-    //     delay(500);
-    // }
-    // delay(5000);
-
-    // RisingEdgePerTurn_200 /= 2;
-    // RisingEdgePerTurn_200 -= 10;
-    // i = 8;
-    // while (i--) {
-    //     turn(1);
-    //     delay(200);
-    // }
-    // RisingEdgePerTurn_200 = 395 * 4 + 35;
-    // i = 3;
-    // while (i--) {
-    //     turn(1);
-    //     delay(400);
-    // }
-}
-
 void goToStart() {
     goalX = 1;
     goalY = 1;
     exploration();
-    Serial.println("I reach START");
-    arriving(0);
+    //Serial.println("I reach START");
     currentX = 2;
     currentY = 2;
+    arriving(0);
 }
 
 void goToGoal() {
     goalX = 20;
     goalY = 15;
     exploration();
-    Serial.println("I reach GOAL");
-    arriving(1);
+    //Serial.println("I reach GOAL");
     currentX = 19;
     currentY = 14;
+    arriving(1);
 }
 
 void explorationFLow() {
@@ -336,6 +274,9 @@ void explorationFLow() {
     //CASE #2
     //South Wall
     if (currentY >= 14) {
+        goToGoal();
+        goToStart();
+        turn(1);
         goToGoal();
         goToStart();
         goto FinishExploration;
@@ -376,7 +317,7 @@ void sensorReading() {
 
     int i;
 
-    i = 20;
+    i = 5;
     while (--i > 0 && ((u_F_dis = u_F.getDis()) == 0 || u_F_dis > 200)) {
         delay(2);
     }
@@ -429,54 +370,37 @@ void thinkForAWhile() {
 }
 
 void exploration() {
-    empty_space_R = 0;
-    int flag_turn_right_just_now = 0;
-    //this flag is used for robot should turn right now
-    //it turns but see front cannot go:
-    //1. turn right one grid early
-    //2. space not enough
-    //what we do here is
-    //a. turn right and enable flag
-    //b. turn left back and disable turn right
-    //c. go one grid further
-    //d. if u_R see empty space. turn right and check.
+    empty_space_R = 0;  
     
     while (abs(goalX - currentX) >= 3 || abs(goalY - currentY) >= 3) { 
         //get all sensor data here.
         sensorReading();
-        if (flag_turn_right_just_now >= 0 && u_R_dis > 12) { //right got space
-            if (++empty_space_R >= 2) {
+        if (shortSensorToCM(ir_r_dis) > 11) { //right got space
+            if (++empty_space_R >= 3) {
                 turn(1);
-                flag_turn_right_just_now = 1;
                 empty_space_R = -1;
-                //counter_for_straighten = stepToStraighten;
+                counter_for_straighten = stepToStraighten - 1;
                 continue;
             }
         } else {
-            if (flag_turn_right_just_now != -1) {
-                empty_space_R = 0;
-                if (--counter_for_straighten == 0) {    //auto fix
-                    turn(1);    //turn right
-                    straighten();
-                    turn(-1);   //turn left
-                    counter_for_straighten = stepToStraighten;
-                    sensorReading();
-                }
+            empty_space_R = 0;
+            if (--counter_for_straighten == 0) {    //auto fix
+                turn(1);    //turn right
+                straighten();
+                turn(-1);   //turn left
+                counter_for_straighten = stepToStraighten;
+                sensorReading();
             }
         }
 
         if (obstacleInFront()) {
             //Serial.println("something in front");
             straighten();
-            turn(-1);   //turn left
-            if (flag_turn_right_just_now == 1) {
+            if (u_F_dis > 12 && ir_lf_dis < 400 && ir_rf_dis > 400) {
                 empty_space_R = 1;
-                flag_turn_right_just_now = -1;
-            } else {
-                flag_turn_right_just_now = 0;
-                empty_space_R = 0;
             }
-            //counter_for_straighten = stepToStraighten;
+            turn(-1);   //turn left
+            counter_for_straighten = stepToStraighten - 1;
             continue;
         }
 
@@ -484,7 +408,6 @@ void exploration() {
         //if (u_F_dis > 12 && ir_rf_dis < 400 && ir_lf_dis < 400)
         //    then go
         goAhead(1);
-        flag_turn_right_just_now = 0;
     }
 }
 
@@ -506,7 +429,7 @@ bool findWall() {
         f_dis = u_F_dis;
     }
     
-    int tempDis = f_dis;
+    int tempDis = f_dis * 5;
     int tempMin = 1;
     
     for (int i = 2; i <= 4; ++i) {
@@ -516,14 +439,31 @@ bool findWall() {
         if (u_F_dis > f_dis) {
             f_dis = u_F_dis;
         }
+        if (i < 4) {
+            f_dis *= 3;
+        } else {
+            f_dis *= 5;
+        }
         if (tempDis < f_dis) {
             tempMin = i;
             tempDis = f_dis;
         }
     }
-    turn(1);
-    for (int i = 1; i < tempMin; ++i) {
-        turn(1);
+    // turn(1);
+    // for (int i = 1; i < tempMin; ++i) {
+    //     turn(1);
+    // }
+    switch (tempMin) {
+        case 4:
+            break;
+        case 3:
+            turn(-1);
+            break;
+        case 2:
+            turn(1);
+            turn(1);
+        default:
+            turn(1);
     }
 
     sensorReading();
@@ -569,7 +509,7 @@ bool findWall() {
 
     int grids2goback = abs(abs(farthestX) - currentX) + abs(abs(farthestY) - currentY)  ;
     //Serial.println("Go back =======>");
-    Serial.println(grids2goback);
+    //Serial.println(grids2goback);
     while (grids2goback > 0) {
         sensorReading();
         goAhead(1);
@@ -639,15 +579,27 @@ void remote() {
     JsonObject<2> toRPi;
     toRPi["type"] = "status";
     toRPi["data"] = "END_RMT";
-    Serial.print(toRPi);
+    Serial.println(toRPi);
+}
+
+void parking_U() {
+    int u_F_dis = u_F.getDis();
+    while (u_F_dis > 10) {
+        md.setSpeeds(190, 190);
+        delay(3);
+        u_F_dis = u_F.getDis();
+    }
+    brakeForRotation();
 }
 
 void parking() {
-    int u_F_dis = u_F.getDis();
-    while (u_F_dis > 10) {
-        md.setSpeeds(120, 120);
-        delay(50);
-        u_F_dis = u_F.getDis();
+    int ir_dis = min(shortSensorToCM(shortIR_LF.getDis()), shortSensorToCM(shortIR_RF.getDis()));
+    Serial.println(ir_dis);
+    while (ir_dis > 15) {
+        md.setSpeeds(190, 190);
+        delay(3);
+        ir_dis = min(shortSensorToCM(shortIR_LF.getDis()), shortSensorToCM(shortIR_RF.getDis()));
+        Serial.println(ir_dis);
     }
     brakeForRotation();
 }
@@ -666,6 +618,7 @@ void arriving(int endPoint) {
     
         //now face 3
         turn(1); // turn right
+        parking();
         straighten();
         turn(1);
         turn(1);
@@ -680,6 +633,7 @@ void arriving(int endPoint) {
 
         //now face up 1
         turn(1); //turn right
+        parking();
         straighten();
         turn(1);
     }
@@ -701,7 +655,6 @@ void arriving(int endPoint) {
 }
 
 
-
 void getFRInstructions() {
     //get shortest path from RPi
     //then move
@@ -709,25 +662,23 @@ void getFRInstructions() {
     int instrChar;
     grids = 0;
     int auto_alignment_counter = 5;
+
     while (1) {
         
         grids = 0;
         while (isDigit(instrChar = getChar())) {
             grids = grids * 10 + (char)instrChar - '0';
-            Serial.println(grids);
         }
         if (grids != 0) {
             goAhead(grids);
         }
 
         if (instrChar == 'R') {
-            straighten();
             turn(1);
         } else if (instrChar == 'L') {
-            straighten();
             turn(-1);
         } else if (instrChar == 'G') {
-            arriving(1);
+            parking();
             return;
         }
     }
@@ -741,23 +692,25 @@ void getFRInstructions() {
 
 
 void goAhead(int grids) {
-    speedMode = 1;
-    direction = 1;
+    MODE = 1;
     delta = 0;
+    currentSpeed = speedModeSpeed;
     if (grids == 1) {
         rightMCtr = leftMCtr = RisingEdgePerGrid_300;
     } else {
+        MODE = 2;
+        currentSpeed = fastRunSpeed;
         rightMCtr = leftMCtr = RisingEdgeForSP * grids;
-    }    
+    }
 
     setTimerInterrupt();
     attachInterrupt(1, countRight, RISING);
 
     md.init();
-    md.setM2Speed(speedModeSpeed);
-    delay(4);
-    md.setM1Speed(speedModeSpeed);
-    // md.setSpeeds(speedModeSpeed, speedModeSpeed);
+    // md.setM2Speed(currentSpeed);
+    // delay(4);
+    // md.setM1Speed(currentSpeed);
+    md.setSpeeds(currentSpeed, currentSpeed);
     while (--leftMCtr) {
         while (digitalRead(motor_L));
         while (!digitalRead(motor_L));
@@ -794,11 +747,13 @@ void goAhead(int grids) {
                 break;
         default: break;
     }
-    delay(100);
+    //if (MODE != 2) {
+        delay(50);
+    //}
 }
 
 void turn(int turnRight) {
-    speedMode = 0;
+    MODE = 0;
     direction = turnRight;
     delta = 0;
     if (turnRight == 1) {
@@ -831,7 +786,7 @@ void turn(int turnRight) {
     } else if (pwd == 0) {
         pwd = 4;
     }
-    delay(100);
+    delay(30);
 }
 
 
@@ -868,10 +823,12 @@ void detachTimerInterrupt() {
   sei();
 }
 ISR(TIMER1_COMPA_vect) {
-    if (speedMode) {
-        md.setM2Speed((speedModeSpeed - delta) * direction);
+    if (MODE == 2) {
+        md.setSpeeds(fastRunSpeed + delta, fastRunSpeed - delta);
+    } else if (MODE == 1) {
+        md.setM2Speed(speedModeSpeed - delta);
     } else {
-        md.setM2Speed((200 - delta) * direction);
+        md.setM2Speed((slowSpeed - delta) * direction);
     }
 }
 
@@ -889,7 +846,7 @@ void straighten() {
     adjustDistance();
     delay(50);
     adjustDirection();
-    delay(100);
+    delay(80);
 }
 
 void adjustDirection() {
@@ -951,7 +908,7 @@ bool isWithWall() {
 }
 
 bool obstacleInFront() {
-    return(u_F_dis <= 12 || ir_lf_dis > 400 || ir_rf_dis > 400);
+    return(u_F_dis <= 14 || ir_lf_dis > 400 || ir_rf_dis > 400);
 }
 
 char getChar() {
@@ -961,7 +918,7 @@ char getChar() {
 
 void brakeForGoAhead() {
     for (int i = 3; i > 0; i--) {
-        md.setBrakes(373, 400);
+        md.setBrakes(370, 400);
         //motor not start at the same time
         //not stop at the same time
         //make right motor skip a bit

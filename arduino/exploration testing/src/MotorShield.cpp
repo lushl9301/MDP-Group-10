@@ -159,36 +159,3 @@ void MotorShield::setBrakes(int m1Brake, int m2Brake) {
     setM1Brake(m1Brake);
     setM2Brake(m2Brake);
 }
-
-void MotorShield::brakeWithABS() {
-    for (int i = 0; i < 35; i++) {
-        setBrakes(270, 270);
-        delay(2);
-        setBrakes(400, 400);
-        delay(5);
-    }
-}
-
-/*
-// Return motor 1 current value in milliamps.
-unsigned int MotorShield::getM1CurrentMilliamps() {
-    // 5V / 1024 ADC counts / 144 mV per A = 34 mA per count
-    return analogRead(_CS1) * 34;
-}
-
-// Return motor 2 current value in milliamps.
-unsigned int MotorShield::getM2CurrentMilliamps() {
-    // 5V / 1024 ADC counts / 144 mV per A = 34 mA per count
-    return analogRead(_CS2) * 34;
-}
-
-// Return error status for motor 1 
-unsigned char MotorShield::getM1Fault() {
-    return !digitalRead(_EN1DIAG1);
-}
-
-// Return error status for motor 2 
-unsigned char MotorShield::getM2Fault() {
-    return !digitalRead(_EN2DIAG2);
-}
-*/

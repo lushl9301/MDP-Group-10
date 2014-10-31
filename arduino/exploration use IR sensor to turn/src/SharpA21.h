@@ -3,7 +3,6 @@
 
 #define FilterLength 7
 
-#include "DataSmoothing.h"
 #include "Arduino.h"
 
 class SharpA21 {
@@ -14,12 +13,11 @@ public:
     void init(int inputPin);
     
     int getDis();
+    int getDisCM();
 
 private:
     int _inputPin;
     int _inputs[FilterLength];
-    int _head;
-    DataSmoothing _ds;
 };
 
 #endif
