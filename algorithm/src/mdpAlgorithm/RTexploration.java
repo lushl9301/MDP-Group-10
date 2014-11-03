@@ -432,7 +432,7 @@ public class RTexploration implements Runnable{
 	public Robot sendAndroid(Robot rob, String jsonString ) {
 		RTexploration.bluetoothList.write(jsonString.getBytes());
 		try {
-			Thread.sleep(10);
+			Thread.sleep(15);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -501,7 +501,7 @@ public class RTexploration implements Runnable{
 			
 			// add delay if required
 			try {
-				Thread.sleep(10);
+				Thread.sleep(15);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

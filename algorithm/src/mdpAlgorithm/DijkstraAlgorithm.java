@@ -44,11 +44,16 @@ public class DijkstraAlgorithm {
 		for (DijVertex target : adjacentNodes) {
 			if (getShortestDistance(target) > getShortestDistance(node) + getDistance(node, target)) {
 				if(predecessors.get(node) != null) {
+		
 					if( (Integer.parseInt(target.getName().toString().split("Node_")[1]) - Integer.parseInt(node.toString().split("Node_")[1])) != (Integer.parseInt(node.toString().split("Node_")[1]) - Integer.parseInt(predecessors.get(node).toString().split("Node_")[1]))) {
-						distance.put(target, getShortestDistance(node) + getDistance(node, target) + 1);
+						distance.put(target, (getShortestDistance(node) + getDistance(node, target) + 1));
 					}
 					else
 						distance.put(target, getShortestDistance(node) + getDistance(node, target));
+
+				}
+				else if(Integer.parseInt(node.toString().split("Node_")[1]) == 0 && Integer.parseInt(target.getName().toString().split("Node_")[1]) == 20) {
+					distance.put(target, (getShortestDistance(node) + getDistance(node, target) + 1));
 				}
 				else distance.put(target, getShortestDistance(node) + getDistance(node, target));
 				predecessors.put(target, node);

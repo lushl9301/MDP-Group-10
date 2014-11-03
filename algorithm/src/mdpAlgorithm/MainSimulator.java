@@ -185,16 +185,16 @@ public class MainSimulator {
 			public void mousePressed(MouseEvent e) {
 				
 				
-				Map<String,String> test = new HashMap<String, String>();
-				test.put("direction", "4");
-				test.put("X", "1");
-				test.put("Y", "1");
-	
-					JSONObject dataToAndroid2 = new JSONObject();
-					dataToAndroid2.put("type", "reading");
-					dataToAndroid2.put("data", test);
-					String jsonString2 = JSONValue.toJSONString(dataToAndroid2);
-					RTexploration.bluetoothList.write(jsonString2.getBytes());
+//				Map<String,String> test = new HashMap<String, String>();
+//				test.put("direction", "4");
+//				test.put("X", "1");
+//				test.put("Y", "1");
+//	
+//					JSONObject dataToAndroid2 = new JSONObject();
+//					dataToAndroid2.put("type", "reading");
+//					dataToAndroid2.put("data", test);
+//					String jsonString2 = JSONValue.toJSONString(dataToAndroid2);
+//					RTexploration.bluetoothList.write(jsonString2.getBytes());
 				for (int i = 1; i < 16; i++) {
         			for (int j = 1; j < 21; j++) {
         				map.grid[i][j].setBackground(DEFAULTCELL);
