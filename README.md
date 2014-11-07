@@ -16,24 +16,20 @@
     - [X] no initial connection from Arduino testing
     - FLOW TESTING
     - [X] remote control testing
-    - [ ] exploration testing
-    - [ ] shortest path testing
+    - [X] exploration testing
+    - [X] shortest path testing
 
  
 ####Arduino Team
 - [x] A2. Sensors calibrated to correctly return distance to obstacle
 - [x] A3. Accurate straight line motion
-- [ ] A4. Accurate rotation
+- [X] A4. Accurate rotation
     - [x] 90 degree rotation
-    - [ ] Clock direction rotation (30 degree/mark)
-    - [ ] Arbitory angle
-- [ ] A5.
+- [X] A5.
     - [x]  Obstacle avoidance
     - [x]  position recovery
-- [ ] A6. Extension beyond the basics
-    - [ ] Drifting
-    - [ ] Demo.h
-    - [ ] ...
+- [X] A6. Extension beyond the basics
+    - [X] Drifting
 
 ####Algo & Simulator team
 - [x] B1. Arena exploration simulator
@@ -46,7 +42,7 @@
 - [x] B5. Fastest path computation simulator
     - [x] Djikstra (BFS)
     - [x] String path to pass on to RPi
-- [ ] B5. Extension beyond the basics
+- [X] B5. Extension beyond the basics
 
 ####Android Team
 - [x] C1. The Android application (AA) is able to transmit and receive text strings over the Bluetooth serial communication link.
