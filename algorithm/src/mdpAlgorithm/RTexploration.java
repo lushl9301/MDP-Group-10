@@ -51,7 +51,7 @@ public class RTexploration implements Runnable{
 		curStack = new Stack<Robot>();
 		curStack.push(rob);
 		JSONObject reading = new JSONObject();
-		/*
+/*
 		int testx = 0;
 		
 		//front sensors
@@ -61,7 +61,7 @@ public class RTexploration implements Runnable{
 		//left sensors
 		int U_L = 50;
 		int long_BL = 80;
-		int short_FL = 40;
+		int short_FL = 60;
 		
 		// right sensors
 		int short_FR = 60;
@@ -71,7 +71,7 @@ public class RTexploration implements Runnable{
 			//short_LF -= 10;
 			if(!MainSimulator.t2.isRunning()) {
 				MainSimulator.t2.start();
-				System.out.println("timer not running and starting it now");
+				//System.out.println("timer not running and starting it now");
 			}
 			reading.put("X", 10);
 			reading.put("Y", 8+testx);
@@ -96,23 +96,48 @@ public class RTexploration implements Runnable{
 			}
 			testx++;
 			
-			for (int j = 0; j< 15; j++) {
-				for(int i = 0; i < 20; i++) {
-					if(map.toConfirmObstacle[j][i]>= 0)
-						System.out.print("[+"+map.toConfirmObstacle[j][i]+"]");
-					else
-						System.out.print("["+map.toConfirmObstacle[j][i]+"]");
-				}
-				System.out.println();
-			}
-			System.out.println();
-			short_LF -= 10;
-			short_RF -= 10;
+//			for (int j = 0; j< 15; j++) {
+//				for(int i = 0; i < 20; i++) {
+//					if(map.toConfirmObstacle[j][i]>= 0)
+//						System.out.print("[+"+map.toConfirmObstacle[j][i]+"]");
+//					else
+//						System.out.print("["+map.toConfirmObstacle[j][i]+"]");
+//				}
+//				System.out.println();
+//			}
+//			System.out.println();
+			//short_LF -= 10;
+			//short_RF -= 10;
 			
 			//System.out.println(rob.getX() +", "+rob.getY());
-		}while(testx<6);
+		}while(testx<7);
+		testx = 0;
+		do {
+			
+			reading.put("X", 10+testx);
+			reading.put("Y", 14);
+			reading.put("direction", "2");
+			reading.put("U_F", U_F);
+			reading.put("short_LF", "10");
+			reading.put("short_FL", short_FL);
+			reading.put("short_RF", short_RF);
+			reading.put("U_L", U_L);
+			reading.put("long_BL", long_BL);
+			reading.put("short_FR", short_FR);
+			reading.put("U_R", U_R);			
 
-		
+			Robot currentDir = new Robot(curStack.peek());
+			currentDir = getPos(map, rob, reading);
+
+			if (currentDir != null) {
+				curStack.push(currentDir);
+			}
+			else {
+				currentDir = curStack.pop();
+			}
+			testx++;
+
+		}while(testx<7);
 		
 		System.out.println("md1: "+map.getMapDesc());
 		System.out.println("md2: "+map.getMapDesc2());
@@ -164,6 +189,41 @@ public class RTexploration implements Runnable{
 		System.out.print(testtest);
 					
 		System.out.println("this is new md2: "+ map.getRTMapDesc2(map.getMapDesc(), test));
+
+		int whichCounter2 = 0;
+		int midCounter2 = 0;
+		String[] midroute2 = new String[300];
+		
+		//run dijkstra using real time md3
+		new Dijkstra(test);
+		for (int i = 1; i < 16; i++) {
+			for (int j = 1; j < 21; j++) {
+				if(Dijkstra.route[whichCounter2]) {
+					for (int x = 0; x < 3; x++) {
+	        			for (int y = 0; y < 3; y++) {
+	        				map.grid[i+x][j+y].setBackground(ROBOT);
+	        				map.grid[i+x][j+y].setBorder(BorderFactory.createLineBorder(BORDER, 1));
+	        				
+	        				if(x == 1 && y == 1) {
+	        					midroute2[midCounter2] = (i+x) + "," + (j+y);
+	        					midCounter2++;
+	        				}
+	        			}
+					}
+				}
+				whichCounter2++;
+			}
+		}
+		int x2;
+		int y2;
+		for(int i = 0; i< midCounter2; i++) {
+			x2 = Integer.parseInt(midroute2[i].split(",")[0]);
+			y2 = Integer.parseInt(midroute2[i].split(",")[1]);
+			map.grid[x2][y2].setBackground(EXPLORE);
+		}
+		
+		// end of new Dijkstra(map.getMapDesc(), map.getMapDesc2()) send back MainSimulator.shortestRoute to RPI
+		System.out.println("fastest path: "+MainSimulator.shortestRoute);
 */
 
 		// instantiate connection to rpi
@@ -335,7 +395,23 @@ public class RTexploration implements Runnable{
 			else {
 				md3ToAndroid = curStack.pop();
 			}
+			
+			String data3 = "END_EXP";
+			Map<String, String> dataToAndroid3 = new HashMap<String, String>();
+			dataToAndroid3.put("type", "status");
+			dataToAndroid3.put("data", data3);
+			String jsonString3 = JSONValue.toJSONString(dataToAndroid3);
+			
+			Robot endExpAndroid = new Robot(curStack.peek());
+			endExpAndroid = sendAndroid(rob, jsonString3);
 
+			if (endExpAndroid != null) {
+				curStack.push(endExpAndroid);
+			}
+			else {
+				endExpAndroid = curStack.pop();
+			}
+			
 			//client.sendJSON("map", "S"+stringMd3);
 
 			int whichCounter = 0;
@@ -446,7 +522,7 @@ public class RTexploration implements Runnable{
 		dataToAndroid2.put("data", reading);
 		String jsonString2 = JSONValue.toJSONString(dataToAndroid2);
 		RTexploration.bluetoothList.write(jsonString2.getBytes());
-		System.out.println("send robot position");
+		//System.out.println("send robot position");
 		
 		try {
 			// start timer if not started

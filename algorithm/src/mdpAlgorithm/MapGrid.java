@@ -62,6 +62,7 @@ public class MapGrid extends JPanel {
 		initWalls();
 		initMD2();
 		//init landmark label
+
 		grid[2][2].setLabel("Start");
 		grid[14][19].setLabel("Goal");
 	}
@@ -79,7 +80,6 @@ public class MapGrid extends JPanel {
 				mapDescriptor2[j][i] = "";
 			}
 		}
-		
 	}
 	
 	public void initWalls() {
@@ -100,22 +100,22 @@ public class MapGrid extends JPanel {
 	}
 	
 	public void setMapDesc(boolean explored,int x, int y) {
-			mapDescriptor1[x-1][y-1] = 1;
-			mapDescriptor2[x-1][y-1] = "0";
-			if(!explored) {
-				toConfirmObstacle[x-1][y-1]--;
-			}
-			else if(explored) {
-				toConfirmObstacle[x-1][y-1] = toConfirmObstacle[x-1][y-1]-10;
-			}
-			setMapDescLabel(x, y);
+		mapDescriptor1[x-1][y-1] = 1;
+		mapDescriptor2[x-1][y-1] = "0";
+		if(!explored) {
+			toConfirmObstacle[x-1][y-1]--;
+		}
+		else if(explored) {
+			toConfirmObstacle[x-1][y-1] = toConfirmObstacle[x-1][y-1]-10;
+		}
+		setMapDescLabel(x, y);
 	}
 
 	public void setMapDescObstacles(int x, int y) {
-			mapDescriptor1[x-1][y-1] = 1;
-			mapDescriptor2[x-1][y-1] = "1";
-			toConfirmObstacle[x-1][y-1]++;
-			setMapDescLabelObstacles(x, y);
+		mapDescriptor1[x-1][y-1] = 1;
+		mapDescriptor2[x-1][y-1] = "1";
+		toConfirmObstacle[x-1][y-1]++;
+		setMapDescLabelObstacles(x, y);
 	}
 	
 	public void setMapDescLabel(int x, int y) {
@@ -297,10 +297,31 @@ public class MapGrid extends JPanel {
 					strMapDescRealTime[j][i] = 1;
 				}
 				else if(toConfirmObstacle[j][i] == 0) {
-					strMapDescRealTime[j][i] = 0;
+					strMapDescRealTime[j][i] = 1;
 				}
 			}
 		}
+		
+		strMapDescRealTime[0][0] = 1;
+		strMapDescRealTime[0][1] = 1;
+		strMapDescRealTime[0][2] = 1;
+		strMapDescRealTime[1][0] = 1;
+		strMapDescRealTime[1][1] = 1;
+		strMapDescRealTime[1][2] = 1;
+		strMapDescRealTime[2][0] = 1;
+		strMapDescRealTime[2][1] = 1;
+		strMapDescRealTime[2][2] = 1;
+		
+		strMapDescRealTime[14][19] = 1;
+		strMapDescRealTime[14][18] = 1;
+		strMapDescRealTime[14][17] = 1;
+		strMapDescRealTime[13][19] = 1;
+		strMapDescRealTime[13][18] = 1;
+		strMapDescRealTime[13][17] = 1;
+		strMapDescRealTime[12][19] = 1;
+		strMapDescRealTime[12][18] = 1;
+		strMapDescRealTime[12][17] = 1;
+		
 		//return toHex(strMapDesc); // comment either one
 		return strMapDescRealTime; // comment this out if require a long string
 	}
