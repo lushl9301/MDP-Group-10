@@ -2,7 +2,7 @@
 
 ##Project Deliverable Checklist Assessment Form
 ####RPi Team
-- [ ] A1. The Raspberry Pi board (RPi) is able to
+- [X] A1. The Raspberry Pi board (RPi) is able to
     - [x] accessed via a PC/notebook over Wifi
     - [x] be wirelessly connected to the Nexus 7 tablet
     - [x] communicate with the Arduino board through over a USB->Serial connection
@@ -94,9 +94,9 @@
 ###RPi/PC -> Arduino
 All ```Numbers``` and ```Chars```
 
-Start command ```S```
+```Start``` command ```S```
 
-number for go ahead ```x``` grids
+```number``` for go ahead ```x``` grids
 
 Char for turning
 
@@ -104,11 +104,13 @@ Char for turning
 
 ```R``` for right 90
 
-```D``` for drift //for demo
+~~```D``` for drift //for demo~~
+
+```G``` for good to stop
 
 ####example
 ```
-4 L 3 R R 1
+4 L 3 R R 1 G
 ```
 
 ####Arduino Send
