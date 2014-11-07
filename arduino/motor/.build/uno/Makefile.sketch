@@ -1,0 +1,14 @@
+
+
+
+
+
+.build/uno/src/sketch_forStraightLine.cpp : src/sketch_forStraightLine.ino
+	@mkdir -p .build/uno/src
+	@echo [93msrc/sketch_forStraightLine.ino[0m
+	@/usr/local/bin/ino preproc  -o $@ $^
+
+
+all : .build/uno/src/sketch_forStraightLine.cpp
+	@true
+
